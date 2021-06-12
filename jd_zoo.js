@@ -25,7 +25,7 @@ const $ = new Env('动物联萌');
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [],showCode = true;
-let doPkSkill = false;  //自动放技能，不需要的改为false
+let doPkSkill = true;  //自动放技能，不需要的改为false
 const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
 !(async () => {
   await requireConfig()
@@ -47,7 +47,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
         continue;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
-      await zoo_sign()
+      // await zoo_sign()
       await zoo_pk_getHomeData();
       await zoo_getHomeData();
       if (merge.black) continue;
@@ -137,7 +137,7 @@ function zoo_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
                     //let taskBody = `functionId=zoo_collectScore&body={"taskId":"${data.data.result.taskVos[i].taskId}","actionType":1,"taskToken":"${list[j].taskToken}","ss":"{\\"extraData\\":{\\"log\\":\\"${sign}\\",\\"sceneid\\":\\"DR216hPageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}"}&client=wh5&clientVersion=1.0.0`
                     let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": data.data.result.taskVos[i].taskId,"actionType":1,"taskToken" : list[j].taskToken,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
                     console.log("\n"+(list[j].title||list[j].shopName||list[j].skuName))
-                    await zoo_collectScore(taskBody,2000)
+                    // await zoo_collectScore(taskBody,2000)
                     //}
                     list[j].status = 2;
                     break;
@@ -156,14 +156,14 @@ function zoo_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
                   //  taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskVos[i].simpleRecordInfoVo.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
                   //  await qryViewkitCallbackResult(taskBody,1000)
                   //} else {
-                await zoo_collectScore(taskBody,1000)
+                //await zoo_collectScore(taskBody,1000)
                   //}
                 }
             }
 
             if ([2].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1 && !data.data.result.taskVos[i].taskName.includes("逛逛")) {
               for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
-                await zoo_getFeedDetail(data.data.result.taskVos[i].taskId)
+                // await zoo_getFeedDetail(data.data.result.taskVos[i].taskId)
               }
             }
           }
@@ -178,43 +178,43 @@ function zoo_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
 }
 
 //获取我的城市
-function zoo_myMap(timeout = 0){
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_myMap`,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=zoo_myMap&body={"ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
-      }
-      $.post(url, async (err, resp, data) => {
-        try {
-          console.log('zoo_myMap:' + data)
-          data = JSON.parse(data);
-          for (let i in data.data.result.shopList) {
-            // (data.data.result.shopList[i].status === 1) {
-              //console.log(data.data.result.shopList[i])
-            console.log('\n开始小镇任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
-            await zoo_getTaskDetail(data.data.result.shopList[i].shopId)
-            //}
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+// function zoo_myMap(timeout = 0){
+//   return new Promise((resolve) => {
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_myMap`,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : `functionId=zoo_myMap&body={"ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+//       }
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           console.log('zoo_myMap:' + data)
+//           data = JSON.parse(data);
+//           for (let i in data.data.result.shopList) {
+//             // (data.data.result.shopList[i].status === 1) {
+//               //console.log(data.data.result.shopList[i])
+//             console.log('\n开始小镇任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
+//             await zoo_getTaskDetail(data.data.result.shopList[i].shopId)
+//             //}
+//           }
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 //发技能
 function zoo_pk_doPkSkill(skillType, timeout = 0){
   return new Promise((resolve) => {
@@ -252,299 +252,299 @@ function zoo_pk_doPkSkill(skillType, timeout = 0){
   })
 }
 //签到
-function zoo_sign(timeout = 0){
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_sign`,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=zoo_sign&body={}&client=wh5&clientVersion=1.0.0`
-      }
-      $.post(url, async (err, resp, data) => {
-        try {
-          //console.log(data)
-          data = JSON.parse(data);
-          console.log('签到结果：' + data.data.bizMsg);
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+// function zoo_sign(timeout = 0){
+//   return new Promise((resolve) => {
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_sign`,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : `functionId=zoo_sign&body={}&client=wh5&clientVersion=1.0.0`
+//       }
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           //console.log(data)
+//           data = JSON.parse(data);
+//           console.log('签到结果：' + data.data.bizMsg);
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
-//逛商城
-function zoo_shopSignInWrite(shopSign,timeout = 0){
-  return new Promise((resolve) => {
+// //逛商城
+// function zoo_shopSignInWrite(shopSign,timeout = 0){
+//   return new Promise((resolve) => {
 
-    let rnd = Math.round(Math.random()*1e6)
-    let nonstr = randomWord(false,10)
-    let time = Date.now()
-    let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${shopSign}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=1`
-    let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
+//     let rnd = Math.round(Math.random()*1e6)
+//     let nonstr = randomWord(false,10)
+//     let time = Date.now()
+//     let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
+//     let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${shopSign}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=1`
+//     let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
 
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_shopSignInWrite`,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=zoo_shopSignInWrite&body={"shopSign":"${shopSign}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"businessData\\":{\\"taskId\\":\\"${shopSign}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
-      }
-      $.post(url, async (err, resp, data) => {
-        try {
-          //console.log(data)
-          data = JSON.parse(data);
-          if (data.data.bizCode !== 0) {
-            console.log(data.data.bizMsg)
-            merge.end = true
-          } else {
-            console.log('获得金币' + data.data.result.score)
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_shopSignInWrite`,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : `functionId=zoo_shopSignInWrite&body={"shopSign":"${shopSign}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"businessData\\":{\\"taskId\\":\\"${shopSign}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+//       }
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           //console.log(data)
+//           data = JSON.parse(data);
+//           if (data.data.bizCode !== 0) {
+//             console.log(data.data.bizMsg)
+//             merge.end = true
+//           } else {
+//             console.log('获得金币' + data.data.result.score)
+//           }
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
-//逛商城
-function zoo_shopSignInRead(shopSign,timeout = 0){
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_shopSignInRead`,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=zoo_shopSignInRead&client=wh5&clientVersion=1.0.0&body={"shopSign":"${shopSign}"}`
-      }
-      $.post(url, async (err, resp, data) => {
-        try {
-          console.log(data)
-          data = JSON.parse(data);
-          if (data.data.result.signInTag === 0) {
-             secretp = secretp||data.data.result.secretp
-             await zoo_shopSignInWrite(shopSign)
-          } else {
-            console.log('已逛过')
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+// //逛商城
+// function zoo_shopSignInRead(shopSign,timeout = 0){
+//   return new Promise((resolve) => {
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_shopSignInRead`,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : `functionId=zoo_shopSignInRead&client=wh5&clientVersion=1.0.0&body={"shopSign":"${shopSign}"}`
+//       }
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           console.log(data)
+//           data = JSON.parse(data);
+//           if (data.data.result.signInTag === 0) {
+//              secretp = secretp||data.data.result.secretp
+//              await zoo_shopSignInWrite(shopSign)
+//           } else {
+//             console.log('已逛过')
+//           }
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
-//收金币
-function zoo_collectProduceScore(timeout = 0){
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_collectProduceScore`,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`,
-          'Content-Type' : `application/x-www-form-urlencoded`
-        },
-        body : `functionId=zoo_collectProduceScore&body=${JSON.stringify({"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
-      }
-      //console.log(url.body)
-      $.post(url, async (err, resp, data) => {
-        try {
-          //console.log(data)
-          data = JSON.parse(data);
-          if (data.data.bizCode === -1002) {
-            console.log('此账号暂不可使用脚本，脚本终止！')
-            merge.black = true;
-            return ;
-          }
-          if (data.data.result) console.log(`\n收取金币：${data.data.result.produceScore}`)
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+// //收金币
+// function zoo_collectProduceScore(timeout = 0){
+//   return new Promise((resolve) => {
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_collectProduceScore`,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`,
+//           'Content-Type' : `application/x-www-form-urlencoded`
+//         },
+//         body : `functionId=zoo_collectProduceScore&body=${JSON.stringify({"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
+//       }
+//       //console.log(url.body)
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           //console.log(data)
+//           data = JSON.parse(data);
+//           if (data.data.bizCode === -1002) {
+//             console.log('此账号暂不可使用脚本，脚本终止！')
+//             merge.black = true;
+//             return ;
+//           }
+//           if (data.data.result) console.log(`\n收取金币：${data.data.result.produceScore}`)
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
-//做任务
-function zoo_collectScore(taskBody,timeout = 0){
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_collectScore`,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : taskBody
-        }
-      //console.log(url.body)
-      $.post(url, async (err, resp, data) => {
-        try {
-          //console.log(data)
-          data = JSON.parse(data);
-          console.log('任务执行结果：' + data.data.bizMsg)
-          if (data.data.bizCode === -1002) {
-            //console.log(url.body)
-            //console.log('\n提示火爆，休息5秒')
-            //await $.wait(5000)
-            //await zoo_collectScore(taskBody)
-            console.log('此账号暂不可使用脚本，脚本终止！')
-            merge.black = true;
-            return ;
-          }
-          if (data.data.bizCode === 0 && typeof data.data.result.taskToken !== "undefined") {
-            //console.log('需要再次执行,如提示活动异常请多次重试，个别任务多次执行也不行就去APP做吧！')
-            let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
-            //console.log(taskBody)
-            await qryViewkitCallbackResult(taskBody,7000)
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+// //做任务
+// function zoo_collectScore(taskBody,timeout = 0){
+//   return new Promise((resolve) => {
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_collectScore`,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : taskBody
+//         }
+//       //console.log(url.body)
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           //console.log(data)
+//           data = JSON.parse(data);
+//           console.log('任务执行结果：' + data.data.bizMsg)
+//           if (data.data.bizCode === -1002) {
+//             //console.log(url.body)
+//             //console.log('\n提示火爆，休息5秒')
+//             //await $.wait(5000)
+//             //await zoo_collectScore(taskBody)
+//             console.log('此账号暂不可使用脚本，脚本终止！')
+//             merge.black = true;
+//             return ;
+//           }
+//           if (data.data.bizCode === 0 && typeof data.data.result.taskToken !== "undefined") {
+//             //console.log('需要再次执行,如提示活动异常请多次重试，个别任务多次执行也不行就去APP做吧！')
+//             let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
+//             //console.log(taskBody)
+//             await qryViewkitCallbackResult(taskBody,7000)
+//           }
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
-//做任务
-function zoo_doAdditionalTask(taskBody,timeout = 0){
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_doAdditionalTask`,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : taskBody
-      }
-      //console.log(url.body)
-      $.post(url, async (err, resp, data) => {
-        try {
-          console.log(data)
-          data = JSON.parse(data);
-          console.log('任务执行结果：' + data.data.bizMsg)
-          if (data.data.bizCode === -1002) {
-            console.log('\n提示火爆，休息5秒')
-            await $.wait(5000)
-            return ;
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+// //做任务
+// function zoo_doAdditionalTask(taskBody,timeout = 0){
+//   return new Promise((resolve) => {
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_doAdditionalTask`,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : taskBody
+//       }
+//       //console.log(url.body)
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           console.log(data)
+//           data = JSON.parse(data);
+//           console.log('任务执行结果：' + data.data.bizMsg)
+//           if (data.data.bizCode === -1002) {
+//             console.log('\n提示火爆，休息5秒')
+//             await $.wait(5000)
+//             return ;
+//           }
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
-//查询甄选任务
-function zoo_getFeedDetail(taskId,timeout = 0){
-  return new Promise((resolve) => {
+// //查询甄选任务
+// function zoo_getFeedDetail(taskId,timeout = 0){
+//   return new Promise((resolve) => {
 
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_getFeedDetail`,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=zoo_getFeedDetail&body={"taskId":"${taskId}"}&client=wh5&clientVersion=1.0.0`
-      }
-      //console.log(url)
-      $.post(url, async (err, resp, data) => {
-        try {
-          //console.log(data)
-          data = JSON.parse(data);
-          let list =  data.data.result.viewProductVos||data.data.result.addProductVos
-          for (let i in list) {
-            if (list[i].status === 1) {
-              for (let j in list[i].productInfoVos) {
-                if (j >= 5)  break;
-                //${JSON.stringify({"ss" : getBody()})}
-                //let taskBody = `functionId=zoo_collectScore&body={"taskId":${list[i].taskId},"taskToken" : "${list[i].productInfoVos[j].taskToken}","ss":"{\\"extraData\\":{\\"log\\":\\"${sign}\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","actionType":1}&client=wh5&clientVersion=1.0.0`
-                let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": list[i].taskId,"actionType":1,"taskToken" : list[i].productInfoVos[j].taskToken,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
-                //console.log(taskBody)
-                console.log(list[i].productInfoVos[j].skuName)
-                await zoo_collectScore(taskBody,1000)
-              }
-              list[i].status = 2
-            }
-          }
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_getFeedDetail`,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : `functionId=zoo_getFeedDetail&body={"taskId":"${taskId}"}&client=wh5&clientVersion=1.0.0`
+//       }
+//       //console.log(url)
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           //console.log(data)
+//           data = JSON.parse(data);
+//           let list =  data.data.result.viewProductVos||data.data.result.addProductVos
+//           for (let i in list) {
+//             if (list[i].status === 1) {
+//               for (let j in list[i].productInfoVos) {
+//                 if (j >= 5)  break;
+//                 //${JSON.stringify({"ss" : getBody()})}
+//                 //let taskBody = `functionId=zoo_collectScore&body={"taskId":${list[i].taskId},"taskToken" : "${list[i].productInfoVos[j].taskToken}","ss":"{\\"extraData\\":{\\"log\\":\\"${sign}\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","actionType":1}&client=wh5&clientVersion=1.0.0`
+//                 let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": list[i].taskId,"actionType":1,"taskToken" : list[i].productInfoVos[j].taskToken,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
+//                 //console.log(taskBody)
+//                 console.log(list[i].productInfoVos[j].skuName)
+//                 // await zoo_collectScore(taskBody,1000)
+//               }
+//               list[i].status = 2
+//             }
+//           }
 
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
 //做任务2
 function qryViewkitCallbackResult(taskBody,timeout = 0) {
@@ -642,20 +642,20 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
           if (data.code === 0) {
             if (inviteId !== "") {
               let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": 2,"inviteId":inviteId,"actionType":1,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
-              await zoo_collectScore(taskBody, 1000)
+              // await zoo_collectScore(taskBody, 1000)
               return
             }
             //console.log('zoo_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
-            await zoo_collectProduceScore();
+            // await zoo_collectProduceScore();
             if (merge.black) return;
             await zoo_pk_getHomeData('sSKNX-MpqKOJsNu9y8nYAqXFF5NKOpRPsMffiCRwqC9Qb8MWZnWWJhg7JHU144Eg')
             //await zoo_pk_assistGroup()
             //if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 )
-            if (parseInt(data.data.result.homeMainInfo.raiseInfo.totalScore) >= parseInt(data.data.result.homeMainInfo.raiseInfo.nextLevelScore) ) await zoo_raise(1000)
+            if (parseInt(data.data.result.homeMainInfo.raiseInfo.totalScore) >= parseInt(data.data.result.homeMainInfo.raiseInfo.nextLevelScore) ) // await zoo_raise(1000)
             await zoo_getHomeData('ZXTKT0225KkcRUxL9FKDJh7ylvMLcAFjRWn6-7zx55awQ');//ZXTKT0225KkcRBka_FPTJBjzkv9YfAFjRWn6-7zx55awQ
-            await zoo_getTaskDetail()
-            await zoo_getTaskDetail("","app")
+            // await zoo_getTaskDetail()
+            // await zoo_getTaskDetail("","app")
           } else {
             return
           }
@@ -669,74 +669,74 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
   })
 }
 
-function zoo_raise(timeout = 0) {
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}zoo_raise`  ,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=zoo_raise&body={}&client=wh5&clientVersion=1.0.0`
-      }
-      $.post(url, async (err, resp, data) => {
-        try {
-          //console.log(data)
-          data = JSON.parse(data);
-          console.log('解锁结果：'+ (data.data.bizCode||'成功'))
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+// function zoo_raise(timeout = 0) {
+//   return new Promise((resolve) => {
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}zoo_raise`  ,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : `functionId=zoo_raise&body={}&client=wh5&clientVersion=1.0.0`
+//       }
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           //console.log(data)
+//           data = JSON.parse(data);
+//           console.log('解锁结果：'+ (data.data.bizCode||'成功'))
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
-function qryCompositeMaterials(timeout = 0) {
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}qryCompositeMaterials`  ,
-        headers : {
-          'Origin' : `https://wbbny.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=qryCompositeMaterials&body={"qryParam":"[{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"viewLogo\\",\\"id\\":\\"05149412\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"bottomLogo\\",\\"id\\":\\"05149413\\"}]","activityId":"2cKMj86srRdhgWcKonfExzK4ZMBy","pageId":"","reqSrc":"","applyKey":"21beast"}&client=wh5&clientVersion=1.0.0`
-      }
-      $.post(url, async (err, resp, data) => {
-        try {
-          //console.log(data)
-          data = JSON.parse(data);
-          for (let i in data.data.viewLogo.list) {
-            await zoo_getTaskDetail(data.data.viewLogo.list[i].desc)
-          }
-          for (let i in data.data.bottomLogo.list) {
-            await zoo_getTaskDetail(data.data.bottomLogo.list[i].desc)
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
+// function qryCompositeMaterials(timeout = 0) {
+//   return new Promise((resolve) => {
+//     setTimeout( ()=>{
+//       let url = {
+//         url : `${JD_API_HOST}qryCompositeMaterials`  ,
+//         headers : {
+//           'Origin' : `https://wbbny.m.jd.com`,
+//           'Cookie' : cookie,
+//           'Connection' : `keep-alive`,
+//           'Accept' : `application/json, text/plain, */*`,
+//           'Host' : `api.m.jd.com`,
+//           'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+//           'Accept-Encoding' : `gzip, deflate, br`,
+//           'Accept-Language' : `zh-cn`
+//         },
+//         body : `functionId=qryCompositeMaterials&body={"qryParam":"[{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"viewLogo\\",\\"id\\":\\"05149412\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"bottomLogo\\",\\"id\\":\\"05149413\\"}]","activityId":"2cKMj86srRdhgWcKonfExzK4ZMBy","pageId":"","reqSrc":"","applyKey":"21beast"}&client=wh5&clientVersion=1.0.0`
+//       }
+//       $.post(url, async (err, resp, data) => {
+//         try {
+//           //console.log(data)
+//           data = JSON.parse(data);
+//           for (let i in data.data.viewLogo.list) {
+//             await zoo_getTaskDetail(data.data.viewLogo.list[i].desc)
+//           }
+//           for (let i in data.data.bottomLogo.list) {
+//             await zoo_getTaskDetail(data.data.bottomLogo.list[i].desc)
+//           }
+//         } catch (e) {
+//           $.logErr(e, resp);
+//         } finally {
+//           resolve()
+//         }
+//       })
+//     },timeout)
+//   })
+// }
 
 function zoo_pk_getHomeData(inviteId = "",timeout = 0) {
   return new Promise((resolve) => {
