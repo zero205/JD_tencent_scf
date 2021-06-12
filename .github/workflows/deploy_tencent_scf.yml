@@ -79,6 +79,7 @@ jobs:
       JD_JXD_EXCHANGE: ${{ secrets.JD_JXD_EXCHANGE}}
       TYT_PACKETID: ${{ secrets.TYT_PACKETID}}
       CHB_PACKETID: ${{ secrets.CHB_PACKETID}}
+      InviterPin: ${{ secrets.InviterPin}}
       JXNC_NOTIFY_LEVEL: ${{ secrets.JXNC_NOTIFY_LEVEL}}
       
     steps:
@@ -167,6 +168,7 @@ jobs:
           if [ $CFD_NOTIFY_CONTROL ]; then sed -i "/variables/a\      CFD_NOTIFY_CONTROL: $CFD_NOTIFY_CONTROL" serverless.yml; fi;
           if [ $JD_JXD_EXCHANGE ]; then sed -i "/variables/a\      JD_JXD_EXCHANGE: $JD_JXD_EXCHANGE" serverless.yml; fi;
           if [ $JXNC_NOTIFY_LEVEL ]; then sed -i "/variables/a\      JXNC_NOTIFY_LEVEL: $JXNC_NOTIFY_LEVEL" serverless.yml; fi;
+          if [ $InviterPin ]; then sed -i "/variables/a\      InviterPin: $InviterPin" serverless.yml; fi;
           if [ $TYT_PACKETID ]; then sed -i "/variables/a\      TYT_PACKETID: $TYT_PACKETID" serverless.yml; fi;
           if [ $CHB_PACKETID ]; then sed -i "/variables/a\      CHB_PACKETID: $CHB_PACKETID" serverless.yml; fi;
           cat serverless.yml
