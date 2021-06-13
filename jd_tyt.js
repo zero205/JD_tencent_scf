@@ -12,7 +12,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
-let tytpacketId = '0cc9edee13c940a2adbb4e6f2b344a76-amRfNWJiMTZkNjQ2MjQxNA!!';
+let tytpacketId = '7588666c4b5c40a082a62341a9265acb-amRfTHlWeVlJWmpmeU9t';
 // if (process.env.tytpacketId) {
 //   tytpacketId = process.env.tytpacketId;
 // }
