@@ -49,9 +49,9 @@ $.pkInviteList = [
 ];
 $.secretpInfo = {};
 $.innerPkInviteList = [
-  "sSKNX-MpqKOJsNu9y8nYAqXFF5NKOpRPsMffiCRwqC9Qb8MWZnWWJhg7JHU144Eh",
-  "sSKNX-MpqKOJsNu-zJuKUHj2-v3Nwqvdkyk9Jsxn6oqHcInoKRfdLKKVzeW1cJWM",
-  "sSKNX-MpqKOJsNu_mpLQVscEUFEwqZlwdIW6w-kWLlQuLST3RQYUu_nMUcjkUvXW"
+  "sSKNX-MpqKOJsNu9y8nYAqXFF5NKOpRPsMffiCRwqC9Qb8MWZnWWJhg7JHU144Em",
+  "sSKNX-MpqKOJsNu-zJuKUHj2-v3Nwqvdkyk9Jsxn6oqHcInoKRfdLKKVzeW1cJWL",
+  "sSKNX-MpqKOJsNu_mpLQVscEUFEwqZlwdIW6w-kWLlQuLST3RQYUu_nMUcjkUvXR"
 ];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -105,7 +105,7 @@ if ($.isNode()) {
   res = await getAuthorShareCode() || [];
   res2 = await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json') || [];
   res3 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json');
-  if (!res3) await getAuthorShareCode('https://cdn.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/jd_zoo.json')
+  if (!res3) await getAuthorShareCode('https://cdn.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/jd_zoo.json');
   if (pKHelpAuthorFlag) {
     $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2, ...res3], [...$.innerPkInviteList, ...res, ...res2, ...res3].length);
     $.pkInviteList.push(...$.innerPkInviteList);
