@@ -76,7 +76,7 @@ class ZooFaker {
 
     async init() {
         //console.time('ZooFaker');
-        // process.chdir(__dirname);
+        process.chdir(__dirname);
         const html = await ZooFaker.httpGet(URL);
         const script = REG_SCRIPT.exec(html);
 
