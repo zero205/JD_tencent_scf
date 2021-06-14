@@ -104,8 +104,8 @@ if ($.isNode()) {
   let res = [], res2 = [], res3 = [];
   res = await getAuthorShareCode() || [];
   res2 = await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json') || [];
-  res3 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json');
-  if (!res3) await getAuthorShareCode('https://cdn.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/jd_zoo.json');
+  //res3 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json');
+  //if (!res3) await getAuthorShareCode('https://cdn.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/jd_zoo.json');
   if (pKHelpAuthorFlag) {
     $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2, ...res3], [...$.innerPkInviteList, ...res, ...res2, ...res3].length);
     $.pkInviteList.push(...$.innerPkInviteList);
