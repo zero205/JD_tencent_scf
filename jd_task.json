@@ -246,13 +246,13 @@
       }
     },
     {
-      "name": "京喜农场2",
+      "name": "京喜牧场",
       "type": "cron",
-      "time": "30 10,15,21 * * *",
+      "time": "30 0,6-23/3 * * *",
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_jxnc2.js"
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_jxmc.js"
       }
     },
     {
