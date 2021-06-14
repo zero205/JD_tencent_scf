@@ -35,7 +35,11 @@ $.cookie = '';
 $.inviteList = [];
 $.pkInviteList = [];
 $.secretpInfo = {};
-$.innerPkInviteList = [];
+$.innerPkInviteList = [
+  'sSKNX-MpqKOJsNu9y8nYAqXFF5NKOpRPsMffiCRwqC9Qb8MWZnWWJhg7JHU144En',
+  'sSKNX-MpqKOJsNu_mpLQVscEUFEwqZlwdIW6w-kWLlQuLST3RQYUu_nMUcjkUvXQ',
+  'sSKNX-MpqKOJsNu-zJuKUHj2-v3Nwqvdkyk9Jsxn6oqHcInoKRfdLKKVzeW1cJWK'
+];
 const https = require('https');
 const fs = require('fs/promises');
 const { R_OK } = require('fs').constants;
@@ -80,7 +84,8 @@ class ZooFaker {
 
   async init() {
       //console.time('ZooFaker');
-      process.chdir(__dirname);
+      if ($.isNode()) {
+      process.chdir(__dirname);}
       const html = await ZooFaker.httpGet(URL);
       const script = REG_SCRIPT.exec(html);
 
@@ -214,10 +219,10 @@ if ($.isNode()) {
   res3 = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json');
   res = await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json');
   if (pKHelpAuthorFlag) {
-      if([...$.innerPkInviteList, ...res, ...res2, ...res3].length > 6){
-          $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2, ...res3],6);
+      if([...$.innerPkInviteList, ...res, ...res2, ...res3].length > 10){
+          $.innerPkInviteList = [...$.innerPkInviteList, ...res, ...res2, ...res3];
       }else{
-          $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2, ...res3], [...$.innerPkInviteList, ...res, ...res2, ...res3].length);
+          $.innerPkInviteList = ([...$.innerPkInviteList, ...res, ...res2, ...res3], [...$.innerPkInviteList, ...res, ...res2, ...res3].length);
       }
       $.pkInviteList.push(...$.innerPkInviteList);
   }

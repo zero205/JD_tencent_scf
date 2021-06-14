@@ -89,8 +89,8 @@ async function jdGlobal() {
 
     await signInit()
     await sign()
-    await invite()
-    await invite2()
+    // await invite()
+    // await invite2()
     $.score = 0
     $.total = 0
     await taskList()
@@ -117,7 +117,7 @@ async function signInit() {
     $.get(taskUrl('speedSignInit', {
       "activityId": "8a8fabf3cccb417f8e691b6774938bc2",
       "kernelPlatform": "RN",
-      "inviterId":"yeldd0yXBiey7jio6se87g=="
+      "inviterId":"zQ3Flv2e9PjWTXjBdPaiv4On8bJjlhOf"
     }), async (err, resp, data) => {
       try {
         if (err) {

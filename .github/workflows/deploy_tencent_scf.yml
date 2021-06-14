@@ -77,8 +77,8 @@ jobs:
       JDFACTORY_FORBID_ACCOUNT: ${{ secrets.JDFACTORY_FORBID_ACCOUNT}}
       CFD_NOTIFY_CONTROL: ${{ secrets.CFD_NOTIFY_CONTROL}}
       JD_JXD_EXCHANGE: ${{ secrets.JD_JXD_EXCHANGE}}
-      TYT_PACKETID: ${{ secrets.TYT_PACKETID}}
-      CHB_PACKETID: ${{ secrets.CHB_PACKETID}}
+      DYJ_PACKETID: ${{ secrets.DYJ_PACKETID}}
+      DYJ_INVITER: ${{ secrets.DYJ_INVITER}}
       InviterPin: ${{ secrets.InviterPin}}
       JXNC_NOTIFY_LEVEL: ${{ secrets.JXNC_NOTIFY_LEVEL}}
       
@@ -99,6 +99,7 @@ jobs:
           npm install got
           npm install tough-cookie
           npm install js-yaml
+          npm install promises
 
       - name: "将Secrets里面配置的变量添加到severless.yml里面作为环境变量"
         run: |
@@ -169,8 +170,8 @@ jobs:
           if [ $JD_JXD_EXCHANGE ]; then sed -i "/variables/a\      JD_JXD_EXCHANGE: $JD_JXD_EXCHANGE" serverless.yml; fi;
           if [ $JXNC_NOTIFY_LEVEL ]; then sed -i "/variables/a\      JXNC_NOTIFY_LEVEL: $JXNC_NOTIFY_LEVEL" serverless.yml; fi;
           if [ $InviterPin ]; then sed -i "/variables/a\      InviterPin: $InviterPin" serverless.yml; fi;
-          if [ $TYT_PACKETID ]; then sed -i "/variables/a\      TYT_PACKETID: $TYT_PACKETID" serverless.yml; fi;
-          if [ $CHB_PACKETID ]; then sed -i "/variables/a\      CHB_PACKETID: $CHB_PACKETID" serverless.yml; fi;
+          if [ $DYJ_PACKETID ]; then sed -i "/variables/a\      DYJ_PACKETID: $DYJ_PACKETID" serverless.yml; fi;
+          if [ $DYJ_INVITER ]; then sed -i "/variables/a\      DYJ_INVITER: $DYJ_INVITER" serverless.yml; fi;
           cat serverless.yml
           env
 
