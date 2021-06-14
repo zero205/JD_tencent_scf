@@ -675,6 +675,16 @@
       }
     },
     {
+      "name": "618动物联萌地图任务",
+      "type": "cron",
+      "time": "10 12 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_zooMap.js"
+      }
+    },
+    {
       "name": "家电星推官",
       "type": "cron",
       "time": "0 0 * * *",
