@@ -34,7 +34,7 @@ cron "10 9 * * *" script-path=https://raw.githubusercontent.com/star261/jd/main/
   $.secretpInfo = {};
   $.innerPkInviteList = [];
   const https = require('https');
-  const fs = require('fs/promises');
+  const fs = require('fs').promises;
   const { R_OK } = require('fs').constants;
   const vm = require('vm');
   

@@ -41,7 +41,7 @@ $.innerPkInviteList = [
   'sSKNX-MpqKOJsNu-zJuKUHj2-v3Nwqvdkyk9Jsxn6oqHcInoKRfdLKKVzeW1cJWK'
 ];
 const https = require('https');
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 const { R_OK } = require('fs').constants;
 const vm = require('vm');
 
