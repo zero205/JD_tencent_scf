@@ -99,7 +99,7 @@ jobs:
           npm install got
           npm install tough-cookie
           npm install js-yaml
-          npm install fs/promises
+          npm install promises
 
       - name: "将Secrets里面配置的变量添加到severless.yml里面作为环境变量"
         run: |
