@@ -28,7 +28,6 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const pKHelpFlag = true;//是否PK助力  true 助力，false 不助力
 const pKHelpAuthorFlag = true;//是否助力作者PK  true 助力，false 不助力
-let joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [];
 $.cookie = '';
@@ -56,7 +55,14 @@ if ($.isNode()) {
     $.getdata("CookieJD2"),
     ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
+let joyToken = ''
 !(async () => {
+  $.ckToken = "joyytoken=50084MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
+
+  joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
+  await injectCKToken();
+  console.log($.ckToken);
+  cookiesArr = cookiesArr.map(ck => $.ckToken + ck);
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -70,7 +76,7 @@ if ($.isNode()) {
   $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
-      $.cookie = cookiesArr[i] + `joyytoken=50084${joyToken};`;
+      $.cookie = cookiesArr[i];
       initial();
       $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
       $.index = i + 1;
@@ -141,7 +147,7 @@ if ($.isNode()) {
       //console.log($.oneInviteInfo);
       $.inviteId = $.oneInviteInfo.inviteId;
       console.log(`${$.UserName}去助力${$.oneInviteInfo.ues},助力码${$.inviteId}`);
-      await takePostRequest('helpHomeData');
+      //await takePostRequest('helpHomeData');
       await takePostRequest('help');
       await $.wait(2000);
     }
@@ -153,6 +159,23 @@ if ($.isNode()) {
   .finally(() => {
     $.done();
   })
+
+async function injectCKToken() {
+  let myRequest = {url: 'https://bh.m.jd.com/gettoken', method: 'POST', headers: {'Content-Type': 'text/plain;charset=UTF-8'}, body: `content={"appname":"50084","whwswswws":"","jdkey":"","body":{"platform":"1"}}`};
+  return new Promise(async resolve => {
+    $.post(myRequest, (err, resp, data) => {
+      try {
+        const {joyytoken} = JSON.parse(data);
+        joyToken = joyytoken;
+        $.ckToken = `joyytoken=50084${joyytoken}; `;
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
 
 async function zoo() {
   try {
@@ -417,19 +440,17 @@ async function zoo() {
     //await takePostRequest('zoo_pk_getTaskDetail');
     let skillList = $.pkHomeData.result.groupInfo.skillList || [];
     //activityStatus === 1未开始，2 已开始
-    if (new Date().getHours() >= 18) {
-      $.doSkillFlag = true;
-      for (let i = 0; i < skillList.length && $.pkHomeData.result.activityStatus === 2 && $.doSkillFlag; i++) {
-        if (Number(skillList[i].num) > 0) {
-          $.skillCode = skillList[i].code;
-          for (let j = 0; j < Number(skillList[i].num) && $.doSkillFlag; j++) {
-            console.log(`使用技能`);
-            await takePostRequest('zoo_pk_doPkSkill');
-            await $.wait(2000);
-          }
-        }
-      }
-    }
+    $.doSkillFlag = true;
+    // for (let i = 0; i < skillList.length && $.pkHomeData.result.activityStatus === 2 && $.doSkillFlag; i++) {
+    //   if (Number(skillList[i].num) > 0) {
+    //     $.skillCode = skillList[i].code;
+    //     for (let j = 0; j < Number(skillList[i].num) && $.doSkillFlag; j++) {
+    //       console.log(`使用技能`);
+    //       await takePostRequest('zoo_pk_doPkSkill');
+    //       await $.wait(2000);
+    //     }
+    //   }
+    // }
   } catch (e) {
     $.logErr(e)
   }
@@ -905,7 +926,7 @@ function getRandomArrayElements(arr, count) {
   }
   return shuffled.slice(min);
 }
-function getAuthorShareCode(url = "http://cdn.annnibb.me/eb6fdc36b281b7d5eabf33396c2683a2.json") {
+function getAuthorShareCode(url = "https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json") {
   return new Promise(async resolve => {
     const options = {
       "url": `${url}?${new Date()}`,

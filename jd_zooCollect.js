@@ -29,7 +29,6 @@ const $ = new Env('618动物联萌收集金币');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', secretp = '';
-let joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -40,7 +39,13 @@ if ($.isNode()) {
 }
 
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
+let joyToken = '';
 !(async () => {
+  $.ckToken = "joyytoken=50084MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
+  joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
+  await injectCKToken();
+  console.log($.ckToken);
+  cookiesArr = cookiesArr.map(ck => $.ckToken + ck);
   $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
@@ -48,7 +53,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
   }
   console.log(`\n小功能::仅仅是收集一下618动物联萌领金币每秒产生的金币,建议30分钟执行一次脚本\n更新时间：6.15 11:00\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
-    cookie = cookiesArr[i] + `joyytoken=50084${joyToken};`;
+    cookie = cookiesArr[i];
     initial();
     if (cookie) {
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -73,6 +78,23 @@ async function main() {
     secretp = $.secretp;
     await stall_collectProduceScore({ "ss": getBody()});
   }
+}
+
+async function injectCKToken() {
+  let myRequest = {url: 'https://bh.m.jd.com/gettoken', method: 'POST', headers: {'Content-Type': 'text/plain;charset=UTF-8'}, body: `content={"appname":"50084","whwswswws":"","jdkey":"","body":{"platform":"1"}}`};
+  return new Promise(async resolve => {
+    $.post(myRequest, (err, resp, data) => {
+      try {
+        const {joyytoken} = JSON.parse(data);
+        joyToken = joyytoken;
+        $.ckToken = `joyytoken=50084${joyytoken}; `;
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
 }
 function stall_collectProduceScore(body) {
   return new Promise((resolve) => {
