@@ -31,7 +31,8 @@ const pKHelpAuthorFlag = true;//是否助力作者PK  true 助力，false 不助
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [];
 $.cookie = '';
-$.inviteList = [
+$.inviteList = [];
+$.innerInviteList = [
   'ZXTKT0225KkcRx0Q_AaCdRr1xf8DIQFjRWn6-7zx55awQ',
   'ZXTKT0225KkcRksZpgDSIBj3xvADdQFjRWn6-7zx55awQ',
   'ZXTKT018v_52Qxge81HeJB2b1AFjRWn6-7zx55awQ',
@@ -39,11 +40,7 @@ $.inviteList = [
 ];
 $.pkInviteList = [];
 $.secretpInfo = {};
-$.innerPkInviteList = [
-  'sSKNX-MpqKOJsNu9y8nYAqXFF5NKOpRPsMffiCRwqC9Qb8MWZnWWJhg7JHU144El',
-  'sSKNX-MpqKOJsNu_mpLQVscEUFEwqZlwdIW6w-kWLlQuLST3RQYUu_nMUcjkUvXS',
-  'sSKNX-MpqKOJsNu-zJuKUHj2-v3Nwqvdkyk9Jsxn6oqHcInoKRfdLKKVzeW1cJWI'
-];
+$.innerPkInviteList = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -98,25 +95,25 @@ let joyToken = ''
       if($.hotFlag)$.secretpInfo[$.UserName] = false;//火爆账号不执行助力
     }
   }
-  if (pKHelpAuthorFlag && new Date().getHours() >= 9) {
-    let res = [], res2 = [], res3 = [];
-    try {
-      res = await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json');
-    }catch (e) {
-      res = []
-    }
-    res2 = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/zoo.json');
-    res3 = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json');
-    if(res2.length > 3){
-      res2 = getRandomArrayElements(res2,3);
-    }
-    if([...$.innerPkInviteList, ...res, ...res2, ...res3].length > 6){
-      $.innerPkInviteList = [...$.innerPkInviteList, ...res, ...res2, ...res3];
-    }else{
-      $.innerPkInviteList = ([...$.innerPkInviteList, ...res, ...res2, ...res3], [...$.innerPkInviteList, ...res, ...res2, ...res3].length);
-    }
-    $.pkInviteList.push(...$.innerPkInviteList);
-  }
+  // if (pKHelpAuthorFlag && new Date().getHours() >= 9) {
+  //   let res = [], res2 = [], res3 = [];
+  //   try {
+  //     res = await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zoo.json');
+  //   }catch (e) {
+  //     res = []
+  //   }
+  //   res2 = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/zoo.json');
+  //   res3 = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json');
+  //   if(res2.length > 3){
+  //     res2 = getRandomArrayElements(res2,3);
+  //   }
+  //   if([...$.innerPkInviteList, ...res, ...res2, ...res3].length > 6){
+  //     $.innerPkInviteList = [...$.innerPkInviteList, ...res, ...res2, ...res3];
+  //   }else{
+  //     $.innerPkInviteList = ([...$.innerPkInviteList, ...res, ...res2, ...res3], [...$.innerPkInviteList, ...res, ...res2, ...res3].length);
+  //   }
+  //   $.pkInviteList.push(...$.innerPkInviteList);
+  // }
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
     $.canHelp = true;
@@ -128,18 +125,19 @@ let joyToken = ''
     $.index = i + 1;
     //console.log($.inviteList);
     //pk助力
-    if (new Date().getHours() >= 9) {
-      console.log(`\n******开始内部京东账号【怪兽大作战pk】助力*********\n`);
-      for (let i = 0; i < $.pkInviteList.length && pKHelpFlag && $.canHelp; i++) {
-        console.log(`${$.UserName} 去助力PK码 ${$.pkInviteList[i]}`);
-        $.pkInviteId = $.pkInviteList[i];
-        await takePostRequest('pkHelp');
-        await $.wait(2000);
-      }
-      $.canHelp = true;
-    }
+    // if (new Date().getHours() >= 9) {
+    //   console.log(`\n******开始内部京东账号【怪兽大作战pk】助力*********\n`);
+    //   for (let i = 0; i < $.pkInviteList.length && pKHelpFlag && $.canHelp; i++) {
+    //     console.log(`${$.UserName} 去助力PK码 ${$.pkInviteList[i]}`);
+    //     $.pkInviteId = $.pkInviteList[i];
+    //     await takePostRequest('pkHelp');
+    //     await $.wait(2000);
+    //   }
+    //   $.canHelp = true;
+    // }
     if ($.inviteList && $.inviteList.length) console.log(`\n******开始内部京东账号【邀请好友助力】*********\n`);
     for (let j = 0; j < $.inviteList.length && $.canHelp; j++) {
+      $.inviteList.push(...$.innerInviteList);
       $.oneInviteInfo = $.inviteList[j];
       if ($.oneInviteInfo.ues === $.UserName || $.oneInviteInfo.max) {
         continue;
@@ -147,7 +145,7 @@ let joyToken = ''
       //console.log($.oneInviteInfo);
       $.inviteId = $.oneInviteInfo.inviteId;
       console.log(`${$.UserName}去助力${$.oneInviteInfo.ues},助力码${$.inviteId}`);
-      await takePostRequest('helpHomeData');
+      // await takePostRequest('helpHomeData');
       await takePostRequest('help');
       await $.wait(2000);
     }
@@ -438,9 +436,9 @@ async function zoo() {
     }
     await $.wait(1000);
     //await takePostRequest('zoo_pk_getTaskDetail');
-    let skillList = $.pkHomeData.result.groupInfo.skillList || [];
+    // let skillList = $.pkHomeData.result.groupInfo.skillList || [];
     //activityStatus === 1未开始，2 已开始
-    $.doSkillFlag = true;
+    // $.doSkillFlag = true;
     // for (let i = 0; i < skillList.length && $.pkHomeData.result.activityStatus === 2 && $.doSkillFlag; i++) {
     //   if (Number(skillList[i].num) > 0) {
     //     $.skillCode = skillList[i].code;
