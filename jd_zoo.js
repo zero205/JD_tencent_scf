@@ -147,7 +147,7 @@ let joyToken = ''
       //console.log($.oneInviteInfo);
       $.inviteId = $.oneInviteInfo.inviteId;
       console.log(`${$.UserName}去助力${$.oneInviteInfo.ues},助力码${$.inviteId}`);
-      //await takePostRequest('helpHomeData');
+      await takePostRequest('helpHomeData');
       await takePostRequest('help');
       await $.wait(2000);
     }
@@ -663,12 +663,15 @@ async function dealReturn(type, data) {
         case -8:
           console.log(`已经助力过该队伍`);
           break;
+        case -4:
+          console.log(`怪兽大作战助力失败：${JSON.stringify(data)}`);
+          break;
         case -6:
         case 108:
           console.log(`助力次数已用光`);
           $.canHelp = false;
           break;
-        default:
+          case -1002:
           console.log(`怪兽大作战助力失败：${JSON.stringify(data)}`);
           $.canHelp = false;
       }
