@@ -28,12 +28,11 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const pKHelpFlag = true;//是否PK助力  true 助力，false 不助力
 const pKHelpAuthorFlag = true;//是否助力作者PK  true 助力，false 不助力
-let joyToken = "MDFJb0lXQzAxMQ==.eFl7ZHt7V39md3BceylzHi4eHRtxW30HPXhDf3t3ZV43ZT14ETkOBSFALWISIAV6Yic5InBiDXAuJjAkdFI3.66c2abd5";
+let joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [];
 $.cookie = '';
 $.inviteList = [
-  'ZXTKT0225KkcRUxL9FKDJh7ylvMLcAFjRWn6-7zx55awQ',
   'ZXTKT0225KkcRx0Q_AaCdRr1xf8DIQFjRWn6-7zx55awQ',
   'ZXTKT0225KkcRksZpgDSIBj3xvADdQFjRWn6-7zx55awQ',
   'ZXTKT018v_52Qxge81HeJB2b1AFjRWn6-7zx55awQ',
