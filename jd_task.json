@@ -605,16 +605,6 @@
       }
     },
     {
-      "name": "飞利浦电视成长记",
-      "type": "cron",
-      "time": "30 9 * 5,6 *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_adolf_flp.js"
-      }
-    },
-    {
       "name": "赢一加新品手机",
       "type": "cron",
       "time": "28 9 * 5,6 *",
@@ -635,16 +625,6 @@
       }
     },
     {
-      "name": "京喜阶梯红包",
-      "type": "cron",
-      "time": "35 9,20 * 5,6 *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_adolf_jxhb.js"
-      }
-    },
-    {
       "name": "京东超级盒子",
       "type": "cron",
       "time": "20 9,20 * 5,6 *",
@@ -652,56 +632,6 @@
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_adolf_superbox.js"
-      }
-    },
-    {
-      "name": "618动物联萌",
-      "type": "cron",
-      "time": "35 0,5-23/2 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_zoo.js"
-      }
-    },
-    {
-      "name": "618动物联萌收集金币",
-      "type": "cron",
-      "time": "*/30 0,5-23/1 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_zooCollect.js"
-      }
-    },
-    {
-      "name": "618动物联萌地图任务",
-      "type": "cron",
-      "time": "10 12 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_zooMap.js"
-      }
-    },
-    {
-      "name": "家电星推官",
-      "type": "cron",
-      "time": "0 0 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_xtg.js"
-      }
-    },
-    {
-      "name": "家电星推官好友互助",
-      "type": "cron",
-      "time": "0 0 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_xtg_help.js"
       }
     },
     {
