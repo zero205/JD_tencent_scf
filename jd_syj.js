@@ -46,7 +46,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     return;
   }
   await getAuthorShareCode('http://cdn.annnibb.me/jd_zz.json');
-  await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/master/shareCodes/jd_zz.json');
+  await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zz.json');
   await getRandomCode();
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
@@ -693,7 +693,7 @@ function openTuan() {
 function getAuthorShareCode(url) {
   return new Promise(resolve => {
     const options = {
-      url: `${url}?${Date.now()}`, "timeout": 10000, headers: {
+      url: `${url}`, "timeout": 10000, headers: {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
       }
     };
