@@ -80,6 +80,11 @@ jobs:
       DYJ_PACKETID: ${{ secrets.DYJ_PACKETID}}
       DYJ_INVITER: ${{ secrets.DYJ_INVITER}}
       InviterPin: ${{ secrets.InviterPin}}
+      DYJ_INVITER: ${{ secrets.DYJ_INVITER}}
+      JD_TRY: ${{ secrets.JD_TRY}}
+      JD_WXJ: ${{ secrets.JD_WXJ}}
+      SHARECODE_WXJ: ${{ secrets.SHARECODE_WXJ}}
+      HELPAUTHOR_WXJ: ${{ secrets.HELPAUTHOR_WXJ}}
       JXNC_NOTIFY_LEVEL: ${{ secrets.JXNC_NOTIFY_LEVEL}}
       
     steps:
@@ -172,6 +177,10 @@ jobs:
           if [ $InviterPin ]; then sed -i "/variables/a\      InviterPin: $InviterPin" serverless.yml; fi;
           if [ $DYJ_PACKETID ]; then sed -i "/variables/a\      DYJ_PACKETID: $DYJ_PACKETID" serverless.yml; fi;
           if [ $DYJ_INVITER ]; then sed -i "/variables/a\      DYJ_INVITER: $DYJ_INVITER" serverless.yml; fi;
+          if [ $JD_TRY ]; then sed -i "/variables/a\      JD_TRY: $JD_TRY" serverless.yml; fi;
+          if [ $JD_WXJ ]; then sed -i "/variables/a\      JD_WXJ: $JD_WXJ" serverless.yml; fi;
+          if [ $SHARECODE_WXJ ]; then sed -i "/variables/a\      SHARECODE_WXJ: $SHARECODE_WXJ" serverless.yml; fi;
+          if [ $HELPAUTHOR_WXJ ]; then sed -i "/variables/a\      HELPAUTHOR_WXJ: $HELPAUTHOR_WXJ" serverless.yml; fi;
           cat serverless.yml
           env
 
