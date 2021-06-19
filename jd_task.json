@@ -695,6 +695,26 @@
       }
     },
     {
+      "name": "京东电竞经理",
+      "type": "cron",
+      "time": "40 10 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_djjl.js"
+      }
+    },
+    {
+      "name": "京东全民挖现金",
+      "type": "cron",
+      "time": "50 0-23/8 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_wxj.js"
+      }
+    },
+    {
       "name": "超级无线组队分京豆",
       "type": "cron",
       "time": "15 6 * * 2",

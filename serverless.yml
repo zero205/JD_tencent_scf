@@ -29,12 +29,12 @@ inputs:
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: jd_unsubscribe&jd_lotteryMachine&jd_car&jd_ms&jd_jin_tie&jd_get_share_code
-    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #美丽研究院 #手机狂欢城
+    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #美丽研究院 #手机狂欢城 #全民挖现金
         parameters:
-          name: fruit_pet_jxnc_speedsign_speedredpocke_beauty
+          name: fruit_pet_jxnc_speedsign_speedredpocke_beauty_wxj
           cronExpression: "0 5 0-18/6,8 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_carnivalcity&jd_beauty
+          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_carnivalcity&jd_beauty&jd_wxj
     - timer: #宠汪汪喂食 #宠汪汪 #摇钱树 #京东种豆得豆 #京喜工厂 #东东工厂 #健康社区收取能量
         parameters:
           name: feedPets_joy_moneyTree_plantBean_dreamFactory_jdfactory_healthenergy
@@ -70,7 +70,7 @@ inputs:
           name: beanchange_crazyjoy_rankingList_beanhome_sgmh_jxd
           cronExpression: "0 30 9 * * * *"
           enable: true
-          argument: jd_bean_change&jd_crazy_joy&jd_rankingList&jd_bean_home&jd_sgmh&jd_jxd&jd_try&jd_market_lottery&jd_zooMap
+          argument: jd_bean_change&jd_crazy_joy&jd_rankingList&jd_bean_home&jd_sgmh&jd_jxd&jd_try&jd_market_lottery&jd_djjl
     - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #女装盲盒 #关注有礼 #跳跳乐瓜分京豆 #新潮品牌狂欢 #京喜领88元红包 #星店长
         parameters:
           name: pigPet_syj_kd_jdzz_sign_nzmh_follow
