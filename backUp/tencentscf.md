@@ -21,9 +21,11 @@
 `TENCENT_FUNCTION_NAME`用于控制部署到云函数后函数名的命名，value可随意，可填`JD`，但必须与下一步里云函数的函数名一致  
 
 ## 4. 配置index.js中secrets变量说明【可不填，建议默认即可】
-现在可以通过secret设置自定义index.js中的执行方式，环境变量分别为`TENCENTSCF_SOURCE_TYPE`和`TENCENTSCF_SOURCE_URL`  
+现在可以通过secret设置自定义index.js中的执行方式，环境变量分别为`TENCENTSCF_SOURCE_TYPE`，`TENCENTSCF_SOURCE_URL`和`TENCENTSCF_MEMORYSIZE`<br>
 `TENCENTSCF_SOURCE_TYPE`值可以选取`local`、`git`、`custom`具体含义可查看仓库中的`index.js`文件说明  
 `TENCENTSCF_SOURCE_URL`格式为包含raw的URL，例如：`https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/`或`https://gitee.com/zero205/JD_tencent_scf/raw/main/`<br>
+`TENCENTSCF_MEMORYSIZE`值为运行内存大小的设定值，默认为`64`，需求更大内存的可填入`128`，云函数有128MB就能满足了<br>
+请注意**提高内存设定值相应地也会加快消耗云函数的免费额度，超出免费额度将会产生费用**
 
 
 ### __重要的说三遍__   
