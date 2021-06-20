@@ -390,7 +390,7 @@ function help2() {
 function helpAuthor() {
   return new Promise(async (resolve) => {
     let options = {
-      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"cb3c17afb72f421794a83d61c2e8720940901624126293989","inviter":"AEIIwA6L3k8ePzU3fXDzg8sPlLyAUpJKplSENnlQTGA","helpType":"1"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"5926a9e5cc6c4be18758369caee04dc668431624205591237","inviter":"AEIIwA6L3k8ePzU3fXDzg8sPlLyAUpJKplSENnlQTGA","helpType":"1"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
       headers: {
         "Origin": "https://618redpacket.jd.com",
         "Host": "api.m.jd.com",
@@ -399,7 +399,7 @@ function helpAuthor() {
       }
     }
     let options2 = {
-      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"811394a7d564462194a4282e0666156627241624126392657","inviter":"AghrnocwyBzh_6aDh3BPmS5acIv86eToUuynlVFt-GU","helpType":"1"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"1a08f1c0adf842e2aa0bfb9f4aec523522231624205684429","inviter":"AghrnocwyBzh_6aDh3BPmS5acIv86eToUuynlVFt-GU","helpType":"1"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
       headers: {
         "Origin": "https://618redpacket.jd.com",
         "Host": "api.m.jd.com",
@@ -408,7 +408,25 @@ function helpAuthor() {
       }
     }
     let options3 = {
-      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"310d07a9b8ee40b194070d77f402206580531624126458822","inviter":"VqFbegTWUP9DJrZBj0UUJw","helpType":"1"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"383480e46f3c487b9babe369bca6c92d23671624205764477","inviter":"VqFbegTWUP9DJrZBj0UUJw","helpType":"1"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      headers: {
+        "Origin": "https://618redpacket.jd.com",
+        "Host": "api.m.jd.com",
+        "User-Agent": "jdapp;iPhone;9.5.2;14.3;6898c30638c55142969304c8e2167997fa59eb53;network/wifi;ADID/F108E1B6-8E30-477C-BE54-87CF23435488;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone9,2;addressid/4585826605;supportBestPay/0;appBuild/167650;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+        "Cookie": cookie,
+      }
+    }
+    let options4 = {
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"f5f31747fa3142058ca0879bec56fed078351624206699289","inviter":"lYeCjR-Tqlt2Rdvzm3BstucggfTsQxjqV5WhG7YX80I","helpType":"1"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      headers: {
+        "Origin": "https://618redpacket.jd.com",
+        "Host": "api.m.jd.com",
+        "User-Agent": "jdapp;iPhone;9.5.2;14.3;6898c30638c55142969304c8e2167997fa59eb53;network/wifi;ADID/F108E1B6-8E30-477C-BE54-87CF23435488;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone9,2;addressid/4585826605;supportBestPay/0;appBuild/167650;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+        "Cookie": cookie,
+      }
+    }
+    let options5 = {
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"cea68c42c5d64021b19fd2948c74744886421624206878085","inviter":"H4PMazmFkCU2k1O53vpIyw","helpType":"1"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
       headers: {
         "Origin": "https://618redpacket.jd.com",
         "Host": "api.m.jd.com",
@@ -449,13 +467,33 @@ function helpAuthor() {
         resolve();
       }
     });
+    $.get(options4, async (err, resp, data) => {
+      try {
+        data = JSON.parse(data);
+        console.log(data.data.helpResult.errMsg)
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+    $.get(options5, async (err, resp, data) => {
+      try {
+        data = JSON.parse(data);
+        console.log(data.data.helpResult.errMsg)
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
   });
 }
 //微信提现邀请
 function helpAuthor2() {
   return new Promise(async (resolve) => {
     let options = {
-      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"cb3c17afb72f421794a83d61c2e8720940901624126293989","inviter":"AEIIwA6L3k8ePzU3fXDzg8sPlLyAUpJKplSENnlQTGA","helpType":"2"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"5926a9e5cc6c4be18758369caee04dc668431624205591237","inviter":"AEIIwA6L3k8ePzU3fXDzg8sPlLyAUpJKplSENnlQTGA","helpType":"2"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
       headers: {
         "Origin": "https://618redpacket.jd.com",
         "Host": "api.m.jd.com",
@@ -464,7 +502,7 @@ function helpAuthor2() {
       }
     }
     let options2 = {
-      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"811394a7d564462194a4282e0666156627241624126392657","inviter":"AghrnocwyBzh_6aDh3BPmS5acIv86eToUuynlVFt-GU","helpType":"2"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"1a08f1c0adf842e2aa0bfb9f4aec523522231624205684429","inviter":"AghrnocwyBzh_6aDh3BPmS5acIv86eToUuynlVFt-GU","helpType":"2"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
       headers: {
         "Origin": "https://618redpacket.jd.com",
         "Host": "api.m.jd.com",
@@ -473,7 +511,25 @@ function helpAuthor2() {
       }
     }
     let options3 = {
-      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"310d07a9b8ee40b194070d77f402206580531624126458822","inviter":"VqFbegTWUP9DJrZBj0UUJw","helpType":"2"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"383480e46f3c487b9babe369bca6c92d23671624205764477","inviter":"VqFbegTWUP9DJrZBj0UUJw","helpType":"2"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      headers: {
+        "Origin": "https://618redpacket.jd.com",
+        "Host": "api.m.jd.com",
+        "User-Agent": "jdapp;iPhone;9.5.2;14.3;6898c30638c55142969304c8e2167997fa59eb53;network/wifi;ADID/F108E1B6-8E30-477C-BE54-87CF23435488;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone9,2;addressid/4585826605;supportBestPay/0;appBuild/167650;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+        "Cookie": cookie,
+      }
+    }
+    let options4 = {
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"f5f31747fa3142058ca0879bec56fed078351624206699289","inviter":"lYeCjR-Tqlt2Rdvzm3BstucggfTsQxjqV5WhG7YX80I","helpType":"2"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
+      headers: {
+        "Origin": "https://618redpacket.jd.com",
+        "Host": "api.m.jd.com",
+        "User-Agent": "jdapp;iPhone;9.5.2;14.3;6898c30638c55142969304c8e2167997fa59eb53;network/wifi;ADID/F108E1B6-8E30-477C-BE54-87CF23435488;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone9,2;addressid/4585826605;supportBestPay/0;appBuild/167650;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+        "Cookie": cookie,
+      }
+    }
+    let options5 = {
+      url: `https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={"linkId":"DA4SkG7NXupA9sksI00L0g","redEnvelopeId":"cea68c42c5d64021b19fd2948c74744886421624206878085","inviter":"H4PMazmFkCU2k1O53vpIyw","helpType":"2"}&t=1623064535450&appid=activities_platform&clientVersion=3.3.6`,
       headers: {
         "Origin": "https://618redpacket.jd.com",
         "Host": "api.m.jd.com",
@@ -502,6 +558,26 @@ function helpAuthor2() {
       }
     });
     $.get(options3, async (err, resp, data) => {
+      try {
+        data = JSON.parse(data);
+        console.log(data.data.helpResult.errMsg)
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+    $.get(options4, async (err, resp, data) => {
+      try {
+        data = JSON.parse(data);
+        console.log(data.data.helpResult.errMsg)
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+    $.get(options5, async (err, resp, data) => {
       try {
         data = JSON.parse(data);
         console.log(data.data.helpResult.errMsg)
