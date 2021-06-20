@@ -80,7 +80,6 @@ jobs:
       DYJ_PACKETID: ${{ secrets.DYJ_PACKETID}}
       DYJ_INVITER: ${{ secrets.DYJ_INVITER}}
       InviterPin: ${{ secrets.InviterPin}}
-      DYJ_INVITER: ${{ secrets.DYJ_INVITER}}
       JD_TRY: ${{ secrets.JD_TRY}}
       JD_WXJ: ${{ secrets.JD_WXJ}}
       SHARECODE_WXJ: ${{ secrets.SHARECODE_WXJ}}
