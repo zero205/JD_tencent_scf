@@ -12,17 +12,17 @@ export RAIN_NOTIFY_CONTROL="false"
 
 [task_local]
 #半点京豆雨
-30 16-23/1 * * * https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_half_redrain.js, tag=半点京豆雨, enabled=true
+30 16-23/1 * * * https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_half_redrain.js, tag=半点京豆雨, enabled=true
 
 ================Loon==============
 [Script]
-cron "30 16-23/1 * * *" script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_half_redrain.js,tag=半点京豆雨
+cron "30 16-23/1 * * *" script-path=https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_half_redrain.js,tag=半点京豆雨
 
 ===============Surge=================
- 半点京豆雨 = type=cron,cronexp="30 16-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_half_redrain.js
+ 半点京豆雨 = type=cron,cronexp="30 16-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_half_redrain.js
 
 ============小火箭=========
- 半点京豆雨= type=cron,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_half_redrain.js, cronexpr="30 16-23/1 * * *",timeout=200, enable=true
+ 半点京豆雨= type=cron,script-path=https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_half_redrain.js, cronexpr="30 16-23/1 * * *",timeout=200, enable=true
  */
  const $ = new Env('半点京豆雨');
 
