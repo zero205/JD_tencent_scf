@@ -200,6 +200,7 @@ jobs:
           TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
           TENCENT_REGION: ${{ secrets.SCF_REGION }}
           TENCENT_FUNCTION_NAME: ${{ secrets.TENCENT_FUNCTION_NAME }}
+          TENCENT_MemorySize: ${{ secrets.TENCENT_MemorySize }}
         
       - name: "部署失败通知"
         run: node action.js
