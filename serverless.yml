@@ -34,7 +34,7 @@ inputs:
           name: fruit_pet_jxnc_speedsign_speedredpocke_beauty_wxj
           cronExpression: "0 5 0-18/6,8 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_wxj&jd_beauty
+          argument: jd_fruit&jd_pet&jd_jxnc&jd_wxj&jd_speed_sign&jd_speed_redpocke&jd_beauty
     - timer: #宠汪汪喂食 #宠汪汪 #摇钱树 #京东种豆得豆 #京喜工厂 #东东工厂 #健康社区收取能量
         parameters:
           name: feedPets_joy_moneyTree_plantBean_dreamFactory_jdfactory_healthenergy

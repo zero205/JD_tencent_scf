@@ -1153,7 +1153,7 @@ cron "5 8,13,19 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/mast
     console.log(`开始`)
     return new Promise(async resolve => {
       $.get({
-        url: `http://share.turinglabs.net/api/v3/jxcfd/query/${randomCount}/`,
+        url: `https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jxcfd.json`,
         'timeout': 10000
       }, (err, resp, data) => {
         try {
@@ -1162,7 +1162,7 @@ cron "5 8,13,19 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/mast
             console.log(`${$.name} API请求失败，请检查网路重试`)
           } else {
             if (data) {
-              console.log(`随机取${randomCount}个码放到您固定的互助码后面(不影响已有固定互助)`)
+              console.log(`取5个码放到您固定的互助码后面(不影响已有固定互助)`)
               data = JSON.parse(data);
             }
           }
@@ -1186,9 +1186,9 @@ cron "5 8,13,19 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/mast
       } else {
         console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
         // const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-        $.newShareCodes = [...$.strMyShareIds, "F45CB4F07997DFE748E5656521A9034446A1568F6950206B0D44A5664662275D"];
+        $.newShareCodes = [...$.strMyShareIds];
       }
-      const readShareCodeRes = await readShareCode();
+       const readShareCodeRes = await readShareCode();
       if (readShareCodeRes && readShareCodeRes.code === 200) {
         $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
       }
