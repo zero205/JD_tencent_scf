@@ -66,16 +66,6 @@
       }
     },
     {
-      "name": "京东汽车兑换",
-      "type": "cron",
-      "time": "0 0 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_car_exchange.js"
-      }
-    },
-    {
       "name": "签到领现金",
       "type": "cron",
       "time": "5 0,6-23/4 * * *",
