@@ -59,12 +59,12 @@ inputs:
           cronExpression: "0 1,30 0,5-23/2 * * * *"
           enable: true
           argument: jd_daily_egg&jd_super_redrain&jd_mohe&jd_big_winner
-    - timer: #东东超市 #京喜财富岛 #京喜牧场
+    - timer: #东东超市 #京喜财富岛 #京喜牧场 #京享值PK
         parameters:
           name: cfd_superMarket
           cronExpression: "0 30 8,12,19,6-23/6 * * * *"
           enable: true
-          argument: jd_cfd&jd_superMarket&jd_jxmc
+          argument: jd_cfd&jd_superMarket&jd_jxmc&jd_ddo_pk
     - timer: #京豆变动通知 #疯狂的joy #京东排行榜 #领京豆额外奖励 #闪购盲盒 #京小兑 #幸运大转盘
         parameters:
           name: beanchange_crazyjoy_rankingList_beanhome_sgmh_jxd
