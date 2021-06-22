@@ -18,7 +18,6 @@
   "dependencies": {
     "crypto-js": "^4.0.0",
     "download": "^8.0.0",
-    "canvas": "^2.8.0",
     "got": "^11.5.1",
     "http-server": "^0.12.3",
     "qrcode-terminal": "^0.12.0",
