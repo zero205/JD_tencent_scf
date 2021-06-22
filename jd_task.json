@@ -615,36 +615,6 @@
       }
     },
     {
-      "name": "京喜领88元红包",
-      "type": "cron",
-      "time": "8 10,19 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_jxlhb.js"
-      }
-    },
-    {
-      "name": "新潮品牌狂欢",
-      "type": "cron",
-      "time": "13 10 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_mcxhd.js"
-      }
-    },
-    {
-      "name": "星店长",
-      "type": "cron",
-      "time": "26 7,21 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_star_shop.js"
-      }
-    },
-    {
       "name": "5G超级盲盒",
       "type": "cron",
       "time": "0 0,6-23/3 * * *",

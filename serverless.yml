@@ -71,12 +71,12 @@ inputs:
           cronExpression: "0 30 9 * * * *"
           enable: true
           argument: jd_bean_change&jd_crazy_joy&jd_rankingList&jd_bean_home&jd_sgmh&jd_jxd&jd_try&jd_market_lottery&jd_djjl
-    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #女装盲盒 #关注有礼 #跳跳乐瓜分京豆 #新潮品牌狂欢 #京喜领88元红包 #星店长
+    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #女装盲盒 #关注有礼 #跳跳乐瓜分京豆
         parameters:
           name: pigPet_syj_kd_jdzz_sign_nzmh_follow
           cronExpression: "0 20 0,9,11,21 * * * *"
           enable: true
-          argument: jd_pigPet&jd_syj&jd_kd&jd_jxlhb&jd_jdzz&jd_nzmh&jd_monk_shop_follow_sku&jd_jump&jd_mcxhd&jd_star_shop
+          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_nzmh&jd_monk_shop_follow_sku&jd_jump
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的
