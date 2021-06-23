@@ -47,12 +47,12 @@ inputs:
           cronExpression: "0 0 0-16/8,20 * * * *"
           enable: true
           argument: jd_joy_reward&jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_redPacket
-    - timer: #健康社区
+    - timer: #赚金币 #点点券 #健康社区
         parameters:
-          name: healthcommunity
+          name: zjb_necklace_healthcommunity
           cronExpression: "2 36 0,6-23/4 * * * *"
           enable: true
-          argument: jd_z_health_community
+          argument: jd_zjb&jd_necklace&jd_z_health_community
     - timer: #天天提鹅 #5G超级盲盒 #省钱大赢家之翻翻乐
         parameters:
           name: dailyegg_superredrain_mohe_bigwinner
