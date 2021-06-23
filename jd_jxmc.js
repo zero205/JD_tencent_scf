@@ -383,7 +383,13 @@ function dealReturn(type, data) {
     case 'mowing':
     case 'jump':
     case 'cow':
-      data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+      try{
+        data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+      }catch (e) {
+        $.runFlag = false;
+        console.log(data);
+        console.log(`返回异常`);
+      }
       if (data.ret === 0) {
         $.mowingInfo = data.data;
         let add = ($.mowingInfo.addcoins || $.mowingInfo.addcoin) ? ($.mowingInfo.addcoins || $.mowingInfo.addcoin) : 0;
