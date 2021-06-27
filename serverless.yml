@@ -53,12 +53,12 @@ inputs:
           cronExpression: "2 36 0,6-23/4 * * * *"
           enable: true
           argument: jd_z_health_community
-    - timer: #天天提鹅 #5G超级盲盒 #省钱大赢家之翻翻乐
+    - timer: #天天提鹅 #5G超级盲盒
         parameters:
-          name: dailyegg_superredrain_mohe_bigwinner
+          name: dailyegg_superredrain_mohe
           cronExpression: "0 1,30 0,5-23/2 * * * *"
           enable: true
-          argument: jd_daily_egg&jd_super_redrain&jd_mohe&jd_big_winner
+          argument: jd_daily_egg&jd_super_redrain&jd_mohe
     - timer: #东东超市 #京喜财富岛 #京喜牧场 #京享值PK
         parameters:
           name: cfd_superMarket
