@@ -60,6 +60,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
         MemorySize: MemorySize,
         Timeout: 86400,
         AsyncRunEnable: "true",
+        InstallDependency: "true",
         Environment: {
           Variables: []
         }

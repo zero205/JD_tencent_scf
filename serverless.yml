@@ -16,6 +16,7 @@ inputs:
   memorySize: 64 # 内存大小，单位MB
   timeout: 86400 # 超时时间，单位秒
   asyncRunEnable: true # 是否启用异步执行
+  installDependency: true # 是否在线安装依赖
   events: #触发器
     - timer: #签到 #摇京豆 #店铺签到 #进店领豆
         parameters:
