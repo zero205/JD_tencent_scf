@@ -658,7 +658,7 @@
     {
       "name": "特物Z",
       "type": "cron",
-      "time": "18 10，21 * * *",
+      "time": "18 11,21 * * *",
       "running": true,
       "job": {
         "type": "runjs",
