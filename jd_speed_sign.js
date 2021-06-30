@@ -97,7 +97,7 @@ async function jdGlobal() {
     await queryJoy()
     await signInit()
     await cash()
-    await showMsg()
+    // await showMsg()
   } catch (e) {
     $.logErr(e)
   }
