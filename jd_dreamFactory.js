@@ -35,10 +35,10 @@ cron "10 * * * *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresou
 
 const $ = new Env('京喜工厂');
 const JD_API_HOST = 'https://m.jingxi.com';
-const helpAu = true; //帮作者助力 免费拿活动
+const helpAu = false; //帮作者助力 免费拿活动
 const notify = $.isNode() ? require('./sendNotify') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
-const randomCount = $.isNode() ? 0 : 5;
+const randomCount = $.isNode() ? 5 : 5;
 let tuanActiveId = `T_zZaWP6by9yA1wehxM4mg==`;
 const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://wqsd.jd.com/pingou/dream_factory/index.html%22%20%7D`;
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
@@ -48,6 +48,7 @@ const inviteCodes = [
   '-OvElMzqeyeGBWazWYjI1Q==@6lw84c1ARwpoRyOtfnF77g==@J1t777njetfQcyEg57lzQA==@W9u_eBl3YKbSjXu0QP3HGQ=@VV55A_oKz5u5CYrL3jxPdg==',
   'GFwo6PntxDHH95ZRzZ5uAg==@6lw84c1ARwpoRyOtfnF77g==@J1t777njetfQcyEg57lzQA==@W9u_eBl3YKbSjXu0QP3HGQ=@VV55A_oKz5u5CYrL3jxPdg=='
 ];
+let myInviteCode;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
 $.appId = 10001;
@@ -629,6 +630,14 @@ function userInfo() {
                 console.log(`当前电力：${data.user.electric}`)
                 console.log(`当前等级：${data.user.currentLevel}`)
                 console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.user.encryptPin}`);
+                myInviteCode = data.user.encryptPin;
+                console.log(`💰京喜工厂-开始提交互助码💰`);
+                const submitCodeRes = await submitCode();
+                if (submitCodeRes && submitCodeRes.code === 200) {
+                  console.log(`💰京喜工厂-互助码提交成功！💰`);
+                }else if (submitCodeRes.code === 300) {
+                  console.log(`💰京喜工厂-互助码已提交！💰`);
+                }
                 console.log(`已投入电力：${production.investedElectric}`);
                 console.log(`所需电力：${production.needElectric}`);
                 console.log(`生产进度：${((production.investedElectric / production.needElectric) * 100).toFixed(2)}%`);
@@ -1093,6 +1102,12 @@ function CreateTuan() {
               console.log(`开团成功tuanId为\n${data.data['tuanId']}`);
               $.tuanIds.push(data.data['tuanId']);
             } else {
+                //{"msg":"活动已结束，请稍后再试~","nowTime":1621551005,"ret":10218}
+                if (data['ret'] === 10218 && !hasSend && (new Date().getHours() % 6 === 0)) {
+                  hasSend = true;
+                  $.msg($.name, '', `京喜工厂拼团瓜分电力活动团ID（activeId）已失效\n请联系作者等待更新`);
+                  if ($.isNode()) await notify.sendNotify($.name, `京喜工厂拼团瓜分电力活动团ID（activeId）已失效\n请联系作者等待更新`)
+                }
               console.log(`开团异常：${JSON.stringify(data)}`);
             }
           }
@@ -1334,7 +1349,7 @@ async function showMsg() {
 function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
-    $.get({url: `http://jd.turinglabs.net/api/v2/jd/jxfactory/read/${randomCount}/`, 'timeout': 10000}, (err, resp, data) => {
+    $.get({url: `http://www.helpu.cf/jdcodes/getcode.php?type=jxfactory&num=${randomCount}`, 'timeout': 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -1352,6 +1367,30 @@ function readShareCode() {
       }
     })
     await $.wait(10000);
+    resolve()
+  })
+}
+  //提交互助码
+  function submitCode() {
+    return new Promise(async resolve => {
+    $.get({url: `http://www.helpu.cf/jdcodes/submit.php?code=${myInviteCode}&type=jxfactory`, timeout: 10000}, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (data) {
+            //console.log(`随机取个${randomCount}码放到您固定的互助码后面(不影响已有固定互助)`)
+            data = JSON.parse(data);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+    await $.wait(15000);
     resolve()
   })
 }
