@@ -625,16 +625,6 @@
       }
     },
     {
-      "name": "京东试用",
-      "type": "cron",
-      "time": "40 8 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_try.js"
-      }
-    },
-    {
       "name": "京东电竞经理",
       "type": "cron",
       "time": "40 10 * * *",
@@ -642,16 +632,6 @@
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_djjl.js"
-      }
-    },
-    {
-      "name": "京东全民挖现金",
-      "type": "cron",
-      "time": "50 0-23/8 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_wxj.js"
       }
     },
     {
