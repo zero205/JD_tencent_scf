@@ -1443,8 +1443,8 @@ function requireConfig() {
         }
       })
     } else {
-      if ($.getdata('jd_jxFactory')) $.shareCodesArr = $.getdata('jd_jxFactory').split('\n').filter(item => item !== "" && item !== null && item !== undefined);
-      console.log(`\nBoxJs设置的${$.name}好友邀请码:${$.getdata('jd_jxFactory')}\n`);
+      if ($.getdata('DREAM_FACTORY_SHARE_CODES')) $.shareCodesArr = $.getdata('DREAM_FACTORY_SHARE_CODES').split('\n').filter(item => item !== "" && item !== null && item !== undefined);
+      console.log(`\nBoxJs设置的${$.name}好友邀请码:${$.getdata('DREAM_FACTORY_SHARE_CODES')}\n`);
     }
     // console.log(`\n种豆得豆助力码::${JSON.stringify($.shareCodesArr)}`);
     console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
