@@ -1352,8 +1352,9 @@ if (process.env.JD_TRY === 'true') {
         };
     }
 } else {
+    console.log(`\n本脚本默认不运行，也不建议运行\n需要运行的请自行添加环境变量：JD_TRY，值填：true\n`)
     console.log(`\n您未设置运行此脚本，结束运行！！\n`)
-    process.exit(0);
+    return;
 }
 function totalBean() {
     const _0x386891 = a0_0x472acf,
