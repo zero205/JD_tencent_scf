@@ -74,6 +74,13 @@ let randomCount = $.isNode() ? 10 : 3;
       await shareCodesFormat();
       await jdPlantBean();
       await showMsg();
+      console.log(`🥑种豆得豆-开始提交互助码！🥑`);
+      const submitCodeRes = await submitCode();
+      if (submitCodeRes && submitCodeRes.code === 200) {
+         console.log(`🥑种豆得豆-互助码提交成功！🥑`);
+      }else if (submitCodeRes.code === 300) {
+         console.log(`🥑种豆得豆-互助码已提交！🥑`);
+      }
     }
   }
   if ($.isNode() && allMessage) {
@@ -94,13 +101,6 @@ async function jdPlantBean() {
       const shareUrl = $.plantBeanIndexResult.data.jwordShareInfo.shareUrl
       $.myPlantUuid = getParam(shareUrl, 'plantUuid')
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.myPlantUuid}\n`);
-      console.log(`🥑种豆得豆-开始提交互助码！🥑`);
-      const submitCodeRes = await submitCode();
-      if (submitCodeRes && submitCodeRes.code === 200) {
-         console.log(`🥑种豆得豆-互助码提交成功！🥑`);
-      }else if (submitCodeRes.code === 300) {
-         console.log(`🥑种豆得豆-互助码已提交！🥑`);
-      }
       roundList = $.plantBeanIndexResult.data.roundList;
       currentRoundId = roundList[1].roundId;//本期的roundId
       lastRoundId = roundList[0].roundId;//上期的roundId

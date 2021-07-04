@@ -70,6 +70,13 @@ let randomCount = $.isNode() ? 10 : 5;
       option = {};
       await shareCodesFormat();
       await jdPet();
+      console.log(`🐶东东萌宠-开始提交互助码！🐶`);
+      const submitCodeRes = await submitCode();
+      if (submitCodeRes && submitCodeRes.code === 200) {
+         console.log(`🐶东东萌宠-互助码提交成功！🐶`);
+      }else if (submitCodeRes.code === 300) {
+         console.log(`🐶东东萌宠-互助码已提交！🐶`);
+      }
     }
   }
   if ($.isNode() && allMessage && $.ctrTemp) {
@@ -121,13 +128,6 @@ async function jdPet() {
         return
       }
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.petInfo.shareCode}\n`);
-         console.log(`🐶东东萌宠-开始提交互助码！🐶`);
-      const submitCodeRes = await submitCode();
-      if (submitCodeRes && submitCodeRes.code === 200) {
-         console.log(`🐶东东萌宠-互助码提交成功！🐶`);
-      }else if (submitCodeRes.code === 300) {
-         console.log(`🐶东东萌宠-互助码已提交！🐶`);
-      }
       await taskInit();
       if ($.taskInit.resultCode === '9999' || !$.taskInit.result) {
         console.log('初始化任务异常, 请稍后再试');

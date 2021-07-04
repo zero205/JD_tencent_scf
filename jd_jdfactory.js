@@ -95,6 +95,9 @@ async function jdFactory() {
     if ($.newUser === 1) return
     await jdfactory_collectElectricity();//收集产生的电量
     await jdfactory_getTaskDetail();
+    await doTask();
+    await algorithm();//投入电力逻辑
+    await showMsg();
     console.log(`🏭东东工厂-开始提交互助码！🏭`);
     const submitCodeRes = await submitCode();
     if (submitCodeRes && submitCodeRes.code === 200) {
@@ -102,9 +105,6 @@ async function jdFactory() {
     }else if (submitCodeRes.code === 300) {
         console.log(`🏭东东工厂-互助码已提交！🏭`);
     }
-    await doTask();
-    await algorithm();//投入电力逻辑
-    await showMsg();
   } catch (e) {
     $.logErr(e)
   }

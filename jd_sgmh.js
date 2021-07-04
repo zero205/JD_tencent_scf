@@ -50,7 +50,7 @@ if ($.isNode()) {
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
 !(async () => {
   if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
+    $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', { "open-url": "https://bean.m.jd.com/" });
     return;
   }
   await requireConfig();
@@ -67,7 +67,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
       await shareCodesFormat();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
 
         if ($.isNode()) {
           await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
@@ -76,6 +76,13 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
       }
       await interact_template_getHomeData()
       // await showMsg();
+      console.log(`📦闪购盲盒-开始提交互助码！📦`);
+      const submitCodeRes = await submitCode();
+      if (submitCodeRes && submitCodeRes.code === 200) {
+        console.log(`📦闪购盲盒-互助码提交成功！📦`);
+      } else if (submitCodeRes.code === 300) {
+        console.log(`📦闪购盲盒-互助码已提交！📦`);
+      }
     }
   }
 })()
@@ -117,14 +124,7 @@ function interact_template_getHomeData(timeout = 0) {
             //签到
             if (data.data.result.taskVos[i].taskName === '邀请好友助力') {
               console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.taskVos[i].assistTaskDetailVo.taskToken}\n`);
-              console.log(`📦闪购盲盒-开始提交互助码！📦`);
               myInviteCode = data.data.result.taskVos[i].assistTaskDetailVo.taskToken;
-              const submitCodeRes = await submitCode();
-              if (submitCodeRes && submitCodeRes.code === 200) {
-                console.log(`📦闪购盲盒-互助码提交成功！📦`);
-              }else if (submitCodeRes.code === 300) {
-                console.log(`📦闪购盲盒-互助码已提交！📦`);
-              }
               for (let code of $.newShareCodes) {
                 if (!code) continue
                 await harmony_collectScore(code, data.data.result.taskVos[i].taskId);
