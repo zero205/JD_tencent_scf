@@ -192,7 +192,6 @@ jobs:
       - name: "安装依赖"
         run: |
           npm install
-          npm install canvas
           npm install tencentcloud-sdk-nodejs
 
       - name: "部署到腾讯云函数"
