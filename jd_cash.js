@@ -28,7 +28,7 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 let helpAuthor = true;
-const randomCount = $.isNode() ? 0 : 5;
+const randomCount = $.isNode() ? 0 : 0;
 let cash_exchange = false;//是否消耗2元红包兑换200京豆，默认否
 const inviteCodes = [
   `eU9YL5XqGLxSmRSAkwxR@eU9YaO7jMvwh-W_VzyUX0Q@eU9YaurkY69zoj3UniVAgg@eU9YaOnjYK4j-GvWmXIWhA@eU9YMZ_gPpRurC-foglg@eU9Ya77gZK5z-TqHn3UWhQ@eU9Yaui2ZP4gpG-Gz3EThA@eU9YaeizbvQnpG_SznIS0w@eU9Yab7gZ_py92rTyXcS0g@eU9Ya--7b65zpG7Umnsagw@eU9YarmyNagj8WzWmXQa1w@Ihgyb-q1YPkv9Wm6iw@eU9YEKXUL5VfmzSDggxO@eU9YaO2xZqhyo2jTwiYb3w@eU9YNJrlA41BkQ6JjRpV@eU9YaOS7M_x0pWiDzCZC3w@eU9Ya-7mN651-TuHwnMVhw`,
@@ -148,13 +148,13 @@ function index(info=false) {
               }
               myInviteCode = data.data.result.inviteCode;
               $.shareDate = data.data.result.shareDate;
-              console.log(`💰签到领现金-开始提交互助码💰`);
-              const submitCodeRes = await submitCode();
-              if (submitCodeRes && submitCodeRes.code === 200) {
-                console.log(`💰签到领现金-互助码提交成功！💰`);
-              }else if (submitCodeRes.code === 300) {
-                console.log(`💰签到领现金-互助码已提交！💰`);
-              }
+              // console.log(`💰签到领现金-开始提交互助码💰`);
+              // const submitCodeRes = await submitCode();
+              // if (submitCodeRes && submitCodeRes.code === 200) {
+              //   console.log(`💰签到领现金-互助码提交成功！💰`);
+              // }else if (submitCodeRes.code === 300) {
+              //   console.log(`💰签到领现金-互助码已提交！💰`);
+              // }
               $.log(`shareDate: ${$.shareDate}`)
               console.log(helpInfo)
               for(let task of data.data.result.taskInfos){

@@ -35,7 +35,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
-const randomCount = $.isNode() ? 10 : 5;
+const randomCount = $.isNode() ? 0 : 0;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 if ($.isNode()) {
@@ -98,13 +98,13 @@ async function jdFactory() {
     await doTask();
     await algorithm();//投入电力逻辑
     await showMsg();
-    console.log(`🏭东东工厂-开始提交互助码！🏭`);
-    const submitCodeRes = await submitCode();
-    if (submitCodeRes && submitCodeRes.code === 200) {
-        console.log(`🏭东东工厂-互助码提交成功！🏭`);
-    }else if (submitCodeRes.code === 300) {
-        console.log(`🏭东东工厂-互助码已提交！🏭`);
-    }
+    // console.log(`🏭东东工厂-开始提交互助码！🏭`);
+    // const submitCodeRes = await submitCode();
+    // if (submitCodeRes && submitCodeRes.code === 200) {
+    //     console.log(`🏭东东工厂-互助码提交成功！🏭`);
+    // }else if (submitCodeRes.code === 300) {
+    //     console.log(`🏭东东工厂-互助码已提交！🏭`);
+    // }
   } catch (e) {
     $.logErr(e)
   }

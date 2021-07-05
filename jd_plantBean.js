@@ -44,7 +44,7 @@ let currentRoundId = null;//本期活动id
 let lastRoundId = null;//上期id
 let roundList = [];
 let awardState = '';//上期活动的京豆是否收取
-let randomCount = $.isNode() ? 10 : 3;
+let randomCount = $.isNode() ? 0 : 0;
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -74,13 +74,13 @@ let randomCount = $.isNode() ? 10 : 3;
       await shareCodesFormat();
       await jdPlantBean();
       await showMsg();
-      console.log(`🥑种豆得豆-开始提交互助码！🥑`);
-      const submitCodeRes = await submitCode();
-      if (submitCodeRes && submitCodeRes.code === 200) {
-         console.log(`🥑种豆得豆-互助码提交成功！🥑`);
-      }else if (submitCodeRes.code === 300) {
-         console.log(`🥑种豆得豆-互助码已提交！🥑`);
-      }
+      // console.log(`🥑种豆得豆-开始提交互助码！🥑`);
+      // const submitCodeRes = await submitCode();
+      // if (submitCodeRes && submitCodeRes.code === 200) {
+      //    console.log(`🥑种豆得豆-互助码提交成功！🥑`);
+      // }else if (submitCodeRes.code === 300) {
+      //    console.log(`🥑种豆得豆-互助码已提交！🥑`);
+      // }
     }
   }
   if ($.isNode() && allMessage) {

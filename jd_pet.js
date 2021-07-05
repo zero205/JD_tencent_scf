@@ -39,7 +39,7 @@ let message = '', subTitle = '', option = {};
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let goodsUrl = '', taskInfoKey = [];
-let randomCount = $.isNode() ? 10 : 5;
+let randomCount = $.isNode() ? 0 : 0;
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -70,13 +70,13 @@ let randomCount = $.isNode() ? 10 : 5;
       option = {};
       await shareCodesFormat();
       await jdPet();
-      console.log(`🐶东东萌宠-开始提交互助码！🐶`);
-      const submitCodeRes = await submitCode();
-      if (submitCodeRes && submitCodeRes.code === 200) {
-         console.log(`🐶东东萌宠-互助码提交成功！🐶`);
-      }else if (submitCodeRes.code === 300) {
-         console.log(`🐶东东萌宠-互助码已提交！🐶`);
-      }
+      // console.log(`🐶东东萌宠-开始提交互助码！🐶`);
+      // const submitCodeRes = await submitCode();
+      // if (submitCodeRes && submitCodeRes.code === 200) {
+      //    console.log(`🐶东东萌宠-互助码提交成功！🐶`);
+      // }else if (submitCodeRes.code === 300) {
+      //    console.log(`🐶东东萌宠-互助码已提交！🐶`);
+      // }
     }
   }
   if ($.isNode() && allMessage && $.ctrTemp) {
