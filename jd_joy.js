@@ -7,18 +7,20 @@
  完成度 1%，要用的手动执行，先不加cron了
  默认80，10、20、40、80可选
  export feedNum = 80
+ 默认双人跑
+ export JD_JOY_teamLevel = 2
  */
 
  const $ = new Env("宠汪汪二代目")
  console.log('\n====================Hello World====================\n')
  
- const https = require('https');
  const http = require('http');
  const stream = require('stream');
  const zlib = require('zlib');
  const vm = require('vm');
  const PNG = require('png-js');
  const UA = require('./USER_AGENTS.js').USER_AGENT;
+ const fs = require("fs");
  
  
  Math.avg = function average() {
@@ -525,7 +527,7 @@
    };
  }
  
- let cookiesArr = [], cookie = '', jdFruitShareArr = [], isBox = false, notify, newShareCodes, allMessage = '';
+ let cookiesArr = [], cookie = '', notify;
  $.get = injectToRequest($.get.bind($))
  $.post = injectToRequest($.post.bind($))
  
@@ -559,18 +561,17 @@
        message = '';
        subTitle = '';
  
+       await run('detail/v2');
+       await run();
        await feed();
  
        let tasks = await taskList();
- 
        for (let tp of tasks.datas) {
          console.log(tp.taskName, tp.receiveStatus)
-         // if (tp.taskName === '每日签到' && tp.receiveStatus === 'chance_left')
-         //   await sign();
  
          if (tp.receiveStatus === 'unreceive') {
            await award(tp.taskType);
-           await $.wait(5000);
+           await $.wait(3000);
          }
          if (tp.taskName === '浏览频道') {
            for (let i = 0; i < 3; i++) {
@@ -579,11 +580,12 @@
              for (let t of followChannelList['datas']) {
                if (!t.status) {
                  console.log('┖', t['channelName'])
+                 await beforeTask('follow_channel', t.channelId);
                  await doTask(JSON.stringify({"channelId": t.channelId, "taskType": 'FollowChannel'}))
-                 await $.wait(5000)
+                 await $.wait(3000)
                }
              }
-             await $.wait(5000)
+             await $.wait(3000)
            }
          }
          if (tp.taskName === '逛会场') {
@@ -594,7 +596,7 @@
                  "marketLink": `${t.marketLink || t.marketLinkH5}`,
                  "taskType": "ScanMarket"
                }))
-               await $.wait(5000)
+               await $.wait(3000)
              }
            }
          }
@@ -602,16 +604,20 @@
            for (let t of tp.followGoodList) {
              if (!t.status) {
                console.log('┖', t.skuName)
+               await beforeTask('follow_good', t.sku)
+               await $.wait(1000)
                await doTask(`sku=${t.sku}`, 'followGood')
-               await $.wait(5000)
+               await $.wait(3000)
              }
            }
          }
          if (tp.taskName === '关注店铺') {
            for (let t of tp.followShops) {
              if (!t.status) {
-               await doTask(`shopId=${t.shopId}`, 'followShop')
-               await $.wait(5000)
+               await beforeTask('follow_shop', t.shopId);
+               await $.wait(1000);
+               await followShop(t.shopId)
+               await $.wait(2000);
              }
            }
          }
@@ -642,7 +648,6 @@
  function taskList() {
    return new Promise(resolve => {
      $.get({
-       // url: `https://jdjoy.jd.com/common/pet/getPetTaskConfig?reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE`,
        url: `https://jdjoy.jd.com/common/pet/getPetTaskConfig?reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE`,
        headers: {
          'Host': 'jdjoy.jd.com',
@@ -669,6 +674,51 @@
    })
  }
  
+ function beforeTask(fn, shopId) {
+   return new Promise(resolve => {
+     $.get({
+       url: `https://jdjoy.jd.com/common/pet/icon/click?iconCode=${fn}&linkAddr=${shopId}&reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE`,
+       headers: {
+         'Accept': '*/*',
+         'Connection': 'keep-alive',
+         'Content-Type': 'application/json',
+         'Origin': 'https://h5.m.jd.com',
+         'Accept-Language': 'zh-cn',
+         'Host': 'jdjoy.jd.com',
+         'User-Agent': 'jdapp;iPhone;10.0.6;12.4.1;fc13275e23b2613e6aae772533ca6f349d2e0a86;network/wifi;ADID/C51FD279-5C69-4F94-B1C5-890BC8EB501F;model/iPhone11,6;addressid/589374288;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
+         'Referer': 'https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html',
+         'cookie': cookie
+       }
+     }, (err, resp, data) => {
+       console.log('before task:', data);
+       resolve();
+     })
+   })
+ }
+ 
+ function followShop(shopId) {
+   return new Promise(resolve => {
+     $.post({
+       url: `https://jdjoy.jd.com/common/pet/followShop?reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE`,
+       headers: {
+         'User-Agent': 'jdapp;iPhone;10.0.6;12.4.1;fc13275e23b2613e6aae772533ca6f349d2e0a86;network/wifi;ADID/C51FD279-5C69-4F94-B1C5-890BC8EB501F;model/iPhone11,6;addressid/589374288;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
+         'Accept-Language': 'zh-cn',
+         'Referer': 'https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html?babelChannel=ttt12&lng=0.000000&lat=0.000000&sid=87e644ae51ba60e68519b73d1518893w&un_area=12_904_3373_62101',
+         'Host': 'jdjoy.jd.com',
+         'Origin': 'https://h5.m.jd.com',
+         'Accept': '*/*',
+         'Connection': 'keep-alive',
+         'Content-Type': 'application/x-www-form-urlencoded',
+         'cookie': cookie
+       },
+       body: `shopId=${shopId}`
+     }, (err, resp, data) => {
+       console.log(data)
+       resolve();
+     })
+   })
+ }
+ 
  function doTask(body, fnId = 'scan') {
    return new Promise(resolve => {
      $.post({
@@ -676,7 +726,7 @@
        headers: {
          'Host': 'jdjoy.jd.com',
          'accept': '*/*',
-         'content-type': fnId === 'followGood' ? 'application/x-www-form-urlencoded' : 'application/json',
+         'content-type': fnId === 'followGood' || fnId === 'followShop' ? 'application/x-www-form-urlencoded' : 'application/json',
          'origin': 'https://h5.m.jd.com',
          'accept-language': 'zh-cn',
          'referer': 'https://h5.m.jd.com/',
@@ -782,27 +832,50 @@
    })
  }
  
- function sign() {
+ function run(fn = 'match') {
+   let level = process.env.JD_JOY_teamLevel ? process.env.JD_JOY_teamLevel : 2
    return new Promise(resolve => {
      $.get({
-       url: `https://jdjoy.jd.com/common/pet/sign?reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE&taskType=SignEveryDay`,
+       url: `https://jdjoy.jd.com/common/pet/combat/${fn}?teamLevel=${level}&reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE`,
        headers: {
          'Host': 'jdjoy.jd.com',
-         'accept': '*/*',
-         'content-type': 'application/json',
+         'sec-fetch-mode': 'cors',
          'origin': 'https://h5.m.jd.com',
-         'accept-language': 'zh-cn',
+         'content-type': 'application/json',
+         'accept': '*/*',
+         'x-requested-with': 'com.jingdong.app.mall',
+         'sec-fetch-site': 'same-site',
+         'referer': 'https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html',
+         'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
          "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
-         'referer': 'https://h5.m.jd.com/',
-         'Content-Type': 'application/json; charset=UTF-8',
          'cookie': cookie
        },
-     }, (err, resp, data) => {
+     }, async (err, resp, data) => {
        try {
-         data = JSON.parse(data);
-         data.success ? console.log(`\t签到成功！`) : console.log('\t签到失败！', JSON.stringify(data))
+         if (fn === 'receive') {
+           console.log('领取赛跑奖励：', data)
+         } else {
+           data = JSON.parse(data);
+           let race = data.data.petRaceResult
+           if (race === 'participate') {
+             console.log('匹配成功！')
+           } else if (race === 'unbegin') {
+             console.log('还未开始！')
+           } else if (race === 'matching') {
+             console.log('正在匹配！')
+             await $.wait(2000)
+             await run()
+           } else if (race === 'unreceive') {
+             console.log('开始领奖')
+             await run('receive')
+           } else if (race === 'time_over') {
+             console.log('不在比赛时间')
+           } else {
+             console.log('这是什么！', data)
+           }
+         }
        } catch (e) {
-         $.logErr(e);
+         console.log(e)
        } finally {
          resolve();
        }
@@ -815,7 +888,6 @@
      notify = $.isNode() ? require('./sendNotify') : '';
      //Node.js用户请在jdCookie.js处填写京东ck;
      const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-     const jdPetShareCodes = '';
      //IOS等用户直接用NobyDa的jd cookie
      if ($.isNode()) {
        Object.keys(jdCookieNode).forEach((item) => {
@@ -829,18 +901,6 @@
        cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
      }
      console.log(`共${cookiesArr.length}个京东账号\n`)
-     $.shareCodesArr = [];
-     if ($.isNode()) {
-       Object.keys(jdPetShareCodes).forEach((item) => {
-         if (jdPetShareCodes[item]) {
-           $.shareCodesArr.push(jdPetShareCodes[item])
-         }
-       })
-     } else {
-       // if ($.getdata('jd_pet_inviter')) $.shareCodesArr = $.getdata('jd_pet_inviter').split('\n').filter(item => !!item);
-       // console.log(`\nBoxJs设置的${$.name}好友邀请码:${$.getdata('jd_pet_inviter') ? $.getdata('jd_pet_inviter') : '暂无'}\n`);
-     }
-     // console.log(`您提供了${$.shareCodesArr.length}个账号的东东萌宠助力码\n`);
      resolve()
    })
  }
@@ -904,14 +964,9 @@
  
  function writeFile(text) {
    if ($.isNode()) {
-     const fs = require('fs');
      fs.writeFile('a.json', text, () => {
      })
    }
- }
- 
- function random() {
-   return Math.round(Math.random() * 2)
  }
  
  // prettier-ignore
