@@ -18,6 +18,7 @@ jobs:
       JD_USER_AGENT: ${{ secrets.JD_USER_AGENT}}
       TENCENTSCF_SOURCE_TYPE: ${{ secrets.TENCENTSCF_SOURCE_TYPE}}
       TENCENTSCF_SOURCE_URL: ${{ secrets.TENCENTSCF_SOURCE_URL}}
+      TENCENTSCF_MEMORYSIZE: ${{ secrets.TENCENTSCF_MEMORYSIZE}}
       PUSH_KEY: ${{ secrets.PUSH_KEY}}
       BARK_PUSH: ${{ secrets.BARK_PUSH}}
       BARK_SOUND: ${{ secrets.BARK_SOUND}}
