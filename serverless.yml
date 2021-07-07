@@ -57,9 +57,9 @@ inputs:
     - timer: #东东超市 #京喜财富岛 #京喜牧场 #京享值PK
         parameters:
           name: cfd_superMarket
-          cronExpression: "0 30 8,12,19,6-23/4 * * * *"
+          cronExpression: "0 30 8,12,19,6-23/3 * * * *"
           enable: true
-          argument: jd_cfd&jd_superMarket&jd_jxmc&jd_ddo_pk
+          argument: jd_cfd&jd_superMarket&jd_jxmc&jd_joy_park&jd_ddo_pk
     - timer: ##特物z #汪汪乐园
         parameters:
           name: superBrand_joypark

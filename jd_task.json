@@ -565,6 +565,16 @@
       }
     },
     {
+      "name": "汪汪乐园合成joy",
+      "type": "cron",
+      "time": "25 5-23/3 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_joy_park.js"
+      }
+    },
+    {
       "name": "汪汪乐园任务",
       "type": "cron",
       "time": "15 9 * * *",
