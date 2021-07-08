@@ -585,6 +585,16 @@
       }
     },
     {
+      "name": "粉丝互动",
+      "type": "cron",
+      "time": "15 8 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_wxFans.js"
+      }
+    },
+    {
       "name": "超级无线组队分京豆",
       "type": "cron",
       "time": "15 6 * * 2",
