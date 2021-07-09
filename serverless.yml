@@ -57,7 +57,7 @@ inputs:
     - timer: #东东超市 #京喜财富岛 #京喜牧场 #京享值PK #燃动夏季
         parameters:
           name: cfd_superMarket_jxmc_joypark_pk_summer
-          cronExpression: "0 30 8,12,19,6-23/3 * * * *"
+          cronExpression: "0 0,30 0,8,12,19,6-23/3 * * * *"
           enable: true
           argument: jd_cfd&jd_superMarket&jd_jxmc&jd_joy_park&jd_ddo_pk&jd_summer_movement
     - timer: ##特物z #汪汪乐园 #粉丝互动
