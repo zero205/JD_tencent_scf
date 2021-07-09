@@ -3,7 +3,6 @@
  *  25 0,6-23/3 * * *
  *  脚本会助力作者百元守卫战 参数helpAuthorFlag 默认助力
  * */
-// @grant    require
  const $ = new Env('燃动夏季');
  const notify = $.isNode() ? require('./sendNotify') : '';
  const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -124,12 +123,14 @@
        await takePostRequest('help');
        await $.wait(2000);
      }
-   }
+    }
    if(helpAuthorFlag){
      let res = [],res2 = [],res3 = []; //zero205：我自己的互助码加在star大佬后面
-     res = await getAuthorShareCode('http://cdn.trueorfalse.top/265ec75af39345ec922e57105206b4b7/');
-     res2 = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json');
-     res3 = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/jd_zero205_summer.json');
+     try{
+       res = await getAuthorShareCode('http://cdn.trueorfalse.top/392b03aabdb848d0b7e5ae499ef24e35/');
+       res2 = await getAuthorShareCode(`https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json?${new Date()}`);
+       res3 = await getAuthorShareCode(`https://cdn.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/jd_zero205_summer.json?${new Date()}`);
+     }catch (e) {}
      if(!res){res = [];}
      if(!res2){res2 = [];}
      if(!res3){res3 = [];}
@@ -195,6 +196,10 @@
    console.log(`开始做任务`)
    await doTask();
    await $.wait(1000);
+   console.log(`开始做微信端任务`)
+   await takePostRequest('wxTaskDetail');
+   await $.wait(1000)
+   await doTask();
    console.log('获取百元守卫战信息')
    $.guradHome = {};
    await takePostRequest('olypicgames_guradHome');
@@ -298,6 +303,10 @@
        body = `functionId=olympicgames_getFeedDetail&body={"taskId":"${$.taskId}"}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`;
        myRequest = await getPostRequest(body);
        break;
+     case 'wxTaskDetail':
+       body = `functionId=olympicgames_getTaskDetail&body={"taskId":"","appSign":"2"}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`;
+       myRequest = await getPostRequest(body);
+       break
      case 'olympicgames_collectCurrency':
        body = await getPostBody(type);
        myRequest = await getPostRequest(body);
@@ -326,6 +335,8 @@
      myRequest['url'] = `https://api.m.jd.com/client.action?advId=olympicgames_doTaskDetail`;
    }else if( type === 'help' ||  type === 'byHelp'){
      myRequest['url'] = `https://api.m.jd.com/client.action?advId=olympicgames_assist`;
+   }else if( type === 'wxTaskDetail'){
+     myRequest['url'] = `https://api.m.jd.com/client.action?advId=olympicgames_getTaskDetail`;
    }else{
      myRequest['url'] = `https://api.m.jd.com/client.action?advId=${type}`;
    }
@@ -380,6 +391,13 @@
              'max': false
            });
          }
+         $.taskList =  data.data.result.taskVos || [];
+       }else{
+         console.log(JSON.stringify(data));
+       }
+       break;
+     case 'wxTaskDetail':
+       if (data.code === 0 && data.data.result) {
          $.taskList =  data.data.result.taskVos || [];
        }else{
          console.log(JSON.stringify(data));
@@ -557,7 +575,7 @@
  function getAuthorShareCode(url) {
    return new Promise(async resolve => {
      const options = {
-       "url": `${url}?${new Date()}`,
+       "url": `${url}`,
        "timeout": 10000,
        "headers": {
          "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
