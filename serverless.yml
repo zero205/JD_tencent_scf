@@ -30,7 +30,7 @@ inputs:
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: jd_unsubscribe&jd_lotteryMachine&jd_car&jd_ms&jd_jin_tie&jd_get_share_code
-    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #美丽研究院
+    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke_beauty
           cronExpression: "0 5 0-18/6,8 * * * *"
@@ -47,11 +47,11 @@ inputs:
           name: cash_smallhome_live
           cronExpression: "0 0 0-16/8,20 * * * *"
           enable: true
-          argument: jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_redPacket&jd_mohe
+          argument: jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_redPacket&jd_mohe&jd_sddd
     - timer: #健康社区 #天天提鹅 #抢京豆 #燃动夏季
         parameters:
           name: healthcommunity_dailyegg_qjd_summer
-          cronExpression: "2 15,45 0,6-23/3 * * * *"
+          cronExpression: "2 15,45 0,8,6-23/2 * * * *"
           enable: true
           argument: jd_z_health_community&jd_daily_egg&jd_qjd&jd_zjb&jd_summer_movement
     - timer: #东东超市 #京喜财富岛 #京喜牧场
@@ -72,12 +72,12 @@ inputs:
           cronExpression: "0 10 0 * * * *"
           enable: true
           argument: jd_bean_change&jd_crazy_joy&jd_rankingList&jd_bean_home&jd_sgmh&jd_jxd&jd_superBrand&jd_superBrand&jd_joy_park_task&jd_wxFans
-    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #点点券 #女装盲盒 #电竞经理 #东东乐园 #柠檬零食街 #早起福利 #燃动夏季店铺任务
+    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #点点券 #女装盲盒 #电竞经理 #东东乐园 #柠檬零食街 #早起福利 #燃动夏季店铺任务 #燃动夏季下注
         parameters:
           name: pigPet_syj_kd_jdzz_nzmh_necklace_nzmh_djjl_ddly_lsj
           cronExpression: "0 20 0,6,20 * * * *"
           enable: true
-          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_necklace&jd_nzmh&jd_djjl&jd_ddly&jd_lsj&jd_zqfl&jd_summer_movement_map
+          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_necklace&jd_nzmh&jd_djjl&jd_ddly&jd_lsj&jd_zqfl&jd_summer_movement_map&jd_summer_movement_bet
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的
