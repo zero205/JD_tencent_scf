@@ -14,7 +14,7 @@
  const SYNTAX_MODULE = '!function(n){var r={};function o(e){if(r[e])';
  const REG_SCRIPT = /<script type="text\/javascript" src="([^><]+\/(app\.\w+\.js))\">/gm;
  const REG_ENTRY = /(__webpack_require__\(__webpack_require__.s=)(\d+)(?=\)})/;
- const needModuleId = 355
+ const needModuleId = 356
  const DATA = {appid:'50085',sceneid:'OY217hPageh5'};
  let smashUtils;
  class MovementFaker {

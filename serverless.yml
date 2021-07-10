@@ -30,12 +30,12 @@ inputs:
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: jd_unsubscribe&jd_lotteryMachine&jd_car&jd_ms&jd_jin_tie&jd_get_share_code
-    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包
+    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #健康社区
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke_beauty
           cronExpression: "0 5 0-18/6,8 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke
+          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_z_health_community
     - timer: #宠汪汪 #摇钱树 #京东种豆得豆 #京喜工厂 #东东工厂 #健康社区收取能量
         parameters:
           name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_healthenergy
@@ -48,12 +48,12 @@ inputs:
           cronExpression: "0 0 0-16/8,20 * * * *"
           enable: true
           argument: jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_redPacket&jd_mohe&jd_sddd
-    - timer: #健康社区 #天天提鹅 #抢京豆 #燃动夏季
+    - timer: #天天提鹅 #抢京豆 #燃动夏季
         parameters:
           name: healthcommunity_dailyegg_qjd_summer
-          cronExpression: "2 15,45 0,8,6-23/2 * * * *"
+          cronExpression: "2 15,45 8,8-23/2 * * * *"
           enable: true
-          argument: jd_z_health_community&jd_daily_egg&jd_qjd&jd_zjb&jd_summer_movement
+          argument: jd_daily_egg&jd_qjd&jd_zjb&jd_summer_movement_help&jd_summer_movement
     - timer: #东东超市 #京喜财富岛 #京喜牧场
         parameters:
           name: cfd_superMarket_jxmc
