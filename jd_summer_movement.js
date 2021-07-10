@@ -125,7 +125,7 @@ const UA = $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT :
       await $.wait(2000);
     }
     if ($.zero205inviteList && $.zero205inviteList.length) console.log(`\n******开始帮【zero205】助力*********\n`);
-    for (let k = 0; k < $.inviteList.length && $.canHelp; k++) {
+    for (let k = 0; k < $.zero205inviteList.length && $.canHelp; k++) {
       $.InviteId = $.zero205inviteList[k];
       console.log(`${$.UserName} 去助力 ${$.zero205inviteList[k]}`);
       await takePostRequest('help');
