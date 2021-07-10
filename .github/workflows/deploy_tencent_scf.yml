@@ -87,6 +87,7 @@ jobs:
       SHARECODE_WXJ: ${{ secrets.SHARECODE_WXJ}}
       HELPAUTHOR_WXJ: ${{ secrets.HELPAUTHOR_WXJ}}
       JXNC_NOTIFY_LEVEL: ${{ secrets.JXNC_NOTIFY_LEVEL}}
+      summer_movement_ShHelpFlag: ${{ secrets.summer_movement_ShHelpFlag}}
       
     steps:
       - name: Checkout
@@ -184,6 +185,7 @@ jobs:
           if [ $JD_WXJ ]; then sed -i "/variables/a\      JD_WXJ: $JD_WXJ" serverless.yml; fi;
           if [ $SHARECODE_WXJ ]; then sed -i "/variables/a\      SHARECODE_WXJ: $SHARECODE_WXJ" serverless.yml; fi;
           if [ $HELPAUTHOR_WXJ ]; then sed -i "/variables/a\      HELPAUTHOR_WXJ: $HELPAUTHOR_WXJ" serverless.yml; fi;
+          if [ $summer_movement_ShHelpFlag ]; then sed -i "/variables/a\      summer_movement_ShHelpFlag: $summer_movement_ShHelpFlag" serverless.yml; fi;
           cat serverless.yml
           env
 

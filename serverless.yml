@@ -39,9 +39,9 @@ inputs:
     - timer: #宠汪汪 #摇钱树 #京东种豆得豆 #京喜工厂 #东东工厂 #健康社区收取能量
         parameters:
           name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_healthenergy
-          cronExpression: "0 3 0,6-23/1 * * * *"
+          cronExpression: "0 20 0,6-23/1 * * * *"
           enable: true
-          argument: jd_moneyTree&jd_plantBean&jd_dreamFactory&jd_jdfactory&jd_z_health_energy
+          argument: jd_moneyTree&jd_summer_movement_help&jd_plantBean&jd_dreamFactory&jd_jdfactory&jd_z_health_energy
     - timer: #宠汪汪积分兑换京豆 #签到领现金 #东东小窝 #京东直播 #金榜创造营 #全民开红包 #5G超级盲盒
         parameters:
           name: cash_smallhome_live
@@ -53,7 +53,7 @@ inputs:
           name: healthcommunity_dailyegg_qjd_summer
           cronExpression: "2 15,45 8,8-23/2 * * * *"
           enable: true
-          argument: jd_daily_egg&jd_qjd&jd_zjb&jd_summer_movement_help&jd_summer_movement
+          argument: jd_daily_egg&jd_qjd&jd_zjb&jd_summer_movement
     - timer: #东东超市 #京喜财富岛 #京喜牧场
         parameters:
           name: cfd_superMarket_jxmc
