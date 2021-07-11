@@ -172,7 +172,7 @@ function index(info=false) {
                     await $.wait(5000)
                   }
                 }
-                else if (task.type === 16 || task.type===3 || task.type===5 || task.type===17 || task.type===21) {
+                else if (task.type === 15 || task.type===3 || task.type===5 || task.type===17 || task.type===21) {
                   for (let i = task.doTimes; i < task.times; ++i) {
                     console.log(`去做${task.name}任务 ${i+1}/${task.times}`)
                     await doTask(task.type, task.jump.params.url)
@@ -239,7 +239,7 @@ function helpFriend(helpInfo) {
 }
 function doTask(type,taskInfo) {
   return new Promise((resolve) => {
-    $.get(taskUrl("cash_doTask",{"type":type,"taskInfo":taskInfo}), (err, resp, data) => {
+    $.post(taskUrl("cash_doTask",{"taskInfo":taskInfo,"type":type}), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -263,7 +263,7 @@ function doTask(type,taskInfo) {
     })
   })
 }
-function getReward(source = 1) {
+function getReward(source = 2) {
   return new Promise((resolve) => {
     $.get(taskUrl("cash_mob_reward",{"source": Number(source),"rewardNode":""}), (err, resp, data) => {
       try {
@@ -487,7 +487,7 @@ function taskUrl(functionId, body = {}) {
       'Cookie': cookie,
       'Host': 'api.m.jd.com',
       'Connection': 'keep-alive',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
       'Referer': 'http://wq.jd.com/wxapp/pages/hd-interaction/index/index',
       'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       'Accept-Language': 'zh-cn',

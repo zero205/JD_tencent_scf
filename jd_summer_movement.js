@@ -433,7 +433,7 @@ async function takePostRequest(type) {
     case 'shHelp':
     case 'help':
       body = await getPostBody(type);
-      myRequest = await getPostRequest(`zoo_collectScore`, body);
+      myRequest = await getPostRequest(`olympicgames_assist`, body);
       break;
     case 'olympicgames_startTraining':
       body = await getPostBody(type);
