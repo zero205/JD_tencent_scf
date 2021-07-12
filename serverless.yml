@@ -32,7 +32,7 @@ inputs:
           argument: jd_unsubscribe&jd_lotteryMachine&jd_car&jd_ms&jd_jin_tie&jd_get_share_code
     - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #健康社区
         parameters:
-          name: fruit_pet_jxnc_speedsign_speedredpocke_beauty
+          name: fruit_pet_jxnc_speedsign_speedredpocke
           cronExpression: "0 5 0-18/6,8 * * * *"
           enable: true
           argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_z_health_community
@@ -59,7 +59,7 @@ inputs:
           name: cfd_superMarket_jxmc
           cronExpression: "0 30 0,8,12,19,6-23/3 * * * *"
           enable: true
-          argument: jd_cfd&jd_superMarket&jd_jxmc
+          argument: jd_superMarket&jd_jxmc
     - timer: #汪汪乐园 #京享值PK
         parameters:
           name: joypark_pk
@@ -71,7 +71,7 @@ inputs:
           name: beanchange_crazyjoy_rankingList_beanhome_sgmh_jxd
           cronExpression: "0 10 0 * * * *"
           enable: true
-          argument: jd_bean_change&jd_crazy_joy&jd_rankingList&jd_bean_home&jd_sgmh&jd_jxd&jd_superBrand&jd_superBrand&jd_joy_park_task&jd_wxFans
+          argument: jd_bean_change&jd_rankingList&jd_bean_home&jd_sgmh&jd_jxd&jd_superBrand&jd_superBrand&jd_joy_park_task&jd_wxFans
     - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #点点券 #女装盲盒 #电竞经理 #东东乐园 #柠檬零食街 #早起福利
         parameters:
           name: pigPet_syj_kd_jdzz_nzmh_necklace_nzmh_djjl_ddly_lsj
