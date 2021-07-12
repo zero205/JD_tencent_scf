@@ -21,7 +21,8 @@
  const PNG = require('png-js');
  const UA = require('./USER_AGENTS.js').USER_AGENT;
  const fs = require("fs");
- 
+ const { promisify } = require('util');
+ const pipelineAsync = promisify(stream.pipeline);
  
  Math.avg = function average() {
    var sum = 0;
@@ -318,11 +319,10 @@
            let res = response;
            if (res.headers['content-encoding'] === 'gzip') {
              const unzipStream = new stream.PassThrough();
-             stream.pipeline(
-               response,
-               zlib.createGunzip(),
-               unzipStream,
-               reject,
+             pipelineAsync(
+              response,
+              zlib.createGunzip(),
+              unzipStream,
              );
              res = unzipStream;
            }
