@@ -8,7 +8,12 @@ name: jdscript # (必选) 组件实例名称。
 inputs:
   name: scf-${name} # 云函数名称，默认为 ${name}-${stage}-${app}
   enableRoleAuth: true # 默认会尝试创建 SCF_QcsRole 角色，如果不需要配置成 false 即可
-  src: ./
+  src: 
+    src: ./
+    exclude:
+      - '*.!(js)'
+      - '.github/*'
+      - 'backUp/*'
   handler: index.main_handler #入口
   runtime: Nodejs12.16 # 运行环境 默认 Nodejs12.16
   region: ap-guangzhou # 函数所在区域
