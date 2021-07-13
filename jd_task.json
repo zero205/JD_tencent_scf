@@ -96,16 +96,6 @@
       }
     },
     {
-      "name": "京喜财富岛提现",
-      "type": "cron",
-      "time": "0-5/1 0 0 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfdtx.js"
-      }
-    },
-    {
       "name": "摇京豆",
       "type": "cron",
       "time": "6 0 * * *",
@@ -622,16 +612,6 @@
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_dpqd.js"
-      }
-    },
-    {
-      "name": "超级无线组队分京豆",
-      "type": "cron",
-      "time": "15 6 * * 2",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_z_shop_captain.js"
       }
     }
   ]
