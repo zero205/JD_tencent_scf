@@ -605,6 +605,16 @@
       }
     },
     {
+      "name": "天天优惠大乐透",
+      "type": "cron",
+      "time": "50 7 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_DrawEntrance.js"
+      }
+    },
+    {
       "name": "超级无线组队分京豆",
       "type": "cron",
       "time": "15 6 * * 2",
