@@ -28,7 +28,7 @@ inputs:
           name: beansign_clublottery_shop_try
           cronExpression: "0 1 0 * * * *"
           enable: true
-          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_sign&jd_summer_movement_card
+          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_sign&jd_summer_movement_card&jd_dpqd
     - timer: #取关京东店铺商品 #京东抽奖机 #京东汽车 #京东秒秒币 #天天提鹅 #领金贴
         parameters:
           name: unsubscribe_lotteryMachine_car_ms_jintie
