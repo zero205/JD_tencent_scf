@@ -203,19 +203,21 @@ async function movement() {
 
     console.log('\n运动\n')
     $.speedTraining = true;
-    await takePostRequest('olympicgames_startTraining');
-    await $.wait(1000);
-    for (let i = 0; i <= 3; i++) {
-      if ($.speedTraining) {
-        await takePostRequest('olympicgames_speedTraining');
-        await $.wait(1000);
-      } else {
-        break;
+    if(!$.hotFlag){
+      await takePostRequest('olympicgames_startTraining');
+      await $.wait(1000);
+      for(let i=0;i<=3;i++){
+        if($.speedTraining){
+          await takePostRequest('olympicgames_speedTraining');
+          await $.wait(1000);
+        }else{
+          break;
+        }
       }
     }
 
     console.log(`\n做任务\n`);
-    await takePostRequest('olympicgames_getTaskDetail');
+    if(!$.hotFlag) await takePostRequest('olympicgames_getTaskDetail');
     await $.wait(1000);
     //做任务
     for (let i = 0; i < $.taskList.length && !$.hotFlag; i++) {
@@ -336,7 +338,7 @@ async function movement() {
     // 店铺
     console.log(`\n去做店铺任务\n`);
     $.shopInfoList = [];
-    await takePostRequest('qryCompositeMaterials');
+    if(!$.hotFlag) await takePostRequest('qryCompositeMaterials');
     for (let i = 0; i < $.shopInfoList.length; i++) {
       let taskbool = false
       if (!aabbiill()) continue;
@@ -601,19 +603,22 @@ async function dealReturn(type, res) {
         $.feedDetailInfo = data.data.result.addProductVos[0] || [];
       }
       break;
-    case 'add_car':
-      if (data.code === 0) {
-        let acquiredScore = data.data.result.acquiredScore;
-        if (Number(acquiredScore) > 0) {
-          console.log(`加购成功,获得金币:${acquiredScore}`);
-        } else {
-          console.log(`加购成功`);
+      case 'add_car':
+        if (data.code === 0) {
+          if (data.data && data.data.bizCode === 0 && data.data.result && data.data.result.acquiredScore) {
+            let acquiredScore = data.data.result.acquiredScore;
+            if (Number(acquiredScore) > 0) {
+              console.log(`加购成功,获得金币:${acquiredScore}`);
+            } else {
+              console.log(`加购成功`);
+            }
+          } else if (data.data && data.data.bizMsg) {
+            console.log(data.data.bizMsg);
+          } else {
+            console.log(res);
+          }
         }
-      } else {
-        console.log(res);
-        console.log(`加购失败`);
-      }
-      break
+        break
     case 'shHelp':
     case 'help':
       if (data.data && data.data.bizCode === 0) {
