@@ -23,18 +23,18 @@ inputs:
   asyncRunEnable: true # 是否启用异步执行
   installDependency: true # 是否在线安装依赖
   events: #触发器
-    - timer: #签到 #摇京豆 #进店领豆 #京东试用
+    - timer: #签到 #摇京豆 #进店领豆 #京东试用 #京东汽车
         parameters:
           name: beansign_clublottery_shop_try
           cronExpression: "0 1 0 * * * *"
           enable: true
-          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_sign&jd_summer_movement_card&jd_dpqd
-    - timer: #取关京东店铺商品 #京东抽奖机 #京东汽车 #京东秒秒币 #天天提鹅 #领金贴
+          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_sign&jd_summer_movement_card&jd_dpqd&jd_car
+    - timer: #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #天天提鹅 #领金贴
         parameters:
           name: unsubscribe_lotteryMachine_car_ms_jintie
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: jd_unsubscribe&jd_lotteryMachine&jd_car&jd_ms&jd_jin_tie&jd_get_share_code
+          argument: jd_unsubscribe&jd_lotteryMachine&jd_blueCoin&jd_ms&jd_jin_tie&jd_get_share_code
     - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #健康社区
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke
