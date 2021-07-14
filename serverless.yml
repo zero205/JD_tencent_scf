@@ -35,18 +35,18 @@ inputs:
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: jd_unsubscribe&jd_lotteryMachine&jd_car&jd_ms&jd_jin_tie&jd_get_share_code
-    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #京喜财富岛 #京喜财富岛热气球挂机 #健康社区
+    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #健康社区
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke
           cronExpression: "0 5 0-18/6,8 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_cfd&jd_cfd_loop&jd_z_health_community
-    - timer: #摇钱树 #京东种豆得豆 #京喜工厂 #东东工厂 
+          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_z_health_community
+    - timer: #摇钱树 #京东种豆得豆 #京喜工厂 #东东工厂 #京喜财富岛 #京喜财富岛热气球挂机
         parameters:
-          name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory
+          name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_cfd
           cronExpression: "0 20 0,6-23/1 * * * *"
           enable: true
-          argument: jd_moneyTree&jd_summer_movement_help&jd_plantBean&jd_dreamFactory&jd_jdfactory
+          argument: jd_moneyTree&jd_summer_movement_help&jd_plantBean&jd_dreamFactory&jd_jdfactory&jd_cfd&jd_cfd_loop
     - timer: #宠汪汪积分兑换京豆 #签到领现金 #东东小窝 #京东直播 #金榜创造营 #5G超级盲盒
         parameters:
           name: cash_smallhome_live
