@@ -19,7 +19,7 @@ inputs:
   region: ap-guangzhou # 函数所在区域
   description: This is a function in ${app} application.
   memorySize: 64 # 内存大小，单位MB
-  timeout: 86400 # 超时时间，单位秒
+  timeout: 21600 # 超时时间，单位秒
   asyncRunEnable: true # 是否启用异步执行
   installDependency: true # 是否在线安装依赖
   events: #触发器
@@ -35,12 +35,12 @@ inputs:
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: jd_unsubscribe&jd_lotteryMachine&jd_car&jd_ms&jd_jin_tie&jd_get_share_code
-    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #健康社区
+    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #京喜财富岛 #京喜财富岛热气球挂机 #健康社区
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke
           cronExpression: "0 5 0-18/6,8 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_z_health_community
+          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_cfd&jd_cfd_loop&jd_z_health_community
     - timer: #摇钱树 #京东种豆得豆 #京喜工厂 #东东工厂 
         parameters:
           name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory
@@ -59,12 +59,12 @@ inputs:
           cronExpression: "2 15,45 9,8-23/2 * * * *"
           enable: true
           argument: jd_daily_egg&jd_qjd&jd_zjb&jd_summer_movement
-    - timer: #全民开红包 #东东超市 #京喜财富岛 #京喜牧场 #健康社区收取能量
+    - timer: #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量
         parameters:
-          name: cfd_superMarket_cfd_jxmc_healthenergy
+          name: superMarket_jxmc_healthenergy
           cronExpression: "0 20 0,8,12,19,6-23/3 * * * *"
           enable: true
-          argument: jd_redPacket&jd_superMarket&jd_cfd&jd_jxmc&jd_z_health_energy
+          argument: jd_redPacket&jd_superMarket&jd_jxmc&jd_z_health_energy
     - timer: #宠汪汪 #汪汪乐园 #京享值PK
         parameters:
           name: joy_joypark_pk
