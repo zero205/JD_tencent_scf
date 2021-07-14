@@ -46,7 +46,7 @@ inputs:
           name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_cfd
           cronExpression: "0 20 0,6-23/1 * * * *"
           enable: true
-          argument: jd_moneyTree&jd_summer_movement_help&jd_plantBean&jd_dreamFactory&jd_jdfactory&jd_cfd&jd_cfd_loop
+          argument: jd_moneyTree&jd_plantBean&jd_dreamFactory&jd_jdfactory&jd_cfd&jd_cfd_loop
     - timer: #宠汪汪积分兑换京豆 #签到领现金 #东东小窝 #京东直播 #金榜创造营 #5G超级盲盒
         parameters:
           name: cash_smallhome_live
