@@ -198,7 +198,7 @@ async function cfd() {
       for (let key of Object.keys($.info.StoryInfo.StoryList)) {
         let vo = $.info.StoryInfo.StoryList[key]
         if (vo.Collector) {
-          console.log(`喜欢贝壳的收藏家来了~ 快去卖贝壳吧`)
+          console.log(`喜欢贝壳的收藏家来了，快去卖贝壳吧~`)
           await collectorOper(vo.strStoryId, '2', vo.ddwTriggerDay)
           await $.wait(2000)
           await querystorageroom('2')
@@ -210,6 +210,27 @@ async function cfd() {
       }
     } else {
       console.log(`当前暂无收藏家\n`)
+    }
+
+    //美人鱼
+    console.log(`美人鱼`)
+    if ($.info.StoryInfo.StoryList) {
+      await $.wait(2000)
+      for (let key of Object.keys($.info.StoryInfo.StoryList)) {
+        let vo = $.info.StoryInfo.StoryList[key]
+        if (vo.Mermaid) {
+          if (vo.Mermaid.dwIsToday === 1) {
+            console.log(`可怜的美人鱼困在沙滩上了，快去解救他吧~`)
+            await mermaidOper(vo.strStoryId, '1', vo.ddwTriggerDay)
+          } else if (vo.Mermaid.dwIsToday === 0) {
+            await mermaidOper(vo.strStoryId, '4', vo.ddwTriggerDay)
+          }
+        } else {
+          console.log(`当前暂无美人鱼\n`)
+        }
+      }
+    } else {
+      console.log(`当前暂无美人鱼\n`)
     }
 
     //倒垃圾
@@ -416,6 +437,58 @@ function collectorOper(strStoryId, dwType, ddwTriggerDay) {
           console.log(`${$.name} CollectorOper API请求失败，请检查网路重试`)
         } else {
           data = JSON.parse(data);
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
+
+// 美人鱼
+async function mermaidOper(strStoryId, dwType, ddwTriggerDay) {
+  return new Promise(async (resolve) => {
+    $.get(taskUrl(`story/MermaidOper`, `strStoryId=${strStoryId}&dwType=${dwType}&ddwTriggerDay=${ddwTriggerDay}`), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} MermaidOper API请求失败，请检查网路重试`)
+        } else {
+          data = JSON.parse(data);
+          switch (dwType) {
+            case '1':
+              if (data.iRet === 0 || data.sErrMsg === 'success') {
+                console.log(`开始解救美人鱼`)
+                dwType = '3'
+                await mermaidOper(strStoryId, dwType, ddwTriggerDay)
+                await $.wait(2000)
+              } else {
+                console.log(`开始解救美人鱼失败：${data.sErrMsg}\n`)
+              }
+              break
+            case '2':
+              break
+            case '3':
+              if (data.iRet === 0 || data.sErrMsg === 'success') {
+                dwType = '2'
+                let mermaidOperRes = await mermaidOper(strStoryId, dwType, ddwTriggerDay)
+                console.log(`解救美人鱼成功：获得${mermaidOperRes.Data.ddwCoin || '0'}金币\n`)
+              } else {
+                console.log(`解救美人鱼失败：${data.sErrMsg}\n`)
+              }
+              break
+            case '4':
+              if (data.iRet === 0 || data.sErrMsg === 'success') {
+                console.log(`昨日解救美人鱼领奖成功：获得${data.Data.Prize.strPrizeName}\n`)
+              } else {
+                console.log(`昨日解救美人鱼领奖失败：${data.sErrMsg}\n`)
+              }             
+              break
+            default:
+              break
+          }
         }
       } catch (e) {
         $.logErr(e, resp);
@@ -634,8 +707,9 @@ async function queryRubbishInfo() {
           if (data.Data.StoryInfo.StoryList.length !== 0) {
             for (let key of Object.keys(data.Data.StoryInfo.StoryList)) {
               let vo = data.Data.StoryInfo.StoryList[key]
-              if (vo.Rubbish && vo.Rubbish.dwIsFirstGame === 1) {
-                console.log(`获取到垃圾信息：次数 1/2`)
+              if (vo.Rubbish) {
+                console.log(vo.Rubbish.dwIsFirstGame)
+                console.log(`获取到垃圾信息`)
                 await $.wait(2000)
                 let rubbishOperRes = await rubbishOper('1')
                 for (let key of Object.keys(rubbishOperRes.Data.ThrowRubbish.Game.RubbishList)) {
@@ -650,7 +724,7 @@ async function queryRubbishInfo() {
                   console.log(`倒垃圾失败：${rubbishOperTwoRes.sErrMsg}\n`)
                 }
               } else {
-                console.log(`当前暂无垃圾：完成次数 1/2\n`)
+                console.log(`当前暂无垃圾\n`)
               }
             }
           } else {
@@ -676,6 +750,7 @@ function rubbishOper(dwType, body = '') {
               console.log(`${$.name} RubbishOper API请求失败，请检查网路重试`)
             } else {
               data = JSON.parse(data);
+              console.log(data)
             }
           } catch (e) {
             $.logErr(e, resp);
@@ -857,7 +932,7 @@ function employTourGuide(body, buildNmae) {
           if (data.iRet === 0) {
             console.log(`【${buildNmae}】雇佣导游成功`)
           } else {
-            console.log(`【${buildNmae}】导游下班了~`)
+            console.log(`【${buildNmae}】雇佣导游失败：${data.sErrMsg}`)
           }
         }
       } catch (e) {
@@ -1087,7 +1162,7 @@ function getUserInfo(showInvite = true) {
           }
           if (showInvite && strMyShareId) {
             console.log(`财富岛好友互助码每次运行都变化,旧的可继续使用`);
-            console.log(`\n【京东账号${$.index} ${$.UserName} 的${$.name}好友互助码】${strMyShareId}\n\n`);
+            console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}\n\n`);
             $.shareCodes.push(strMyShareId)
           }
           $.info = {

@@ -1,7 +1,6 @@
 /*
 ENV
-JOYPARK_JOY_START =      只做前几个CK
-JOY_COIN_MAXIMIZE =      最大化硬币收益，如果合成后全部挖土后还有空位，则开启此模式（默认关闭） 0关闭 1开启
+JD_JOY_PARK =            是否运行此脚本，默认运行，填false为不运行
 
 请确保新用户助力过开工位，否则开启游戏了就不算新用户，后面就不能助力开工位了！！！！！！！！！！
 
@@ -50,6 +49,10 @@ message = ""
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
       "open-url": "https://bean.m.jd.com/"
     });
+    return;
+  }
+  if (process.env.JD_JOY_PARK && process.env.JD_JOY_PARK === 'false') {
+    console.log(`\n******检测到您设置了不运行汪汪乐园，停止运行此脚本*********\n`)
     return;
   }
   for (let i = 0; i < cookiesArr.length; i++) {
