@@ -1,9 +1,12 @@
 /*
+update date ：2021.07.15
 #自定义变量
 export tytpacketId=""
  [task_local]
 #柠檬推一推
-0 0 * * * http://nm66.top/jd_tyt.js, tag=柠檬推一推, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+0 6-23/4 * * * http://nm66.top/jd_tyt.js, tag=柠檬推一推, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+注意：助力码每天会变，旧的不可用。
+助力逻辑：优先助力互助码变量，北京时间15点后默认会助力【zero205】，介意请勿运行！
 */
 const $ = new Env('柠檬推一推');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -12,7 +15,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
-let tytpacketId = '7588666c4b5c40a082a62341a9265acb-amRfTHlWeVlJWmpmeU9t';
+let tytpacketId = '';
 // if (process.env.tytpacketId) {
 //   tytpacketId = process.env.tytpacketId;
 // }
@@ -35,7 +38,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 
 !(async () => {
   if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
     return;
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -49,15 +52,37 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
 
         if ($.isNode()) {
           await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
         }
         continue
-      }    
-      await $.wait(10000)
-      await tythelp()
+      }
+      console.log(`\n******北京时间15点后会助力【zero205】，介意请勿运行******\n`);
+      await getCoinDozerInfo() //获取助力码，需先手动开启活动
+      await $.wait(2000)
+      if (tytpacketId === '') {
+        console.log(`未检测到互助码，跳过互助\n`)
+        continue
+      } else {
+      await tythelp(tytpacketId)
+      }
+    }
+  }
+  if (new Date().getUTCHours() + 8 >= 15) {
+    await getAuthorShareCode()
+    for (let i = 0; i < cookiesArr.length; i++) {
+      if (cookiesArr[i]) {
+        cookie = cookiesArr[i];
+        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+        for (let j = 0; j < $.authorCode.length; j++) {
+          console.log(`${$.UserName} 去助力zero205`)
+          let tytpacketId = $.authorCode[j];
+          await tythelp(tytpacketId)
+          await $.wait(2000)
+        }
+      }
     }
   }
 })()
@@ -67,36 +92,67 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
   .finally(() => {
     $.done();
   })
-function tythelp() {
-    return new Promise(async (resolve) => {
 
-        let options = {
-            url: `https://api.m.jd.com/?t=1623066557140`,
-            //dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D
-            body: `functionId=helpCoinDozer&appid=station-soa-h5&client=H5&clientVersion=1.0.0&t=1623120183787&body={"actId":"b980f1dd277a4ae4a0f52918709469bb","channel":"coin_dozer","antiToken":"mmkajtm9eqonssy6xoi1623119406463ic84~NmZeSyVEbFNSd3V+dVNdA3pxAABkRHpTBiUjb35DFm5vLUROOBEzLUF7G28iAAFBKBgVFA1EPwIVKDclGENXbm8iVlQiAwpTTx1lKSsTCG5vfmsaDUR6LUEnG29+PU9ReSdSWTNTNxICI3V0dlYOV3p0Bwg3UW9IVnd+KSdUC1E3KQFkc0oKUwoyKhFmWzEQOTZCXQ1Eei1BKTQ5GENXbm80Qks5ATkdB28tKWoCAl8RZhtkcxY4LUF7G29rPU8eEWZHTA1EbC1BKTM5NBJXbm9oaxohDwpTWR1lf3RNWR56aAcUYUpnQFcdZTBmTU9XKSBEX3NcdEEFMDdvaEMOQW9+FV82CDAUAXhzfTEDXV07I0VUZx49F1MucyosBwIHeTFSDycPIlNPYyRvfkMDQCwiBFo1VWFHBzsuPnVZB185dQEKYlZkRFR3cnVxUAFFf3QVFHMCJR9Be2U3MwkVQC8nWBp9RD8CQXtlfGZNT1gkJxUCc19vSFpjOg==|~1623120183785~1~20201218~eyJ2aXdlIjoiMCIsImJhaW4iOnt9fQ==~2~281~1pl4|5563f-70,aa,,;751e-,,,;359-70,aa,40,u;b512-70,aa,40,u;058-70,aa,40,u;doei:,1,0,0,0,0,1000,-1000,1000,-1000;dmei:,1,0,0,1000,-1000,1000,-1000,1000,-1000;emc:,5:1;emmm:;emcf:,5:1;ivli:;iivl:;ivcvj:;scvje:;ewhi:,5:197-49;1623120175774,1623120183784,0,1,5,5,0,1,0,0,0;u5ge","referer":"-1","frontendInitStatus":"s","packetId":"${tytpacketId}","helperStatus":"0"}&_ste=1&_stk=appid,body,client,clientVersion,functionId,t&h5st=20210608104303790;8489907903583162;10005;tk01w89681aa9a8nZDdIanIyWnVuWFLK4gnqY+05WKcPY3NWU2dcfa73B7PBM7ufJEN0U+4MyHW5N2mT/RNMq72ycJxH;7e6b956f1a8a71b269a0038bbb4abd24bcfb834a88910818cf1bdfc55b7b96e5`,
-            headers: {
-                "Origin": "https://pushgold.jd.com",
-                "Host": "api.m.jd.com",
-                "User-Agent": "jdltapp;iPhone;3.3.6;14.3;75aeceef3046d8ce11d354ff89af9517a2e4aa18;network/wifi;hasUPPay/0;pushNoticeIsOpen/0;lang/zh_CN;model/iPhone9,2;addressid/4585826605;hasOCPay/0;appBuild/1060;supportBestPay/0;pv/53.31;apprpd/;ref/https://invite-reward.jd.com/?lng=106.286950&lat=29.969353&sid=547255867e847394aedfb6d68c3e50fw&un_area=4_48201_54794_0#/invitee?inviterId=dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D;psq/0;ads/;psn/75aeceef3046d8ce11d354ff89af9517a2e4aa18|89;jdv/0|kong|t_1001003207_1762319_6901310|jingfen|30578707801140d09fcd54e5cd83bbf7|1621510932517|1621511027;adk/;app_device/IOS;pap/JA2020_3112531|3.3.6|IOS 14.3;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
-                "Cookie": cookie,
-            }
-        }
-        $.post(options, async (err, resp, data) => {
-            try {
-                data = JSON.parse(data);
-                console.log(data.msg)
-                if (data.code == 0) {
-                    console.log("帮推：" + data.data.amount)
-                } else
-                    console.log(data.msg)
-            } catch (e) {
-                $.logErr(e, resp);
-            } finally {
-                resolve();
-            }
-        });
+function tythelp(tytpacketId) {
+  return new Promise(async (resolve) => {
+    let options = {
+      url: `https://api.m.jd.com/?t=1623066557140`,
+      //dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D
+      body: `functionId=helpCoinDozer&appid=station-soa-h5&client=H5&clientVersion=1.0.0&t=1623120183787&body={"actId":"287eb90945e049129d76dd7e85dc0313","channel":"coin_dozer","antiToken":"mmkajtm9eqonssy6xoi1623119406463ic84~NmZeSyVEbFNSd3V+dVNdA3pxAABkRHpTBiUjb35DFm5vLUROOBEzLUF7G28iAAFBKBgVFA1EPwIVKDclGENXbm8iVlQiAwpTTx1lKSsTCG5vfmsaDUR6LUEnG29+PU9ReSdSWTNTNxICI3V0dlYOV3p0Bwg3UW9IVnd+KSdUC1E3KQFkc0oKUwoyKhFmWzEQOTZCXQ1Eei1BKTQ5GENXbm80Qks5ATkdB28tKWoCAl8RZhtkcxY4LUF7G29rPU8eEWZHTA1EbC1BKTM5NBJXbm9oaxohDwpTWR1lf3RNWR56aAcUYUpnQFcdZTBmTU9XKSBEX3NcdEEFMDdvaEMOQW9+FV82CDAUAXhzfTEDXV07I0VUZx49F1MucyosBwIHeTFSDycPIlNPYyRvfkMDQCwiBFo1VWFHBzsuPnVZB185dQEKYlZkRFR3cnVxUAFFf3QVFHMCJR9Be2U3MwkVQC8nWBp9RD8CQXtlfGZNT1gkJxUCc19vSFpjOg==|~1623120183785~1~20201218~eyJ2aXdlIjoiMCIsImJhaW4iOnt9fQ==~2~281~1pl4|5563f-70,aa,,;751e-,,,;359-70,aa,40,u;b512-70,aa,40,u;058-70,aa,40,u;doei:,1,0,0,0,0,1000,-1000,1000,-1000;dmei:,1,0,0,1000,-1000,1000,-1000,1000,-1000;emc:,5:1;emmm:;emcf:,5:1;ivli:;iivl:;ivcvj:;scvje:;ewhi:,5:197-49;1623120175774,1623120183784,0,1,5,5,0,1,0,0,0;u5ge","referer":"-1","frontendInitStatus":"s","packetId":"${tytpacketId}","helperStatus":"0"}&_ste=1&_stk=appid,body,client,clientVersion,functionId,t&h5st=20210608104303790;8489907903583162;10005;tk01w89681aa9a8nZDdIanIyWnVuWFLK4gnqY+05WKcPY3NWU2dcfa73B7PBM7ufJEN0U+4MyHW5N2mT/RNMq72ycJxH;7e6b956f1a8a71b269a0038bbb4abd24bcfb834a88910818cf1bdfc55b7b96e5`,
+      headers: {
+        "Origin": "https://pushgold.jd.com",
+        "Host": "api.m.jd.com",
+        "User-Agent": "jdltapp;iPhone;3.3.6;14.3;75aeceef3046d8ce11d354ff89af9517a2e4aa18;network/wifi;hasUPPay/0;pushNoticeIsOpen/0;lang/zh_CN;model/iPhone9,2;addressid/4585826605;hasOCPay/0;appBuild/1060;supportBestPay/0;pv/53.31;apprpd/;ref/https://invite-reward.jd.com/?lng=106.286950&lat=29.969353&sid=547255867e847394aedfb6d68c3e50fw&un_area=4_48201_54794_0#/invitee?inviterId=dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D;psq/0;ads/;psn/75aeceef3046d8ce11d354ff89af9517a2e4aa18|89;jdv/0|kong|t_1001003207_1762319_6901310|jingfen|30578707801140d09fcd54e5cd83bbf7|1621510932517|1621511027;adk/;app_device/IOS;pap/JA2020_3112531|3.3.6|IOS 14.3;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+        "Cookie": cookie,
+      }
+    }
+    $.post(options, async (err, resp, data) => {
+      try {
+        data = JSON.parse(data);
+        console.log(data.msg)
+        if (data.code == 0) {
+          console.log("帮推：" + data.data.amount)
+        } else
+          console.log(data.msg)
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
     });
+  });
 }
+
+function getCoinDozerInfo() {
+  return new Promise(async (resolve) => {
+    let options = {
+      url: `https://api.m.jd.com/?t=1623066557140`,
+      //dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D
+      body: `functionId=getCoinDozerInfo&body={"actId":"287eb90945e049129d76dd7e85dc0313","channel":"coin_dozer","antiToken":"","referer":"-1","frontendInitStatus":""}&appid=megatron&client=android&clientVersion=9&t=1626269713293&networkType=4g&eid=&fp=&frontendInitStatus=&uuid=8363532363230343238303836333-43D2468336563316936636265356&osVersion=9&d_brand=&d_model=&agent=-1&pageClickKey=-1&screen=393*818&platform=3&lang=zh_CN&eu=8363532363230343238303836333&fv=43D2468336563316936636265356`,
+      headers: {
+        "Origin": "https://pushgold.jd.com",
+        "Host": "api.m.jd.com",
+        "User-Agent": "jdltapp;iPhone;3.3.6;14.3;75aeceef3046d8ce11d354ff89af9517a2e4aa18;network/wifi;hasUPPay/0;pushNoticeIsOpen/0;lang/zh_CN;model/iPhone9,2;addressid/4585826605;hasOCPay/0;appBuild/1060;supportBestPay/0;pv/53.31;apprpd/;ref/https://invite-reward.jd.com/?lng=106.286950&lat=29.969353&sid=547255867e847394aedfb6d68c3e50fw&un_area=4_48201_54794_0#/invitee?inviterId=dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D;psq/0;ads/;psn/75aeceef3046d8ce11d354ff89af9517a2e4aa18|89;jdv/0|kong|t_1001003207_1762319_6901310|jingfen|30578707801140d09fcd54e5cd83bbf7|1621510932517|1621511027;adk/;app_device/IOS;pap/JA2020_3112531|3.3.6|IOS 14.3;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+        "Cookie": cookie,
+      }
+    }
+    $.post(options, async (err, resp, data) => {
+      try {
+        data = JSON.parse(data);
+        console.log(data.msg)
+        if (data.code == 0 && data.data.sponsorActivityInfo.packetId) {
+          console.log("您的邀请码为：" + data.data.sponsorActivityInfo.packetId)
+        }
+      } catch (e) {
+        // $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+
+var _0xodD='jsjiami.com.v6',_0x4246=[_0xodD,'\x67\x65\x74','\x68\x74\x74\x70\x73\x3a\x2f\x2f\x72\x61\x77\x2e\x66\x61\x73\x74\x67\x69\x74\x2e\x6f\x72\x67\x2f\x7a\x65\x72\x6f\x32\x30\x35\x2f\x75\x70\x64\x61\x74\x65\x54\x65\x61\x6d\x2f\x6d\x61\x69\x6e\x2f\x73\x68\x61\x72\x65\x43\x6f\x64\x65\x73\x2f\x74\x79\x74\x2e\x6a\x73\x6f\x6e','\x4d\x6f\x7a\x69\x6c\x6c\x61\x2f\x35\x2e\x30\x20\x28\x69\x50\x68\x6f\x6e\x65\x3b\x20\x43\x50\x55\x20\x69\x50\x68\x6f\x6e\x65\x20\x4f\x53\x20\x31\x33\x5f\x32\x5f\x33\x20\x6c\x69\x6b\x65\x20\x4d\x61\x63\x20\x4f\x53\x20\x58\x29\x20\x41\x70\x70\x6c\x65\x57\x65\x62\x4b\x69\x74\x2f\x36\x30\x35\x2e\x31\x2e\x31\x35\x20\x28\x4b\x48\x54\x4d\x4c\x2c\x20\x6c\x69\x6b\x65\x20\x47\x65\x63\x6b\x6f\x29\x20\x56\x65\x72\x73\x69\x6f\x6e\x2f\x31\x33\x2e\x30\x2e\x33\x20\x4d\x6f\x62\x69\x6c\x65\x2f\x31\x35\x45\x31\x34\x38\x20\x53\x61\x66\x61\x72\x69\x2f\x36\x30\x34\x2e\x31\x20\x45\x64\x67\x2f\x38\x37\x2e\x30\x2e\x34\x32\x38\x30\x2e\x38\x38','\x61\x75\x74\x68\x6f\x72\x43\x6f\x64\x65','\x70\x61\x72\x73\x65','\x6c\x6f\x67\x45\x72\x72','\x6a\x73\x41\x52\x6a\x52\x6b\x71\x69\x57\x4f\x61\x6d\x69\x6b\x2e\x63\x6f\x6d\x56\x4a\x42\x2e\x76\x36\x3d\x3d'];var _0x3dd3=function(_0x4fdd8e,_0x2bbd52){_0x4fdd8e=~~'0x'['concat'](_0x4fdd8e);var _0x4aa04a=_0x4246[_0x4fdd8e];return _0x4aa04a;};(function(_0x4f10de,_0x3c5b1f){var _0x29abd4=0x0;for(_0x3c5b1f=_0x4f10de['shift'](_0x29abd4>>0x2);_0x3c5b1f&&_0x3c5b1f!==(_0x4f10de['pop'](_0x29abd4>>0x3)+'')['replace'](/[ARRkqWOkVJB=]/g,'');_0x29abd4++){_0x29abd4=_0x29abd4^0x98130;}}(_0x4246,_0x3dd3));function getAuthorShareCode(){return new Promise(_0x456c8e=>{$[_0x3dd3('0')]({'\x75\x72\x6c':_0x3dd3('1'),'\x68\x65\x61\x64\x65\x72\x73':{'User-Agent':_0x3dd3('2')}},async(_0x590035,_0x5bae1e,_0x1b2379)=>{try{if(_0x590035){}else{$[_0x3dd3('3')]=JSON[_0x3dd3('4')](_0x1b2379);}}catch(_0x265e68){$[_0x3dd3('5')](_0x265e68,_0x5bae1e);}finally{_0x456c8e();}});});};_0xodD='jsjiami.com.v6';
 
 async function taskPostUrl(functionId,body) {
   return {
@@ -113,7 +169,6 @@ async function taskPostUrl(functionId,body) {
     }
   }
 }
-
 
 async function TotalBean() {
   return new Promise(async resolve => {

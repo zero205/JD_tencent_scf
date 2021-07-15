@@ -65,12 +65,12 @@ inputs:
           cronExpression: "0 20 0,8,12,19,6-23/3 * * * *"
           enable: true
           argument: jd_redPacket&jd_superMarket&jd_jxmc&jd_z_health_energy
-    - timer: #宠汪汪 #汪汪乐园 #京享值PK
+    - timer: #宠汪汪 #汪汪乐园 #京享值PK #柠檬推一推
         parameters:
           name: joy_joypark_pk
           cronExpression: "0 5 0,6-23/3 * * * *"
           enable: true
-          argument: jd_joy&jd_joy_park&jd_ddo_pk
+          argument: jd_joy&jd_joy_park&jd_ddo_pk&jd_tyt
     - timer: #京豆变动通知 #疯狂的joy #京东排行榜 #领京豆额外奖励 #闪购盲盒 #京小兑 #特物z #粉丝互动
         parameters:
           name: beanchange_crazyjoy_rankingList_beanhome_sgmh_jxd
