@@ -74,10 +74,8 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 
 function info() {
   return new Promise(async (resolve) => {
-
     let options = {
       url: `https://api.m.jd.com`,
-
       body: `functionId=TaskInviteService&body={"method":"inviteTaskHomePage","data":{"channel":"1"}}&appid=market-task-h5&uuid=7303439343432346-7356431353233311&eu=7303439343432341&fv=7356431353233321&_t=1623475839367`,
       headers: {
         "Origin": "https://assignment.jd.com",
@@ -86,19 +84,16 @@ function info() {
         "Cookie": cookie,
       }
     }
-
     $.post(options, async (err, resp, data) => {
       try {
-
-        //data = data.match(/(\{[^()]+\}.+)/)[1]
-
-        //console.log(data)
-        const reust = JSON.parse(data)
-        //console.log(reust)
+        if (err) {
+          $.logErr(err);
+        } else {
+          reust = JSON.parse(data)
+        }
         if (reust.code == 0) {
           $.log("你的邀请码：" + reust.data.encryptionInviterPin)
         } else
-
           console.log(data.message)
       } catch (e) {
         $.logErr(e, resp);
@@ -111,10 +106,8 @@ function info() {
 
 function help() {
   return new Promise(async (resolve) => {
-
     let options = {
       url: `https://api.m.jd.com`,
-
       body: `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${InviterPin}","type":1}}&appid=market-task-h5&uuid=7303439343432346-7356431353233311&eu=7303439343432341&fv=7356431353233321&_t=1623475839367`,
       headers: {
         "Origin": "https://assignment.jd.com",
@@ -123,19 +116,12 @@ function help() {
         "Cookie": cookie,
       }
     }
-
     $.post(options, async (err, resp, data) => {
       try {
-
-        //data = data.match(/(\{[^()]+\}.+)/)[1]
-
-        //console.log(data)
         const reust = JSON.parse(data)
-        //console.log(reust)
         if (reust.code == 0) {
           $.log(`即将开始邀请：${InviterPin}\n邀请获得金币: ` + reust.data.coinReward * 0.1 + "金币")
         } else
-
           console.log(reust.message)
       } catch (e) {
         $.logErr(e, resp);
