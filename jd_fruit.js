@@ -71,13 +71,6 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
       option = {};
       await shareCodesFormat();
       await jdFruit();
-      // console.log(`🐔东东农场-开始提交互助码！🐔`);
-      // const submitCodeRes = await submitCode();
-      // if (submitCodeRes && submitCodeRes.code === 200) {
-      //    console.log(`🐔东东农场-互助码提交成功！🐔`);
-      // }else if (submitCodeRes.code === 300) {
-      //    console.log(`🐔东东农场-互助码已提交！🐔`);
-      // }
     }
   }
   if ($.isNode() && allMessage && $.ctrTemp) {
@@ -129,14 +122,16 @@ async function jdFruit() {
       await predictionFruit();//预测水果成熟时间
     } else {
       console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
-      message = `【数据异常】请手动登录京东app查看此账号${$.name}是否正常`;
+      console.log(`等待10秒后重试`);
+      await $.wait(10000);
+      await jdFruit();
     }
   } catch (e) {
     console.log(`任务执行异常，请检查执行日志 ‼️‼️`);
     $.logErr(e);
-    const errMsg = `京东账号${$.index} ${$.nickName || $.UserName}\n任务执行异常，请检查执行日志 ‼️‼️`;
-    if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
-    $.msg($.name, '', `${errMsg}`)
+    // const errMsg = `京东账号${$.index} ${$.nickName || $.UserName}\n任务执行异常，请检查执行日志 ‼️‼️`;
+    // if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
+    // $.msg($.name, '', `${errMsg}`)
   }
   await showMsg();
 }

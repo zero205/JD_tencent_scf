@@ -74,13 +74,6 @@ let randomCount = $.isNode() ? 0 : 0;
       await shareCodesFormat();
       await jdPlantBean();
       await showMsg();
-      // console.log(`🥑种豆得豆-开始提交互助码！🥑`);
-      // const submitCodeRes = await submitCode();
-      // if (submitCodeRes && submitCodeRes.code === 200) {
-      //    console.log(`🥑种豆得豆-互助码提交成功！🥑`);
-      // }else if (submitCodeRes.code === 300) {
-      //    console.log(`🥑种豆得豆-互助码已提交！🥑`);
-      // }
     }
   }
   if ($.isNode() && allMessage) {
@@ -120,12 +113,15 @@ async function jdPlantBean() {
       await plantShareSupportList();
     } else {
       console.log(`种豆得豆-初始失败:  ${JSON.stringify($.plantBeanIndexResult)}`);
+      console.log(`等待10秒后重试`);
+      await $.wait(10000);
+      await jdPlantBean();
     }
   } catch (e) {
     $.logErr(e);
-    const errMsg = `京东账号${$.index} ${$.nickName || $.UserName}\n任务执行异常，请检查执行日志 ‼️‼️`;
-    if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
-    $.msg($.name, '', `${errMsg}`)
+    // const errMsg = `京东账号${$.index} ${$.nickName || $.UserName}\n任务执行异常，请检查执行日志 ‼️‼️`;
+    // if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
+    // $.msg($.name, '', `${errMsg}`)
   }
 }
 async function doGetReward() {
