@@ -6,7 +6,7 @@ const vm = require('vm');
 const PNG = require('png-js');
 let UA = require('./USER_AGENTS.js').USER_AGENT;
 const pipelineAsync = promisify(stream.pipeline);
-const validatorCount = process.env.JDJR_validator_Count ? process.env.JDJR_validator_Count : 25
+const validatorCount = process.env.JDJR_validator_Count ? process.env.JDJR_validator_Count : 100
 
 
 Math.avg = function average() {
@@ -214,9 +214,9 @@ class JDJRValidator {
     this.count = 0;
   }
 
-  async run(scene = 'cww') {
+  async run(scene = 'cww', eid='') {
     const tryRecognize = async () => {
-      const x = await this.recognize(scene);
+      const x = await this.recognize(scene, eid);
 
       if (x > 0) {
         return x;
@@ -247,24 +247,25 @@ class JDJRValidator {
         return result;
       }else{
         await sleep(300);
-        return await this.run(scene);
+        return await this.run(scene, eid);
       }
     }
   }
 
-  async recognize(scene) {
-    const data = await JDJRValidator.jsonp('/slide/g.html', {e: ''}, scene);
+  async recognize(scene, eid) {
+    const data = await JDJRValidator.jsonp('/slide/g.html', {e: eid}, scene);
     const {bg, patch, y} = data;
     // const uri = 'data:image/png;base64,';
     // const re = new PuzzleRecognizer(uri+bg, uri+patch, y);
     const re = new PuzzleRecognizer(bg, patch, y);
+    // console.log(JSON.stringify(re))
     const puzzleX = await re.run();
 
     if (puzzleX > 0) {
       this.data = {
         c: data.challenge,
         w: re.w,
-        e: '',
+        e: eid,
         s: '',
         o: '',
       };
@@ -395,7 +396,7 @@ function getCoordinate(c) {
   return b.join("")
 }
 
-const HZ = 60;
+const HZ = 20;
 
 class MousePosFaker {
   constructor(puzzleX) {
@@ -510,7 +511,14 @@ function injectToRequest(fn,scene = 'cww', ua = '') {
       }
       if (data.search('验证') > -1) {
         console.log('JDJR验证中......');
-        const res = await new JDJRValidator().run(scene);
+				let arr = opts.url.split("&")
+				let eid = ''
+				for(let i of arr){
+					if(i.indexOf("eid=")>-1){
+						eid = i.split("=") && i.split("=")[1] || ''
+					}
+				}
+        const res = await new JDJRValidator().run(scene, eid);
 
         opts.url += `&validate=${res.validate}`;
         fn(opts, cb);
