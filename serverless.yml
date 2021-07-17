@@ -34,7 +34,7 @@ inputs:
           name: unsubscribe_lotteryMachine_car_ms_jintie
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: jd_unsubscribe&jd_lotteryMachine&jd_jxqd_jd_sign&jd_ms&jd_jin_tie&jd_get_share_code
+          argument: jd_unsubscribe&jd_lotteryMachine&jd_jxqd&jd_sign&jd_ms&jd_jin_tie&jd_get_share_code
     - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #口袋书店 #健康社区
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke_bookshop
