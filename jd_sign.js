@@ -47,8 +47,9 @@ const turnTableId = [
   { "name": "京东商城-数码", "id": 347, "url": "https://prodev.m.jd.com/mall/active/4SWjnZSCTHPYjE5T7j35rxxuMTb6/index.html" },
   { "name": "京东超市", "id": 1204, "url": "https://pro.m.jd.com/mall/active/QPwDgLSops2bcsYqQ57hENGrjgj/index.html" },
 ]
-$.get = validator.injectToRequest($.get.bind($), 'channelSign')
-$.post = validator.injectToRequest($.post.bind($), 'channelSign')
+$.UA = $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1")
+$.get = validator.injectToRequest($.get.bind($), 'channelSign', $.UA)
+$.post = validator.injectToRequest($.post.bind($), 'channelSign', $.UA)
 
 !(async () => {
   if (!cookiesArr[0]) {
@@ -89,7 +90,6 @@ async function showMsg() {
   if ($.isNode() && message) await notify.sendNotify(`${$.name}`, `【签到数量】:  ${turnTableId.length}个\n` + subTitle + message);
 }
 async function signRun() {
-  UA = $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1")
   for (let i in turnTableId) {
     signFlag = false
     await Login(i)
@@ -201,7 +201,7 @@ function getEid(arr) {
       body: `d=${arr.d}`,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        "User-Agent": UA
+        "User-Agent": $.UA
       }
     }
     $.post(options, async (err, resp, data) => {
@@ -240,7 +240,7 @@ function taskUrl(turnTableId) {
       'Host': `jdjoy.jd.com`,
       "Origin": "https://prodev.m.jd.com",
       "Referer": "https://prodev.m.jd.com/",
-      "User-Agent": UA,
+      "User-Agent": $.UA,
     }
   }
 }
@@ -259,7 +259,7 @@ function tasPostkUrl(turnTableId) {
       'Host': `jdjoy.jd.com`,
       "Origin": "https://prodev.m.jd.com",
       "Referer": "https://prodev.m.jd.com/",
-      "User-Agent": UA,
+      "User-Agent": $.UA,
     }
   }
 }
