@@ -62,6 +62,7 @@ if ($.isNode()) {
         continue
       }
       await jdDailyEgg();
+      await $.wait(2000)
     }
   }
 })()
@@ -73,15 +74,17 @@ if ($.isNode()) {
     })
 async function jdDailyEgg() {
   await toDailyHome()
+  await $.wait(1000)
   await toWithdraw()
+  await $.wait(2000)
   await toGoldExchange();
 }
 function toGoldExchange() {
   return new Promise(async resolve => {
     const body = {
-      "timeSign": 0,
       "environment": "jrApp",
-      "riskDeviceInfo": "{}"
+      "riskDeviceInfo": "{}",
+      "channelLv": "zqdk",
     }
     $.post(taskUrl('toGoldExchange', body), (err, resp, data) => {
       try {
@@ -94,10 +97,10 @@ function toGoldExchange() {
             data = JSON.parse(data);
             if (data.resultCode === 0) {
               if (data.resultData.code === '0000') {
-                console.log(`兑换金币:${data.resultData.data.cnumber}`);
-                console.log(`当前总金币:${data.resultData.data.goldTotal}`);
+                console.log(`兑换积分:${data.resultData.data.cnumber}`);
+                console.log(`当前总积分:${data.resultData.data.goldTotal}`);
               } else if (data.resultData.code !== '0000') {
-                console.log(`兑换金币失败:${data.resultData.msg}`)
+                console.log(`兑换积分失败:${data.resultData.msg}`)
               }
             }
           } else {
@@ -117,7 +120,9 @@ function toWithdraw() {
     const body = {
       "timeSign": 0,
       "environment": "jrApp",
-      "riskDeviceInfo": "{}"
+      "riskDeviceInfo": "{}",
+      "channelLv": "zqdk",
+      "shareUuid": ""
     }
     $.post(taskUrl('toWithdraw', body), (err, resp, data) => {
       try {
@@ -153,7 +158,9 @@ function toDailyHome() {
     const body = {
       "timeSign": 0,
       "environment": "jrApp",
-      "riskDeviceInfo": "{}"
+      "riskDeviceInfo": "{}",
+      "channelLv": "zqdk",
+      "shareUuid": ""
     }
     $.post(taskUrl('toDailyHome', body), (err, resp, data) => {
       try {

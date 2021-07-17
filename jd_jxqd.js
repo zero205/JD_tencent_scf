@@ -84,8 +84,11 @@ cron "5 0 * * *" script-path=https://raw.githubusercontent.com/zero205/JD_tencen
   async function jd_jxqd() {
     try {
       await dotask('query?', 'signhb_source')
+      await $.wait(1000)
       await dotask('dotask?task=1', 'signhb_source,task')
+      await $.wait(2000)
       await dotask('dotask?task=2', 'signhb_source,task')
+      await $.wait(2000)
       await dotask('dotask?task=3', 'signhb_source,task')
     } catch (e) {
       $.logErr(e)
