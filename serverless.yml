@@ -34,7 +34,7 @@ inputs:
           name: unsubscribe_lotteryMachine_car_ms_jintie
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: jd_unsubscribe&jd_lotteryMachine&jd_jxqd_jd_sign&jd_ms&jd_jin_tie&jd_get_share_code
+          argument: jd_unsubscribe&jd_lotteryMachine&jd_jxqd&jd_sign&jd_ms&jd_jin_tie&jd_get_share_code
     - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #口袋书店 #健康社区
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke_bookshop
@@ -59,12 +59,12 @@ inputs:
           cronExpression: "2 15 9,8-23/2 * * * *"
           enable: true
           argument: jd_daily_egg&jd_zjb&jd_joy
-    - timer: #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量
+    - timer: #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量 #发财大赢家互助
         parameters:
           name: superMarket_jxmc_healthenergy
           cronExpression: "0 20 0,8,12,19,6-23/3 * * * *"
           enable: true
-          argument: jd_redPacket&jd_superMarket&jd_jxmc&jd_z_health_energy
+          argument: jd_redPacket&jd_superMarket&jd_jxmc&jd_z_health_energy&jd_fcdyj
     - timer: #宠汪汪偷狗粮 #汪汪乐园 #京享值PK #柠檬推一推
         parameters:
           name: joysteal_joypark_pk
