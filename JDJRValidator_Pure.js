@@ -5,6 +5,7 @@ const zlib = require('zlib');
 const vm = require('vm');
 const PNG = require('png-js');
 let UA = require('./USER_AGENTS.js').USER_AGENT;
+const { promisify } = require('util');
 const pipelineAsync = promisify(stream.pipeline);
 const validatorCount = process.env.JDJR_validator_Count ? process.env.JDJR_validator_Count : 100
 
