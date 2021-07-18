@@ -48,9 +48,9 @@
 |      `JXNC_SHARECODES`      |   京喜农场<br>互助码   | 非必须 |             /             | 注意：京喜农场种植种子发生变化的时候，互助码也会变！！<br>每个账号 shareCode 是一个 json，<br>json 需要用单引号包裹且是一行字符串，<br>否则设置环境变量时会出错，<br>示例：'{"smp":"22bdadsfaadsfadse8a",<br>"active":"jdnc_1_btorange210113_2","joinnum":"1"}'，<br>多账单间使用`&`或换行分开。<br>详细说明参见[#Pr202](https://github.com/LXK9301/jd_scripts/pull/202)<br>如果使用`docker-compose`部署就不需要在互助码两端加单引号。详细参见Issues[#I35AG8](https://gitee.com/lxk0301/jd_scripts/issues/I35AG8)|
 |    `JDSGMH_SHARECODES`      |  闪购盲盒<br>互助码  | 非必须 |            10/            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
 |    `JDCFD_SHARECODES`      |  京喜财富岛<br>互助码  | 非必须 |            未知/未知            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
-|    `DYJ_PACKETID`      |  省钱大赢家<br>互助码  | 非必须 |            未知/未知            | 仅支持单个账号，选择分享到QQ，复制链接即可看到邀请码 |
-|    `DYJ_INVITER`      |  省钱大赢家<br>互助码  | 非必须 |            未知/未知            | 仅支持单个账号，选择分享到QQ，复制链接即可看到邀请码 |
-
+|    `dyjCode`      |  大赢家<br>互助码  | 非必须 |            未知/未知            | 仅支持单个账号，格式：redEnvelopeId@markedPin |
+|    `TYT_PACKETID`      |  推一推<br>互助码  | 非必须 |            未知/未知            | 仅支持单个账号，选择分享到QQ，复制链接即可看到邀请码 |
+|    `MONEYTREE_SHARECODES`     |  摇钱树<br>互助码  | 非必须 |            未知/未知            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
 
 ##### 控制脚本功能环境变量
 

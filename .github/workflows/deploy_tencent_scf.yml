@@ -80,7 +80,7 @@ jobs:
       CFD_NOTIFY_CONTROL: ${{ secrets.CFD_NOTIFY_CONTROL}}
       JD_JXD_EXCHANGE: ${{ secrets.JD_JXD_EXCHANGE}}
       DYJ_PACKETID: ${{ secrets.DYJ_PACKETID}}
-      DYJ_INVITER: ${{ secrets.DYJ_INVITER}}
+      MONEYTREE_SHARECODES: ${{ secrets.MONEYTREE_SHARECODES}}
       dyjCode: ${{ secrets.dyjCode}}
       JD_TRY: ${{ secrets.JD_TRY}}
       TYT_PACKETID: ${{ secrets.TYT_PACKETID}}
@@ -180,7 +180,7 @@ jobs:
           if [ $JXNC_NOTIFY_LEVEL ]; then sed -i "/variables/a\      JXNC_NOTIFY_LEVEL: $JXNC_NOTIFY_LEVEL" serverless.yml; fi;
           if [ $dyjCode ]; then sed -i "/variables/a\      dyjCode: $dyjCode" serverless.yml; fi;
           if [ $DYJ_PACKETID ]; then sed -i "/variables/a\      DYJ_PACKETID: $DYJ_PACKETID" serverless.yml; fi;
-          if [ $DYJ_INVITER ]; then sed -i "/variables/a\      DYJ_INVITER: $DYJ_INVITER" serverless.yml; fi;
+          if [ $MONEYTREE_SHARECODES ]; then sed -i "/variables/a\      MONEYTREE_SHARECODES: $MONEYTREE_SHARECODES" serverless.yml; fi;
           if [ $JD_TRY ]; then sed -i "/variables/a\      JD_TRY: $JD_TRY" serverless.yml; fi;
           if [ $TYT_PACKETID ]; then sed -i "/variables/a\      TYT_PACKETID: $TYT_PACKETID" serverless.yml; fi;
           if [ $JD_JOY_PARK ]; then sed -i "/variables/a\      JD_JOY_PARK: $JD_JOY_PARK" serverless.yml; fi;
