@@ -54,13 +54,13 @@ $.appId = 10032;
     }
   }
   // 助力
-  let res = [], res2 = [], re3 = [];
+  let res = [], res2 = [], res3 = [];
   $.InviteLists = []
   if (HelpAuthorFlag) {
     $.innerInviteList = await getAuthorShareCode('https://raw.githubusercontent.com/smiek2221/updateTeam/master/shareCodes/wealth_island_code_one.json');
     res2 = await getAuthorShareCode('https://raw.githubusercontent.com/smiek2221/updateTeam/master/shareCodes/wealth_island_code.json');
     res3 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/cfd.json');
-    $.innerInviteLists = getRandomArrayElements([...res, ...res2, ...re3], [...res, ...res2, ...res3].length);
+    $.innerInviteLists = getRandomArrayElements([...res, ...res2, ...res3], [...res, ...res2, ...res3].length);
     $.InviteLists.push(...$.InviteList,...$.innerInviteList,...$.innerInviteLists);
   }else{
     $.InviteLists.push(...$.InviteList);
