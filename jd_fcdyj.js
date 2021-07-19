@@ -163,7 +163,7 @@ function getid() {
                         } else {
                             if (data.data.state === 6) {
                                 $.needhelp = false
-                                $.canDraw = false
+                                $.canDraw = true
                             }
                             console.log(`\n获取成功，您的【redEnvelopeId】：${data.data.redEnvelopeId}`)
                             console.log(`\n【markPin】：${data.data.markedPin}`)
