@@ -48,7 +48,7 @@ let nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 
   $.tuanList = [];
   $.authorTuanList = [];
   await requireConfig();
-  if (helpAuthor) await getAuthorShareCode('http://qr6pzoy01.hn-bkt.clouddn.com/jd_zz.json');
+  // if (helpAuthor) await getAuthorShareCode('http://qr6pzoy01.hn-bkt.clouddn.com/jd_zz.json');
   if (helpAuthor) await getAuthorShareCode('https://raw.githubusercontent.com/gitupdate/updateTeam/master/shareCodes/jd_zz.json');
   if (helpAuthor) await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/master/shareCodes/jd_zz.json');
   if (!cookiesArr[0]) {
