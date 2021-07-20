@@ -130,7 +130,7 @@ function getsharePin() {
                 }
               }
             } else {
-              console.log(`其他情况::${JSON.stringify(res)}`);
+              console.log(`其他情况:${JSON.stringify(res)}`);
             }
           } else {
             console.log(`京东api返回数据为空，请检查自身原因`)
@@ -161,7 +161,11 @@ function help(sharePin) {
               $.isLogin = true;
               if (res.resultData.data) {
                 userInfo = res.resultData.data;
-                console.log(res.resultData.msg);
+                if (userInfo.treeInfo.workerSum === 4) {
+                  console.log(`助力失败，对方助力已满`);
+                } else {
+                  console.log(`助力成功`);
+                }
                 if (userInfo.realName) {
                 } else {
                   $.canRun = false;
@@ -169,7 +173,7 @@ function help(sharePin) {
                 }
               }
             } else {
-              console.log(`其他情况::${JSON.stringify(res)}`);
+              console.log(`其他情况:${JSON.stringify(res)}`);
             }
           } else {
             console.log(`京东api返回数据为空，请检查自身原因`)
