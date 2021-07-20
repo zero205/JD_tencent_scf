@@ -72,13 +72,9 @@ const JD_API_HOST = `https://api.m.jd.com`;
             if (dyjStr[0]) {
                 $.rid = dyjStr[0]
                 $.inviter = dyjStr[1]
+                console.log(`检测到您已填助力码${$.rid}，开始助力`)
+                await help($.rid, $.inviter, $.helptype)
             }
-        }
-        if ($.rid && $.inviter && $.needhelp) {
-            console.log(`检测到您已填助力码，开始助力 ${$.rid}`)
-            await help($.rid, $.inviter, $.helptype)
-        } else {
-            console.log("没有检测到助力码")
         }
     }
     await getcodeid()
@@ -91,6 +87,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
             if ($.canDraw) {
                 console.log("检测到已可兑换，开始兑换")
                 await Draw()
+                await $.wait(2000);
             }
         }
     }
@@ -156,20 +153,15 @@ function getid() {
                 } else {
                     data = JSON.parse(data);
                     console.log(data.data.state)
-                    if (data.success && data.data) {
-                        if (data.data.state === 3) {
-                            console.log("今日已成功兑换")
-                            $.needhelp = false
+                    if (data.data.state !== 0) {
+                        if (data.success && data.data) {
+                            console.log(`\n【您的redEnvelopeId】：${data.data.redEnvelopeId}`)
+                            console.log(`\n【您的markPin】：${data.data.markedPin}`)
                         } else {
-                            if (data.data.state === 6) {
-                                $.needhelp = false
-                                $.canDraw = true
-                            }
-                            console.log(`\n获取成功，您的【redEnvelopeId】：${data.data.redEnvelopeId}`)
-                            console.log(`\n【markPin】：${data.data.markedPin}`)
+                            console.log(data)
                         }
                     } else {
-                        console.log(data)
+                        console.log(`【京东账号${$.index}】为黑号，跳过`)
                     }
                 }
             } catch (e) {
@@ -192,19 +184,24 @@ function getinfo() {
                 } else {
                     data = JSON.parse(data);
                     console.log(data.data.state)
-                    if (data.success && data.data) {
-                        if (data.data.state === 3) {
-                            console.log("今日已成功兑换")
-                            $.needhelp = false
-                        } else {
-                            if (data.data.state === 6) {
+                    if (data.data.state !== 0) {
+                        if (data.success && data.data) {
+                            if (data.data.state === 3) {
+                                console.log("今日已成功兑换")
                                 $.needhelp = false
-                                $.canDraw = false
+                            } else {
+                                if (data.data.needAmount === 0) {
+                                    $.needhelp = false
+                                    $.canDraw = true
+                                }
                             }
+                            console.log(`当前余额：${data.data.amount} 还需 ${data.data.needAmount} `)
+                        } else {
+                            console.log(data)
                         }
-                        console.log(`当前余额：${data.data.amount} 还需 ${data.data.needAmount} `)
                     } else {
-                        console.log(data)
+                        $.canDraw = false
+                        console.log(`【京东账号${$.index}】为黑号，跳过`)
                     }
                 }
             } catch (e) {
