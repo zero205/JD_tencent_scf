@@ -21,6 +21,12 @@ $.InviteList = []
 $.innerInviteList = [];
 const HelpAuthorFlag = true;//是否助力作者SH  true 助力，false 不助力
 
+// 热气球接客 每次运行接客次数
+let serviceNum = 10;// 每次运行接客次数
+if ($.isNode() && process.env.gua_wealth_island_serviceNum) {
+  serviceNum = Number(process.env.gua_wealth_island_serviceNum);
+}
+
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -126,6 +132,8 @@ async function run() {
     await sign()
     // 捡垃圾
     await pickshell(1)
+    // 热气球接客
+    await service(serviceNum)
     // 倒垃圾
     await RubbishOper()
     // 导游
@@ -214,6 +222,7 @@ async function StoryInfo(){
           stk = `_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone`
           type = `CollectorOper`
           res = await taskGet(`story/${type}`, stk, additional)
+          // console.log(JSON.stringify(res))
         }
       }else if($.HomeInfo.StoryInfo.StoryList[0].dwType == 1 && ( (res && res.iRet == 0) || res == '')){
         if(res && res.iRet == 0 && res.Data && res.Data.Serve && res.Data.Serve.dwWaitTime){
@@ -267,8 +276,8 @@ async function buildList(){
         let additional = `&strBuildIndex=${item.strBuildIndex}`
         let stk= `_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone`
         let GetBuildInfo = await taskGet(`user/GetBuildInfo`, stk, additional)
-        let msg = `[${title}] 当前等级:${item.dwLvl} 接待收入:${item.ddwOneceVistorAddCoin}/人 座位人数:${item.dwContain}`
-        if(GetBuildInfo) msg += ` 升级->需要金币:${GetBuildInfo.ddwNextLvlCostCoin} 获得财富:${GetBuildInfo.ddwLvlRich}`
+        let msg = `\n[${title}] 当前等级:${item.dwLvl} 接待收入:${item.ddwOneceVistorAddCoin}/人 座位人数:${item.dwContain}`
+        if(GetBuildInfo) msg += `\n升级->需要金币:${GetBuildInfo.ddwNextLvlCostCoin} 获得财富:${GetBuildInfo.ddwLvlRich}`
         console.log(msg)
         await $.wait(1000)
         if(GetBuildInfo.dwCanLvlUp > 0){
@@ -392,6 +401,32 @@ async function pickshell(num = 1){
               break
             }
           }while (o < 20)
+        }
+      }
+    }catch (e) {
+      $.logErr(e);
+    }
+    finally {
+      resolve();
+    }
+  })
+}
+// 热气球接客
+async function service(num = 1){
+  return new Promise(async (resolve) => {
+    try{
+      console.log(`\n热气球接客`)
+      let arr = ['food','sea','shop','fun']
+      for(i=1;num--;i++){
+        let strBuildIndex = arr[Math.floor((Math.random()*arr.length))]
+        console.log(`第${i}/${num+i}次:${strBuildIndex}`)
+        let res = await taskGet(`user/SpeedUp`, '_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone', `&ptag=&strBuildIndex=${strBuildIndex}`)
+        if(res && res.iRet == 0){
+          console.log(`当前气球次数:${res.dwTodaySpeedPeople} 金币速度:${res.ddwSpeedCoin}`)
+          additional= `&strToken=${res.story.strToken}&ddwTriTime=${res.story.ddwTriTime}`
+          stk = `_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone`
+          // await taskGet(`story/QueryUserStory`, stk, additional)
+          await $.wait(1000)
         }
       }
     }catch (e) {
@@ -544,9 +579,9 @@ async function ActTask(){
               res.data.prizeInfo = $.toObj(res.data.prizeInfo)
             }
             if(res.data.prizeInfo.ddwCoin || res.data.prizeInfo.ddwMoney){
-              console.log(`${item.taskName} 领取奖励:${res.data.prizeInfo.ddwCoin && res.data.prizeInfo.ddwCoin+'金币' || ''} ${res.data.prizeInfo.ddwMoney && res.data.prizeInfo.ddwMoney+'财富' || ''}`)
+              console.log(`${item.strTaskName} 领取奖励:${res.data.prizeInfo.ddwCoin && res.data.prizeInfo.ddwCoin+'金币' || ''} ${res.data.prizeInfo.ddwMoney && res.data.prizeInfo.ddwMoney+'财富' || ''}`)
             }else{
-              console.log(`${item.taskName} 领取奖励:`, JSON.stringify(res))
+              console.log(`${item.strTaskName} 领取奖励:`, JSON.stringify(res))
             }
           }else{
             console.log(`${item.strTaskName} 领取奖励失败:`, JSON.stringify(res))
@@ -556,18 +591,9 @@ async function ActTask(){
         if(item.dwAwardStatus == 2 && item.dwCompleteNum < item.dwTargetNum && [2].includes(item.dwOrderId)){
           if(item.dwOrderId == 2){
             let b = (item.dwTargetNum-item.dwCompleteNum)
-            let arr = ['food','sea','shop','fun']
-            for(i=1;b--;i++){
-              let strBuildIndex = arr[Math.floor((Math.random()*arr.length))]
-              console.log(`第${i}/${b+i}次:${strBuildIndex}`)
-              let res = await taskGet(`user/SpeedUp`, '_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone', `&ptag=&strBuildIndex=fun`)
-              if(res && res.iRet == 0){
-                additional= `&strToken=${res.story.strToken}&ddwTriTime=${res.story.ddwTriTime}`
-                stk = `_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone`
-                // await taskGet(`story/QueryUserStory`, stk, additional)
-                await $.wait(1000)
-              }
-            }
+            // 热气球接客
+            await service(b)
+            await $.wait(1000)
             res = await taskGet(`Award1`, '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', `&ptag=&taskId=${item.ddwTaskId}`)
             if(res.ret == 0){
               if(res.data.prizeInfo){

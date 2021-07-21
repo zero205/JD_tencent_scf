@@ -79,7 +79,7 @@ jobs:
       JDFACTORY_FORBID_ACCOUNT: ${{ secrets.JDFACTORY_FORBID_ACCOUNT}}
       CFD_NOTIFY_CONTROL: ${{ secrets.CFD_NOTIFY_CONTROL}}
       JD_JXD_EXCHANGE: ${{ secrets.JD_JXD_EXCHANGE}}
-      DYJ_PACKETID: ${{ secrets.DYJ_PACKETID}}
+      JD_HEALTH_REWARD_NAME: ${{ secrets.JD_HEALTH_REWARD_NAME}}
       MONEYTREE_SHARECODES: ${{ secrets.MONEYTREE_SHARECODES}}
       dyjCode: ${{ secrets.dyjCode}}
       JD_TRY: ${{ secrets.JD_TRY}}
@@ -179,7 +179,7 @@ jobs:
           if [ $JD_JXD_EXCHANGE ]; then sed -i "/variables/a\      JD_JXD_EXCHANGE: $JD_JXD_EXCHANGE" serverless.yml; fi;
           if [ $JXNC_NOTIFY_LEVEL ]; then sed -i "/variables/a\      JXNC_NOTIFY_LEVEL: $JXNC_NOTIFY_LEVEL" serverless.yml; fi;
           if [ $dyjCode ]; then sed -i "/variables/a\      dyjCode: $dyjCode" serverless.yml; fi;
-          if [ $DYJ_PACKETID ]; then sed -i "/variables/a\      DYJ_PACKETID: $DYJ_PACKETID" serverless.yml; fi;
+          if [ $JD_HEALTH_REWARD_NAME ]; then sed -i "/variables/a\      JD_HEALTH_REWARD_NAME: $JD_HEALTH_REWARD_NAME" serverless.yml; fi;
           if [ $MONEYTREE_SHARECODES ]; then sed -i "/variables/a\      MONEYTREE_SHARECODES: $MONEYTREE_SHARECODES" serverless.yml; fi;
           if [ $JD_TRY ]; then sed -i "/variables/a\      JD_TRY: $JD_TRY" serverless.yml; fi;
           if [ $TYT_PACKETID ]; then sed -i "/variables/a\      TYT_PACKETID: $TYT_PACKETID" serverless.yml; fi;

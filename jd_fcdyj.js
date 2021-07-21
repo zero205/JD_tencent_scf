@@ -78,19 +78,19 @@ const JD_API_HOST = `https://api.m.jd.com`;
         }
     }
     await getcodeid()
-    for (let i = 0; i < cookiesArr.length; i++) {
-        cookie = cookiesArr[i];
-        if (cookie) {
-            $.index = i + 1;
-            console.log(`\n******查询【京东账号${$.index}】红包情况\n`);
-            await getinfo()
-            if ($.canDraw) {
-                console.log("检测到已可兑换，开始兑换")
-                await Draw()
-                await $.wait(2000);
-            }
-        }
-    }
+    // for (let i = 0; i < cookiesArr.length; i++) {
+    //     cookie = cookiesArr[i];
+    //     if (cookie) {
+    //         $.index = i + 1;
+    //         console.log(`\n******查询【京东账号${$.index}】红包情况\n`);
+    //         await getinfo()
+    //         if ($.canDraw) {
+    //             console.log(`检测到账号${$.index}已可兑换，开始兑换`)
+    //             await exchange()
+    //             await $.wait(2000);
+    //         }
+    //     }
+    // }
 })()
     .catch((e) => {
         $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -99,9 +99,9 @@ const JD_API_HOST = `https://api.m.jd.com`;
         $.done();
     })
 
-function Draw() {
+function exchange() {
     return new Promise(async (resolve) => {
-        let options = taskUrl("rewardIndex", `{"linkId":"${$.linkid}"}`)
+        let options = taskUrl("exchange", `{"linkId":${$.linkid}, "rewardType":1}`)
         $.post(options, async (err, resp, data) => {
             try {
                 if (err) {
@@ -109,9 +109,9 @@ function Draw() {
                     console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     data = JSON.parse(data);
-                    if (data.errMsg === "success") {
-                        console.log(" 兑换成功 ")
-                    }
+                    // if (data.errMsg === "success") {
+                        console.log(`提现结果：${data}`)
+                    // }
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -189,14 +189,14 @@ function getinfo() {
                             if (data.data.state === 3) {
                                 console.log("今日已成功兑换")
                                 $.needhelp = false
-                            } else {
-                                if (data.data.needAmount === 0) {
-                                    $.needhelp = false
-                                    $.canDraw = true
-                                }
+                                $.canDraw = false
                             }
-                            console.log(`当前余额：${data.data.amount} 还需 ${data.data.needAmount} `)
+                            if (data.data.state === 6) {
+                                $.needhelp = false
+                                $.canDraw = true
+                            }
                         } else {
+                            console.log(`当前余额：${data.data.amount} 还需 ${data.data.needAmount} `)
                             console.log(data)
                         }
                     } else {
