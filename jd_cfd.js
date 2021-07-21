@@ -206,10 +206,14 @@ async function StoryInfo(){
         if(TypeCnt){
           console.log(`出售`)
           await $.wait(1000)
-          additional = `&ptag=&strTypeCnt=${TypeCnt}&dwSceneId=1`
+          additional = `&ptag=&strTypeCnt=${TypeCnt}&dwSceneId=2`
           stk = `_cfd_t,bizCode,dwEnv,dwSceneId,ptag,source,strTypeCnt,strZone`
           res = await taskGet(`story/sellgoods`, stk, additional)
           await printRes(res, '贩卖')
+          additional = `&ptag=&strStoryId=${$.HomeInfo.StoryInfo.StoryList[0].strStoryId}&dwType=4&ddwTriggerDay=${$.HomeInfo.StoryInfo.StoryList[0].ddwTriggerDay}`
+          stk = `_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone`
+          type = `CollectorOper`
+          res = await taskGet(`story/${type}`, stk, additional)
         }
       }else if($.HomeInfo.StoryInfo.StoryList[0].dwType == 1 && ( (res && res.iRet == 0) || res == '')){
         if(res && res.iRet == 0 && res.Data && res.Data.Serve && res.Data.Serve.dwWaitTime){
@@ -601,7 +605,6 @@ async function UserTask(){
         console.log(`任务 ${item.taskName} (${item.completedTimes}/${item.targetTimes})`)
         if (item.awardStatus == 2 && item.completedTimes === item.targetTimes) {
           res = await taskGet(`Award`, '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', `&ptag=&taskId=${item.taskId}`)
-          console.log(JSON.stringify(res))
           if(res.ret == 0){
             if(res.data.prizeInfo){
               res.data.prizeInfo = $.toObj(res.data.prizeInfo)
@@ -659,8 +662,8 @@ function printRes(res, msg=''){
     if(res.Data){
       result = res.Data
     }
-    if(result.ddwCoin || result.ddwMoney || result.strPrizeName || result.StagePrizeInfo.strPrizeName){
-      console.log(`${msg}获得:${result.ddwCoin && ' '+result.ddwCoin+'金币' || ''}${result.ddwMoney && ' '+result.ddwMoney+'财富' || ''}${result.strPrizeName && ' '+result.strPrizeName+'红包' || ''}${result.StagePrizeInfo.strPrizeName && ' '+result.StagePrizeInfo.strPrizeName || ''}`)
+    if(result.ddwCoin || result.ddwMoney || result.strPrizeName || result.StagePrizeInfo && result.StagePrizeInfo.strPrizeName){
+      console.log(`${msg}获得:${result.ddwCoin && ' '+result.ddwCoin+'金币' || ''}${result.ddwMoney && ' '+result.ddwMoney+'财富' || ''}${result.strPrizeName && ' '+result.strPrizeName+'红包' || ''}${result.StagePrizeInfo && result.StagePrizeInfo.strPrizeName && ' '+result.StagePrizeInfo.strPrizeName || ''}`)
     }else if(result.Prize){
       console.log(`${msg}获得: ${result.Prize.strPrizeName && '优惠券 '+result.Prize.strPrizeName || ''}`)
     }else if(res && res.sErrMsg){
