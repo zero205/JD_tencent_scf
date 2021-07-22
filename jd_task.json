@@ -96,13 +96,13 @@
       }
     },
     {
-      "name": "京喜财富岛热气球挂机",
+      "name": "京喜财富岛提现",
       "type": "cron",
       "time": "20 0,6-23 * * *",
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfd_loop.js"
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfdtx.js"
       }
     },
     {
@@ -263,6 +263,16 @@
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_kd.js"
+      }
+    },
+    {
+      "name": "领京豆",
+      "type": "cron",
+      "time": "10 9 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_ljd.js"
       }
     },
     {
