@@ -61,15 +61,11 @@ if ($.isNode()) {
   }
   console.log(`*****************开始${$.name}*******************\n`)
   const originalLog = console.log
-  let notifyContent;
+  let notifyContent = ''
   console.log = (...args) => {
-    // originalLog(sendNotify)
-    // return
     if(args[0].includes("【签到号")){
-      notifyContent = args[0].split('\n\n')[1]
-      originalLog('sdfsdf')
-      originalLog(notifyContent)
-      originalLog('ddfdf')
+      notifyContent += args[0].split('\n\n')[1]
+      // originalLog('catch notifyContent:'+notifyContent)
     }
     originalLog.apply(
         console,
@@ -77,7 +73,7 @@ if ($.isNode()) {
     )
     if (args[0].includes('签到用时')){
       console.log = originalLog
-      if ($.isNode() && notifyContent && process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE === 'true') {
+      if ($.isNode() && notifyContent.length != 0 && process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE === 'true') {
         $.msg($.name, '', notifyContent)
         sendNotify($.name, notifyContent).then(() => {
           console.log('send Notify finish')
