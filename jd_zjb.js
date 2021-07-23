@@ -59,7 +59,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         continue
       }
       await info()
-      if (InviterPin) {
+      if (InviterPin.length != 0) {
       await help()
       } else {
       console.log(`\n您未填写赚金币邀请码变量，开始助力【zero205】\n`);
