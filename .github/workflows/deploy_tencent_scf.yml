@@ -66,7 +66,7 @@ jobs:
       JD_JOY_REWARD_NAME: ${{ secrets.JD_JOY_REWARD_NAME}}
       MARKET_COIN_TO_BEANS: ${{ secrets.MARKET_COIN_TO_BEANS}}
       MARKET_REWARD_NOTIFY: ${{ secrets.MARKET_REWARD_NOTIFY}}
-      JOIN_PK_TEAM: ${{ secrets.JOIN_PK_TEAM}}
+      HELP_YQYL: ${{ secrets.HELP_YQYL}}
       SUPERMARKET_LOTTERY: ${{ secrets.SUPERMARKET_LOTTERY}}
       FRUIT_BEAN_CARD: ${{ secrets.FRUIT_BEAN_CARD}}
       UN_SUBSCRIBES: ${{ secrets.UN_SUBSCRIBES}}
@@ -85,7 +85,7 @@ jobs:
       JD_TRY: ${{ secrets.JD_TRY}}
       TYT_PACKETID: ${{ secrets.TYT_PACKETID}}
       JD_JOY_PARK: ${{ secrets.JD_JOY_PARK}}
-      HELPAUTHOR_WXJ: ${{ secrets.HELPAUTHOR_WXJ}}
+      InviterPin: ${{ secrets.InviterPin}}
       JXNC_NOTIFY_LEVEL: ${{ secrets.JXNC_NOTIFY_LEVEL}}
       summer_movement_ShHelpFlag: ${{ secrets.summer_movement_ShHelpFlag}}
       
@@ -164,7 +164,7 @@ jobs:
           if [ $JD_JOY_REWARD_NAME ]; then sed -i "/variables/a\      JD_JOY_REWARD_NAME: $JD_JOY_REWARD_NAME" serverless.yml; fi;
           if [ $MARKET_COIN_TO_BEANS ]; then sed -i "/variables/a\      MARKET_COIN_TO_BEANS: $MARKET_COIN_TO_BEANS" serverless.yml; fi;
           if [ $MARKET_REWARD_NOTIFY ]; then sed -i "/variables/a\      MARKET_REWARD_NOTIFY: $MARKET_REWARD_NOTIFY" serverless.yml; fi;
-          if [ $JOIN_PK_TEAM ]; then sed -i "/variables/a\      JOIN_PK_TEAM: $JOIN_PK_TEAM" serverless.yml; fi;
+          if [ $HELP_YQYL ]; then sed -i "/variables/a\      HELP_YQYL: $HELP_YQYL" serverless.yml; fi;
           if [ $SUPERMARKET_LOTTERY ]; then sed -i "/variables/a\      SUPERMARKET_LOTTERY: $SUPERMARKET_LOTTERY" serverless.yml; fi;
           if [ $FRUIT_BEAN_CARD ]; then sed -i "/variables/a\      FRUIT_BEAN_CARD: $FRUIT_BEAN_CARD" serverless.yml; fi;
           if [ $UN_SUBSCRIBES ]; then sed -i "/variables/a\      UN_SUBSCRIBES: $UN_SUBSCRIBES" serverless.yml; fi;
@@ -184,7 +184,7 @@ jobs:
           if [ $JD_TRY ]; then sed -i "/variables/a\      JD_TRY: $JD_TRY" serverless.yml; fi;
           if [ $TYT_PACKETID ]; then sed -i "/variables/a\      TYT_PACKETID: $TYT_PACKETID" serverless.yml; fi;
           if [ $JD_JOY_PARK ]; then sed -i "/variables/a\      JD_JOY_PARK: $JD_JOY_PARK" serverless.yml; fi;
-          if [ $HELPAUTHOR_WXJ ]; then sed -i "/variables/a\      HELPAUTHOR_WXJ: $HELPAUTHOR_WXJ" serverless.yml; fi;
+          if [ $InviterPin ]; then sed -i "/variables/a\      InviterPin: $InviterPin" serverless.yml; fi;
           if [ $summer_movement_ShHelpFlag ]; then sed -i "/variables/a\      summer_movement_ShHelpFlag: $summer_movement_ShHelpFlag" serverless.yml; fi;
           cat serverless.yml
           env

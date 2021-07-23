@@ -2,8 +2,7 @@
 #柠檬赚金币
 ##入口为极速版 百元生活费 赚金币 邀请好友
 ##第一次运行可不填写邀请码 运行一次查看自己的邀请码
-export InviterPin="dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D" ##注意！脚本输出的邀请码不能直接用，需要先进行URL编码，转成上面柠檬大佬给的那个示例即可
-##可用编码网址：http://www.jsons.cn/urlencode/
+##export InviterPin="dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D"
 ##助力逻辑：填写你的邀请码变量之后会助力你填写的邀请码，未填写则会默认给【zero205】助力，介意请勿运行
 
 
@@ -60,10 +59,10 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
       }
       await info()
       if (InviterPin.length != 0) {
-      await help()
+        await help()
       } else {
-      console.log(`\n您未填写赚金币邀请码变量，开始助力【zero205】\n`);
-      await help2()
+        console.log(`\n您未填写赚金币邀请码变量，开始助力【zero205】\n`);
+        await help2()
       }
     }
   }
@@ -97,7 +96,6 @@ function info() {
         }
         if (reust.code === 0) {
           $.log("\n【您的赚金币邀请码为】" + reust.data.encryptionInviterPin)
-          $.log("\n【注意！！！】此邀请码不能直接用\n需要先进行URL编码\n可用编码网址：http://www.jsons.cn/urlencode/" + reust.data.encryptionInviterPin)
         } else
           console.log(data.message)
       } catch (e) {
@@ -113,7 +111,7 @@ function help() {
   return new Promise(async (resolve) => {
     let options = {
       url: `https://api.m.jd.com`,
-      body: `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${InviterPin}","type":1}}&appid=market-task-h5&uuid=7303439343432346-7356431353233311&eu=7303439343432341&fv=7356431353233321&_t=1623475839367`,
+      body: `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${encodeURIComponent(InviterPin)}","type":1}}&appid=market-task-h5&uuid=7303439343432346-7356431353233311&eu=7303439343432341&fv=7356431353233321&_t=1623475839367`,
       headers: {
         "Origin": "https://assignment.jd.com",
         "Host": "api.m.jd.com",
