@@ -3,8 +3,7 @@
 活动入口：各处的签到汇总
 Node.JS专用
 IOS软件用户请使用 https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-更新时间：2021-6-18
-推送通知默认简洁模式(多账号只发送一次)。如需详细通知，设置环境变量 JD_BEAN_SIGN_NOTIFY_SIMPLE 为false即可(N账号推送N次通知)。
+更新时间：2021-7-24
 Modified From github https://github.com/ruicky/jd_sign_bot
  */
 const $ = new Env('京东多合一签到SCF')
@@ -51,7 +50,6 @@ if ($.isNode()) {
     $.msg($.name, '【提示】无可用cookie,结束');
     return;
   }
-  process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE = process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE ? process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE : 'true';
   // 下载最新代码
   const content = await download()
   if(! content){
@@ -73,7 +71,7 @@ if ($.isNode()) {
     )
     if (args[0].includes('签到用时')){
       console.log = originalLog
-      if ($.isNode() && notifyContent.length != 0 && process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE === 'true') {
+      if ($.isNode() && notifyContent.length != 0) {
         $.msg($.name, '', notifyContent)
         sendNotify($.name, notifyContent).then(() => {
           console.log('send Notify finish')
@@ -92,10 +90,6 @@ if ($.isNode()) {
   //   require: require,
   //   setTimeout:setTimeout
   // }))
-  // if ($.isNode() && notifyContent && process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE === 'true') {
-  //   $.msg($.name, '', notifyContent);
-  //   await sendNotify($.name, notifyContent)
-  // }
 })()
     .catch((e) => $.logErr(e))
     // .finally(() => $.done())
