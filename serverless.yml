@@ -35,30 +35,30 @@ inputs:
           cronExpression: "0 10 0 * * * *"
           enable: true
           argument: jd_unsubscribe&jd_lotteryMachine&jd_jxqd&jd_ms&jd_jin_tie&jd_get_share_code
-    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #口袋书店 #健康社区
+    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #口袋书店 #健康社区 #柠檬我是大老板
         parameters:
-          name: fruit_pet_jxnc_speedsign_speedredpocke_bookshop
+          name: fruit_pet_jxnc_speedsign_speedredpocke_bookshop_wsdlb
           cronExpression: "0 15 0-18/6 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_bookshop&jd_health
+          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_bookshop&jd_health&jd_wsdlb
     - timer: #摇钱树 #摇钱树助力 #京东种豆得豆 #京喜财富岛
         parameters:
           name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_cfd
           cronExpression: "0 30 0,6-23/1 * * * *"
           enable: true
-          argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd&jd_summer_movement_help
-    - timer: #宠汪汪积分兑换京豆 #签到领现金 #东东小窝 #京东直播 #金榜创造营 #5G超级盲盒
+          argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd
+    - timer: #宠汪汪积分兑换京豆 #签到领现金 #东东小窝 #京东直播 #金榜创造营 #5G超级盲盒 #送豆得豆 #赚30
         parameters:
           name: cash_smallhome_live
           cronExpression: "0 0 0-16/8,20 * * * *"
           enable: true
-          argument: jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_mohe&jd_sddd
+          argument: jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_mohe&jd_sddd&jd_earn30
     - timer: #宠汪汪 #天天提鹅 #燃动夏季 #发财大赢家 #京喜工厂 #东东工厂
         parameters:
           name: dailyegg_joy_summer
           cronExpression: "2 45 0,8-23/1 * * * *"
           enable: true
-          argument: jd_daily_egg&jd_zjb&jd_joy&jd_big_winner&jd_dreamFactory&jd_jdfactory&jd_summer_movement
+          argument: jd_daily_egg&jd_zjb&jd_joy&jd_big_winner&jd_dreamFactory&jd_jdfactory
     - timer: #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量 #发财大赢家互助
         parameters:
           name: superMarket_jxmc_healthenergy
@@ -71,12 +71,12 @@ inputs:
           cronExpression: "0 35 0,6-23/4 * * * *"
           enable: true
           argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_qjd
-    - timer: #京豆变动通知 #京东排行榜 #领京豆额外奖励 #闪购盲盒 #京小兑 #特物z #粉丝互动
+    - timer: #京豆变动通知 #京东排行榜 #领京豆额外奖励 #闪购盲盒 #京小兑 #粉丝互动
         parameters:
           name: beanchange_crazyjoy_rankingList_beanhome_sgmh_jxd
           cronExpression: "0 5 0 * * * *"
           enable: true
-          argument: jd_bean_change&jd_rankingList&jd_bean_home&jd_sgmh&jd_jxd&jd_superBrand&jd_joy_park_task&jd_wxFans
+          argument: jd_bean_change&jd_rankingList&jd_bean_home&jd_sgmh&jd_jxd&jd_joy_park_task&jd_wxFans
     - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #点点券 #女装盲盒 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #点点券
         parameters:
           name: pigPet_syj_kd_jdzz_nzmh_necklace_nzmh_djjl_ddly_lsj_ljd
