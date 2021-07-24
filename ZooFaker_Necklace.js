@@ -537,7 +537,7 @@ let utils = {
     },
     gettoken: function () {
         const https = require('https');
-        var body = `content={"appname":"50082","whwswswws":"","jdkey":"-a45046de9fbf-0a4fc8ec9548a7f9","body":{"platform":"1"}}`;
+        var body = `content={"appname":"50082","whwswswws":"","jdkey":"","body":{"platform":"1"}}`;
         return new Promise((resolve, reject) => {
             let options = {
                 hostname: "bh.m.jd.com",
@@ -570,7 +570,7 @@ let utils = {
         var appid = "50082";
         var TouchSession = this.getTouchSession();
         if (!joyytoken || joyytoken_count > 18) {
-            joyytoken = JSON.parse(await this.gettoken(`content={"appname":"${appid}","whwswswws":"","jdkey":"-a45046de9fbf-0a4fc8ec9548a7f9","body":{"platform":"1"}}`))["joyytoken"];
+            joyytoken = JSON.parse(await this.gettoken())["joyytoken"];
             //console.log("第一次请求joyytoken");
             joyytoken_count = 0;
         }
