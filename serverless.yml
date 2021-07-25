@@ -58,7 +58,7 @@ inputs:
           name: dailyegg_joy_summer
           cronExpression: "2 45 0,8-23/1 * * * *"
           enable: true
-          argument: jd_daily_egg&jd_zjb&jd_joy&jd_big_winner&jd_dreamFactory&jd_jdfactory
+          argument: jd_daily_egg&jd_zjb&jd_joy&jd_big_winner&jd_dreamFactory&jd_jdfactory&jd_summer_movement&jd_summer_movement_help
     - timer: #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量 #发财大赢家互助
         parameters:
           name: superMarket_jxmc_healthenergy
