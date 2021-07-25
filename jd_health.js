@@ -25,8 +25,8 @@ const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 const notify = $.isNode() ? require('./sendNotify') : "";
 let cookiesArr = [], cookie = "", allMessage = "", message;
 const inviteCodes = [
-    `T0225KkcRUxL9FKDJh7ylvMLcACjVfnoaW5kRrbA@T0225KkcRx0Q_AaCdRr1xf8DIQCjVfnoaW5kRrbA@T018v_52Qxge81HeJB2b1ACjVfnoaW5kRrbA@`,
-    `T018v_52Qxge81HeJB2b1ACjVfnoaW5kRrbA@T0205KkcPFd_vD2uSkCi3YhXCjVfnoaW5kRrbA`,
+    `T0225KkcRUxL9FKDJh7ylvMLcACjVfnoaW5kRrbA@T0225KkcRx0Q_AaCdRr1xf8DIQCjVfnoaW5kRrbA@T018v_52Qxge81HeJB2b1ACjVfnoaW5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVfnoaW5kRrbA`,
+    `T018v_52Qxge81HeJB2b1ACjVfnoaW5kRrbA@T0205KkcPFd_vD2uSkCi3YhXCjVfnoaW5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVfnoaW5kRrbA`,
 ]
 let reward = process.env.JD_HEALTH_REWARD_NAME ? process.env.JD_HEALTH_REWARD_NAME : ''
 const randomCount = $.isNode() ? 20 : 0;
@@ -322,33 +322,33 @@ function safeGet(data) {
   }
 }
 
-function readShareCode() {
-  console.log(`开始`)
-  return new Promise(async resolve => {
-    $.get({
-      url: `http://share.turinglabs.net/api/v3/health/query/${randomCount}/`,
-      'timeout': 10000
-    }, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} health/read API请求失败，请检查网路重试`)
-        } else {
-          if (data) {
-            console.log(`随机取${randomCount}个码放到您固定的互助码后面(不影响已有固定互助)`)
-            data = JSON.parse(data);
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-    await $.wait(10000);
-    resolve()
-  })
-}
+// function readShareCode() {
+//   console.log(`开始`)
+//   return new Promise(async resolve => {
+//     $.get({
+//       url: `http://share.turinglabs.net/api/v3/health/query/${randomCount}/`,
+//       'timeout': 10000
+//     }, (err, resp, data) => {
+//       try {
+//         if (err) {
+//           console.log(`${JSON.stringify(err)}`)
+//           console.log(`${$.name} health/read API请求失败，请检查网路重试`)
+//         } else {
+//           if (data) {
+//             console.log(`随机取${randomCount}个码放到您固定的互助码后面(不影响已有固定互助)`)
+//             data = JSON.parse(data);
+//           }
+//         }
+//       } catch (e) {
+//         $.logErr(e, resp)
+//       } finally {
+//         resolve(data);
+//       }
+//     })
+//     await $.wait(10000);
+//     resolve()
+//   })
+// }
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
@@ -361,10 +361,10 @@ function shareCodesFormat() {
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
       $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
+//     const readShareCodeRes = await readShareCode();
+//     if (readShareCodeRes && readShareCodeRes.code === 200) {
+//       $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+//     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
