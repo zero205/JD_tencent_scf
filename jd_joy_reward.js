@@ -84,9 +84,9 @@ Date.prototype.Format = function (fmt) { //author: meizz
       }
       $.validate = '';
       $.validate = await zooFaker.injectToRequest()
-      console.log(`脚本开始请求时间 ${(new Date()).Format("yyyy-MM-dd hh:mm:ss | S")}`);
     }
   }
+  console.log(`脚本开始请求时间 ${(new Date()).Format("yyyy-MM-dd hh:mm:ss | S")}`);
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
