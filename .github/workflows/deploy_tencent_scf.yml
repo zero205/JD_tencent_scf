@@ -88,6 +88,7 @@ jobs:
       InviterPin: ${{ secrets.InviterPin}}
       JXNC_NOTIFY_LEVEL: ${{ secrets.JXNC_NOTIFY_LEVEL}}
       summer_movement_ShHelpFlag: ${{ secrets.summer_movement_ShHelpFlag}}
+      NOT_RUN: ${{ secrets.NOT_RUN}}
       
     steps:
       - name: Checkout
@@ -186,6 +187,7 @@ jobs:
           if [ $JD_JOY_PARK ]; then sed -i "/variables/a\      JD_JOY_PARK: $JD_JOY_PARK" serverless.yml; fi;
           if [ $InviterPin ]; then sed -i "/variables/a\      InviterPin: $InviterPin" serverless.yml; fi;
           if [ $summer_movement_ShHelpFlag ]; then sed -i "/variables/a\      summer_movement_ShHelpFlag: $summer_movement_ShHelpFlag" serverless.yml; fi;
+          if [ $NOT_RUN ]; then sed -i "/variables/a\      NOT_RUN: $NOT_RUN" serverless.yml; fi;
           cat serverless.yml
           env
 
