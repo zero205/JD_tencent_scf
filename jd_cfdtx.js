@@ -88,6 +88,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
         }
         continue
       }
+      $.num = i
       $.info = {}
       $.money = 0
       token = await getJxToken()
@@ -105,13 +106,18 @@ async function cfd() {
   try {
     nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
     if ((nowTimes.getHours() === 11 || nowTimes.getHours() === 23) && nowTimes.getMinutes() === 59) {
-      let nowtime = new Date().Format("ss")
-      let starttime = process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME : 60;
+      let nowtime = new Date().Format("s.S")
+      let starttime = $.isNode() ? (process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME * 1 : 59.9) : ($.getdata('CFD_STARTTIME') ? $.getdata('CFD_STARTTIME') * 1 : 59.9);
       if(nowtime < 59) {
         let sleeptime = (starttime - nowtime) * 1000;
         console.log(`等待时间 ${sleeptime / 1000}\n`);
         await sleep(sleeptime)
       }
+    }
+
+    if ($.num % 2 !== 0) {
+      console.log(`等待`)
+      await $.wait(2000)
     }
 
     const beginInfo = await getUserInfo(false);
@@ -123,7 +129,7 @@ async function cfd() {
     console.log(`获取提现资格`)
     await cashOutQuali()
     console.log(`提现`)
-    console.log(`提现金额：按库存轮询提现，0点场提1元以上，12点场提0.5元以上，12点后不做限制`)
+    console.log(`提现金额：按库存轮询提现，0点场提1元以上，12点场提0.5元以上，12点后不做限制\n`)
     await userCashOutState()
 
     await showMsg()
@@ -169,21 +175,25 @@ async function userCashOutState(type = true) {
           if (type) {
             if (data.dwTodayIsCashOut !== 1) {
               if (data.ddwUsrTodayGetRich >= data.ddwTodayTargetUnLockRich) {
+                nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
                 if (nowTimes.getHours() >= 0 && nowTimes.getHours() < 12) {
                   data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 1)
-                } else if (nowTimes.getHours() === 12 && nowTimes.getMinutes() <= 10) {
+                } else if (nowTimes.getHours() === 12 && nowTimes.getMinutes() <= 5) {
                   data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 0.5)
                 }
                 for (let key of Object.keys(data.UsrCurrCashList).reverse()) {
                   let vo = data.UsrCurrCashList[key]
-                  if (vo.dwDefault === 1) {
+                  if (vo.dwRemain > 0) {
                     let cashOutRes = await cashOut(vo.ddwMoney, vo.ddwPaperMoney)
                     if (cashOutRes.iRet === 0) {
                       $.money = vo.ddwMoney / 100
-                      console.log(`提现成功获得：${$.money}元`)
+                      console.log(`提现成功：获得${$.money}元`)
+                      break
                     } else {
                       await userCashOutState()
                     }
+                  } else {
+                    console.log(`提现失败：${vo.ddwMoney / 100}元库存不足`)
                   }
                 }
               } else {
@@ -210,14 +220,14 @@ async function userCashOutState(type = true) {
                       break
                   }
                   console.log(`升级建筑`)
-                  console.log(`【${buildNmae}】当前等级：${vo.dwLvl} 升级获得财富：${getBuildInfoRes.ddwLvlRich}`)
-                  console.log(`【${buildNmae}】升级需要${getBuildInfoRes.ddwNextLvlCostCoin}金币，当前拥有${$.info.ddwCoinBalance}`)
+                  console.log(`【${buildNmae}】当前等级：${vo.dwLvl}`)
+                  console.log(`【${buildNmae}】升级需要${getBuildInfoRes.ddwNextLvlCostCoin}金币，当前拥有${$.info.ddwCoinBalance}金币`)
                   if(getBuildInfoRes.dwCanLvlUp > 0 && $.info.ddwCoinBalance >= getBuildInfoRes.ddwNextLvlCostCoin) {
                     console.log(`【${buildNmae}】满足升级条件，开始升级`)
                     const body = `ddwCostCoin=${getBuildInfoRes.ddwNextLvlCostCoin}&strBuildIndex=${getBuildInfoRes.strBuildIndex}`
                     let buildLvlUpRes = await buildLvlUp(body)
                     if (buildLvlUpRes.iRet === 0) {
-                      console.log(`【${buildNmae}】升级成功\n`)
+                      console.log(`【${buildNmae}】升级成功：获得${getBuildInfoRes.ddwLvlRich}财富\n`)
                       break
                     } else {
                       console.log(`【${buildNmae}】升级失败：${buildLvlUpRes.sErrMsg}\n`)
@@ -306,7 +316,7 @@ function buildLvlUp(body) {
 // 获取用户信息
 function getUserInfo(showInvite = true) {
   return new Promise(async (resolve) => {
-    $.get(taskUrl(`user/QueryUserInfo`), (err, resp, data) => {
+    $.get(taskUrl(`user/QueryUserInfo`, `strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
