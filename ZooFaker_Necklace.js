@@ -604,7 +604,7 @@ let utils = {
         var encrypt_id = this.decipherJoyToken(appid + joyytoken, appid)["encrypt_id"].split(",");
         var nonce_str = this.getRandomWord(10);
         // nonce_str="iY8uFBbYX7";
-        var key = this.getKey(encrypt_id[2], nonce_str, time);
+        var key = this.getKey(encrypt_id[2], nonce_str, time.toString());
 
         var str1 = `${senddata}&token=${joyytoken}&time=${time}&nonce_str=${nonce_str}&key=${key}&is_trust=1`;
         //console.log(str1);

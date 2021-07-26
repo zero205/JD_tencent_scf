@@ -4,12 +4,13 @@
 入口：我的-赚30
 备注：赚30元每日签到红包、天降红包助力，在earn30Pins环境变量中填入需要签到和接受助力的账号。
 技巧：每月可以提现100元，但需要邀请一个新人下首单。可以用已注册手机号重新注册为新人账号，切换ip可以提高成功率。
+助力逻辑：优先账号内互助，再帮zero205助力
 TG学习交流群：https://t.me/cdles
 3 1,6 * * * https://raw.githubusercontent.com/cdle/jd_study/main/jd_earn30.js
 */
 const $ = new Env("赚30元")
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const ua = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random()*4+10)}.${Math.ceil(Math.random()*4)};${randomString(40)}`
+const ua = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random() * 4 + 10)}.${Math.ceil(Math.random() * 4)};${randomString(40)}`
 var pins = process.env.earn30Pins ? process.env.earn30Pins : '';
 let cookiesArr = [];
 var helps = [];
@@ -18,7 +19,7 @@ var tools = [];
      if (!pins) {
           console.log("未填写环境变量earn30Pins，默认所有账号")
      }
-     requireConfig()
+     await requireConfig()
      for (let i in cookiesArr) {
           i = +i
           cookie = cookiesArr[i]
@@ -26,7 +27,7 @@ var tools = [];
                var data = await requestApi('createSplitRedPacket', cookie, {
                     scene: 3
                });
-               if(data){
+               if (data) {
                     if (data.code === 0 && data.SplitRedPacketInfo) {
                          helps.push({
                               redPacketId: data.SplitRedPacketInfo.redPacketId,
@@ -36,7 +37,7 @@ var tools = [];
                          })
                     } else if (data.code === 1) {
                          data = await requestApi('getSplitRedPacket', cookie);
-                         if (data && data.code === '0' && data.SplitRedPacketInfo ) {//&& data.SplitRedPacketInfo.finishedMoney != data.SplitRedPacketInfo.totalMoney
+                         if (data && data.code === '0' && data.SplitRedPacketInfo) {//&& data.SplitRedPacketInfo.finishedMoney != data.SplitRedPacketInfo.totalMoney
                               helps.push({
                                    redPacketId: data.SplitRedPacketInfo.redPacketId,
                                    shareCode: data.SplitRedPacketInfo.shareCode,
@@ -49,40 +50,69 @@ var tools = [];
                data = await requestApi('fpSign', cookie);
                if (data) {
                     if (data.code === 1) {
-                         console.log(`${i+1} 已经签到过了`)
+                         console.log(`${i + 1} 已经签到过了`)
                     } else if (data.code === '0') {
-                         console.log(`${i+1} 签到获得${data.money}`)
+                         console.log(`${i + 1} 签到获得${data.money}`)
                     } else {
-                         console.log(`${i+1} 签到失败`)
+                         console.log(`${i + 1} 签到失败`)
                     }
-               }               
+               }
           }
           tools.push({
                id: i,
                cookie: cookie,
-               helps:[],
+               helps: [],
           })
      }
-     for(let help of helps){
+     for (let help of helps) {
           while (tools.length) {
                var tool = tools.pop()
-               var data = await requestApi('splitRedPacket', tool.cookie, {shareCode:help.shareCode,groupCode:help.redPacketId});
-               if(data){
-                    if(tool.id == help.id){
+               var data = await requestApi('splitRedPacket', tool.cookie, { shareCode: help.shareCode, groupCode: help.redPacketId });
+               if (data) {
+                    if (tool.id == help.id) {
                          continue
                     }
-                    console.log(`${tool.id+1}->${help.id+1} ${data.text}`)
-                    if(tool.helps.indexOf(help.id) != -1){
+                    console.log(`${tool.id + 1}->${help.id + 1} ${data.text}`)
+                    if (tool.helps.indexOf(help.id) != -1) {
                          break
                     }
-                    if(data.text == "我的红包已拆完啦"){
+                    if (data.text == "我的红包已拆完啦") {
                          tools.unshift(tool)
                          break
                     }
-                    if(data.text.indexOf("帮拆出错")!=-1){
+                    if (data.text.indexOf("帮拆出错") != -1) {
                          continue
                     }
-                    if(data.text.indexOf("帮拆次数已达上限")!=-1){
+                    if (data.text.indexOf("帮拆次数已达上限") != -1) {
+                         continue
+                    }
+                    tool.helps.push(help.id)
+                    tools.unshift(tool)
+               }
+          }
+     }
+     console.log(`内部互助已完成，开始帮【zero205】助力，感谢！`)
+     await getCode()
+     for (let help of $.zero205) {
+          while (tools.length) {
+               var tool = tools.pop()
+               var data = await requestApi('splitRedPacket', tool.cookie, { shareCode: help.shareCode, groupCode: help.redPacketId });
+               if (data) {
+                    if (tool.id == help.id) {
+                         continue
+                    }
+                    console.log(`${tool.id + 1}->${help.id + 1} ${data.text}`)
+                    if (tool.helps.indexOf(help.id) != -1) {
+                         break
+                    }
+                    if (data.text == "我的红包已拆完啦") {
+                         tools.unshift(tool)
+                         break
+                    }
+                    if (data.text.indexOf("帮拆出错") != -1) {
+                         continue
+                    }
+                    if (data.text.indexOf("帮拆次数已达上限") != -1) {
                          continue
                     }
                     tool.helps.push(help.id)
@@ -91,8 +121,8 @@ var tools = [];
           }
      }
 })().catch((e) => {
-          $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-     })
+     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+})
      .finally(() => {
           $.done();
      })
@@ -130,7 +160,7 @@ function requireConfig() {
                          cookiesArr.push(jdCookieNode[item])
                     }
                })
-               if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+               if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => { };
           } else {
                cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
           }
@@ -148,6 +178,8 @@ function randomString(e) {
           n += t.charAt(Math.floor(Math.random() * a));
      return n
 }
+
+var _0xodS='jsjiami.com.v6',_0x53fe=[_0xodS,'\x67\x65\x74','\x68\x74\x74\x70\x73\x3a\x2f\x2f\x72\x61\x77\x2e\x66\x61\x73\x74\x67\x69\x74\x2e\x6f\x72\x67\x2f\x7a\x65\x72\x6f\x32\x30\x35\x2f\x75\x70\x64\x61\x74\x65\x54\x65\x61\x6d\x2f\x6d\x61\x69\x6e\x2f\x73\x68\x61\x72\x65\x43\x6f\x64\x65\x73\x2f\x33\x30\x2e\x6a\x73\x6f\x6e','\x4d\x6f\x7a\x69\x6c\x6c\x61\x2f\x35\x2e\x30\x20\x28\x69\x50\x68\x6f\x6e\x65\x3b\x20\x43\x50\x55\x20\x69\x50\x68\x6f\x6e\x65\x20\x4f\x53\x20\x31\x33\x5f\x32\x5f\x33\x20\x6c\x69\x6b\x65\x20\x4d\x61\x63\x20\x4f\x53\x20\x58\x29\x20\x41\x70\x70\x6c\x65\x57\x65\x62\x4b\x69\x74\x2f\x36\x30\x35\x2e\x31\x2e\x31\x35\x20\x28\x4b\x48\x54\x4d\x4c\x2c\x20\x6c\x69\x6b\x65\x20\x47\x65\x63\x6b\x6f\x29\x20\x56\x65\x72\x73\x69\x6f\x6e\x2f\x31\x33\x2e\x30\x2e\x33\x20\x4d\x6f\x62\x69\x6c\x65\x2f\x31\x35\x45\x31\x34\x38\x20\x53\x61\x66\x61\x72\x69\x2f\x36\x30\x34\x2e\x31\x20\x45\x64\x67\x2f\x38\x37\x2e\x30\x2e\x34\x32\x38\x30\x2e\x38\x38','\x7a\x65\x72\x6f\x32\x30\x35','\x70\x61\x72\x73\x65','\x6c\x6f\x67','\u83b7\u53d6\u52a9\u529b\u7801\u6210\u529f\uff0c\u5f00\u59cb\u52a9\u529b','\x6c\x6f\x67\x45\x72\x72','\x46\x43\x6a\x4f\x44\x73\x43\x6a\x69\x50\x71\x57\x61\x6d\x69\x2e\x45\x55\x63\x6f\x41\x56\x6d\x2e\x76\x36\x3d\x3d'];var _0x1463=function(_0x83958c,_0xc60544){_0x83958c=~~'0x'['concat'](_0x83958c);var _0x1e47e3=_0x53fe[_0x83958c];return _0x1e47e3;};(function(_0x4609f8,_0xcce60e){var _0x588f01=0x0;for(_0xcce60e=_0x4609f8['shift'](_0x588f01>>0x2);_0xcce60e&&_0xcce60e!==(_0x4609f8['pop'](_0x588f01>>0x3)+'')['replace'](/[FCODCPqWEUAV=]/g,'');_0x588f01++){_0x588f01=_0x588f01^0x9a623;}}(_0x53fe,_0x1463));function getCode(){return new Promise(_0x404510=>{$[_0x1463('0')]({'\x75\x72\x6c':_0x1463('1'),'\x68\x65\x61\x64\x65\x72\x73':{'User-Agent':_0x1463('2')}},async(_0x52c516,_0x2c76d1,_0x4416bb)=>{try{$[_0x1463('3')]=JSON[_0x1463('4')](_0x4416bb);console[_0x1463('5')](_0x1463('6'));}catch(_0x331123){$[_0x1463('7')](_0x331123,_0x2c76d1);}finally{_0x404510();}});});};_0xodS='jsjiami.com.v6';
 
 function Env(t, e) {
      "undefined" != typeof process && JSON.stringify(process.env).indexOf("GIT_HUB") > -1 && process.exit(0);
@@ -208,7 +240,7 @@ function Env(t, e) {
                const i = this.getdata(t);
                if (i) try {
                     s = JSON.parse(this.getdata(t))
-               } catch {}
+               } catch { }
                return s
           }
           setjson(t, e) {
@@ -320,7 +352,7 @@ function Env(t, e) {
           initGotEnv(t) {
                this.got = this.got ? this.got : require("got"), this.cktough = this.cktough ? this.cktough : require("tough-cookie"), this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar))
           }
-          get(t, e = (() => {})) {
+          get(t, e = (() => { })) {
                t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
                     "X-Surge-Skip-Scripting": !1
                })), $httpClient.get(t, (t, s, i) => {
@@ -370,7 +402,7 @@ function Env(t, e) {
                     e(s, i, i && i.body)
                }))
           }
-          post(t, e = (() => {})) {
+          post(t, e = (() => { })) {
                if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
                     "X-Surge-Skip-Scripting": !1
                })), $httpClient.post(t, (t, s, i) => {

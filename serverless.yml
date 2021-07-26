@@ -48,12 +48,12 @@ inputs:
           cronExpression: "0 30 0,6-23/1 * * * *"
           enable: true
           argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd
-    - timer: #宠汪汪积分兑换京豆 #京东超市兑换
+    - timer: #宠汪汪积分兑换京豆 #京东超市兑换 #财富岛提现
         parameters:
-          name: blueCoin_joyreward
-          cronExpression: "0 57 7,15,23 * * * *"
+          name: blueCoin_joyreward_cfdtx
+          cronExpression: "0 58 7,15,23 * * * *"
           enable: true
-          argument: jd_blueCoin&jd_joy_reward
+          argument: jd_blueCoin&jd_joy_reward&jd_cfdtx
     - timer: #宠汪汪喂食 #天天提鹅 #发财大赢家 #京喜工厂 #东东工厂
         parameters:
           name: dailyegg_joy_summer
