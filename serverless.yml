@@ -30,7 +30,7 @@ inputs:
           cronExpression: "0 1 0 * * * *"
           enable: true
           argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_dpqd&jd_car
-    - timer: #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #天天提鹅 #领金贴
+    - timer: #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #领金贴
         parameters:
           name: unsubscribe_lotteryMachine_car_ms_jintie
           cronExpression: "0 10 0 * * * *"
@@ -54,12 +54,12 @@ inputs:
           cronExpression: "0 0 0-16/8,20 * * * *"
           enable: true
           argument: jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_mohe&jd_sddd&jd_earn30
-    - timer: #宠汪汪 #天天提鹅 #燃动夏季 #发财大赢家 #京喜工厂 #东东工厂
+    - timer: #宠汪汪 #天天提鹅 #发财大赢家 #京喜工厂 #东东工厂
         parameters:
           name: dailyegg_joy_summer
           cronExpression: "2 45 0,8-23/1 * * * *"
           enable: true
-          argument: jd_daily_egg&jd_zjb&jd_joy&jd_big_winner&jd_dreamFactory&jd_jdfactory&jd_summer_movement&jd_summer_movement_help
+          argument: jd_daily_egg&jd_zjb&jd_joy&jd_big_winner&jd_dreamFactory&jd_jdfactory
     - timer: #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量 #发财大赢家互助
         parameters:
           name: superMarket_jxmc_healthenergy
