@@ -131,9 +131,10 @@ async function joyReward() {
         // console.log(`宠物等级 ${data.level}\n`);
         let saleInfoId = '', giftValue = '', extInfo = '', leftStock = 0, salePrice = 0;
         let rewardNum = 0;
-        // if ($.isNode() && process.env.JD_JOY_REWARD_NAME) {
-        //   rewardNum = process.env.JD_JOY_REWARD_NAME * 1;
-        // } else if ($.getdata('joyRewardName')) {
+        if ($.isNode() && process.env.JD_JOY_REWARD_NAME) {
+          rewardNum = process.env.JD_JOY_REWARD_NAME * 1;
+        }
+         // else if ($.getdata('joyRewardName')) {
         //   if ($.getdata('joyRewardName') * 1 === 1) {
         //     //兼容之前的BoxJs设置
         //     rewardNum = 20;
@@ -148,17 +149,23 @@ async function joyReward() {
         if (time >= 0 && time < 8) {
           giftSaleInfos = 'beanConfigs0';
           $.Num = 0
-          rewardNum = 500;
+          if(rewardNum == 0){
+            rewardNum = 500
+          }
         }
         if (time >= 8 && time < 16) {
           giftSaleInfos = 'beanConfigs8';
           $.Num = 8
-          rewardNum = 500;
+          if(rewardNum == 0){
+            rewardNum = 500
+          }
         }
         if (time >= 16 && time < 24) {
           giftSaleInfos = 'beanConfigs16';
           $.Num = 16
-          rewardNum = 20;
+          if(rewardNum == 0){
+            rewardNum = 20
+          }
         }
         console.log(`\n当前为${$.Num}点场次\n`)
         for (let item of data[giftSaleInfos]) {
