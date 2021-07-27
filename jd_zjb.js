@@ -62,7 +62,9 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         await help()
       } else {
         console.log(`\n您未填写赚金币邀请码变量，开始助力【zero205】\n`);
-        await help2()
+        await help2("zero205","%2FeNHdfn6fP%2BTFwVda3ipjWwvTFqeKBZaRG38adWABKk%3D")
+        await help2("whisper liu","Sev6JWjut6GyaEHJIWpSQQ%3D%3D")
+        
       }
     }
   }
@@ -135,11 +137,11 @@ function help() {
   });
 }
 
-function help2() {
+function help2(name,code) {
   return new Promise(async (resolve) => {
     let options = {
       url: `https://api.m.jd.com`,
-      body: `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"%2FeNHdfn6fP%2BTFwVda3ipjWwvTFqeKBZaRG38adWABKk%3D","type":1}}&appid=market-task-h5&uuid=7303439343432346-7356431353233311&eu=7303439343432341&fv=7356431353233321&_t=1623475839367`,
+      body: `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${code}","type":1}}&appid=market-task-h5&uuid=7303439343432346-7356431353233311&eu=7303439343432341&fv=7356431353233321&_t=1623475839367`,
       headers: {
         "Origin": "https://assignment.jd.com",
         "Host": "api.m.jd.com",
@@ -147,11 +149,12 @@ function help2() {
         "Cookie": cookie,
       }
     }
+    console.log(options['body'])
     $.post(options, async (err, resp, data) => {
       try {
         const reust = JSON.parse(data)
         if (reust.code === 0) {
-          $.log("赚金币助力【zero205】成功，感谢！")
+          $.log(`赚金币助力【${name}】成功，感谢！`)
         } else
           console.log(reust.message)
       } catch (e) {
