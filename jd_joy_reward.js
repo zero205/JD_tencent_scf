@@ -113,9 +113,9 @@ Date.prototype.Format = function (fmt) { //author: meizz
 
 async function joyReward() {
   try {
+    let starttime = process.env.JOY_STARTTIME ? process.env.JOY_STARTTIME : 59.8;
     let nowtime = new Date().Format("s.S")
-    let starttime = process.env.JOY_STARTTIME ? process.env.JOY_STARTTIME : 59;
-    if ($.index == 1 && nowtime < 59) {
+    if ($.index == 1 && nowtime < starttime) {
       let sleeptime = (starttime - nowtime) * 1000;
       console.log(`等待时间 ${sleeptime / 1000}`);
       await zooFaker.sleep(sleeptime)
