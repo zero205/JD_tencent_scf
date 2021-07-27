@@ -624,7 +624,7 @@ let utils = {
             grn: 1,
             ioa: "fffffftt",
             jj: 1,
-            jk: "-a45046de9fbf-0a4fc8ec9548a7f9",
+            jk: "a",
             mj: [1, 0, 0],
             msg: "",
             nav: "88569",
