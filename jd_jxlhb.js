@@ -48,7 +48,7 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
       '活动入口：京喜app-》我的-》京喜领88元红包\n' +
       '助力逻辑：脚本会助力作者，介意请取消脚本')
   let res = await getAuthorShareCode() || [];
-  let res2 = await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jxhb.json') || [];
+  let res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jxhb.json') || [];
   if (res && res.activeId) $.activeId = res.activeId;
   $.authorMyShareIds = [...((res && res.codes) || []), ...res2];
   //开启红包,获取互助码
@@ -240,7 +240,7 @@ function openRedPack(strPin, grade) {
   })
 }
 
-function getAuthorShareCode(url = "https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jxhb.json") {
+function getAuthorShareCode(url = "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jxhb.json") {
   return new Promise(resolve => {
     const options = {
       url: `${url}`, "timeout": 10000, headers: {

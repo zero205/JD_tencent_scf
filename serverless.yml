@@ -57,7 +57,7 @@ inputs:
     - timer: #宠汪汪喂食 #天天提鹅 #发财大赢家 #京喜工厂 #东东工厂
         parameters:
           name: dailyegg_joy_summer
-          cronExpression: "2 45 0,8-23/1 * * * *"
+          cronExpression: "2 45 0,6-23/1 * * * *"
           enable: true
           argument: jd_daily_egg&jd_zjb&jd_joy_feedPets&jd_big_winner&jd_dreamFactory&jd_jdfactory
     - timer: #宠汪汪 #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量 #发财大赢家互助
@@ -66,24 +66,24 @@ inputs:
           cronExpression: "0 20 0,6-23/2 * * * *"
           enable: true
           argument: jd_joy&jd_redPacket&jd_superMarket&jd_jxmc&jd_z_health_energy&jd_fcdyj
-    - timer: #宠汪汪偷狗粮 #汪汪乐园 #柠檬推一推 #抢京豆 #送豆得豆 #赚30
+    - timer: #宠汪汪偷狗粮 #汪汪乐园 #柠檬推一推 #抢京豆 #送豆得豆 #赚30 #京喜领88元红包
         parameters:
-          name: joysteal_joypark_tyt_qjd
+          name: joysteal_joypark_tyt_qjd_jxlhb
           cronExpression: "0 35 0,6-23/4 * * * *"
           enable: true
-          argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_qjd&jd_sddd&jd_earn30
+          argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_qjd&jd_sddd&jd_earn30&jd_jxlhb
     - timer: #京东排行榜 #闪购盲盒 #京小兑 #粉丝互动 #签到领现金 #东东小窝 #京东直播 #金榜创造营
         parameters:
           name: rankingList_beanhome_sgmh_jxd
           cronExpression: "0 5 0,12 * * * *"
           enable: true
           argument: jd_rankingList&jd_sgmh&jd_jxd&jd_joy_park_task&jd_wxFans&jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_joy_run
-    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #女装盲盒 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #点点券 #特务Z #京喜领88元红包 #点点券
+    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #女装盲盒 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #点点券 #特务Z #点点券
         parameters:
-          name: pigPet_syj_kd_jdzz_nzmh_djjl_ddly_lsj_ljd_tewu_jxlhb_necklace
+          name: pigPet_syj_kd_jdzz_nzmh_djjl_ddly_lsj_ljd_tewu_necklace
           cronExpression: "0 20 0,20 * * * *"
           enable: true
-          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_nzmh&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_tewuZ&jd_jxlhb&jd_necklace
+          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_nzmh&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_tewuZ&jd_necklace
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的

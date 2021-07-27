@@ -144,7 +144,7 @@ async function doChannelsListTask(taskId, taskType) {
 async function helpFriends() {
   await updateInviteCode();
   // if (!$.inviteCodes) await updateInviteCodeCDN();
-  await updateInviteCodeCDN('https://cdn.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/jd_updateSmallHomeInviteCode.json');
+  await updateInviteCodeCDN('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jd_updateSmallHomeInviteCode.json');
   if ($.inviteCodes && $.inviteCodes['inviteCode']) {
     for (let item of $.inviteCodes.inviteCode) {
       if (!item) continue
@@ -782,7 +782,7 @@ function login(userName) {
     })
   })
 }
-function updateInviteCode(url = 'https://cdn.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/jd_updateSmallHomeInviteCode.json') {
+function updateInviteCode(url = 'https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jd_updateSmallHomeInviteCode.json') {
   return new Promise(resolve => {
     $.get({url}, async (err, resp, data) => {
       try {

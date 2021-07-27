@@ -84,11 +84,11 @@ async function jd_jxqd() {
   try {
     await dotask('query?', 'signhb_source')
     await $.wait(1000)
-    await dotask('dotask?task=1', 'signhb_source,task')
-    await $.wait(2000)
-    await dotask('dotask?task=2', 'signhb_source,task')
-    await $.wait(2000)
-    await dotask('dotask?task=3', 'signhb_source,task')
+    for (let j = 0; j < 5; j++) {
+      $.index = j + 1;
+      await dotask(`dotask?task=${$.index}`, 'signhb_source,task')
+      await $.wait(1000)
+    }
   } catch (e) {
     $.logErr(e)
   }
@@ -104,7 +104,7 @@ function dotask(task, stk) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
-          console.log(`完成`)
+          console.log(`第${$.index}个任务已完成`)
         }
       } catch (e) {
         $.logErr(e, resp)

@@ -43,7 +43,7 @@ exports.main_handler = async (event, context, callback) => {
       switch (TENCENTSCF_SOURCE_TYPE) {
         case 'git':
           //2.执行github远端的js文件(因github的raw类型的文件被墙,此方法云函数不推荐)
-          request(`https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/${script}.js`, function (error, response, body) {
+          request(`https://raw.fastgit.org/zero205/JD_tencent_scf/main/${script}.js`, function (error, response, body) {
             eval(response.body)
           })
           break;
