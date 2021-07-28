@@ -1,35 +1,27 @@
 /*
- * @Author: LXK9301 https://github.com/LXK9301
- * @Date: 2020-11-10 14:07:07 
- * @Last Modified by: LXK9301
- * @Last Modified time: 2021-5-19 12:27:16
- */
-/*
-活动入口：京东金融养猪猪
-一键开完所有的宝箱功能。耗时70秒
-大转盘抽奖
-喂食
-每日签到
-完成分享任务得猪粮
+*
+京东金融养猪猪
+活动入口：京东金融养猪猪，
+脚本更新地址：https://github.com/zero205/JD_tencent_scf
 已支持IOS双京东账号,Node.js支持N个京东账号
-脚本兼容: QuantumultX, Surge, Loon, 小火箭，JSBox, Node.js
-===============Quantumultx===============
+脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
+============Quantumultx===============
 [task_local]
-#京东金融养猪猪
-12 0-23/6 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_pigPet.js, tag=京东金融养猪猪, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdyz.png, enabled=true
-
+#摇钱树助力
+12 0-23/6 * * * https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_pigPet.js, tag=京东金融养猪猪, enabled=true
 ================Loon==============
 [Script]
-cron "12 0-23/6 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_pigPet.js, tag=京东金融养猪猪
-
+cron "12 0-23/6 * * *" script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_pigPet.js,tag=摇钱树助力
 ===============Surge=================
-京东金融养猪猪 = type=cron,cronexp="12 0-23/6 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_pigPet.js
-
+京东金融养猪猪 = type=cron,cronexp="12 0-23/6 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_pigPet.js
 ============小火箭=========
-京东金融养猪猪 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_pigPet.js, cronexpr="12 0-23/6 * * *", timeout=3600, enable=true
- */
+京东金融养猪猪 = type=cron,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_pigPet.js, cronexpr="12 0-23/6 * * *", timeout=3600, enable=true
+*
+*/
 
 const $ = new Env('金融养猪');
+const url = require('url');
+const querystring = require('querystring');
 let cookiesArr = [], cookie = '', allMessage = '';
 const JD_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
 const MISSION_BASE_API = `https://ms.jr.jd.com/gw/generic/mission/h5/m`;
@@ -88,6 +80,9 @@ async function jdPigPet() {
     await pigPetOpenBox();
     await pigPetLotteryIndex();
     await pigPetLottery();
+    await pigPetMissionList();
+    await missions();
+    console.log('第一遍完成,开始领取可能的未领取:')
     await pigPetMissionList();
     await missions();
     await pigPetUserBag();
@@ -152,7 +147,7 @@ function pigPetSignOne() {
 //查询背包食物
 function pigPetUserBag() {
   return new Promise(async resolve => {
-    const body = {"source":0,"channelLV":"yqs","riskDeviceParam":"{}","t":Date.now(),"skuId":"1001003004","category":"1001"};
+    const body = {"source":2,"channelLV":"yqs","riskDeviceParam":"{}","t":Date.now(),"skuId":"1001003004","category":"1001"};
     $.post(taskUrl('pigPetUserBag', body), async (err, resp, data) => {
       try {
         if (err) {
@@ -278,7 +273,7 @@ function pigPetLogin() {
 //开宝箱
 function pigPetOpenBox() {
   return new Promise(async resolve => {
-    const body = {"source":0,"channelLV":"yqs","riskDeviceParam":"{}","no":5,"category":"1001","t": Date.now()}
+    const body = {"source":2,"channelLV":"yqs","riskDeviceParam":"{}","no":5,"category":"1001","t": Date.now()}
     $.post(taskUrl('pigPetOpenBox', body), async (err, resp, data) => {
       try {
         if (err) {
@@ -321,7 +316,7 @@ function pigPetLotteryIndex() {
   $.currentCount = 0;
   return new Promise(async resolve => {
     const body = {
-      "source":0,
+      "source":2,
       "channelLV":"juheye",
       "riskDeviceParam": "{}"
     }
@@ -400,7 +395,7 @@ function pigPetSignIndex() {
 function pigPetLotteryPlay() {
   return new Promise(async resolve => {
     const body = {
-      "source":0,
+      "source":2,
       "channelLV":"juheye",
       "riskDeviceParam":"{}",
       "t":Date.now(),
@@ -439,20 +434,36 @@ function pigPetLotteryPlay() {
 }
 async function missions() {
   for (let item of $.missions) {
+    // console.log(JSON.stringify(item))
     if (item.status === 4) {
       console.log(`\n${item.missionName}任务已做完,开始领取奖励`)
       await pigPetDoMission(item.mid);
+      await $.wait(1000)
     } else if (item.status === 5){
       console.log(`\n${item.missionName}已领取`)
     } else if (item.status === 3){
+      // console.log(JSON.stringify(item))
       console.log(`\n${item.missionName}未完成`)
-      if (item.mid === 'CPD01') {
-        await pigPetDoMission(item.mid);
-      } else {
-        //TODO
-        // await pigPetDoMission(item.mid);
-        // await queryMissionReceiveAfterStatus(item.mid);
-        // await finishReadMission(item.mid);
+      await pigPetDoMission(item.mid);
+      await $.wait(1000)
+      let parse
+      if (item.url){
+        parse = url.parse(item.url,true,true)
+        console.log(JSON.stringify(parse))
+      }else{
+        parse = {}
+      }
+      if(parse.query && parse.query.readTime){
+        console.log(`做任务:${item.missionName}`)
+        // console.log(JSON.stringify(item))
+        await queryMissionReceiveAfterStatus(parse.query.missionId)
+        console.log(`等待:${parse.query.readTime}`)
+        await $.wait(parse.query.readTime*1000)
+        await finishReadMission(parse.query.missionId,parse.query.readTime)
+        await $.wait(1000)
+      } else if(parse.query && parse.query.juid) {
+        await getJumpInfo(parse.query.juid)
+        await $.wait(4000)
       }
     }
   }
@@ -461,10 +472,10 @@ async function missions() {
 function pigPetDoMission(mid) {
   return new Promise(async resolve => {
     const body = {
-      "source":0,
+      "source":2,
       "channelLV":"",
       "riskDeviceParam":"{}",
-      mid
+      "mid": mid
     }
     $.post(taskUrl('pigPetDoMission', body), (err, resp, data) => {
       try {
@@ -502,7 +513,7 @@ function pigPetDoMission(mid) {
 function pigPetMissionList() {
   return new Promise(async resolve => {
     const body = {
-      "source":0,
+      "source":2,
       "channelLV":"",
       "riskDeviceParam":"{}",
     }
@@ -536,21 +547,46 @@ function pigPetMissionList() {
     })
   })
 }
+function getJumpInfo(juid) {
+  return new Promise(async resolve => {
+    const options = {
+      "url": `${MISSION_BASE_API}/getJumpInfo?reqData={"juid":"${juid}"}`,
+      "headers": {
+        "Cookie": cookie,
+        'content-type': 'application/json',
+        'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/application=JDJR-App&deviceId=1423833363730383d273532393d243445364-d224341443d2938333530323445433033353&eufv=1&clientType=ios&iosType=iphone&clientVersion=6.1.70&HiClVersion=6.1.70&isUpdate=0&osVersion=13.7&osName=iOS&platform=iPhone 6s (A1633/A1688/A1691/A1700)&screen=667*375&src=App Store&netWork=1&netWorkType=1&CpayJS=UnionPay/1.0 JDJR&stockSDK=stocksdk-iphone_3.5.0&sPoint=&jdPay=(*#@jdPaySDK*#@jdPayChannel=jdfinance&jdPayChannelVersion=6.1.70&jdPaySdkVersion=3.00.52.00&jdPayClientName=iOS*#@jdPaySDK*#@)',
+        'referer': 'https://u1.jr.jd.com/uc-fe-wxgrowing/cloudpig/index/?channel=gry&jrcontainer=h5&jrlogin=true',
+      }
+    }
+    $.get(options, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (data) {
+            console.log('getJumpInfo',data)
+          } else {
+            console.log(`京东服务器返回空数据`)
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
 function queryMissionReceiveAfterStatus(missionId) {
   return new Promise(resolve => {
-    const body = {"missionId": missionId.toString()};
     const options = {
-      "url": `${MISSION_BASE_API}/queryMissionReceiveAfterStatus?reqData=%7B%2522missionId%2522:%2522${Number(missionId)}%2522%7D`,
+      "url": `${MISSION_BASE_API}/queryMissionReceiveAfterStatus?reqData={"missionId":"${missionId}"}`,
       "headers": {
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN,zh;q=0.9",
-        "Connection": "keep-alive",
-        "Host": "ms.jr.jd.com",
         "Cookie": cookie,
-        "Origin": "https://jdjoy.jd.com",
-        "Referer": "https://jdjoy.jd.com/",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+        'content-type': 'application/json',
+        'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/application=JDJR-App&deviceId=1423833363730383d273532393d243445364-d224341443d2938333530323445433033353&eufv=1&clientType=ios&iosType=iphone&clientVersion=6.1.70&HiClVersion=6.1.70&isUpdate=0&osVersion=13.7&osName=iOS&platform=iPhone 6s (A1633/A1688/A1691/A1700)&screen=667*375&src=App Store&netWork=1&netWorkType=1&CpayJS=UnionPay/1.0 JDJR&stockSDK=stocksdk-iphone_3.5.0&sPoint=&jdPay=(*#@jdPaySDK*#@jdPayChannel=jdfinance&jdPayChannelVersion=6.1.70&jdPaySdkVersion=3.00.52.00&jdPayClientName=iOS*#@jdPaySDK*#@)',
+        'referer': 'https://u1.jr.jd.com/uc-fe-wxgrowing/cloudpig/index/?channel=gry&jrcontainer=h5&jrlogin=true',
       }
     }
     $.get(options, (err, resp, data) => {
@@ -561,17 +597,6 @@ function queryMissionReceiveAfterStatus(missionId) {
         } else {
           if (data) {
             console.log('queryMissionReceiveAfterStatus',data)
-            // data = JSON.parse(data);
-            // if (data.resultCode === 0) {
-            //   if (data.resultData.resultCode === 0) {
-            //     if (data.resultData.resultData) {
-            //       // console.log(`当前大转盘剩余免费抽奖次数：：${data.resultData.resultData.currentCount}`);
-            //       $.currentCount = data.resultData.resultData.currentCount;//抽奖后剩余的抽奖次数
-            //     }
-            //   } else {
-            //     console.log(`其他情况：${JSON.stringify(data)}`)
-            //   }
-            // }
           } else {
             console.log(`京东服务器返回空数据`)
           }
@@ -585,21 +610,15 @@ function queryMissionReceiveAfterStatus(missionId) {
   })
 }
 //做完浏览任务发送信息API
-function finishReadMission(missionId) {
+function finishReadMission(missionId,readTime) {
   return new Promise(async resolve => {
-    const body = {"missionId": missionId.toString(),"readTime":10};
     const options = {
-      "url": `${MISSION_BASE_API}/finishReadMission?reqData=%7B%2522missionId%2522:%2522${Number(missionId)}%2522,%2522readTime%2522:10%7D`,
+      "url": `${MISSION_BASE_API}/finishReadMission?reqData={"missionId":"${missionId}","readTime":${readTime}}`,
       "headers": {
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN,zh;q=0.9",
-        "Connection": "keep-alive",
-        "Host": "ms.jr.jd.com",
         "Cookie": cookie,
-        "Origin": "https://jdjoy.jd.com",
-        "Referer": "https://jdjoy.jd.com/",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+        'content-type': 'application/json',
+        'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/application=JDJR-App&deviceId=1423833363730383d273532393d243445364-d224341443d2938333530323445433033353&eufv=1&clientType=ios&iosType=iphone&clientVersion=6.1.70&HiClVersion=6.1.70&isUpdate=0&osVersion=13.7&osName=iOS&platform=iPhone 6s (A1633/A1688/A1691/A1700)&screen=667*375&src=App Store&netWork=1&netWorkType=1&CpayJS=UnionPay/1.0 JDJR&stockSDK=stocksdk-iphone_3.5.0&sPoint=&jdPay=(*#@jdPaySDK*#@jdPayChannel=jdfinance&jdPayChannelVersion=6.1.70&jdPaySdkVersion=3.00.52.00&jdPayClientName=iOS*#@jdPaySDK*#@)',
+        'referer': 'https://u1.jr.jd.com/uc-fe-wxgrowing/cloudpig/index/?channel=gry&jrcontainer=h5&jrlogin=true',
       }
     }
     $.get(options, (err, resp, data) => {
@@ -610,17 +629,6 @@ function finishReadMission(missionId) {
         } else {
           if (data) {
             console.log('finishReadMission',data)
-            // data = JSON.parse(data);
-            // if (data.resultCode === 0) {
-            //   if (data.resultData.resultCode === 0) {
-            //     if (data.resultData.resultData) {
-            //       // console.log(`当前大转盘剩余免费抽奖次数：：${data.resultData.resultData.currentCount}`);
-            //       $.currentCount = data.resultData.resultData.currentCount;//抽奖后剩余的抽奖次数
-            //     }
-            //   } else {
-            //     console.log(`其他情况：${JSON.stringify(data)}`)
-            //   }
-            // }
           } else {
             console.log(`京东服务器返回空数据`)
           }
@@ -680,19 +688,12 @@ function TotalBean() {
 function taskUrl(function_id, body) {
   return {
     url: `${JD_API_HOST}/${function_id}?_=${Date.now()}`,
-    body: `reqData=${encodeURIComponent(JSON.stringify(body))}`,
-    headers: {
-      'Accept' : `*/*`,
-      'Origin' : `https://u.jr.jd.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : cookie,
-      'Content-Type' : `application/x-www-form-urlencoded;charset=UTF-8`,
-      'Host' : `ms.jr.jd.com`,
-      'Connection' : `keep-alive`,
-      // 'User-Agent' : `jdapp;iPhone;9.0.0;13.4.1;e35caf0a69be42084e3c97eef56c3af7b0262d01;network/4g;ADID/F75E8AED-CB48-4EAC-A213-E8CE4018F214;supportApplePay/3;hasUPPay/0;pushNoticeIsOpen/1;model/iPhone11,8;addressid/2005183373;hasOCPay/0;appBuild/167237;supportBestPay/0;jdSupportDarkMode/0;pv/1287.19;apprpd/MyJD_GameMain;ref/https%3A%2F%2Fuua.jr.jd.com%2Fuc-fe-wxgrowing%2Fmoneytree%2Findex%2F%3Fchannel%3Dyxhd%26lng%3D113.325843%26lat%3D23.204628%26sid%3D2d98e88cf7d182f60d533476c2ce777w%26un_area%3D19_1601_50258_51885;psq/1;ads/;psn/e35caf0a69be42084e3c97eef56c3af7b0262d01|3485;jdv/0|kong|t_1000170135|tuiguang|notset|1593059927172|1593059927;adk/;app_device/IOS;pap/JA2015_311210|9.0.0|IOS 13.4.1;Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`,
-      'User-Agent' : `jdapp;android;8.5.12;9;network/wifi;model/GM1910;addressid/1302541636;aid/ac31e03386ddbec6;oaid/;osVer/28;appBuild/73078;adk/;ads/;pap/JA2015_311210|8.5.12|ANDROID 9;osv/9;pv/117.24;jdv/0|kong|t_1000217905_|jingfen|644e9b005c8542c1ac273da7763971d8|1589905791552|1589905794;ref/com.jingdong.app.mall.WebActivity;partner/oppo;apprpd/Home_Main;Mozilla/5.0 (Linux; Android 9; GM1910 Build/PKQ1.190110.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/6.2 TBS/044942 Mobile Safari/537.36 Edg/86.0.4240.111`,
-      'Referer' : `https://u.jr.jd.com/`,
-      'Accept-Language' : `zh-cn`
+    body: `reqData=${JSON.stringify(body)}`,
+    "headers": {
+      "Cookie": cookie,
+      'content-type': 'application/json',
+      'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/application=JDJR-App&deviceId=1423833363730383d273532393d243445364-d224341443d2938333530323445433033353&eufv=1&clientType=ios&iosType=iphone&clientVersion=6.1.70&HiClVersion=6.1.70&isUpdate=0&osVersion=13.7&osName=iOS&platform=iPhone 6s (A1633/A1688/A1691/A1700)&screen=667*375&src=App Store&netWork=1&netWorkType=1&CpayJS=UnionPay/1.0 JDJR&stockSDK=stocksdk-iphone_3.5.0&sPoint=&jdPay=(*#@jdPaySDK*#@jdPayChannel=jdfinance&jdPayChannelVersion=6.1.70&jdPaySdkVersion=3.00.52.00&jdPayClientName=iOS*#@jdPaySDK*#@)',
+      'referer': 'https://u1.jr.jd.com/uc-fe-wxgrowing/cloudpig/index/?channel=gry&jrcontainer=h5&jrlogin=true',
     }
   }
 }
