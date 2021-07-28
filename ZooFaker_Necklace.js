@@ -1,5 +1,217 @@
-let joyytoken; // = "MDFLbmZBbzAxMQ==.elhUd1Z8XlN5XXtbUz9ceyIicQZyPFQ0EXpCUG1aZ1wYcxF6EAB1IHw6BXMFCSUhCV4tGiMgJBE7ExIudlMY.6d560ccc";
-let joyytoken_count = 1;
+function safeAdd(x, y) {
+    var lsw = (x & 0xffff) + (y & 0xffff)
+    var msw = (x >> 16) + (y >> 16) + (lsw >> 16)
+    return (msw << 16) | (lsw & 0xffff)
+}
+
+/*
+ * Bitwise rotate a 32-bit number to the left.
+ */
+function bitRotateLeft(num, cnt) {
+    return (num << cnt) | (num >>> (32 - cnt))
+}
+
+function md5(string, key, raw) {
+    if (!key) {
+        if (!raw) {
+            return hexMD5(string)
+        }
+        return rawMD5(string)
+    }
+    if (!raw) {
+        return hexHMACMD5(key, string)
+    }
+    return rawHMACMD5(key, string)
+}
+
+/*
+ * Convert a raw string to a hex string
+ */
+function rstr2hex(input) {
+    var hexTab = '0123456789abcdef'
+    var output = ''
+    var x
+    var i
+    for (i = 0; i < input.length; i += 1) {
+        x = input.charCodeAt(i)
+        output += hexTab.charAt((x >>> 4) & 0x0f) + hexTab.charAt(x & 0x0f)
+    }
+    return output
+}
+/*
+ * Encode a string as utf-8
+ */
+function str2rstrUTF8(input) {
+    return unescape(encodeURIComponent(input))
+}
+/*
+ * Calculate the MD5 of a raw string
+ */
+function rstrMD5(s) {
+    return binl2rstr(binlMD5(rstr2binl(s), s.length * 8))
+}
+
+function hexMD5(s) {
+    return rstr2hex(rawMD5(s))
+}
+function rawMD5(s) {
+    return rstrMD5(str2rstrUTF8(s))
+}
+
+/*
+ * These functions implement the four basic operations the algorithm uses.
+ */
+function md5cmn(q, a, b, x, s, t) {
+    return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b)
+}
+
+function md5ff(a, b, c, d, x, s, t) {
+    return md5cmn((b & c) | (~b & d), a, b, x, s, t)
+}
+
+function md5gg(a, b, c, d, x, s, t) {
+    return md5cmn((b & d) | (c & ~d), a, b, x, s, t)
+}
+
+function md5hh(a, b, c, d, x, s, t) {
+    return md5cmn(b ^ c ^ d, a, b, x, s, t)
+}
+
+function md5ii(a, b, c, d, x, s, t) {
+    return md5cmn(c ^ (b | ~d), a, b, x, s, t)
+}
+
+/*
+ * Calculate the MD5 of an array of little-endian words, and a bit length.
+ */
+function binlMD5(x, len) {
+    /* append padding */
+    x[len >> 5] |= 0x80 << (len % 32)
+    x[((len + 64) >>> 9 << 4) + 14] = len
+
+    var i
+    var olda
+    var oldb
+    var oldc
+    var oldd
+    var a = 1732584193
+    var b = -271733879
+    var c = -1732584194
+    var d = 271733878
+
+    for (i = 0; i < x.length; i += 16) {
+        olda = a
+        oldb = b
+        oldc = c
+        oldd = d
+
+        a = md5ff(a, b, c, d, x[i], 7, -680876936)
+        d = md5ff(d, a, b, c, x[i + 1], 12, -389564586)
+        c = md5ff(c, d, a, b, x[i + 2], 17, 606105819)
+        b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330)
+        a = md5ff(a, b, c, d, x[i + 4], 7, -176418897)
+        d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426)
+        c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341)
+        b = md5ff(b, c, d, a, x[i + 7], 22, -45705983)
+        a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416)
+        d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417)
+        c = md5ff(c, d, a, b, x[i + 10], 17, -42063)
+        b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162)
+        a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682)
+        d = md5ff(d, a, b, c, x[i + 13], 12, -40341101)
+        c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290)
+        b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329)
+
+        a = md5gg(a, b, c, d, x[i + 1], 5, -165796510)
+        d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632)
+        c = md5gg(c, d, a, b, x[i + 11], 14, 643717713)
+        b = md5gg(b, c, d, a, x[i], 20, -373897302)
+        a = md5gg(a, b, c, d, x[i + 5], 5, -701558691)
+        d = md5gg(d, a, b, c, x[i + 10], 9, 38016083)
+        c = md5gg(c, d, a, b, x[i + 15], 14, -660478335)
+        b = md5gg(b, c, d, a, x[i + 4], 20, -405537848)
+        a = md5gg(a, b, c, d, x[i + 9], 5, 568446438)
+        d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690)
+        c = md5gg(c, d, a, b, x[i + 3], 14, -187363961)
+        b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501)
+        a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467)
+        d = md5gg(d, a, b, c, x[i + 2], 9, -51403784)
+        c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473)
+        b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734)
+
+        a = md5hh(a, b, c, d, x[i + 5], 4, -378558)
+        d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463)
+        c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562)
+        b = md5hh(b, c, d, a, x[i + 14], 23, -35309556)
+        a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060)
+        d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353)
+        c = md5hh(c, d, a, b, x[i + 7], 16, -155497632)
+        b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640)
+        a = md5hh(a, b, c, d, x[i + 13], 4, 681279174)
+        d = md5hh(d, a, b, c, x[i], 11, -358537222)
+        c = md5hh(c, d, a, b, x[i + 3], 16, -722521979)
+        b = md5hh(b, c, d, a, x[i + 6], 23, 76029189)
+        a = md5hh(a, b, c, d, x[i + 9], 4, -640364487)
+        d = md5hh(d, a, b, c, x[i + 12], 11, -421815835)
+        c = md5hh(c, d, a, b, x[i + 15], 16, 530742520)
+        b = md5hh(b, c, d, a, x[i + 2], 23, -995338651)
+
+        a = md5ii(a, b, c, d, x[i], 6, -198630844)
+        d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415)
+        c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905)
+        b = md5ii(b, c, d, a, x[i + 5], 21, -57434055)
+        a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571)
+        d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606)
+        c = md5ii(c, d, a, b, x[i + 10], 15, -1051523)
+        b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799)
+        a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359)
+        d = md5ii(d, a, b, c, x[i + 15], 10, -30611744)
+        c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380)
+        b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649)
+        a = md5ii(a, b, c, d, x[i + 4], 6, -145523070)
+        d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379)
+        c = md5ii(c, d, a, b, x[i + 2], 15, 718787259)
+        b = md5ii(b, c, d, a, x[i + 9], 21, -343485551)
+
+        a = safeAdd(a, olda)
+        b = safeAdd(b, oldb)
+        c = safeAdd(c, oldc)
+        d = safeAdd(d, oldd)
+    }
+    return [a, b, c, d]
+}
+/*
+ * Convert an array of little-endian words to a string
+ */
+function binl2rstr(input) {
+    var i
+    var output = ''
+    var length32 = input.length * 32
+    for (i = 0; i < length32; i += 8) {
+        output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xff)
+    }
+    return output
+}
+
+
+/*
+ * Convert a raw string to an array of little-endian words
+ * Characters >255 have their high-byte silently ignored.
+ */
+function rstr2binl(input) {
+    var i
+    var output = []
+    output[(input.length >> 2) - 1] = undefined
+    for (i = 0; i < output.length; i += 1) {
+        output[i] = 0
+    }
+    var length8 = input.length * 8
+    for (i = 0; i < length8; i += 8) {
+        output[i >> 5] |= (input.charCodeAt(i / 8) & 0xff) << (i % 32)
+    }
+    return output
+}
+
 
 function encrypt_3(e) {
     return function (e) {
@@ -535,119 +747,147 @@ let utils = {
         };
         return r;
     },
-    gettoken: function () {
-        const https = require('https');
-        var body = `content={"appname":"50082","whwswswws":"","jdkey":"","body":{"platform":"1"}}`;
-        return new Promise((resolve, reject) => {
-            let options = {
-                hostname: "bh.m.jd.com",
-                port: 443,
-                path: "/gettoken",
-                method: "POST",
-                rejectUnauthorized: false,
-                headers: {
-                    "Content-Type": "text/plain;charset=UTF-8",
-                    "Host": "bh.m.jd.com",
-                    "Origin": "https://h5.m.jd.com",
-                    "X-Requested-With": "com.jingdong.app.mall",
-                    "Referer": "https://h5.m.jd.com/babelDiy/Zeus/41Lkp7DumXYCFmPYtU3LTcnTTXTX/index.html",
-                    "User-Agent": `jdapp;android;10.0.2;9;8363237353630343334383837333-73D2164353034363465693662666;network/wifi;model/MI 8;addressid/138087843;aid/0a4fc8ec9548a7f9;oaid/3ac46dd4d42fa41c;osVer/28;appBuild/88569;partner/jingdong;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 9; MI 8 Build/PKQ1.180729.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045715 Mobile Safari/537.36`,
+    get_blog: function (pin) {
+        let encrypefun = {
+            "z": function (p1, p2) {
+                var str = "";
+                for (var vi = 0; vi < p1.length; vi++) {
+                    str += (p1.charCodeAt(vi) ^ p2.charCodeAt(vi % p2.length)).toString("16");
                 }
+                return str;
+            },
+            "y": function (p1, p2) {
+                var str = "";
+                for (var vi = 0; vi < p1.length; vi++) {
+                    str += (p1.charCodeAt(vi) & p2.charCodeAt(vi % p2.length)).toString("16");
+                }
+                return str;
+            },
+            "x": function (p1, p2) {
+                p1 = p1.substring(1) + p1.substring(0, 1);
+                p2 = p2.substring((p2.length - 1)) + p2.substring(0, (p2.length - 1));
+                var str = "";
+                for (var vi = 0; vi < p1.length; vi++) {
+                    str += (p1.charCodeAt(vi) ^ p2.charCodeAt(vi % p2.length)).toString("16");
+                }
+                return str;
+            },
+            "jiami": function (po, p1) {
+                var str = "";
+                for (vi = 0; vi < po.length; vi++) {
+                    str += String.fromCharCode(po.charCodeAt(vi) ^ p1.charCodeAt(vi % p1.length));
+                }
+                return new Buffer.from(str).toString('base64');
             }
-            const req = https.request(options, (res) => {
-                res.setEncoding('utf-8');
-                let rawData = '';
-                res.on('error', reject);
-                res.on('data', chunk => rawData += chunk);
-                res.on('end', () => resolve(rawData));
-            });
-            req.write(body);
-            req.on('error', reject);
-            req.end();
-        });
+        }
+        const ids = ["x", "y", "z"];
+        var encrypeid = ids[Math.floor(Math.random() * 1e8) % ids.length];
+        var timestamp = this.getCurrentTime();
+        var nonce_str = this.getRandomWord(10);
+        var isDefaultKey = "B";
+        // timestamp = 1627139784174;
+        refer = "com.miui.home";
+        encrypeid = "x";
+        //nonce_str = "jNN40H0elF";
+        var json = {
+            r: refer,
+            a: "",
+            c: "a",
+            v: "2.5.8",
+            t: timestamp.toString().substring(timestamp.toString().length - 4)
+        }
+        var token = md5(pin);
+        var key = encrypefun[encrypeid](timestamp.toString(), nonce_str);
+        //console.log(key);
+        var cipher = encrypefun["jiami"](JSON.stringify(json), key);
+        //sOf+"~1"+sa1+sb+"~"+sb1+"~~~"+str+"~"+sa+"~"+sa2;
+        //"1627139784174~1jNN40H0elF14e91ebb633928c23d5afbaa8f947952~x~~~B~TBJHGg0bVAlaF1oPTVwfXQtaVBdJFQcVChcaGxtURA0bVkQUF0cXXhUDG1AZXhUcF0wVAxVSBg4DREU=~0v3u0bq",
+        return `${timestamp}~1${nonce_str+token}~${encrypeid}~~~${isDefaultKey}~${cipher}~${this.getCrcCode(cipher)}`;
     },
-    get_risk_result: async function ($) {
+    getBody: async function ($ = {}) {
+        var pin = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
         var appid = "50082";
         var TouchSession = this.getTouchSession();
-        if (!joyytoken || joyytoken_count > 18) {
-            joyytoken = JSON.parse(await this.gettoken())["joyytoken"];
-            //console.log("第一次请求joyytoken");
-            joyytoken_count = 0;
-        }
-        joyytoken_count++;
         let riskData;
         switch ($.action) {
-            case 'startTask':
-                riskData = {
-                    taskId: $.id
-                };
-                break;
-            case 'chargeScores':
-                riskData = {
-                    bubleId: $.id
-                };
-                break;
-            case 'sign':
-                riskData = {};
-            default:
-                break;
+          case 'startTask':
+            riskData = { taskId: $.id };
+            break;
+          case 'chargeScores':
+            riskData = { bubleId: $.id };
+            break;
+          case 'sign':
+            riskData = {};
+            break;
+          case 'exchangeGift':
+            riskData = { scoreNums: $.id, giftConfigId: $.giftConfigId || 198 };
+            break;
+          default:
+            break;
         }
 
         var random = Math.floor(1e+6 * Math.random()).toString().padEnd(6, '8');
         var senddata = this.objToString2(this.RecursiveSorting({
-            pin: $.UserName,
+            pin,
             random,
             ...riskData
         }));
         var time = this.getCurrentTime();
         // time = 1626970587918;
-        var encrypt_id = this.decipherJoyToken(appid + joyytoken, appid)["encrypt_id"].split(",");
+        var encrypt_id = this.decipherJoyToken(appid + $.joyToken, appid)["encrypt_id"].split(",");
         var nonce_str = this.getRandomWord(10);
         // nonce_str="iY8uFBbYX7";
         var key = this.getKey(encrypt_id[2], nonce_str, time.toString());
 
-        var str1 = `${senddata}&token=${joyytoken}&time=${time}&nonce_str=${nonce_str}&key=${key}&is_trust=1`;
+        var str1 = `${senddata}&token=${$.joyToken}&time=${time}&nonce_str=${nonce_str}&key=${key}&is_trust=1`;
         //console.log(str1);
         str1 = this.sha1(str1);
-        var outstr = [time, "1" + nonce_str + joyytoken, encrypt_id[2] + "," + encrypt_id[3]];
+        var outstr = [time, "1" + nonce_str + $.joyToken, encrypt_id[2] + "," + encrypt_id[3]];
         outstr.push(str1);
         outstr.push(this.getCrcCode(str1));
         outstr.push("C");
         var data = {
-            aj: "u",
-            bd: senddata,
-            blog: "a",
-            cf_v: "01",
-            ci: "w3.1.0",
-            cs: "2d148afa43e1a58dd9ab2993bb93343f",
-            fpb: "",
-            grn: 1,
-            ioa: "fffffftt",
-            jj: 1,
-            jk: "a",
-            mj: [1, 0, 0],
-            msg: "",
-            nav: "88569",
-            np: "Linux aarch64",
-            nv: "Google Inc.",
-            pdn: [],
-            ro: ["f", "f", "f", "f", "f", "f", "f"],
-            scr: [818, 393],
-            ss: TouchSession,
-            t: time,
             tm: [],
             tnm: [],
-            wea: "ffttttua",
-            wed: "ttttt",
-        };
-        //console.log(data);
+            grn: 1,
+            ss: TouchSession,
+            wed: 'ttttt',
+            wea: 'ffttttua',
+            pdn: [7, (Math.floor(Math.random() * 1e8) % 180) + 1, 6, 11, 1, 5],
+            jj: 1,
+            cs: hexMD5("Object.P.<computed>=&HTMLDocument.qe.<computed>=https://storage.360buyimg.com/babel/00750963/1942873/production/dev/main.01a74c39.js"),
+            np: 'iPhone',
+            t: time,
+            jk: `${$.uuid}`,
+            fpb: 'yWSf73gtMRb7Ns5fUOEi0Bg==',
+            nv: 'Apple Computer, Inc.',
+            nav: '167741',
+            scr: [736, 414],
+            ro: [
+              'iPhone10,2',
+              'iOS',
+              '14.4.2',
+              '10.0.8',
+              '167741',
+              `${$.uuid}`,
+              'a'
+            ],
+            ioa: 'fffffftt',
+            aj: 'u',
+            ci: 'w3.1.0',
+            cf_v: '01',
+            bd: senddata,
+            mj: [1, 0, 0],
+            blog: this.get_blog(pin),
+            msg: ''
+        }
+        // console.log(data);
         //console.log(JSON.stringify(data));
         data = new Buffer.from(this.xorEncrypt(JSON.stringify(data), key)).toString('base64');
         //console.log(data);
         outstr.push(data);
         outstr.push(this.getCrcCode(data));
         //console.log(outstr.join("~"));
-        $.joyytoken = `joyytoken=${appid + joyytoken};`;
         return {
             extraData: {
                 log: outstr.join("~"),
@@ -659,5 +899,5 @@ let utils = {
     }
 };
 module.exports = {
-    utils
+  utils
 }
