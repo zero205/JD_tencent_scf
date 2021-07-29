@@ -19,7 +19,13 @@ $.init = false;
 // const bean = 1; //兑换多少豆，默认是500
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message, helpInfo, ADD_CART = false;
-
+function oc(fn, defaultVal) {//optioanl chaining
+  try {
+    return fn()
+  } catch (e) {
+    return undefined
+  }
+}
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -319,17 +325,17 @@ async function mr() {
           }
           break
         case "produce_position_info_v2":
-          // console.log(`${Boolean(vo?.data)};${vo?.data?.material_name !== ''}`);
+          // console.log(`${Boolean(oc(() => vo.data))};${oc(() => vo.data.material_name) !== ''}`);
           if (vo.data && vo.data.material_name !== '') {
-            console.log(`【${vo?.data?.position}】上正在生产【${vo?.data?.material_name}】，可收取 ${vo.data.produce_num} 份`)
+            console.log(`【${oc(() => vo.data.position)}】上正在生产【${oc(() => vo.data.material_name)}】，可收取 ${vo.data.produce_num} 份`)
             if (new Date().getTime() > vo.data.procedure.end_at) {
-              console.log(`去收取${vo?.data?.material_name}`)
-              client.send(`{"msg":{"type":"action","args":{"position":"${vo?.data?.position}","replace_material":false},"action":"material_fetch_v2"}}`)
+              console.log(`去收取${oc(() => vo.data.material_name)}`)
+              client.send(`{"msg":{"type":"action","args":{"position":"${oc(() => vo.data.position)}","replace_material":false},"action":"material_fetch_v2"}}`)
               client.send(`{"msg":{"type":"action","args":{},"action":"to_employee"}}`)
-              $.pos.push(vo?.data?.position)
+              $.pos.push(oc(() => vo.data.position))
             }
           } else {
-            if (vo?.data && vo.data.valid_electric > 0) {
+            if (oc(() => vo.data) && vo.data.valid_electric > 0) {
               console.log(`【${vo.data.position}】上尚未开始生产`)
               let ma
               console.log(`$.needs:${JSON.stringify($.needs)}`);
@@ -358,12 +364,12 @@ async function mr() {
           }
           break
         case "material_produce_v2":
-          console.log(`【${vo?.data?.position}】上开始生产${vo?.data?.material_name}`)
+          console.log(`【${oc(() => vo.data.position)}】上开始生产${oc(() => vo.data.material_name)}`)
           client.send(`{"msg":{"type":"action","args":{},"action":"to_employee"}}`)
-          if(vo?.data?.position){
+          if(oc(() => vo.data.position)){
             $.pos.push(vo.data.position)
           }else{
-            console.log(`not exist:${vo?.data}`)
+            console.log(`not exist:${oc(() => vo.data)}`)
           }
           break
         case "material_fetch_v2":
@@ -501,21 +507,21 @@ async function mr() {
           }
           break
         case "to_exchange":
-          if(vo?.data?.coins){
+          if(oc(() => vo.data.coins)){
             console.log(`兑换${vo.data.coins/-100}京豆成功;${JSON.stringify(vo)}`)
           }else{
-            console.log(`vo.data.coins not exist:${vo?.data}`)
+            console.log(`vo.data.coins not exist:${oc(() => vo.data)}`)
           }
           break
         case "get_produce_material":
           $.material = vo.data
           break
         case "to_employee":
-          console.log(`雇佣助力码【${vo?.data?.token}】`)
-          if(vo?.data?.token){
+          console.log(`雇佣助力码【${oc(() => vo.data.token)}】`)
+          if(oc(() => vo.data.token)){
             $.tokens.push(vo.data.token)
           }else{
-            console.log(`not exist:${vo?.data}`)
+            console.log(`not exist:${oc(() => vo.data)}`)
           }
           break
         case "employee":
