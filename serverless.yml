@@ -14,7 +14,7 @@ inputs:
       - '*.!(js)'
       - '.github/**'
       - 'backUp/**'
-      - 'node_modules/@(qrcode-terminal|http-server)/**'
+      - 'node_modules/@(qrcode-terminal|http-server|ws)/**'
   handler: index.main_handler #入口
   runtime: Nodejs12.16 # 运行环境 默认 Nodejs12.16
   region: ap-guangzhou # 函数所在区域
