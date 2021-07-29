@@ -18,6 +18,7 @@ cron "10 0,20 * * *" script-path=jd_necklace.js,tag=点点券
 ============小火箭=========
 点点券 = type=cron,script-path=jd_necklace.js, cronexpr="10 0,20 * * *", timeout=3600, enable=true
  */
+// @grant    require
 const $ = new Env('点点券');
 let allMessage = ``;
 const notify = $.isNode() ? require('./sendNotify') : '';
