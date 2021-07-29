@@ -26,10 +26,10 @@ inputs:
   events: #触发器
     - timer: #签到 #摇京豆 #进店领豆 #京东试用 #京东汽车
         parameters:
-          name: beansign_clublottery_shop_try
+          name: beansign_clublottery_shop_try_dpqd_car_mohe_signgraphics
           cronExpression: "0 1 0 * * * *"
           enable: true
-          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_dpqd&jd_car&jd_mohe
+          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_dpqd&jd_car&jd_mohe&jd_sign_graphics
     - timer: #京豆变动通知 #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #领金贴
         parameters:
           name: unsubscribe_lotteryMachine_car_ms_jintie
