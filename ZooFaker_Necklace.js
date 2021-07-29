@@ -858,7 +858,7 @@ let utils = {
             cs: hexMD5("Object.P.<computed>=&HTMLDocument.qe.<computed>=https://storage.360buyimg.com/babel/00750963/1942873/production/dev/main.01a74c39.js"),
             np: 'iPhone',
             t: time,
-            jk: `${$.uuid}`,
+            jk: $.uuid,
             fpb: 'yWSf73gtMRb7Ns5fUOEi0Bg==',
             nv: 'Apple Computer, Inc.',
             nav: '167741',
@@ -869,7 +869,7 @@ let utils = {
               '14.4.2',
               '10.0.8',
               '167741',
-              `${$.uuid}`,
+              $.uuid,
               'a'
             ],
             ioa: 'fffffftt',

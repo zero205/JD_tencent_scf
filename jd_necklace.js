@@ -64,7 +64,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         }
         continue
       }
-      UA = `jdapp;iPhone;10.0.8;14.4.2;${randomString(40)};network/wifi;ADID/3F74A88A-71D3-404B-BBDF-8C0575E680EC;model/iPhone10,2;addressid/4091160336;appBuild/167741;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
+      UA = `jdapp;iPhone;10.0.8;14.4.2;${randomString()};network/wifi;ADID/3F74A88A-71D3-404B-BBDF-8C0575E680EC;model/iPhone10,2;addressid/4091160336;appBuild/167741;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
       uuid = UA.split(';') && UA.split(';')[4] || ''
       await jd_necklace();
     }
@@ -506,12 +506,12 @@ function taskPostUrl(function_id, body = {}) {
     }
   }
 }
-function randomString(e) {
-  e = e || 32;
-  let t = "abcdefhijkmnprstwxyz2345678", a = t.length, n = "";
-  for (i = 0; i < e; i++)
-    n += t.charAt(Math.floor(Math.random() * a));
-  return n
+function randomString() {
+  return Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10)
 }
 function getToken(timeout = 0){
   return new Promise((resolve) => {
