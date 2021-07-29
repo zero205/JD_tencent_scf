@@ -44,10 +44,10 @@ inputs:
           argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_bookshop&jd_health&jd_wsdlb
     - timer: #摇钱树 #摇钱树助力 #京东种豆得豆 #京喜财富岛
         parameters:
-          name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_cfd
+          name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_cfd_superRedrain
           cronExpression: "0 30 0,6-23/1 * * * *"
           enable: true
-          argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd
+          argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd&jd_super_redrain
     - timer: #宠汪汪积分兑换京豆 #京东超市兑换 #财富岛提现
         parameters:
           name: blueCoin_joyreward_cfdtx
