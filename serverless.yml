@@ -42,18 +42,18 @@ inputs:
           cronExpression: "0 15 0-18/6 * * * *"
           enable: true
           argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_bookshop&jd_health&jd_wsdlb
-    - timer: #摇钱树 #摇钱树助力 #京东种豆得豆 #京喜财富岛
+    - timer: #摇钱树 #摇钱树助力 #种豆得豆 #京喜财富岛 #超级红包雨
         parameters:
           name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_cfd_superRedrain
           cronExpression: "0 30 0,6-23/1 * * * *"
           enable: true
           argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd&jd_super_redrain
-    - timer: #宠汪汪积分兑换京豆 #京东超市兑换 #财富岛提现
+    - timer: #宠汪汪积分兑换京豆 #财富岛提现
         parameters:
-          name: blueCoin_joyreward_cfdtx
-          cronExpression: "0 58 7,15,23 * * * *"
+          name: joyreward_cfdtx
+          cronExpression: "30 58 7,15,23 * * * *"
           enable: true
-          argument: jd_blueCoin&jd_joy_reward&jd_cfdtx
+          argument: jd_joy_reward&jd_cfdtx
     - timer: #宠汪汪喂食 #天天提鹅 #发财大赢家 #京喜工厂 #东东工厂
         parameters:
           name: dailyegg_joy_summer
@@ -72,18 +72,18 @@ inputs:
           cronExpression: "0 35 0,6-23/4 * * * *"
           enable: true
           argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_qjd&jd_sddd&jd_earn30&jd_jxlhb
-    - timer: #京东排行榜 #闪购盲盒 #京小兑 #粉丝互动 #签到领现金 #东东小窝 #京东直播 #金榜创造营
+    - timer: #京东排行榜 #闪购盲盒 #粉丝互动 #签到领现金 #东东小窝 #京东直播 #金榜创造营
         parameters:
-          name: rankingList_beanhome_sgmh_jxd
+          name: rankingList_beanhome_sgmh
           cronExpression: "0 5 0,12 * * * *"
           enable: true
-          argument: jd_rankingList&jd_sgmh&jd_jxd&jd_joy_park_task&jd_wxFans&jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_joy_run
+          argument: jd_rankingList&jd_sgmh&jd_joy_park_task&jd_wxFans&jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_joy_run
     - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #女装盲盒 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #点点券 #特务Z #点点券
         parameters:
           name: pigPet_syj_kd_jdzz_nzmh_djjl_ddly_lsj_ljd_tewu_necklace
           cronExpression: "0 20 0,20 * * * *"
           enable: true
-          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_nzmh&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_tewuZ&jd_necklace
+          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_nzmh&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_necklace
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的
