@@ -83,7 +83,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
         }
         continue
       }
-      $.validate[i] = zooFaker.injectToRequest()
+      $.validate[i] = await zooFaker.injectToRequest()
     }
   }
   console.log(`脚本开始请求时间 ${(new Date()).Format("yyyy-MM-dd hh:mm:ss | S")}`);
