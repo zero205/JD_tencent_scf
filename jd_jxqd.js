@@ -127,7 +127,7 @@ if ($.isNode()) {
 // 签到
 function signhb() {
   return new Promise((resolve) => {
-    $.get(taskUrl("fanxiantask/signhb/query", "signhb_source=1000&smp=&type=1", "signhb_source,smp,type"), async (err, resp, data) => {
+    $.get(taskUrl("fanxiantask/signhb/query", "smp=&type", "signhb_source,smp,type"), async (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err));
@@ -251,12 +251,12 @@ function doubleSign() {
   })
 }
 
-function taskUrl(functionId, body = '', stk = '') {
+function taskUrl(functionId, body = '', stk) {
   let url = ``
   if (functionId === 'double_sign/IssueReward') {
-    url = `${JD_API_HOST}/${functionId}?&sceneval=2&g_login_type=1&_ste=1&g_ty=ajax`;
+    url = `${JD_API_HOST}/${functionId}?sceneval=2&g_login_type=1&_ste=1&g_ty=ajax`;
   } else {
-    url = `${JD_API_HOST}/${functionId}?${body}&sceneval=2&g_login_type=1&_=${Date.now() + 2}&_ste=1&g_ty=ls`;
+    url = `${JD_API_HOST}/${functionId}?${body}&sceneval=2&g_login_type=1&_=${Date.now()}&_ste=1&g_ty=ls`;
     url += `&h5st=${decrypt(Date.now(), stk, '', url)}`;
     if (stk) {
       url += `&_stk=${encodeURIComponent(stk)}`;
