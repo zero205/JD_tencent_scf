@@ -855,11 +855,11 @@ let utils = {
             wea: 'ffttttua',
             pdn: [7, (Math.floor(Math.random() * 1e8) % 180) + 1, 6, 11, 1, 5],
             jj: 1,
-            cs: hexMD5("Object.P.<computed>=&HTMLDocument.qe.<computed>=https://storage.360buyimg.com/babel/00750963/1942873/production/dev/main.01a74c39.js"),
+            cs: hexMD5("Object.P.<computed>=&HTMLDocument.Ut.<computed>=https://storage.360buyimg.com/babel/00750963/1942873/production/dev/main.e5d1c436.js"),
             np: 'iPhone',
             t: time,
             jk: $.uuid,
-            fpb: 'yWSf73gtMRb7Ns5fUOEi0Bg==',
+            fpb: '',
             nv: 'Apple Computer, Inc.',
             nav: '167741',
             scr: [736, 414],
@@ -878,7 +878,7 @@ let utils = {
             cf_v: '01',
             bd: senddata,
             mj: [1, 0, 0],
-            blog: this.get_blog(pin),
+            blog: 'a',
             msg: ''
         }
         // console.log(data);
