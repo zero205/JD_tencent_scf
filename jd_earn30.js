@@ -64,6 +64,14 @@ var tools = [];
                helps: [],
           })
      }
+     let tools_temp;
+     if ($.isNode()){
+          const v8 = require('v8');
+          const structuredClone = obj => {
+            return v8.deserialize(v8.serialize(obj));
+          };
+          tools_temp = structuredClone(tools);
+     }
      for (let help of helps) {
           while (tools.length) {
                var tool = tools.pop()
@@ -91,32 +99,35 @@ var tools = [];
                }
           }
      }
-     console.log(`内部互助已完成，开始帮【zero205】助力，感谢！`)
-     await getCode()
-     for (let help of $.zero205) {
-          while (tools.length) {
-               var tool = tools.pop()
-               var data = await requestApi('splitRedPacket', tool.cookie, { shareCode: help.shareCode, groupCode: help.redPacketId });
-               if (data) {
-                    if (tool.id == help.id) {
-                         continue
-                    }
-                    console.log(`${tool.id + 1}->${help.id + 1} ${data.text}`)
-                    if (tool.helps.indexOf(help.id) != -1) {
-                         break
-                    }
-                    if (data.text == "我的红包已拆完啦") {
+     if ($.isNode()){
+          console.log(`内部互助已完成，开始帮【zero205】助力，感谢！`)
+          tools = tools_temp;
+          await getCode()
+          for (let help of $.zero205) {
+               while (tools.length) {
+                    var tool = tools.pop()
+                    var data = await requestApi('splitRedPacket', tool.cookie, { shareCode: help.shareCode, groupCode: help.redPacketId });
+                    if (data) {
+                         if (tool.id == help.id) {
+                              continue
+                         }
+                         console.log(`${tool.id + 1}->${help.id + 1} ${data.text}`)
+                         if (tool.helps.indexOf(help.id) != -1) {
+                              break
+                         }
+                         if (data.text == "我的红包已拆完啦") {
+                              tools.unshift(tool)
+                              break
+                         }
+                         if (data.text.indexOf("帮拆出错") != -1) {
+                              continue
+                         }
+                         if (data.text.indexOf("帮拆次数已达上限") != -1) {
+                              continue
+                         }
+                         tool.helps.push(help.id)
                          tools.unshift(tool)
-                         break
                     }
-                    if (data.text.indexOf("帮拆出错") != -1) {
-                         continue
-                    }
-                    if (data.text.indexOf("帮拆次数已达上限") != -1) {
-                         continue
-                    }
-                    tool.helps.push(help.id)
-                    tools.unshift(tool)
                }
           }
      }
