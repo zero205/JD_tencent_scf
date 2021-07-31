@@ -66,12 +66,12 @@ inputs:
           cronExpression: "0 20 0,6-23/2 * * * *"
           enable: true
           argument: jd_joy&jd_redPacket&jd_superMarket&jd_jxmc&jd_z_health_energy&jd_fcdyj
-    - timer: #宠汪汪偷狗粮 #汪汪乐园 #柠檬推一推 #抢京豆 #送豆得豆 #京喜领88元红包
+    - timer: #宠汪汪偷狗粮 #汪汪乐园 #柠檬推一推 #抢京豆 #京喜领88元红包
         parameters:
           name: joysteal_joypark_tyt_qjd_jxlhb
           cronExpression: "0 35 0,6-23/4 * * * *"
           enable: true
-          argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_qjd&jd_sddd&jd_jxlhb
+          argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_qjd&jd_jxlhb
     - timer: #京东排行榜 #闪购盲盒 #粉丝互动 #签到领现金 #东东小窝 #京东直播 #金榜创造营
         parameters:
           name: rankingList_beanhome_sgmh
