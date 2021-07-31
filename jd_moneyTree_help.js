@@ -3,22 +3,23 @@
 京东摇钱树助力
 活动入口：京东APP我的-更多工具-摇钱树，[活动链接](https://uua.jr.jd.com/uc-fe-wxgrowing/moneytree/index/?channel=yxhd)
 脚本更新地址：https://github.com/zero205/JD_tencent_scf
+助力逻辑：优先账号内互助，再给我助力
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
 #摇钱树助力
-0-59/30 * * * * https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_moneyTree_heip.js, tag=摇钱树助力, enabled=true
+30 * * * * https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_moneyTree_help.js, tag=摇钱树助力, enabled=true
 
 ================Loon==============
 [Script]
-cron "0-59/30 * * * *" script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_moneyTree_heip.js,tag=摇钱树助力
+cron "30 * * * *" script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_moneyTree_help.js,tag=摇钱树助力
 
 ===============Surge=================
-摇钱树助力 = type=cron,cronexp="0-59/30 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_moneyTree_heip.js
+摇钱树助力 = type=cron,cronexp="30 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_moneyTree_help.js
 
 ============小火箭=========
-摇钱树助力 = type=cron,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_moneyTree_heip.js, cronexpr="0-59/30 * * * *", timeout=200, enable=true
+摇钱树助力 = type=cron,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_moneyTree_help.js, cronexpr="30 * * * *", timeout=200, enable=true
 *
 */
 const $ = new Env('京东摇钱树助力');
@@ -39,6 +40,7 @@ if ($.isNode()) {
 
 const JD_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
 let userInfo = null, canRun = '', subTitle = '';
+$.shareCodes = []
 !(async () => {
   await requireConfig()
   await $.wait(1000);
@@ -65,6 +67,21 @@ let userInfo = null, canRun = '', subTitle = '';
       subTitle = '';
       await getsharePin();
       await $.wait(1000);
+    }
+  }
+  console.log(`\n******开始账号内互助******\n`);
+  for (let j = 0; j < cookiesArr.length; j++) {
+    cookie = cookiesArr[j];
+    $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    $.canRun = true;
+    if ($.shareCodes && $.shareCodes.length) {
+      console.log(`\n自己账号内部循环互助\n`);
+      for (let item of $.shareCodes) {
+        console.log(`账号${$.UserName} 去助力 ${item}`)
+        await help(item)
+        await $.wait(2000)
+        if (!$.canRun) break
+      }
     }
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -125,6 +142,7 @@ function getsharePin() {
                 userInfo = res.resultData.data;
                 if (userInfo.realName) {
                   console.log(`【京东账号${$.index}（${$.UserName}）的摇钱树好友互助码】${userInfo.sharePin}`);
+                  $.shareCodes.push(userInfo.sharePin)
                 } else {
                   $.log(`京东账号${$.index}${$.UserName}运行失败\n此账号未实名认证或者未参与过此活动\n①如未参与活动,请先去京东app参加摇钱树活动\n入口：我的->游戏与互动->查看更多\n②如未实名认证,请进行实名认证`)
                 }
