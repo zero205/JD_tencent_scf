@@ -1,3 +1,4 @@
+// @grant    require
 /*
 京喜签到
 cron 20 1 * * * jx_sign.js
@@ -38,7 +39,7 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 let cookiesArr = [], cookie = '', message;
 $.shareCodes = [];
 $.blackInfo = {}
-$.appId = 10001;
+$.appId = 10028;
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -66,7 +67,7 @@ if ($.isNode()) {
       }
       if (i === 0) console.log(`\n正在收集助力码请等待\n`)
       await signhb(1)
-      await $.wait(500)
+      await $.wait(3000)
     }
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -91,7 +92,7 @@ if ($.isNode()) {
         continue
       }
       await signhb(2)
-      await $.wait(2000)
+      await $.wait(3000)
       if ($.canHelp) {
         if ($.shareCodes && $.shareCodes.length) {
           console.log(`\n开始内部互助\n`)
