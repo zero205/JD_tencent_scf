@@ -110,7 +110,7 @@ async function smallHome() {
     await ssjjRooms();
     // await helpFriends();
     if (!$.isUnLock) return;
-    await createInviteUser();
+    // await createInviteUser();
     await queryDraw();
     await lottery();
     await doAllTask();
@@ -145,17 +145,17 @@ async function doChannelsListTask(taskId, taskType) {
     }
   }
 }
-async function helpFriends() {
-  // await updateInviteCode();
-  // if (!$.inviteCodes) await updateInviteCodeCDN();
-  if ($.inviteCodes && $.inviteCodes['inviteCode'] && $.inviteCodes['inviteCode'].length) {
-    console.log(`\n去帮助作者\n`)
-    for (let item of $.inviteCodes.inviteCode) {
-      if (!item) continue
-      await createAssistUser(item, $.createAssistUserID);
-    }
-  }
-}
+// async function helpFriends() {
+//   // await updateInviteCode();
+//   // if (!$.inviteCodes) await updateInviteCodeCDN();
+//   if ($.inviteCodes && $.inviteCodes['inviteCode'] && $.inviteCodes['inviteCode'].length) {
+//     console.log(`\n去帮助作者\n`)
+//     for (let item of $.inviteCodes.inviteCode) {
+//       if (!item) continue
+//       await createAssistUser(item, $.createAssistUserID);
+//     }
+//   }
+// }
 async function doAllTask() {
   await queryAllTaskInfo();//获取任务详情列表$.taskList
   console.log(` 任务名称   完成进度 `)
@@ -492,35 +492,35 @@ function followChannel(taskId, channelId) {
     })
   })
 }
-function createInviteUser() {
-  return new Promise(resolve => {
-    $.get(taskUrl(`/ssjj-task-record/createInviteUser`), (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            if (data.head.code === 200) {
-              if (data.body) {
-                if (data.body.id) {
-                  console.log(`\n您的${$.name}shareCode(每天都是变化的):【${data.body.id}】\n`);
-                  $.shareCode = data.body.id;
-                  $.newShareCodes.push({ 'code': data.body.id, 'token': $.token, cookie });
-                }
-              }
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
+// function createInviteUser() {
+//   return new Promise(resolve => {
+//     $.get(taskUrl(`/ssjj-task-record/createInviteUser`), (err, resp, data) => {
+//       try {
+//         if (err) {
+//           console.log(`${JSON.stringify(err)}`)
+//           console.log(`${$.name} API请求失败，请检查网路重试`)
+//         } else {
+//           if (safeGet(data)) {
+//             data = JSON.parse(data);
+//             if (data.head.code === 200) {
+//               if (data.body) {
+//                 if (data.body.id) {
+//                   console.log(`\n您的${$.name}shareCode(每天都是变化的):【${data.body.id}】\n`);
+//                   $.shareCode = data.body.id;
+//                   $.newShareCodes.push({ 'code': data.body.id, 'token': $.token, cookie });
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       } catch (e) {
+//         $.logErr(e, resp)
+//       } finally {
+//         resolve(data);
+//       }
+//     })
+//   })
+// }
 
 function createAssistUser(inviteId, taskId) {
   // console.log(`${inviteId}, ${taskId}`, `${cookie}`);
@@ -790,41 +790,41 @@ function login(userName) {
     })
   })
 }
-function getAuthorShareCode(url) {
-  return new Promise(resolve => {
-    const options = {
-      url: `${url}?${new Date()}`, "timeout": 10000, headers: {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }
-    };
-    if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
-      const tunnel = require("tunnel");
-      const agent = {
-        https: tunnel.httpsOverHttp({
-          proxy: {
-            host: process.env.TG_PROXY_HOST,
-            port: process.env.TG_PROXY_PORT * 1
-          }
-        })
-      }
-      Object.assign(options, { agent })
-    }
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          // console.log(`${JSON.stringify(err)}`)
-          // console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (data) data = JSON.parse(data)
-        }
-      } catch (e) {
-        // $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
+// function getAuthorShareCode(url) {
+//   return new Promise(resolve => {
+//     const options = {
+//       url: `${url}?${new Date()}`, "timeout": 10000, headers: {
+//         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+//       }
+//     };
+//     if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
+//       const tunnel = require("tunnel");
+//       const agent = {
+//         https: tunnel.httpsOverHttp({
+//           proxy: {
+//             host: process.env.TG_PROXY_HOST,
+//             port: process.env.TG_PROXY_PORT * 1
+//           }
+//         })
+//       }
+//       Object.assign(options, { agent })
+//     }
+//     $.get(options, async (err, resp, data) => {
+//       try {
+//         if (err) {
+//           // console.log(`${JSON.stringify(err)}`)
+//           // console.log(`${$.name} API请求失败，请检查网路重试`)
+//         } else {
+//           if (data) data = JSON.parse(data)
+//         }
+//       } catch (e) {
+//         // $.logErr(e, resp)
+//       } finally {
+//         resolve(data);
+//       }
+//     })
+//   })
+// }
 function taskUrl(url, body = {}) {
   return {
     url: `${JD_API_HOST}/${url}?body=${escape(body)}`,
