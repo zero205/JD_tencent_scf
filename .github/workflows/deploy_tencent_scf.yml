@@ -89,6 +89,7 @@ jobs:
       JXNC_NOTIFY_LEVEL: ${{ secrets.JXNC_NOTIFY_LEVEL}}
       summer_movement_ShHelpFlag: ${{ secrets.summer_movement_ShHelpFlag}}
       NOT_RUN: ${{ secrets.NOT_RUN}}
+      CFD_LOOP_LIMIT: ${{ secrets.CFD_LOOP_LIMIT}}
       
     steps:
       - name: Checkout
@@ -188,6 +189,7 @@ jobs:
           if [ $InviterPin ]; then sed -i "/variables/a\      InviterPin: $InviterPin" serverless.yml; fi;
           if [ $summer_movement_ShHelpFlag ]; then sed -i "/variables/a\      summer_movement_ShHelpFlag: $summer_movement_ShHelpFlag" serverless.yml; fi;
           if [ $NOT_RUN ]; then sed -i "/variables/a\      NOT_RUN: $NOT_RUN" serverless.yml; fi;
+          if [ $CFD_LOOP_LIMIT ]; then sed -i "/variables/a\      CFD_LOOP_LIMIT: $CFD_LOOP_LIMIT" serverless.yml; fi;
           cat serverless.yml
           env
 
