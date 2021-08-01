@@ -21,7 +21,6 @@ cron "12 0-23/6 * * *" script-path=https://raw.githubusercontent.com/zero205/JD_
 
 const $ = new Env('金融养猪');
 const url = require('url');
-const querystring = require('querystring');
 let cookiesArr = [], cookie = '', allMessage = '';
 const JD_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
 const MISSION_BASE_API = `https://ms.jr.jd.com/gw/generic/mission/h5/m`;
