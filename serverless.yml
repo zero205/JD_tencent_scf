@@ -56,10 +56,10 @@ inputs:
           argument: jd_joy_reward
     - timer: #宠汪汪喂食 #天天提鹅 #发财大赢家 #京喜工厂 #东东工厂
         parameters:
-          name: dailyegg_joy_summer
+          name: dailyegg_joy_cfdloop
           cronExpression: "2 45 0,6-23/1 * * * *"
           enable: true
-          argument: jd_daily_egg&jd_zjb&jd_joy_feedPets&jd_big_winner&jd_dreamFactory&jd_jdfactory
+          argument: jd_daily_egg&jd_zjb&jd_joy_feedPets&jd_big_winner&jd_dreamFactory&jd_jdfactory&jd_cfd_loop
     - timer: #宠汪汪 #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量 #发财大赢家互助
         parameters:
           name: superMarket_jxmc_healthenergy
