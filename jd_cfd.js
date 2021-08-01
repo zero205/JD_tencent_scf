@@ -1,3 +1,4 @@
+// @grant    require
 /*
 京喜财富岛
 cron 5 * * * * jd_cfd.js
