@@ -26,13 +26,13 @@ inputs:
   events: #触发器
     - timer: #签到 #摇京豆 #进店领豆 #京东试用 #京东汽车
         parameters:
-          name: beansign_clublottery_shop_try_dpqd_car_mohe_signgraphics
-          cronExpression: "0 1 0 * * * *"
+          name: beansign_clublottery_shop_try_car_signgraphics
+          cronExpression: "1 0 0 * * * *"
           enable: true
-          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_dpqd&jd_car&jd_mohe&jd_sign_graphics
+          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_try&jd_car&jd_sign_graphics
     - timer: #京豆变动通知 #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #领金贴
         parameters:
-          name: unsubscribe_lotteryMachine_car_ms_jintie
+          name: unsubscribe_lotteryMachine_ms_jintie
           cronExpression: "0 10 0 * * * *"
           enable: true
           argument: jd_bean_change&jd_unsubscribe&jd_lotteryMachine&jx_sign&jd_ms&jd_jin_tie&jd_get_share_code
@@ -48,12 +48,12 @@ inputs:
           cronExpression: "0 30 0,6-23/1 * * * *"
           enable: true
           argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd&jd_super_redrain
-    - timer: #宠汪汪积分兑换京豆 #财富岛提现
+    - timer: #宠汪汪积分兑换京豆
         parameters:
-          name: joyreward_cfdtx
+          name: joyreward
           cronExpression: "30 58 7,15,23 * * * *"
           enable: true
-          argument: jd_joy_reward&jd_cfdtx
+          argument: jd_joy_reward
     - timer: #宠汪汪喂食 #天天提鹅 #发财大赢家 #京喜工厂 #东东工厂
         parameters:
           name: dailyegg_joy_summer
