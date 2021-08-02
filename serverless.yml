@@ -26,25 +26,25 @@ inputs:
   events: #触发器
     - timer: #签到 #摇京豆 #进店领豆 #京东试用 #京东汽车
         parameters:
-          name: beansign_clublottery_shop_try_car_signgraphics_dpqd
+          name: beansign_clublottery_shop_beanhome_try_car_signgraphics_dpqd
           cronExpression: "1 0 0 * * * *"
           enable: true
           argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_bean_home&jd_try&jd_car&jd_sign_graphics&jd_dpqd
     - timer: #京豆变动通知 #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #领金贴
         parameters:
-          name: unsubscribe_lotteryMachine_ms_jintie
+          name: beanchange_unsubscribe_lotteryMachine_jxsign_ms_jintie_getsharecode
           cronExpression: "0 10 0 * * * *"
           enable: true
           argument: jd_bean_change&jd_unsubscribe&jd_lotteryMachine&jx_sign&jd_ms&jd_jin_tie&jd_get_share_code
-    - timer: #东东农场 #东东萌宠 #京喜农场 #京东极速版红包 #口袋书店 #健康社区 #柠檬我是大老板
+    - timer: #东东农场 #东东萌宠 #京喜农场 #极速版签到 #极速版红包 #口袋书店 #健康社区 #柠檬我是大老板
         parameters:
-          name: fruit_pet_jxnc_speedsign_speedredpocke_bookshop_wsdlb
+          name: fruit_pet_jxnc_speedsign_speedredpocke_bookshop_health_wsdlb
           cronExpression: "0 15 0-18/6 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_bookshop&jd_health&jd_wsdlb
+          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redPocke&jd_bookshop&jd_health&jd_wsdlb
     - timer: #摇钱树 #摇钱树助力 #种豆得豆 #京喜财富岛 #超级红包雨
         parameters:
-          name: feedPets_moneyTree_plantBean_dreamFactory_jdfactory_cfd_superRedrain
+          name: moneyTree_moneyTteehelp_plantBean_cfd_superRedrain
           cronExpression: "0 30 0,6-23/1 * * * *"
           enable: true
           argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd&jd_super_redrain
@@ -54,15 +54,15 @@ inputs:
           cronExpression: "30 58 7,15,23 * * * *"
           enable: true
           argument: jd_joy_reward
-    - timer: #宠汪汪喂食 #天天提鹅 #发财大赢家 #京喜工厂 #东东工厂
+    - timer:  #天天提鹅 #柠檬赚金币 #宠汪汪喂食 #发财大赢家 #京喜工厂 #东东工厂 #财富岛热气球
         parameters:
-          name: dailyegg_joy_cfdloop
+          name: dailyegg_zjb_joyfeedpet_bigwinner_dreamFactory_jdfactory_cfdloop
           cronExpression: "2 45 0,6-23/1 * * * *"
           enable: true
           argument: jd_daily_egg&jd_zjb&jd_joy_feedPets&jd_big_winner&jd_dreamFactory&jd_jdfactory&jd_cfd_loop
     - timer: #宠汪汪 #全民开红包 #东东超市 #京喜牧场 #健康社区收取能量 #发财大赢家互助
         parameters:
-          name: superMarket_jxmc_healthenergy
+          name: joy_redPacket_superMarket_jxmc_healthenergy_fcdyj
           cronExpression: "0 20 0,6-23/2 * * * *"
           enable: true
           argument: jd_joy&jd_redPacket&jd_superMarket&jd_jxmc&jd_z_health_energy&jd_fcdyj
@@ -72,15 +72,15 @@ inputs:
           cronExpression: "0 35 0,6-23/4 * * * *"
           enable: true
           argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_jxlhb
-    - timer: #京东排行榜 #闪购盲盒 #粉丝互动 #签到领现金 #东东小窝 #京东直播 #金榜创造营
+    - timer: #京东排行榜 #闪购盲盒 #汪汪乐园 #粉丝互动 #签到领现金 #东东小窝 #京东直播 #金榜创造营 #宠汪汪赛跑
         parameters:
-          name: rankingList_beanhome_sgmh
+          name: rankingList_beanhome_sgmh_joypark_wxfans_cash_smallhome_live_goldcreator_joyrun
           cronExpression: "0 5 0,12 * * * *"
           enable: true
           argument: jd_rankingList&jd_sgmh&jd_joy_park_task&jd_wxFans&jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_joy_run
     - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #点点券
         parameters:
-          name: pigPet_syj_kd_jdzz_djjl_ddly_lsj_ljd_necklace
+          name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_necklace
           cronExpression: "0 20 0,20 * * * *"
           enable: true
           argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_necklace
