@@ -111,7 +111,7 @@ function changeFile (content,cookie) {
 async function TotalBean(cookie) {
   return new Promise(async resolve => {
     const options = {
-      "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
+      "url": 'https://me-api.jd.com/user_new/info/GetJDUserInfoUnion',
       "headers": {
         "Accept": "application/json,text/plain, */*",
         "Content-Type": "application/x-www-form-urlencoded",
