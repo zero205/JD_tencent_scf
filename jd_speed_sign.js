@@ -50,8 +50,9 @@ const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
     return;
   }
   $.canhelp = true;
-  if ($.isNode() && process.env.HELP_YQYL) {
-    $.canhelp = process.env.HELP_YQYL;
+  if ($.isNode()) {
+    if (process.env.HELP_YQYL && process.env.HELP_YQYL === 'false')
+    $.canhelp = false
   }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
