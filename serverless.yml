@@ -24,7 +24,7 @@ inputs:
   asyncRunEnable: true # 是否启用异步执行
   installDependency: true # 是否在线安装依赖
   events: #触发器
-    - timer: #签到 #摇京豆 #进店领豆 #京东试用 #京东汽车
+    - timer: #签到 #摇京豆 #进店领豆 #京东试用 #京东汽车# 图形签到# 店铺签到
         parameters:
           name: beansign_clublottery_shop_beanhome_try_car_signgraphics_dpqd
           cronExpression: "1 0 0 * * * *"
