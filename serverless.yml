@@ -41,7 +41,7 @@ inputs:
           name: fruit_pet_jxnc_speedsign_speedredpocke_bookshop_health_wsdlb
           cronExpression: "0 15 0-18/6 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redPocke&jd_bookshop&jd_health&jd_wsdlb
+          argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_bookshop&jd_health&jd_wsdlb
     - timer: #摇钱树 #摇钱树助力 #种豆得豆 #京喜财富岛 #超级红包雨
         parameters:
           name: moneyTree_moneyTteehelp_plantBean_cfd_superRedrain
