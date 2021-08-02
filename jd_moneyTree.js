@@ -37,7 +37,7 @@ if ($.isNode()) {
 }
 
 let jdNotify = true;//是否开启静默运行，默认true
-let sellFruit = false;//是否卖出金果得到金币，默认'false'
+let sellFruit = true;//是否卖出金果得到金币，默认'true'
 const JD_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
 let userInfo = null, taskInfo = [], message = '', subTitle = '', fruitTotal = 0;
 !(async () => {
