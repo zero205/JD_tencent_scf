@@ -88,7 +88,7 @@ async function jd_moneyTree() {
     await signEveryDay();
     // await dayWork();
     await harvest();
-    // await sell();
+    await sell();
     await myWealth();
     await stealFriendFruit()
 
