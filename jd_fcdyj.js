@@ -78,19 +78,19 @@ const JD_API_HOST = `https://api.m.jd.com`;
         }
     }
     await getcodeid()
-    for (let i = 0; i < cookiesArr.length; i++) {
-        cookie = cookiesArr[i];
-        if (cookie) {
-            $.index = i + 1;
-            console.log(`\n******查询【京东账号${$.index}】红包情况******\n`);
-            await getinfo()
-            if ($.canDraw) {
-                console.log(`检测到账号${$.index}已可兑换，开始兑换`)
-                await exchange()
-                await $.wait(1000)
-            }
-        }
-    }
+//     for (let i = 0; i < cookiesArr.length; i++) {
+//         cookie = cookiesArr[i];
+//         if (cookie) {
+//             $.index = i + 1;
+//             console.log(`\n******查询【京东账号${$.index}】红包情况******\n`);
+//             await getinfo()
+//             if ($.canDraw) {
+//                 console.log(`检测到账号${$.index}已可兑换，开始兑换`)
+//                 await exchange()
+//                 await $.wait(1000)
+//             }
+//         }
+//     }
 })()
     .catch((e) => {
         $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
