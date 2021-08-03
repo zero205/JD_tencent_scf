@@ -1,4 +1,4 @@
-## 不要fork！！请建立私库!!!!请建立私库!!!!请建立私库!!!! 公有库用户请点击仓库右上角Setting,页面最下方Change visibility,填入黑体仓库名称进行确认!
+## 不要fork！！请建立私库!!!!请建立私库!!!!请建立私库!!!! 公有库用户请点击仓库右上角Setting,页面最下方Change visibility,选Make private填入黑体仓库名称进行确认!
 ## 为防止账号再次遭到封禁失联,有条（科学）件（上网）的可以加入TG交流群
 ## TG交流群：https://t.me/jd_zero205
 ## TG通知频道：https://t.me/jd_zero205_tz
