@@ -14,7 +14,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
 //IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [], cookie = '', message;
+let cookiesArr = [], cookie = '';
 let tytpacketId = '';
 // if (process.env.tytpacketId) {
 //   tytpacketId = process.env.tytpacketId;
@@ -60,15 +60,17 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         continue
       }
       console.log(`\n******北京时间15点后会助力【zero205】，介意请勿运行******\n`);
-      await getCoinDozerInfo() //获取助力码，需先手动开启活动
+      await getCoinDozerInfo()
       await $.wait(2000)
+      await coinDozerBackFlow()
+      await $.wait(1000)
+      await tyt2(tytpacketId)
+      await $.wait(500)
       if (tytpacketId === '') {
         console.log(`检测到您未填写互助码，跳过助力\n`)
-        continue
       } else {
         await tythelp(tytpacketId)
       }
-      // await tyt2()
     }
   }
   // nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
@@ -118,6 +120,38 @@ function tythelp(tytpacketId) {
             console.log("帮推：" + data.data.amount)
           } else
             console.log(data.msg)
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+
+function coinDozerBackFlow() {
+  return new Promise(async (resolve) => {
+    let options = {
+      url: `https://api.m.jd.com/?t=1623066557140`,
+      body: `functionId=coinDozerBackFlow&body={"actId":"287eb90945e049129d76dd7e85dc0313","channel":"coin_dozer","antiToken":"","referer":"-1","frontendInitStatus":"s"}&appid=megatron&client=android&clientVersion=9&t=1627920132339&networkType=wifi&eid=eidAecfa8121c7s1QgSzJyiJRFuXovji/QEn20IEtJ8WEfBsxVlLBBlDx1NDeWXp7i+1qklWZQtVP/M+tndxJj/uR/SSHj2G7vN0F2lfP0e9ux8UHlNC&fp=-1&frontendInitStatus=s&uuid=8363532363230343238303836333-43D2468336563316936636265356&osVersion=9&d_brand=Xiaomi&d_model=MI 8&agent=-1&pageClickKey=-1&screen=393*818&platform=3&lang=zh_CN&eu=8363532363230343238303836333&fv=43D2468336563316936636265356`,
+      headers: {
+        "Origin": "https://pushgold.jd.com",
+        "Host": "api.m.jd.com",
+        "User-Agent": "jdltapp;iPhone;3.3.6;14.3;75aeceef3046d8ce11d354ff89af9517a2e4aa18;network/wifi;hasUPPay/0;pushNoticeIsOpen/0;lang/zh_CN;model/iPhone9,2;addressid/4585826605;hasOCPay/0;appBuild/1060;supportBestPay/0;pv/53.31;apprpd/;ref/https://invite-reward.jd.com/?lng=106.286950&lat=29.969353&sid=547255867e847394aedfb6d68c3e50fw&un_area=4_48201_54794_0#/invitee?inviterId=dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D;psq/0;ads/;psn/75aeceef3046d8ce11d354ff89af9517a2e4aa18|89;jdv/0|kong|t_1001003207_1762319_6901310|jingfen|30578707801140d09fcd54e5cd83bbf7|1621510932517|1621511027;adk/;app_device/IOS;pap/JA2020_3112531|3.3.6|IOS 14.3;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+        "Cookie": cookie,
+      }
+    }
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`API请求失败，请检查网路重试`)
+        } else {
+          data = JSON.parse(data);
+          if (data.code == 0 && data.data) {
+            console.log(`\n${data.msg}`)
+          }
         }
       } catch (e) {
         $.logErr(e, resp);
@@ -180,8 +214,12 @@ function getCoinDozerInfo() {
           console.log(`API请求失败，请检查网路重试`)
         } else {
           data = JSON.parse(data);
-          if (data.code == 0 && data.data.sponsorActivityInfo.packetId) {
-            console.log(`【京东账号${$.index}的推一推邀请码】` + data.data.sponsorActivityInfo.packetId)
+          if (data.code == 0 && data.data) {
+            console.log(`【京东账号${$.index}的推一推邀请码】${data.data.sponsorActivityInfo.packetId}\n`)
+            tytpacketId = data.data.sponsorActivityInfo.packetId
+          } else {
+            console.log(`【京东账号${$.index}】获取助力码失败\n`)
+            console.log(JSON.stringify(data))
           }
         }
       } catch (e) {
