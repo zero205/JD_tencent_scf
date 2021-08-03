@@ -53,12 +53,7 @@ $.appId = 10028;
         $.index = i + 1;
         $.nickName = '';
         $.isLogin = true;
-        await TotalBean();
         console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-        if (!$.isLogin) {
-          $.log($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"})
-          continue
-        }
         $.info = {}
         token = await getJxToken()
         await cfd();
@@ -73,7 +68,7 @@ $.appId = 10028;
 
 async function cfd() {
   try {
-    const beginInfo = await getUserInfo(false);
+    const beginInfo = await getUserInfo();
     if (beginInfo.Fund.ddwFundTargTm === 0) {
       console.log(`还未开通活动，请先开通\n`)
       return
@@ -205,6 +200,12 @@ async function pickshell(body) {
             case '只要诚心祈祷，愿望就会实现哦~':
               dwName = '海星'
               break
+            case '阳光下的小贝壳会像宝石一样，散发耀眼的光芒':
+              dwName = '小贝壳'
+              break
+            case '啊~我可不想被清蒸加蒜蓉':
+              dwName = '扇贝'
+              break
             default:
               break
           }
@@ -257,7 +258,7 @@ async function speedUp() {
 }
 
 // 获取用户信息
-function getUserInfo(showInvite = true) {
+function getUserInfo() {
   return new Promise(async (resolve) => {
     $.get(taskUrl(`user/QueryUserInfo`, `strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`), (err, resp, data) => {
       try {
@@ -267,45 +268,16 @@ function getUserInfo(showInvite = true) {
         } else {
           data = JSON.parse(data);
           const {
-            iret,
             buildInfo = {},
-            ddwRichBalance,
-            ddwCoinBalance,
-            JxUserWelfare,
-            sErrMsg,
-            strMyShareId,
-            strNickName,
-            dwLandLvl,
             Fund = {}
           } = data;
-          const dwIsJxNewUser = JxUserWelfare["dwIsJxNewUser"]
-          if (showInvite) {
-            console.log(`\n获取用户信息：${sErrMsg}\n${$.showLog ? data : ""}`);
-            console.log(`\n当前等级:${dwLandLvl},金币:${ddwCoinBalance},财富值:${ddwRichBalance}\n`)
-          }
-          if (showInvite && strMyShareId) {
-            console.log(`财富岛好友互助码每次运行都变化,旧的可继续使用`);
-            console.log(`\n【京东账号${$.index} ${$.UserName} 的${$.name}好友互助码】${strMyShareId}\n\n`);
-            $.shareCodes.push(strMyShareId)
-          }
           $.info = {
             ...$.info,
             buildInfo,
-            ddwRichBalance,
-            ddwCoinBalance,
-            dwIsJxNewUser,
-            strMyShareId,
-            strNickName,
-            dwLandLvl,
             Fund
           };
           resolve({
             buildInfo,
-            ddwRichBalance,
-            ddwCoinBalance,
-            dwIsJxNewUser,
-            strMyShareId,
-            strNickName,
             Fund
           });
         }
@@ -337,88 +309,6 @@ function taskUrl(function_path, body) {
   };
 }
 
-function taskListUrl(function_path, body, bizCode = 'jxbfd') {
-  let url = `${JD_API_HOST}newtasksys/newtasksys_front/${function_path}?strZone=jxbfd&bizCode=${bizCode}&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=138631.26.55&${body}&_stk=_cfd_t%2CbizCode%2CconfigExtra%2CdwEnv%2Cptag%2Csource%2CstrZone%2CtaskId&_ste=1`;
-  url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&g_ty=ls`;
-  return {
-    url,
-    headers: {
-      Cookie: cookie,
-      Accept: "*/*",
-      Connection: "keep-alive",
-      Referer:"https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
-      "Accept-Encoding": "gzip, deflate, br",
-      Host: "m.jingxi.com",
-      "User-Agent":`jdpingou;iPhone;3.15.2;14.2.1;ea00763447803eb0f32045dcba629c248ea53bb3;network/wifi;model/iPhone13,2;appBuild/100365;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2015_311210;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`,
-      "Accept-Language": "zh-cn",
-    },
-    timeout: 10000
-  };
-}
-
-function showMsg() {
-  return new Promise(async (resolve) => {
-    if ($.result.length) {
-      if ($.notifyTime) {
-        const notifyTimes = $.notifyTime.split(",").map((x) => x.split(":"));
-        const now = $.time("HH:mm").split(":");
-        console.log(`\n${JSON.stringify(notifyTimes)}`);
-        console.log(`\n${JSON.stringify(now)}`);
-        if ( notifyTimes.some((x) => x[0] === now[0] && (!x[1] || x[1] === now[1])) ) {
-          $.msg($.name, "", `${$.result.join("\n")}`);
-        }
-      } else {
-        $.msg($.name, "", `${$.result.join("\n")}`);
-      }
-
-      if ($.isNode() && process.env.CFD_NOTIFY_CONTROL)
-        await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `${$.result.join("\n")}`);
-    }
-    resolve();
-  });
-}
-
-function TotalBean() {
-  return new Promise(async resolve => {
-    const options = {
-      url: "https://wq.jd.com/user_new/info/GetJDUserInfoUnion?sceneval=2",
-      headers: {
-        Host: "wq.jd.com",
-        Accept: "*/*",
-        Connection: "keep-alive",
-        Cookie: cookie,
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
-        "Accept-Language": "zh-cn",
-        "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
-        "Accept-Encoding": "gzip, deflate, br"
-      }
-    }
-    $.get(options, (err, resp, data) => {
-      try {
-        if (err) {
-          $.logErr(err)
-        } else {
-          if (data) {
-            data = JSON.parse(data);
-            if (data['retcode'] === 1001) {
-              $.isLogin = false; //cookie过期
-              return;
-            }
-            if (data['retcode'] === 0 && data.data && data.data.hasOwnProperty("userInfo")) {
-              $.nickName = data.data.userInfo.baseInfo.nickname;
-            }
-          } else {
-            console.log('京东服务器返回空数据');
-          }
-        }
-      } catch (e) {
-        $.logErr(e)
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
 function jsonParse(str) {
   if (typeof str == "string") {
     try {
