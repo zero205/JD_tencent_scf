@@ -98,13 +98,16 @@ const JD_API_HOST = `https://api.m.jd.com`;
     }
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
+        $.canWx = true
         if (cookie) {
             $.index = i + 1;
             console.log(`\n******查询【京东账号${$.index}】红包情况******\n`);
             await getinfo()
             if ($.canDraw) {
-                console.log(`\n检测到账号${$.index}已可兑换，开始兑换\n`)
-                await exchange()
+                await getrewardIndex()
+                if ($.canWx) {
+                    await exchange()
+                }
                 await $.wait(1000)
             }
         }
@@ -221,6 +224,35 @@ function getinfo() {
                     } else {
                         $.canDraw = false
                         console.log(`【京东账号${$.index}】为黑号，跳过`)
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve();
+            }
+        });
+    });
+}
+
+function getrewardIndex() {
+    return new Promise(async (resolve) => {
+        let options = taskUrl("rewardIndex", `{"linkId":"${$.linkid}"}`)
+        $.get(options, async (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`);
+                    console.log(`${$.name} API请求失败，请检查网路重试`);
+                } else {
+                    data = JSON.parse(data);
+                    if (data.success && data.data) {
+                        if (data.data.haveHelpNum === 10) {
+                            console.log(`\n【京东账号${$.index}】已满足微信提现要求，开始提现\n`)
+                            $.canWx = true
+                        }
+                    } else {
+                        console.log(`当前已有 ${data.data.haveHelpNum} 人助力，还需 ${data.data.diffNum} 人`)
+                        $.canWx = false
                     }
                 }
             } catch (e) {
