@@ -86,10 +86,14 @@ const JD_API_HOST = `https://api.m.jd.com`;
             if (cookiesArr[i]) {
                 cookie = cookiesArr[i];
                 $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+                $.canRun = true
                 console.log(`\n${$.UserName} 去助力【zero205】\n`)
                 for (let j = 0; j < $.authorCode.length; j++) {
                     let item = $.authorCode[j];
                     await help(item.redEnvelopeId, item.inviter, 1)
+                    if (!$.canRun) {
+                        break;
+                    }
                     await $.wait(1000)
                     await help(item.redEnvelopeId, item.inviter, 2)
                 }
@@ -284,9 +288,10 @@ function help(rid, inviter, type) {
                         }
                     } else {
                         console.log(JSON.stringify(data))
+                        console.log(`【京东账号${$.UserName}】为黑号，跳过助力`)
+                        $.canRun = false
                     }
                 }
-
             } catch (e) {
                 $.logErr(e, resp);
             } finally {
