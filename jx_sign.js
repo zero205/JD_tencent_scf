@@ -79,10 +79,11 @@ if ($.isNode()) {
       $.nickName = '';
       message = '';
       $.commonlist = []
+      $.bxNum = []
       $.black = false
       $.canHelp = true
       await TotalBean()
-      console.log(`\n******开始【京东账号${$.index}】 ${$.nickName || $.UserName}*********\n`)
+      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`)
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" })
 
@@ -121,6 +122,7 @@ if ($.isNode()) {
         console.log(`今日已签到，无法助力好友啦~`)
       }
       if (!$.black) {
+        await helpSignhb()
         if ($.commonlist && $.commonlist.length) {
           console.log("开始做红包任务")
           for (let j = 0; j < $.commonlist.length; j++) {
@@ -129,6 +131,12 @@ if ($.isNode()) {
           }
         } else {
           console.log("红包任务已完成")
+        }
+        if ($.bxNum && $.bxNum.length) {
+          for (let j = 0; j < $.bxNum[0].bxNum; j++) {
+            await bxdraw()
+            await $.wait(3000)
+          }
         }
         await doubleSign()
       } else {
@@ -195,6 +203,10 @@ function signhb(type = 1) {
                   $.commonlist.push(commontask[i].task)
                 }
               }
+              console.log(`可开启宝箱${data.baoxiang_left}个`)
+              $.bxNum.push({
+                'bxNum': data.baoxiang_left
+              })
               break
             default:
               break
@@ -210,7 +222,7 @@ function signhb(type = 1) {
 }
 
 // 签到 助力
-function helpSignhb(smp) {
+function helpSignhb(smp = '') {
   return new Promise((resolve) => {
     $.get(taskUrl("fanxiantask/signhb/query", `signhb_source=1000&smp=${smp}&type=1`, "signhb_source,smp,type"), async (err, resp, data) => {
       try {
@@ -266,6 +278,31 @@ function dotask(task) {
         }
       });
   });
+}
+
+// 宝箱
+function bxdraw() {
+  return new Promise((resolve) => {
+    $.get(taskUrl("fanxiantask/signhb/bxdraw"), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(JSON.stringify(err));
+          console.log(`${$.name} bxdraw API请求失败，请检查网路重试`);
+        } else {
+          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1])
+          if (data.ret === 0) {
+            console.log(`开启宝箱 获得${data.sendhb}红包`);
+          } else {
+            console.log(data.errmsg);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve(data);
+      }
+    })
+  })
 }
 
 // 双签
