@@ -73,8 +73,12 @@ const JD_API_HOST = `https://api.m.jd.com`;
             if (dyjStr[0]) {
                 $.rid = dyjStr[0]
                 $.inviter = dyjStr[1]
+                $.canRun = true
                 console.log(`\n检测到您已填助力码${$.rid}，开始助力\n`)
                 await help($.rid, $.inviter, 1)
+                if (!$.canRun) {
+                    break;
+                }
                 await $.wait(1000)
                 await help($.rid, $.inviter, 2)
             }
