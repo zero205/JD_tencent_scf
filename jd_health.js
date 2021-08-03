@@ -92,19 +92,19 @@ async function main() {
   try {
     $.score = 0
     $.earn = false
-    // await getTaskDetail(-1)
-    // await getTaskDetail(16)
+    await getTaskDetail(-1)
+    await getTaskDetail(16)
     await getTaskDetail(6)
-    // for(let i = 0 ; i < 5; ++i){
-    //   $.canDo = false
-    //   await getTaskDetail()
-    //   if(!$.canDo) break
-    //   await $.wait(1000)
-    // }
-    // await collectScore()
+    for(let i = 0 ; i < 5; ++i){
+      $.canDo = false
+      await getTaskDetail()
+      if(!$.canDo) break
+      await $.wait(1000)
+    }
+    await collectScore()
     await helpFriends()
-    // await getTaskDetail(22);
-    // await getTaskDetail(-1)
+    await getTaskDetail(22);
+    await getTaskDetail(-1)
     if (reward) {
       await getCommodities()
     }
