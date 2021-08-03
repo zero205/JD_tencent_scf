@@ -113,7 +113,7 @@ jobs:
 
       - name: "将Secrets里面配置的变量添加到severless.yml里面作为环境变量"
         run: |
-          if [ $TZ ]; then sed -i "/variables/a\      TZ: $TZ" serverless.yml; fi
+          if [ $TZ ]; then sed -i "/variables/a\      TZ: $TZ" serverless.yml; fi;
           if [ $JD_COOKIE ]; then sed -i "/variables/a\      JD_COOKIE: $JD_COOKIE" serverless.yml; fi;
           if [ $JD_DEBUG ]; then sed -i "/variables/a\      JD_DEBUG: $JD_DEBUG" serverless.yml; fi;
           if [ $JD_USER_AGENT ]; then sed -i "/variables/a\      JD_USER_AGENT: $JD_USER_AGENT" serverless.yml; fi;
