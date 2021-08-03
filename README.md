@@ -1,3 +1,4 @@
+## 不要fork！！请建立私库!!!!请建立私库!!!!请建立私库!!!! 公有库用户请点击仓库右上角Setting,页面最下方Change visibility,填入黑体仓库名称进行确认!
 ## 为防止账号再次遭到封禁失联,有条（科学）件（上网）的可以加入TG交流群
 ## TG交流群：https://t.me/jd_zero205
 ## TG通知频道：https://t.me/jd_zero205_tz
@@ -72,10 +73,6 @@
   + [插件获取京东cookie教程](./backUp/GetJdCookie2.md)
     
   + 京东APP扫码获取cookie(此种方式获取的cookie有效期为30天)(执行`node getJDCookie.js`即可)
-
-## 赞赏码(开发维护不易,请赏杯茶水费)
-
-<div align=center><img width="250" height="250" src="./icon/thanks.jpg"/></div>
 
 
 ## 特别感谢(排名不分先后)：
