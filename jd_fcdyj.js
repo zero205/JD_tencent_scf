@@ -2,7 +2,7 @@
 活动入口： 京东极速版-我的-发财大赢家
  * /
  * 基于温某人大佬的脚本修改
- * 助力逻辑：优先助力互助码环境变量，中午12点之后再给我助力
+ * 助力逻辑：优先助力互助码环境变量，中午10点之后再给我助力
  * TG交流群：https://t.me/jd_zero205
  * TG通知频道：https://t.me/jd_zero205_tz
  * /
@@ -47,6 +47,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
         });
         return;
     }
+    console.log(`\n发财大赢家助力逻辑：优先助力填写的互助码环境变量，中午10点之后再给我助力\n`)
     message = ''
     $.helptype = 1
     $.needhelp = true
@@ -64,7 +65,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
         }
         if (!dyjCode) {
-            console.log(`环境变量中没有检测到助力码,开始获取【京东账号${$.index}】助力码`)
+            console.log(`\n环境变量中没有检测到助力码,开始获取【京东账号${$.index}】助力码\n`)
             await open()
             await getid()
         } else {
@@ -72,25 +73,42 @@ const JD_API_HOST = `https://api.m.jd.com`;
             if (dyjStr[0]) {
                 $.rid = dyjStr[0]
                 $.inviter = dyjStr[1]
-                console.log(`检测到您已填助力码${$.rid}，开始助力`)
-                await help($.rid, $.inviter, $.helptype)
+                console.log(`\n检测到您已填助力码${$.rid}，开始助力\n`)
+                await help($.rid, $.inviter, 1)
+                await $.wait(1000)
+                await help($.rid, $.inviter, 2)
             }
         }
     }
-    await getcodeid()
-//     for (let i = 0; i < cookiesArr.length; i++) {
-//         cookie = cookiesArr[i];
-//         if (cookie) {
-//             $.index = i + 1;
-//             console.log(`\n******查询【京东账号${$.index}】红包情况******\n`);
-//             await getinfo()
-//             if ($.canDraw) {
-//                 console.log(`检测到账号${$.index}已可兑换，开始兑换`)
-//                 await exchange()
-//                 await $.wait(1000)
-//             }
-//         }
-//     }
+    if (new Date().getHours() >= 10) {
+        await getAuthorShareCode()
+        for (let i = 0; i < cookiesArr.length; i++) {
+            if (cookiesArr[i]) {
+                cookie = cookiesArr[i];
+                $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+                console.log(`\n${$.UserName} 去助力【zero205】\n`)
+                for (let j = 0; j < $.authorCode.length; j++) {
+                    let item = $.authorCode[j];
+                    await help(item.redEnvelopeId, item.inviter, 1)
+                    await $.wait(1000)
+                    await help(item.redEnvelopeId, item.inviter, 2)
+                }
+            }
+        }
+    }
+    for (let i = 0; i < cookiesArr.length; i++) {
+        cookie = cookiesArr[i];
+        if (cookie) {
+            $.index = i + 1;
+            console.log(`\n******查询【京东账号${$.index}】红包情况******\n`);
+            await getinfo()
+            if ($.canDraw) {
+                console.log(`\n检测到账号${$.index}已可兑换，开始兑换\n`)
+                await exchange()
+                await $.wait(1000)
+            }
+        }
+    }
 })()
     .catch((e) => {
         $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -101,7 +119,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
 
 function exchange() {
     return new Promise(async (resolve) => {
-        let options = taskUrl("exchange", `{"linkId":"${$.linkid}", "rewardType":1}`)
+        let options = taskUrl("exchange", `{"linkId":"${$.linkid}", "rewardType":2}`)
         $.get(options, async (err, resp, data) => {
             try {
                 if (err) {
@@ -246,8 +264,29 @@ function help(rid, inviter, type) {
     });
 }
 
-var _0xod1 = 'jsjiami.com.v6', _0x38f3 = [_0xod1, '\x67\x65\x74', '\x68\x74\x74\x70\x73\x3a\x2f\x2f\x72\x61\x77\x2e\x66\x61\x73\x74\x67\x69\x74\x2e\x6f\x72\x67\x2f\x7a\x65\x72\x6f\x32\x30\x35\x2f\x75\x70\x64\x61\x74\x65\x54\x65\x61\x6d\x2f\x6d\x61\x69\x6e\x2f\x73\x68\x61\x72\x65\x43\x6f\x64\x65\x73\x2f\x64\x79\x6a\x2e\x6a\x73\x6f\x6e', '\x4d\x6f\x7a\x69\x6c\x6c\x61\x2f\x35\x2e\x30\x20\x28\x69\x50\x68\x6f\x6e\x65\x3b\x20\x43\x50\x55\x20\x69\x50\x68\x6f\x6e\x65\x20\x4f\x53\x20\x31\x33\x5f\x32\x5f\x33\x20\x6c\x69\x6b\x65\x20\x4d\x61\x63\x20\x4f\x53\x20\x58\x29\x20\x41\x70\x70\x6c\x65\x57\x65\x62\x4b\x69\x74\x2f\x36\x30\x35\x2e\x31\x2e\x31\x35\x20\x28\x4b\x48\x54\x4d\x4c\x2c\x20\x6c\x69\x6b\x65\x20\x47\x65\x63\x6b\x6f\x29\x20\x56\x65\x72\x73\x69\x6f\x6e\x2f\x31\x33\x2e\x30\x2e\x33\x20\x4d\x6f\x62\x69\x6c\x65\x2f\x31\x35\x45\x31\x34\x38\x20\x53\x61\x66\x61\x72\x69\x2f\x36\x30\x34\x2e\x31\x20\x45\x64\x67\x2f\x38\x37\x2e\x30\x2e\x34\x32\x38\x30\x2e\x38\x38', '\x6c\x6f\x67', '\x73\x74\x72\x69\x6e\x67\x69\x66\x79', '\x6e\x61\x6d\x65', '\x20\x41\x50\x49\u8bf7\u6c42\u5931\u8d25\uff0c\u8bf7\u68c0\u67e5\u7f51\u8def\u91cd\u8bd5', '\x61\x75\x74\x68\x6f\x72\x43\x6f\x64\x65', '\x70\x61\x72\x73\x65', '\x77\x61\x69\x74', '\x67\x65\x74\x48\x6f\x75\x72\x73', '\x6c\x65\x6e\x67\x74\x68', '\x55\x73\x65\x72\x4e\x61\x6d\x65', '\x6d\x61\x74\x63\x68', '\x69\x6e\x64\x65\x78', '\x69\x73\x4c\x6f\x67\x69\x6e', '\x0a\u3010\u4eac\u4e1c\u8d26\u53f7', '\x20\u53bb\u52a9\u529b\u3010\x7a\x65\x72\x6f\x32\x30\x35\u3011', '\x72\x65\x64\x45\x6e\x76\x65\x6c\x6f\x70\x65\x49\x64', '\x69\x6e\x76\x69\x74\x65\x72', '\x68\x65\x6c\x70\x74\x79\x70\x65', '\x6c\x6f\x67\x45\x72\x72', '\x43\x6a\x73\x6a\x42\x69\x61\x6d\x69\x72\x4e\x6b\x78\x43\x7a\x50\x2e\x4b\x63\x44\x6f\x6d\x2e\x76\x36\x72\x5a\x52\x58\x3d\x3d']; var _0x1f57 = function (_0x59ebe7, _0x5c1318) { _0x59ebe7 = ~~'0x'['concat'](_0x59ebe7); var _0x1c0dc4 = _0x38f3[_0x59ebe7]; return _0x1c0dc4; }; (function (_0x4c9495, _0x144512) { var _0x3c802f = 0x0; for (_0x144512 = _0x4c9495['shift'](_0x3c802f >> 0x2); _0x144512 && _0x144512 !== (_0x4c9495['pop'](_0x3c802f >> 0x3) + '')['replace'](/[CBrNkxCzPKDrZRX=]/g, ''); _0x3c802f++) { _0x3c802f = _0x3c802f ^ 0x98993; } }(_0x38f3, _0x1f57)); function getcodeid() { return new Promise(_0x3a078e => { $[_0x1f57('0')]({ '\x75\x72\x6c': _0x1f57('1'), '\x68\x65\x61\x64\x65\x72\x73': { 'User-Agent': _0x1f57('2') } }, async (_0x4e8a68, _0x27c69e, _0x3381c2) => { try { if (_0x4e8a68) { console[_0x1f57('3')]('' + JSON[_0x1f57('4')](_0x4e8a68)); console[_0x1f57('3')]($[_0x1f57('5')] + _0x1f57('6')); } else { $[_0x1f57('7')] = JSON[_0x1f57('8')](_0x3381c2); await $[_0x1f57('9')](0x7d0); if (new Date()[_0x1f57('a')]() >= 0xc) { for (let _0x102054 = 0x0; _0x102054 < cookiesArr[_0x1f57('b')]; _0x102054++) { if (cookiesArr[_0x102054]) { cookie = cookiesArr[_0x102054]; $[_0x1f57('c')] = decodeURIComponent(cookie[_0x1f57('d')](/pt_pin=([^; ]+)(?=;?)/) && cookie[_0x1f57('d')](/pt_pin=([^; ]+)(?=;?)/)[0x1]); $[_0x1f57('e')] = _0x102054 + 0x1; $[_0x1f57('f')] = !![]; console[_0x1f57('3')](_0x1f57('10') + $[_0x1f57('e')] + '\u3011' + $[_0x1f57('c')] + _0x1f57('11')); for (let _0x5a2b0b of $[_0x1f57('7')]) { await help(_0x5a2b0b[_0x1f57('12')], _0x5a2b0b[_0x1f57('13')], $[_0x1f57('14')]); await $[_0x1f57('9')](0x3e8); } } } } } } catch (_0xdf3627) { $[_0x1f57('15')](_0xdf3627, _0x27c69e); } finally { _0x3a078e(); } }); }); }; _0xod1 = 'jsjiami.com.v6';
-
+function getAuthorShareCode() {
+    return new Promise(resolve => {
+        $.get({
+            url: "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/dyj.json",
+            headers: {
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+            }
+        }, async (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`);
+                    console.log(`${$.name} API请求失败，请检查网路重试`);
+                } else {
+                    $.authorCode = JSON.parse(data);
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            } finally {
+                resolve();
+            }
+        })
+    })
+}
 function taskUrl(function_id, body) {
     return {
         url: `${JD_API_HOST}/?functionId=${function_id}&body=${encodeURIComponent(body)}&t=${Date.now()}&appid=activities_platform&clientVersion=3.5.2`,
