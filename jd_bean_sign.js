@@ -61,7 +61,7 @@ if ($.isNode()) {
   let notifyContent = ''
   console.log = (...args) => {
     if(args[0].includes("【签到号")){
-      notifyContent += args[0].split('\n\n')[1]
+      notifyContent += args[0].split('\n\n')[1] + '\n'
       // originalLog('catch notifyContent:'+notifyContent)
     }
     originalLog.apply(
