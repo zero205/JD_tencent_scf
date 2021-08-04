@@ -1,3 +1,4 @@
+// @grant    require
 const navigator = {
   userAgent: require('./USER_AGENTS').USER_AGENT,
   plugins: { length: 0 },
