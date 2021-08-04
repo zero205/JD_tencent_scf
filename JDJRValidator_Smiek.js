@@ -319,7 +319,6 @@ class JDJRValidator {
             response,
             zlib.createGunzip(),
             unzipStream,
-            reject,
           );
           res = unzipStream;
         }
