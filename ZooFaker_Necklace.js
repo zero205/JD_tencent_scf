@@ -848,7 +848,7 @@ let utils = {
         outstr.push("C");
         var data = {
             tm: [],
-            tnm: [],
+            tnm: ["d5-15,C5,5JD,a,t","d7-15,C5,5LJ,a,t"],
             grn: 1,
             ss: TouchSession,
             wed: 'ttttt',
