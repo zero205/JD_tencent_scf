@@ -1,7 +1,7 @@
 /*
 
 [task_local]
-#7月粉丝互动
+#8月粉丝互动
 1 8 * * * https://raw.githubusercontent.com/Wenmoux/scripts/wen/jd/jd_wxFans.js, tag=粉丝互动, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 const $ = new Env('粉丝互动');
