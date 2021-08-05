@@ -1,3 +1,4 @@
+// @grant    require
 /*
   由于 canvas 依赖系统底层需要编译且预编译包在 github releases 上，改用另一个纯 js 解码图片。若想继续使用 canvas 可调用 runWithCanvas 。
 
@@ -6,12 +7,13 @@
 const https = require('https');
 const http = require('http');
 const stream = require('stream');
+const { promisify } = require('util');
+const pipelineAsync = promisify(stream.pipeline);;
 const zlib = require('zlib');
 const vm = require('vm');
 const PNG = require('png-js');
 const UA = require('./USER_AGENTS.js').USER_AGENT;
-const { promisify } = require('util');
-const pipelineAsync = promisify(stream.pipeline);
+
 
 Math.avg = function average() {
   var sum = 0;
