@@ -113,9 +113,9 @@ async function jdPlantBean() {
       await plantShareSupportList();
     } else {
       console.log(`种豆得豆-初始失败:  ${JSON.stringify($.plantBeanIndexResult)}`);
-      console.log(`等待10秒后重试`);
-      await $.wait(10000);
-      await jdPlantBean();
+      // console.log(`等待10秒后重试`);
+      // await $.wait(10000);
+      // await jdPlantBean();
     }
   } catch (e) {
     $.logErr(e);
