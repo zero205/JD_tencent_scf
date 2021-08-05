@@ -277,33 +277,33 @@ function showMsg() {
 //   })
 // }
 
-function openTuan() {
-  let body = {"activityIdEncrypted": $.tuanActId, "channel": "FISSION_BEAN"}
-  return new Promise(resolve => {
-    $.get(taskTuanUrl("vvipclub_distributeBean_startAssist", body), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            if (data['success']) {
-              console.log(`【赚京豆(微信小程序)-瓜分京豆】开团成功`)
-              $.hasOpen = true
-            } else {
-              console.log(`\n开团失败：${JSON.stringify(data)}\n`)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
+// function openTuan() {
+//   let body = {"activityIdEncrypted": $.tuanActId, "channel": "FISSION_BEAN"}
+//   return new Promise(resolve => {
+//     $.get(taskTuanUrl("vvipclub_distributeBean_startAssist", body), async (err, resp, data) => {
+//       try {
+//         if (err) {
+//           console.log(`${JSON.stringify(err)}`)
+//           console.log(`${$.name} API请求失败，请检查网路重试`)
+//         } else {
+//           if (safeGet(data)) {
+//             data = JSON.parse(data);
+//             if (data['success']) {
+//               console.log(`【赚京豆(微信小程序)-瓜分京豆】开团成功`)
+//               $.hasOpen = true
+//             } else {
+//               console.log(`\n开团失败：${JSON.stringify(data)}\n`)
+//             }
+//           }
+//         }
+//       } catch (e) {
+//         $.logErr(e, resp)
+//       } finally {
+//         resolve(data);
+//       }
+//     })
+//   })
+// }
 
 function getUserInfo() {
   return new Promise(resolve => {
