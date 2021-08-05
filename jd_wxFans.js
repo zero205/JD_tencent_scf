@@ -26,8 +26,8 @@ if ($.isNode()) {
 
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
 message = ""
-$.shareuuid = "8cec00a4917e4af6ae49f8f4f9e7b58d"
-$.actid = "aae88e19901340a28b604f5cf5b61dd6"
+$.shareuuid = ""
+$.actid = "162c43699ba945e8adb83b2bd5fe0142"
 !(async () => {
         if (!cookiesArr[0]) {
             $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
@@ -239,7 +239,7 @@ function getMyPin() {
 }
 
 function adlog() {
-    let config = taskPostUrl("/common/accessLogWithAD", `venderId=${$.shopid}&code=69&pin=${encodeURIComponent($.pin)}&activityId=90121061401&pageUrl=https://lzkjdz-isv.isvjcloud.com/wxFansInterActionActivity/activity/590580?activityId=aae88e19901340a28b604f5cf5b61dd6&shareuserid4minipg=jd_4806fb66e0f3e&shopid=undefined&subType=app&adSource=`)
+    let config = taskPostUrl("/common/accessLogWithAD", `venderId=${$.shopid}&code=69&pin=${encodeURIComponent($.pin)}&activityId=90121061401&pageUrl=https://lzkjdz-isv.isvjcloud.com/wxFansInterActionActivity/activity/590580?activityId=162c43699ba945e8adb83b2bd5fe0142&shareuserid4minipg=jd_4806fb66e0f3e&shopid=undefined&subType=app&adSource=`)
     //   console.log(config)
     return new Promise(resolve => {
         $.post(config, async (err, resp, data) => {
@@ -382,7 +382,7 @@ function taskUrl(url, body) {
             'Host': 'lzkjdz-isv.isvjcloud.com',
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
-            'Referer': 'https://lzkjdz-isv.isvjcloud.com/wxFansInterActionActivity/activity/590580?activityId=aae88e19901340a28b604f5cf5b61dd6&shareuserid4minipg=jd_4806fb66e0f3e&shopid=undefined',
+            'Referer': 'https://lzkjdz-isv.isvjcloud.com/wxFansInterActionActivity/activity/590580?activityId=162c43699ba945e8adb83b2bd5fe0142&shareuserid4minipg=jd_4806fb66e0f3e&shopid=undefined',
             'user-agent': 'jdapp;android;10.0.4;11;2393039353533623-7383235613364343;network/wifi;model/Redmi K30;addressid/138549750;aid/290955c2782e1c44;oaid/b30cf82cacfa8972;osVer/30;appBuild/88641;partner/xiaomi001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; Redmi K30 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045537 Mobile Safari/537.36',
             'content-type': 'application/x-www-form-urlencoded',
             'Cookie': `${cookie} IsvToken=${$.IsvToken};AUTH_C_USER=${$.pin}`,
