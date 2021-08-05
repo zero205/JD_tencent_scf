@@ -17,7 +17,7 @@
 
 # 使用教程（觉得有用的可以点个star :blush:）  
 
-* > 【青龙】拉取仓库命令：`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_"  "backUp" "^(jd|JD|JS)[^_]|USER|sendNotify|MovementFaker|ZooFaker_Necklace"`  
+* > 【青龙】拉取仓库命令：`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_"  "backUp" "^(jd|JD|JS)[^_]|USER|sendNotify|ZooFaker_Necklace"`  
 
 * > 腾讯云函数部署【推荐】[点此查看教程](./backUp/tencentscf.md)
 
