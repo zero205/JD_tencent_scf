@@ -98,7 +98,7 @@
     {
       "name": "京喜财富岛提现",
       "type": "cron",
-      "time": "20 0,6-23 * * *",
+      "time": "59 11,12,23 * * *",
       "running": true,
       "job": {
         "type": "runjs",
