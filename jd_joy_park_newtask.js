@@ -42,27 +42,23 @@ message = ""
       $.isLogin = true;
       $.nickName = '';
       $.maxJoyCount = 10
-      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-
-      //下地后还有有钱买Joy并且买了Joy
       $.hasJoyCoin = true
+      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       await getJoyBaseInfo(undefined,undefined,undefined,true);
       $.activityJoyList = []
       $.workJoyInfoList = []
       await getJoyList(true);
       await getGameShopList()
+      //合成
+      await doJoyMergeAll($.activityJoyList)
       //清理工位
       await doJoyMoveDownAll($.workJoyInfoList)
-      // 从低合到高
-      await doJoyMergeAll($.activityJoyList)
-      await getJoyList(true)
       await doJoyBuy(2)
     }
   }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
-
 
 function getJoyBaseInfo(taskId = '',inviteType = '',inviterPin = '',printLog = false) {
   //await $.wait(20)
@@ -165,8 +161,6 @@ async function doJoyMoveDownAll(workJoyInfoList) {
 async function doJoyMergeAll(activityJoyList) {
   let minLevel = Math.min.apply(Math, activityJoyList.map(o => o.level))
   let joyMinLevelArr = activityJoyList.filter(row => row.level === minLevel);
-  let joyBaseInfo = await getJoyBaseInfo()
-  let fastBuyLevel = joyBaseInfo.fastBuyLevel
   if (joyMinLevelArr.length >= 2) {
     $.log(`开始合成 ${minLevel} ${joyMinLevelArr[0].id} <=> ${joyMinLevelArr[1].id} 【限流严重，2秒后合成！如失败会重试】`);
     await $.wait(2000)
