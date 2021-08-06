@@ -78,7 +78,7 @@ inputs:
           name: rankingList_beanhome_sgmh_joypark_wxfans_cash_smallhome_live_goldcreator
           cronExpression: "0 5 0,12 * * * *"
           enable: true
-          argument: jd_rankingList&jd_sgmh&jd_joy_park_task&jd_wxFans&jd_cash&jd_small_home&jd_live&jd_gold_creator&jd_productZ4Brand
+          argument: jd_rankingList&jd_sgmh&jd_joy_park_task&jd_wxFans&jd_cash&jd_small_home&jd_live&jd_gold_creator
     - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #点点券 #女装盲盒
         parameters:
           name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_necklace_nzmh
