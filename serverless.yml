@@ -33,7 +33,7 @@ inputs:
           argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_bean_home&jd_try&jd_car&jd_sign_graphics&jd_dpqd
     - timer: #京豆变动通知 #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #领金贴
         parameters:
-          name: beanchange_unsubscribe_lotteryMachine_jxsign_ms_jintie_getsharecode
+          name: beanchange_unsubscribe_lotteryMachine_jxsign_ms_jintie
           cronExpression: "0 10 0 * * * *"
           enable: true
           argument: jd_bean_change&jd_unsubscribe&jd_lotteryMachine&jx_sign&jd_ms&jd_jin_tie
@@ -79,12 +79,12 @@ inputs:
           cronExpression: "0 5 0,12 * * * *"
           enable: true
           argument: jd_rankingList&jd_sgmh&jd_joy_park_task&jd_wxFans&jd_cash&jd_small_home&jd_live&jd_gold_creator
-    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #点点券
+    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #点点券 #女装盲盒
         parameters:
-          name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_necklace
+          name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_necklace_nzmh
           cronExpression: "0 20 0,20 * * * *"
           enable: true
-          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_necklace
+          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_necklace&jd_nzmh
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的
