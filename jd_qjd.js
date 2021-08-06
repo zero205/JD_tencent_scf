@@ -2,9 +2,9 @@
  * Date: 2021/8/6 下午15:12
  * 全民抢京豆（8.6-8.16）
  * 活动入口，京东APP首页，领京豆：https://h5.m.jd.com/rn/3MQXMdRUTeat9xqBSZDSCCAE9Eqz/index.html?has_native=0
- * 满160豆需要20人助力，每个用户目前只能助力2次不同的用户。
+ * 每个用户目前只能助力3次不同的用户。
  * 助力逻辑：优先账号内互助，再给我助力
- */
+ **/
 const $ = new Env('全民抢京豆');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -22,6 +22,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 !(async () => {
+  console.log(`\n【抢京豆脚本】优先账号内部互相助力，有剩余次数再助力【zero205】\n`)
   await getAuthorShareCode();
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
@@ -45,12 +46,11 @@ if ($.isNode()) {
         }
         continue
       }
-      await jdCar();
+      await getShareCode();
     }
   }
   console.log(helpInfo)
   // return
-  console.log(`\n优先账号内部互相助力，有剩余次数再助力【zero205】\n`)
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -64,6 +64,7 @@ if ($.isNode()) {
           continue
         }
         if (cookiesArr.length > 2) {
+          console.log(`\n=====开始账号内互助=====\n`)
           await doHelp($.groupCode, $.shareCode, $.activityId)
         } else {
           console.log(`\n账号少于3个，不够成团，去帮助【zero205】\n`)
@@ -85,11 +86,6 @@ if ($.isNode()) {
   .finally(() => {
     $.done();
   })
-
-async function jdCar() {
-  await getShareCode()
-  await getAuthorShareCode()
-}
 
 function getRandomStr(length, exclude = -1) {
   let num = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -153,7 +149,7 @@ function doHelp(groupCode, shareCode, activityId) {
   return new Promise(resolve => {
     let v_num1 = `${getRandomStr(1, 0)}${getRandomStr(4)}`
     let url = `https://api.m.jd.com/client.action?functionId=signGroupHelp&body=%7B%22activeType%22%3A2%2C%22groupCode%22%3A%22${groupCode}%22%2C%22shareCode%22%3A%22${shareCode}%22%2C%22activeId%22%3A%22${activityId}%22%2C%22source%22%3A%22guest%22%7D&appid=ld&client=apple&clientVersion=10.0.4&networkType=wifi&osVersion=13.7&uuid=&openudid=&jsonp=jsonp_${Math.floor(Math.random() * 1000)}_${v_num1}`
-    console.log(decodeURIComponent(url))
+    // console.log(decodeURIComponent(url))
     $.get({
       url,
       headers: {
