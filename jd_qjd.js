@@ -51,31 +51,45 @@ if ($.isNode()) {
   }
   console.log(helpInfo)
   // return
-  for (let i = 0; i < cookiesArr.length; i++) {
-    if (cookiesArr[i]) {
-      cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      for (let helpItem in helpInfo) {
-        $.groupCode = helpInfo[helpItem].groupCode
-        $.shareCode = helpInfo[helpItem].shareCode
-        $.activityId = helpInfo[helpItem].activityId
-        if ($.UserName === helpItem) {
-          console.log(`${$.UserName}跳过助力自己`)
-          continue
-        }
-        if (cookiesArr.length > 2) {
-          console.log(`\n=====开始账号内互助=====\n`)
+  if (cookiesArr.length > 2) {
+    console.log(`\n=====开始账号内互助=====\n`)
+    for (let i = 0; i < cookiesArr.length; i++) {
+      if (cookiesArr[i]) {
+        cookie = cookiesArr[i];
+        $.canHelp = true
+        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+        for (let helpItem in helpInfo) {
+          $.groupCode = helpInfo[helpItem].groupCode
+          $.shareCode = helpInfo[helpItem].shareCode
+          $.activityId = helpInfo[helpItem].activityId
           await doHelp($.groupCode, $.shareCode, $.activityId)
-        } else {
-          console.log(`\n账号少于3个，不够成团，去帮助【zero205】\n`)
-          await $.wait(500)
+          if (!$.canHelp)
+            break
         }
       }
-      console.log(`\n${$.UserName} 去助力【zero205】，感谢\n`)
+      console.log(`${$.UserName}账号内部互助已完成，尝试帮【zero205】助力`)
       for (let code of $.authorCode) {
-        await doHelp(code.groupCode, code.shareCode, $.activityId);
+        $.canHelp = true
+        await doHelp(code.groupCode, code.shareCode, $.activityId)
+        if (!$.canHelp)
+          break
       }
-      await $.wait(1000)
+    }
+  } else {
+    console.log(`\n账号少于3个，不够成团，去助力【zero205】，感谢！\n`)
+    for (let j = 0; j < cookiesArr.length; j++) {
+      if (cookiesArr[j]) {
+        cookie = cookiesArr[j];
+        $.canHelp = true
+        for (let helpItem in helpInfo) {
+          $.activityId = helpInfo[helpItem].activityId
+        }
+        for (let code of $.authorCode) {
+          await doHelp(code.groupCode, code.shareCode, $.activityId)
+          if (!$.canHelp)
+            break
+        }
+      }
     }
   }
 }
@@ -166,6 +180,9 @@ function doHelp(groupCode, shareCode, activityId) {
       data = JSON.parse(data.replace(/jsonp_\d*_\d*\(/, '').replace(/\);?/, ''))
       let { helpToast } = data.data
       console.log(helpToast)
+      if (data.data.respCode === 'SG209') {
+        $.canHelp = false
+      }
       resolve()
     })
   })
