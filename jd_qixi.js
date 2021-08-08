@@ -169,9 +169,7 @@ async function run() {
       }
       if ($.isNode()) {
         qixi_addcar = process.env.qixi_addcar
-        if (!process.env.qixi_addcar || process.env.qixi_addcar == "false") {
-          console.log('默认不执行加车任务，如需执行请设置环境变量[qixi_addcar]为"true"')
-        } else {
+        if (qixi_addcar && qixi_addcar == "true") {
           console.log(`浏览并加购商品(${$.taskList.task_products_num}/${$.taskList.products_num})`)
           if ($.taskList.task_products_num < $.taskList.products_num) {
             $.productList = ''
@@ -186,6 +184,8 @@ async function run() {
               }
             }
           }
+        } else {
+          console.log('默认不执行加车任务，如需执行请设置环境变量[qixi_addcar]为"true"')
         }
       }
       console.log(`浏览会场(${$.taskList.view_meeting_num}/${$.taskList.meeting_num})`)
