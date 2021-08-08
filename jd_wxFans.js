@@ -10,7 +10,6 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList = [
-    {'actid':'4d2f7df45a0e4a1b8d663e7da0fc0d0d','endTime':1628394029000},
     {'actid':'4776be60946e45b1847bd982e24b4aa9','endTime':1628438400000},
     {'actid':'c75ae2afd7ff4aec9ed47008b08400f7','endTime':1630288800000},
     {'actid':'ea52a4da34d34be0a1c6470bd7d92063','endTime':1628352000000},
@@ -57,9 +56,10 @@ if ($.isNode()) {
         for (let j = 0; j < activityList.length && !$.hotFlag; j++) {
             $.activityInfo = activityList[j];
             $.activityID = $.activityInfo.actid;
-            console.log(`互动ID：${JSON.stringify($.activityInfo)}`)
+            console.log(`互动ID：${JSON.stringify($.activityInfo)}`);
+            console.log(`活动地址：https://lzkjdz-isv.isvjcloud.com/wxFansInterActionActivity/activity/${$.activityID}?activityId=${$.activityID}`);
             if($.activityInfo.endTime && Date.now() > $.activityInfo.endTime){
-                console.log(`活动已结束`);
+                console.log(`活动已结束\n`);
                 continue;
             }
             await main();
