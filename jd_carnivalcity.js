@@ -106,14 +106,14 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
           console.log(`\n${$.UserName} 去助力 ${item}`);
           const helpRes = await toHelp(item.trim());
           if (helpRes.data.status === 5) {
-            console.log(`助力机会已耗尽，跳出助力`);
+            console.log(`${$.UserName}助力机会已耗尽，跳出助力\n`);
             $.canHelp = false;
             break;
           }
         }
       }
       if ($.canHelp) {
-        console.log(`\n\n有剩余助力机会，给Aaron以及zero205助力`)
+        console.log(`\n${$.UserName}有剩余助力次数，帮Aaron以及zero205助力\n`)
         await doHelp();
       }
     }
@@ -509,7 +509,7 @@ function saveJbean(date) {
   })
 }
 async function doHelp() {
-  console.log(`\n开始助力好友`);
+  console.log(`\n${$.UserName}开始助力Aaron及zero205\n`);
   for (let item of $.newShareCodes) {
     if (!item) continue;
     const helpRes = await toHelp(item.trim());
@@ -737,7 +737,7 @@ function shareCodesFormat() {
     if ($.shareCodesArr[$.index - 1]) {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     } else {
-      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+      // console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
       $.newShareCodes = inviteCodes[tempIndex] && inviteCodes[tempIndex].split('@') || [];
       if ($.updatePkActivityIdRes && $.updatePkActivityIdRes.length) $.newShareCodes = [...$.updatePkActivityIdRes, ...$.zero205ShareCodes, ...$.newShareCodes];
