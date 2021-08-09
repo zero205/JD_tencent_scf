@@ -128,7 +128,7 @@ async function main() {
     $.LKYLToken = $.lkyl
     // return;
   }
-  await getFriendPins();
+  // await getFriendPins();
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       $.validate = '';
