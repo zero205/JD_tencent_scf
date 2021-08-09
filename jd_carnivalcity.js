@@ -140,7 +140,7 @@ async function JD818() {
     await doHotProducttask();//做热销产品任务
     await doBrandTask();//做品牌手机任务
     await doBrowseshopTask();//逛好货街，做任务
-    // await doHelp();
+    await doHelp();
     await myRank();//领取往期排名奖励
     await getListRank();
     await getListIntegral();
