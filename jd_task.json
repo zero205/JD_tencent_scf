@@ -506,6 +506,16 @@
       }
     },
     {
+      "name": "手机狂欢城",
+      "type": "cron",
+      "time": "5 0,6-23/6 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_carnivalcity.js"
+      }
+    },
+    {
       "name": "东东乐园",
       "type": "cron",
       "time": "18 7 * * *",
