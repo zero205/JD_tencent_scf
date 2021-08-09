@@ -9,6 +9,7 @@ b、 每日第2-10000名，可获得50个京豆
 c、 每日第10001-30000名可获得20个京豆
 d、 30000名之外，0京豆
 
+ * 助力逻辑: 优先自己账号内部相互邀请助力，有剩余助力机会，给Aaron以及zero205助力
 
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ===================quantumultx================
@@ -50,6 +51,9 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
+  console.log('【京东手机狂欢城】\n' +
+      '助力逻辑: 优先自己账号内部相互邀请助力\n' +
+      '          有剩余助力机会，给Aaron以及zero205助力\n');
   $.temp = [];
   if (nowTime > new Date(activeEndTime).getTime()) {
     //活动结束后弹窗提醒
@@ -91,15 +95,15 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
       await JD818();
     }
   }
+  console.log(`\n开始自己账号内部相互邀请助力...\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.canHelp = true;//能否助力
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       if ((cookiesArr && cookiesArr.length >= 1) && $.canHelp) {
-        console.log(`\n先自己账号内部相互邀请助力\n`);
         for (let item of $.temp) {
-          console.log(`\n${$.UserName} 去参助力 ${item}`);
+          console.log(`\n${$.UserName} 去助力 ${item}`);
           const helpRes = await toHelp(item.trim());
           if (helpRes.data.status === 5) {
             console.log(`助力机会已耗尽，跳出助力`);
@@ -109,7 +113,7 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
         }
       }
       if ($.canHelp) {
-        console.log(`\n\n如果有剩余助力机会，则给作者以及随机码助力`)
+        console.log(`\n\n有剩余助力机会，给Aaron以及zero205助力`)
         await doHelp();
       }
     }
@@ -140,7 +144,7 @@ async function JD818() {
     await doHotProducttask();//做热销产品任务
     await doBrandTask();//做品牌手机任务
     await doBrowseshopTask();//逛好货街，做任务
-    await doHelp();
+    // await doHelp();
     await myRank();//领取往期排名奖励
     await getListRank();
     await getListIntegral();
