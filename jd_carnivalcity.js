@@ -104,7 +104,7 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
       if ((cookiesArr && cookiesArr.length >= 1) && $.canHelp) {
         for (let item of $.temp) {
           console.log(`\n${$.UserName} 去助力 ${item}`);
-          const helpRes = await toHelp(item.trim());
+          const helpRes = await toHelp(item);
           if (helpRes.data.status === 5) {
             console.log(`${$.UserName}助力机会已耗尽，跳出助力\n`);
             $.canHelp = false;
@@ -512,7 +512,7 @@ async function doHelp() {
   console.log(`\n${$.UserName}开始助力Aaron及zero205\n`);
   for (let item of $.newShareCodes) {
     if (!item) continue;
-    const helpRes = await toHelp(item.trim());
+    const helpRes = await toHelp(item);
     if (helpRes.data.status === 5) {
       console.log(`助力机会已耗尽，跳出助力`);
       break;
