@@ -206,6 +206,16 @@
       }
     },
     {
+      "name": "京东宠汪汪赛跑",
+      "type": "cron",
+      "time": "35 15,19 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_joy_run.js"
+      }
+    },
+    {
       "name": "宠汪汪积分兑换奖品",
       "type": "cron",
       "time": "0 0-16/8 * * *",
