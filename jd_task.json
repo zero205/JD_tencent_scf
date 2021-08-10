@@ -566,13 +566,13 @@
       }
     },
     {
-      "name": "粉丝互动",
+      "name": "柠檬众筹许愿池",
       "type": "cron",
-      "time": "15 8 * * *",
+      "time": "8 8,18 * * *",
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_wxFans.js"
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_xyc.js"
       }
     },
     {
