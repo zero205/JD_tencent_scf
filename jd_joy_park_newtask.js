@@ -4,7 +4,7 @@
 20 0 * * *
 
 仅用于完成汪汪乐园新手引导
-运行完成后需手动去完成最后一步引导任务
+
 https://github.com/zero205/JD_tencent_scf
 
 */
@@ -27,8 +27,7 @@ if ($.isNode()) {
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
 message = ""
 !(async () => {
-  console.log(`\n======本脚本仅用于完成汪汪乐园新手引导======\n` +
-    `======运行完成后需手动去完成最后一步引导任务======\n`);
+  console.log(`\n======本脚本仅用于完成汪汪乐园新手引导任务======\n`);
   $.user_agent = require('./USER_AGENTS').USER_AGENT
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
@@ -49,18 +48,17 @@ message = ""
       await getJoyBaseInfo(undefined, undefined, undefined, true);
       $.activityJoyList = []
       $.workJoyInfoList = []
-      await getJoyList(true);
+      await getJoyList();
       await getGameShopList()
       //合成
       await doJoyMergeAll($.activityJoyList)
       //清理工位
       await doJoyMoveDownAll($.workJoyInfoList)
       await doJoyBuy(2)
+      await getJoyList(true)
+      // console.log(`二级🐶id为${$.activityJoyList[0].id}`);
+      await doJoyMove($.activityJoyList[0].id, 1)
     }
-  }
-  await showMsg()
-  if ($.isNode()) {
-    await notify.sendNotify(`\n【提醒⏰】\n汪汪乐园有卡在新手任务火爆的请前往：京东极速版APP，汪汪乐园\n按提示手动完成新手任务即可`);
   }
 })()
   .catch((e) => $.logErr(e))
