@@ -2,7 +2,7 @@
 /*
 京喜财富岛热气球挂机
 
-更新时间：2021-7-21
+更新时间：2021-8-10
 活动入口：京喜APP-我的-京喜财富岛
 */
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {
@@ -194,12 +194,15 @@ async function pickshell(body) {
           data = JSON.parse(data);
           let dwName
           switch (data.Data.strFirstDesc) {
+            case '亲爱的岛主~♥七夕快乐鸭♥':
+              dwName = '爱心珍珠'
+              break
             case '捡到珍珠了，看起来很贵的样子':
               dwName = '小珍珠'
               break
             case '捡到小海螺了，做成项链一定很漂亮':
               dwName = '小海螺'
-              break 
+              break
             case '把我放在耳边，就能听到大海的声音了~':
               dwName = '大海螺'
               break
