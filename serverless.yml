@@ -7,6 +7,7 @@ name: jdscript # (必选) 组件实例名称。
 #组件参数配置
 inputs:
   name: scf-${name} # 云函数名称，默认为 ${name}-${stage}-${app}
+  namespace: default
   enableRoleAuth: true # 默认会尝试创建 SCF_QcsRole 角色，如果不需要配置成 false 即可
   src: 
     src: ./
