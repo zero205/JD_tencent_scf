@@ -1,0 +1,23 @@
+name: Sync yml repo
+on:
+  schedule:
+    - cron: '0 20 * * *'
+  workflow_dispatch:
+jobs:
+  repo-sync:
+    env:
+      PAT: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：https://www.jianshu.com/p/bb82b3ad1d11
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: sync zero205-scripts
+        uses: repo-sync/github-sync@v2
+        if: env.PAT
+        with:
+          source_repo: "https://github.com/zero205/JD_tencent_scf.git"
+          source_branch: "sync"
+          destination_branch: "main"
+          github_token: ${{ secrets.PAT }}
