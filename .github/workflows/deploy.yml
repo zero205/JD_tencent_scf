@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     env:
-      PAT: ${{ secrets.PAT }}
+      PAT: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：https://www.jianshu.com/p/bb82b3ad1d11,需要repo和workflow权限
       PUSH_KEY: ${{ secrets.PUSH_KEY}}
       BARK_PUSH: ${{ secrets.BARK_PUSH}}
       BARK_SOUND: ${{ secrets.BARK_SOUND}}
