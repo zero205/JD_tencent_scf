@@ -1,0 +1,71 @@
+name: Deploy
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '50 */4 * * *'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    env:
+      PAT: ${{ secrets.PAT }}
+      PUSH_KEY: ${{ secrets.PUSH_KEY}}
+      BARK_PUSH: ${{ secrets.BARK_PUSH}}
+      BARK_SOUND: ${{ secrets.BARK_SOUND}}
+      TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN}}
+      TG_USER_ID: ${{ secrets.TG_USER_ID}}
+      DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN}}
+      DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET}}
+      QYWX_KEY: ${{ secrets.QYWX_KEY}}
+      QYWX_AM: ${{ secrets.QYWX_AM}}
+      IGOT_PUSH_KEY: ${{ secrets.IGOT_PUSH_KEY}}
+      PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN}}
+      PUSH_PLUS_USER: ${{ secrets.PUSH_PLUS_USER}}
+    steps:
+      - name: clone
+        run: |
+          git clone --single-branch --branch main https://github.com/zero205/JD_tencent_scf.git
+      - uses: actions/setup-node@v2
+      - name: install dependency
+        working-directory: ./JD_tencent_scf
+        run: |
+          npm i
+          npm i -g serverless
+      - name: set env variables
+        working-directory: ./JD_tencent_scf
+        env:
+          SECRETS: ${{ toJson(secrets) }}
+          TENCENT_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          TENCENT_REGION: ${{ secrets.SCF_REGION }}
+          TENCENT_FUNCTION_NAME: ${{ secrets.TENCENT_FUNCTION_NAME }}
+          TENCENT_MemorySize: ${{ secrets.TENCENT_memorySize }}
+          TENCENT_timeout: ${{ secrets.TENCENT_timeout }}
+        run: |
+          VARIS=$(sed -r 's/(process.env.[a-z0-9A-Z\_]+)/\1\n/g' *.js | sed -rn 's/.*process.env.([a-z0-9A-Z\_]+).*/\1/p' | sort | uniq)
+          # echo $VARIS
+          SECS=$(jq -r 'to_entries|map("\(.key): \(.value|tostring)")|.[]' <<< "$SECRETS")
+          # echo $SECS
+          parameter=$(tr "\n" "|" <<< $VARIS)
+          parameter=${parameter::-1}
+          echo "      TZ: Asia/Shanghai" >> serverless.yml
+          (grep -E "^$parameter:" <<< $SECS)| while read line;do    echo "      ${line}" >> serverless.yml;done
+          if [ $TENCENT_REGION ]; then sed -i -E 's/region:[^\n]+/region: '"$TENCENT_REGION"'/' serverless.yml; fi;
+          if [ $TENCENT_FUNCTION_NAME ]; then sed -i -E 's/^  name:[^\n]+/  name: '"$TENCENT_FUNCTION_NAME"'/' serverless.yml; fi;
+          if [ $TENCENT_FUNCTION_NAME ]; then sed -i -E 's/^name:[^\n]+/name: '"$TENCENT_FUNCTION_NAME"'/' serverless.yml; fi;
+          if [ $TENCENT_MemorySize ]; then sed -i -E 's/memorySize:[^\n]+/memorySize: '"$TENCENT_MemorySize"'/' serverless.yml; fi;
+          if [ $TENCENT_timeout ]; then sed -i -E 's/timeout:[^\n]+/timeout: '"$TENCENT_timeout"'/' serverless.yml; fi;
+          cat serverless.yml
+          echo -e "TENCENT_SECRET_ID=$TENCENT_SECRET_ID\nTENCENT_SECRET_KEY=$TENCENT_SECRET_KEY\nSERVERLESS_PLATFORM_VENDOR=tencent\nGLOBAL_ACCELERATOR_NA=true" > .env
+          cat .env
+      - name: Check Visibility
+        working-directory: ./JD_tencent_scf
+        if: ${{github.event.repository.public}}
+        run: |
+          echo 'Not a private repo!!! Please change to private!'
+          echo 'require("./sendNotify").sendNotify("仓库非私有!","为了数据安全,请切换仓库为私有!")' > notify.js
+          node notify.js
+      - name: deploy
+        working-directory: ./JD_tencent_scf
+        run: |
+          sls deploy && echo 'Deploy Success' || (echo 'Deploy Failed'; echo 'require("./sendNotify").sendNotify("云函数部署异常！请重试","点击通知，登入后查看详情",{ url: process.env.GITHUB_SERVER_URL + "/" + process.env.GITHUB_REPOSITORY + "/actions/runs/" + process.env.GITHUB_RUN_ID + "?check_suite_focus=true" })' > notify.js; node notify.js; exit 1)
