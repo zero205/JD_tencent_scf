@@ -18,9 +18,9 @@ Object.keys(jdCookieNode).forEach((item) => {
 // if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 // if (JSON.stringify(process.env).indexOf('GITHUB') > -1) process.exit(0);
 
-const appIdArr = ['1EFRRxA','1EFRQwA','1EFRYxQ','1EFRXxg','1EFVRwA','1EFVRxw','1EFRZwA','1EFRZwQ','1EFRYwA','1EFVRxg','1EFVRxQ']
-const homeDataFunPrefixArr = ['interact_template','interact_template','harmony_template','','','','','','','','','','','','','','','interact_template','interact_template']
-const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','','','','','interact_template','interact_template']
+const appIdArr = ['1EFRRxA','1EFRQwA','1E1NYwqc','1EFRXxg','1EFVRxg','1E1NYw6w']
+const homeDataFunPrefixArr = ['interact_template','interact_template','harmony_template','','','','','','','','','','interact_template','interact_template']
+const collectScoreFunPrefixArr = ['','','','','','','','','','','','','interact_template','interact_template']
 
 $.allShareId = {};
 main();
