@@ -2,6 +2,8 @@
 
 0 8,12 * * *  jd_wish.js
 
+入口：京东 -> 京东众筹频道
+
 */
 const $ = new Env('柠檬众筹许愿池');
 const notify = $.isNode() ? require("./sendNotify") : "";

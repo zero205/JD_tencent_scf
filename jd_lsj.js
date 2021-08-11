@@ -13,7 +13,7 @@ export lsjdh="jdAward2" ##兑换10豆
 export lsjdh="jdAward3" ##兑换100豆
 export lsjdh="jdAward4" ##兑换牛奶
 [task_local]
-0 11 * * *
+0 11 * * *  jd_lsj.js
 */
 const $ = new Env('柠檬京东零食街');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -88,7 +88,7 @@ if ($.isNode()) {
   let shareCodes = [
     '28D1B0FF74A7A1D4FBE02ED2FA90A9F3C49D80AFF03099EF32C50897D923F6F049336DE54E26AA8F2834B248E6398CB7A755DF4FDAE585EC3E1ABE26F3DD3CFFC956D12974FF00A045D8E31A84FE84C18A8357DE96A1F617B8AC4D64BC24B689',
     '16C819C7B4D681C695A9D56F0F58F2FC7BD1102FE0B67DE91732CDD3AAE6028C49336DE54E26AA8F2834B248E6398CB7A755DF4FDAE585EC3E1ABE26F3DD3CFFC956D12974FF00A045D8E31A84FE84C18A8357DE96A1F617B8AC4D64BC24B689',
-    '03993DF61B85FE5639C3B364280671045FD22655FE89C43DEEABD6252DA532CF652DFCA338160A7673C5812A45C0EC3FEB6090E56CFD81F696A17988574F70D0DDDA672BF446E2FCC0D1D6B4E52826D1'  
+    '03993DF61B85FE5639C3B364280671045FD22655FE89C43DEEABD6252DA532CF652DFCA338160A7673C5812A45C0EC3FEB6090E56CFD81F696A17988574F70D0DDDA672BF446E2FCC0D1D6B4E52826D1'
   ];
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
@@ -180,7 +180,10 @@ function getinfo() {
                 $.cion = data.data.data.customer.remainChance;
                 console.log(`\n查询成功：京东账号【${$.nickName || $.UserName}】当前剩余金币为：${$.cion}`)
                 if ($.cion > 750000) {
-                  $.msg($.name, `【提示】\n京东账号【${$.nickName || $.UserName}】已可兑换牛奶`, `兑换入口：京东APP-美食馆-瓜分京豆\n每天10点开始兑换，祝您好运！`, { "更多脚本": "https://github.com/zero205/JD_tencent_scf" });
+                  $.msg($.name, `【提示】\n京东账号【${$.nickName || $.UserName}】已可兑换牛奶`, `\n兑换入口：京东APP->美食馆->瓜分京豆\n每天10点开始兑换`, { "更多脚本": "https://github.com/zero205/JD_tencent_scf" });
+                  if ($.isNode()) {
+                    await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】 ${$.nickName}\n已可兑换牛奶\n兑换入口：京东APP->美食馆->瓜分京豆，每天10点开始兑换\n更多脚本->"https://github.com/zero205/JD_tencent_scf"`);
+                  }
                 }
               }
             } else {
