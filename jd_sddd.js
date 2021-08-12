@@ -1,9 +1,10 @@
 /*
-* 来客有礼小程序
-* cron 45 4 * * *
-* 至少需要11个ck
-* 优先账号内互助，再助力zero205
-* */
+ * 送豆得豆
+ * 至少需要6个ck
+ * 入口：京东APP->领京豆->送豆得豆
+ * 优先账号内互助，然后再助力【zero205】
+ * 45 0,8 * * *  https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_sddd.js
+*/
 const $ = new Env('送豆得豆');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -20,14 +21,14 @@ if ($.isNode()) {
     $.getdata("CookieJD2"),
     ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
-$.activityId = 85;
+$.activityId = 1604;
 !(async () => {
   $.isLoginInfo = {};
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  let openCount = Math.floor((Number(cookiesArr.length)-1)/10);
+  let openCount = Math.floor((Number(cookiesArr.length)-1)/5);
   console.log(`\n共有${cookiesArr.length}个账号，前${openCount}个账号可以开团\n`);
   $.openTuanList = [];
   console.log(`前${openCount}个账号开始开团\n`);
@@ -50,7 +51,7 @@ $.activityId = 85;
     await openTuan();
   }
   console.log('\n开团信息\n'+JSON.stringify($.openTuanList));
-  console.log(`\n开始互助\n`);
+  console.log(`\n======开始账号内部互助======\n`);
   let ckList = getRandomArrayElements(cookiesArr,cookiesArr.length);
   for (let i = 0; i < ckList.length; i++) {
     $.cookie = ckList[i];
@@ -70,7 +71,7 @@ $.activityId = 85;
     }
     await helpMain();
   }
-  console.log(`\n开始帮【zero205】助力\n`);
+  console.log(`\n开始帮【zero205】助力，感谢！\n`);
   await getShareCode()
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
