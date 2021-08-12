@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy(部署到云)
 on:
   workflow_dispatch:
   schedule:
