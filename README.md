@@ -18,6 +18,7 @@
 * 7.点击刚才页面'scf'分支右侧笔图标,将其重命名为'main'
 ### 方式二
 * 有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为'main'),运行一次本仓库'scf'分支的sync.yml即可
+* 直接clone一个scf分支(名字需要为main)
 ## 自动同步本仓库脚本教程：[点此查看](https://github.com/zero205/JD_tencent_scf/blob/main/backUp/reposync.md)  
 
 # 使用教程（觉得有用的可以点个star :blush:）  
