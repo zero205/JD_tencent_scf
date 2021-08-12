@@ -30,8 +30,8 @@
 
 请注意**提高内存设定值相应地也会加快消耗云函数的免费额度，超出免费额度将会产生费用**
 
-~~## 4. 配置index.js中secrets变量说明【可不填，建议默认即可】
-现在可以通过secret设置自定义index.js中的执行方式，环境变量分别为`TENCENTSCF_SOURCE_TYPE`，`TENCENTSCF_SOURCE_URL`和`TENCENTSCF_MEMORYSIZE`<br>
+## ~~4. 配置index.js中secrets变量说明【可不填，建议默认即可】~~
+~~现在可以通过secret设置自定义index.js中的执行方式，环境变量分别为`TENCENTSCF_SOURCE_TYPE`，`TENCENTSCF_SOURCE_URL`和`TENCENTSCF_MEMORYSIZE`<br>
 `TENCENTSCF_SOURCE_TYPE`值可以选取`local`、`git`、`custom`具体含义可查看仓库中的`index.js`文件说明
 `TENCENTSCF_SOURCE_URL`格式为包含raw的URL，例如：`https://raw.fastgit.org/zero205/JD_tencent_scf/main/`或`https://gitee.com/zero205/JD_tencent_scf/raw/main/`~~
 
@@ -45,9 +45,9 @@
 > 排查问题第一步先看自己[腾讯云函数](https://console.cloud.tencent.com/scf/list-detail?rid=5&ns=default&id=jd)那边的环境变量跟自己在仓库配置的 `secrets` 是否一致
 ![image](https://user-images.githubusercontent.com/6993269/99937191-06617680-2da0-11eb-99ea-033f2c655683.png)
 
-~~## 5. 新建空白云函数[登录云函数之后点此直达](https://console.cloud.tencent.com/scf/list-create?rid=1&ns=default&functionName=jd&createType=empty)~~
+## ~~5. 新建空白云函数[登录云函数之后点此直达](https://console.cloud.tencent.com/scf/list-create?rid=1&ns=default&functionName=jd&createType=empty)~~
 
-**先在需要部署的区域下新建一个空函数，名称可以任意，比如：`jd`，此时secret中`TENCENT_FUNCTION_NAME`值也必须是`jd`，保持与云函数的函数名一致，目前部署云函数的策略是覆盖的方式，故而此步骤至关重要。**  
+~~**先在需要部署的区域下新建一个空函数，名称可以任意，比如：`jd`，此时secret中`TENCENT_FUNCTION_NAME`值也必须是`jd`，保持与云函数的函数名一致，目前部署云函数的策略是覆盖的方式，故而此步骤至关重要。**  ~~
 ![image](https://user-images.githubusercontent.com/26343559/113259916-40b7c300-9300-11eb-8771-87f8bfd76707.jpg)
 
 
