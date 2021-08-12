@@ -636,6 +636,16 @@
       }
     },
     {
+      "name": "特物z",
+      "type": "cron",
+      "time": "20 7,8 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_superBrand.js"
+      }
+    },
+    {
       "name": "店铺签到",
       "type": "cron",
       "time": "20 8 * * *",
