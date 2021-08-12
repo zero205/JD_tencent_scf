@@ -52,7 +52,7 @@
 
 
 ## 6. 执行action workflow进行部署，workflow未报错即部署成功
-
+**下图workflow名字现在叫做Deploy**
 
 ![image](https://user-images.githubusercontent.com/6993269/99513289-6a152980-29c5-11eb-9266-3f56ba13d3b2.png)
 ## 7. 查看和测试
