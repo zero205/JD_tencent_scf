@@ -52,6 +52,7 @@ const JD_BASE_API = `https://draw.jdfcloud.com//pet`;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : {};
 //下面给出好友邀请助力的示例填写规则
 let invite_pins = ['jd_5bb16d6462414,jd_7399bee01a89e,jd_6e0cd5023b791,13536765947_p,jd_LyVyYIZjfyOm'];
+let run_pins = ['jd_5bb16d6462414,jd_7399bee01a89e,jd_6e0cd5023b791,13536765947_p,jd_LyVyYIZjfyOm'];
 //friendsArr内置太多会导致IOS端部分软件重启,可PR过来(此处目的:帮别人助力可得30g狗粮)
 let friendsArr = ["jd_5bb16d6462414", "jd_7399bee01a89e", "jd_6e0cd5023b791", "13536765947_p", "jd_LyVyYIZjfyOm"]
 
