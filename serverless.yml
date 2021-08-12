@@ -17,6 +17,7 @@ inputs:
       - 'backUp/**'
       - 'node_modules/@(qrcode-terminal|http-server)/**'
       - 'getJDCookie.js'
+      - 'JD_extra_cookie.js'
   handler: index.main_handler #入口
   runtime: Nodejs12.16 # 运行环境 默认 Nodejs12.16
   region: ap-guangzhou # 函数所在区域
