@@ -45,7 +45,7 @@
 > 排查问题第一步先看自己[腾讯云函数](https://console.cloud.tencent.com/scf/list-detail?rid=5&ns=default&id=jd)那边的环境变量跟自己在仓库配置的 `secrets` 是否一致
 ![image](https://user-images.githubusercontent.com/6993269/99937191-06617680-2da0-11eb-99ea-033f2c655683.png)
 
-## 5. 新建空白云函数[登录云函数之后点此直达](https://console.cloud.tencent.com/scf/list-create?rid=1&ns=default&functionName=jd&createType=empty)
+~~## 5. 新建空白云函数[登录云函数之后点此直达](https://console.cloud.tencent.com/scf/list-create?rid=1&ns=default&functionName=jd&createType=empty)~~
 
 **先在需要部署的区域下新建一个空函数，名称可以任意，比如：`jd`，此时secret中`TENCENT_FUNCTION_NAME`值也必须是`jd`，保持与云函数的函数名一致，目前部署云函数的策略是覆盖的方式，故而此步骤至关重要。**  
 ![image](https://user-images.githubusercontent.com/26343559/113259916-40b7c300-9300-11eb-8771-87f8bfd76707.jpg)
