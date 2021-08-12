@@ -12,6 +12,9 @@
 * 2.点击`Import a repository`，在`Your old repository’s clone URL`处填入https://github.com/zero205/JD_tencent_scf
 * 3.然后在`Repository name`处填写仓库名，选择`Private`
 * 4.最后点击最下方的`Begin import`即可
+* 5.仓库创建后,在仓库页面点击'main'分支,在下拉菜单中点击最下方'view all branches',点击'Default branch'最右侧箭头,然后在新页面继续点击箭头,再弹出框中选择'scf'为主分支
+* 6.在仓库页面点击'main'分支,在下拉菜单中点击最下方'view all branches',点击'maim'分支右侧垃圾桶,确认删除分支
+* 7.点击刚才页面'scf'分支右侧笔图标,将其重命名为'main'
 
 ## 自动同步本仓库脚本教程：[点此查看](https://github.com/zero205/JD_tencent_scf/blob/main/backUp/reposync.md)  
 
