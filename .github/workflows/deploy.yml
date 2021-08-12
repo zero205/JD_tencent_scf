@@ -2,7 +2,7 @@ name: Deploy
 on:
   workflow_dispatch:
   schedule:
-    - cron: '50 */4 * * *'
+    - cron: '50 4,12,20 * * *'
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
           cat .env
       - name: Check Visibility
         working-directory: ./JD_tencent_scf
-        if: ${{github.event.repository.public}}
+        if: ${{ !github.event.repository.private }}
         run: |
           echo 'Not a private repo!!! Please change to private!'
           echo 'require("./sendNotify").sendNotify("仓库非私有!","为了数据安全,请切换仓库为私有!")' > notify.js
