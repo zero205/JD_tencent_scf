@@ -171,7 +171,6 @@ async function main() {
       if ($.jdLogin && $.LKYLLogin) {
         if (nowTimes.getHours() >= 9 && nowTimes.getHours() < 21) {
           console.log(`===========【开始助力好友赛跑】===========`)
-          let run_pins = ['jd_5bb16d6462414,jd_7399bee01a89e,jd_6e0cd5023b791,13536765947_p,jd_LyVyYIZjfyOm'];
           const runIndex = $.index > run_pins.length ? (run_pins.length - 1) : ($.index - 1);
           let new_run_pins = run_pins[runIndex].split(',');
           await run(new_run_pins);
