@@ -1,7 +1,7 @@
 name: Sync yml repo
 on:
   schedule:
-    - cron: '5 */3 * * *'
+    - cron: '3 */6 * * *'
   workflow_dispatch:
 jobs:
   repo-sync:
