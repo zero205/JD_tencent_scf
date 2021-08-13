@@ -63,7 +63,7 @@ jobs:
         if: ${{ !github.event.repository.private }}
         run: |
           echo 'Not a private repo!!! Please change to private!'
-          echo 'require("./sendNotify").sendNotify("仓库非私有!","为了您的数据安全,强烈建议您换仓库为私有!")' > notify.js
+          echo 'require("./sendNotify").sendNotify("仓库非私有!","为了您的数据安全,强烈建议您切换仓库为私有!(切换教程见主仓库readme)")' > notify.js
           node notify.js
       - name: deploy
         working-directory: ./JD_tencent_scf
