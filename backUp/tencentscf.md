@@ -59,5 +59,6 @@
 登录后，在 [腾讯云函数地址](https://console.cloud.tencent.com/scf/index) 点击管理控制台，查看最新部署的函数。
 
 在左侧栏的日志查询中，可以查看到触发的日志，包括是否打卡成功等。
+
 **请点击右下角切换旧版编辑器!**
 ![测试函数](https://user-images.githubusercontent.com/6993269/99628053-5a9eea80-2a70-11eb-906f-f1d5ea2bfa3a.png)
