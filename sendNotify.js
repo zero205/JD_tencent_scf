@@ -158,6 +158,7 @@ function serverNotify(text, desp, timeout = 2100) {
     if (SCKEY) {
       //微信server酱推送通知一个\n不会换行，需要两个\n才能换行，故做此替换
       desp = desp.replace(/[\n\r]/g, '\n\n');
+      desp += '\n\n!!!提醒:server酱旧版即将停止服务,新版server酱每天只有5条免费消息,建议更换其他推送方式!!!'
       const options = {
         url: SCKEY.includes('SCT') ? `https://sctapi.ftqq.com/${SCKEY}.send` : `https://sc.ftqq.com/${SCKEY}.send`,
         body: `text=${text}&desp=${desp}`,
