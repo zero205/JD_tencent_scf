@@ -58,14 +58,14 @@ jobs:
           cat serverless.yml
           echo -e "TENCENT_SECRET_ID=$TENCENT_SECRET_ID\nTENCENT_SECRET_KEY=$TENCENT_SECRET_KEY\nSERVERLESS_PLATFORM_VENDOR=tencent\nGLOBAL_ACCELERATOR_NA=true" > .env
           cat .env
-#       - name: Check Visibility
-#         working-directory: ./JD_tencent_scf
-#         if: ${{ !github.event.repository.private }}
-#         run: |
-#           echo 'Not a private repo!!! Please change to private!'
-#           echo 'require("./sendNotify").sendNotify("仓库非私有!","为了您的数据安全,强烈建议您换仓库为私有!")' > notify.js
-#           node notify.js
-#           rm -rf notify.js
+      - name: Check Visibility
+        working-directory: ./JD_tencent_scf
+        if: ${{ github.event_name == 'workflow_dispatch' && !github.event.repository.private}}
+        run: |
+          echo 'Not a private repo!!! Please change to private!'
+          echo 'require("./sendNotify").sendNotify("仓库非私有!","为了您的数据安全,强烈建议您换仓库为私有!(如已经私有请忽略并反馈Issues,感谢!)")' > notify.js
+          node notify.js
+          rm -rf notify.js
       - name: deploy
         working-directory: ./JD_tencent_scf
         run: |
