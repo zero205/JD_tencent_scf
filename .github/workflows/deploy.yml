@@ -39,8 +39,8 @@ jobs:
           TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
           TENCENT_REGION: ${{ secrets.SCF_REGION }}
           TENCENT_FUNCTION_NAME: ${{ secrets.TENCENT_FUNCTION_NAME }}
-          TENCENT_MemorySize: ${{ secrets.TENCENT_memorySize }}
-          TENCENT_timeout: ${{ secrets.TENCENT_timeout }}
+          TENCENTSCF_MEMORYSIZE: ${{ secrets.TENCENTSCF_MEMORYSIZE }}
+          TENCENT_TIMEOUT: ${{ secrets.TENCENT_TIMEOUT }}
         run: |
           VARIS=$(sed -r 's/(process.env.[a-z0-9A-Z\_]+)/\1\n/g' *.js | sed -rn 's/.*process.env.([a-z0-9A-Z\_]+).*/\1/p' | sort | uniq)
           # echo $VARIS
@@ -53,8 +53,8 @@ jobs:
           if [ $TENCENT_REGION ]; then sed -i -E 's/region:[^\n]+/region: '"$TENCENT_REGION"'/' serverless.yml; fi;
           if [ $TENCENT_FUNCTION_NAME ]; then sed -i -E 's/^  name:[^\n]+/  name: '"$TENCENT_FUNCTION_NAME"'/' serverless.yml; fi;
           if [ $TENCENT_FUNCTION_NAME ]; then sed -i -E 's/^name:[^\n]+/name: '"$TENCENT_FUNCTION_NAME"'/' serverless.yml; fi;
-          if [ $TENCENT_MemorySize ]; then sed -i -E 's/memorySize:[^\n]+/memorySize: '"$TENCENT_MemorySize"'/' serverless.yml; fi;
-          if [ $TENCENT_timeout ]; then sed -i -E 's/timeout:[^\n]+/timeout: '"$TENCENT_timeout"'/' serverless.yml; fi;
+          if [ $TENCENTSCF_MEMORYSIZE ]; then sed -i -E 's/memorySize:[^\n]+/memorySize: '"$TENCENTSCF_MEMORYSIZE"'/' serverless.yml; fi;
+          if [ $TENCENT_TIMEOUT ]; then sed -i -E 's/timeout:[^\n]+/timeout: '"$TENCENT_TIMEOUT"'/' serverless.yml; fi;
           cat serverless.yml
           echo -e "TENCENT_SECRET_ID=$TENCENT_SECRET_ID\nTENCENT_SECRET_KEY=$TENCENT_SECRET_KEY\nSERVERLESS_PLATFORM_VENDOR=tencent\nGLOBAL_ACCELERATOR_NA=true" > .env
           cat .env
