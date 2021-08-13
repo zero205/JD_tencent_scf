@@ -1,3 +1,4 @@
+// @grant    require
 /*
 入口 京东APP >> 玩一玩 >> 汽车生活节
 https://h5.m.jd.com/babelDiy/Zeus/2FdCyR9rffxKUkMpQTP4WT4bArmL/index.html
