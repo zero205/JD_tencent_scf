@@ -1,7 +1,7 @@
 /**
  *  活动路径  手机馆---》最上方banner大牌日(是什么品牌不一定,自己看,只有一个大牌日)---〉左下角金机奖
 cron 33 4,7 8-20 8 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_golden_machine.js
- *  第一个账号参加作者内置的团，其他账号参加第一个账号的团
+ *  第一个账号参加作者(star)内置的团，其他账号参加第一个账号的团
  */
 const $ = new Env('金机奖投票');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
