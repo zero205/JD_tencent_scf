@@ -1,7 +1,8 @@
+// @grant    require
 /**
- *  活动路径  手机馆---》最上方banner大牌日(是什么品牌不一定,自己看,只有一个大牌日)---〉左下角金机奖
+活动路径  首页搜索 金机馆
 cron 33 4,7 8-20 8 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_golden_machine.js
- *  第一个账号参加作者(star)内置的团，其他账号参加第一个账号的团
+第一个账号参加作者内置的团，其他账号参加第一个账号的团
  */
 const $ = new Env('金机奖投票');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -13,7 +14,10 @@ if ($.isNode()) {
     })
     if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 } else {
-    cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
+    cookiesArr = [
+        $.getdata("CookieJD"),
+        $.getdata("CookieJD2"),
+        ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
 $.authorizationInfo = {};
 $.joinTeamLsit = [];
@@ -107,7 +111,7 @@ async function main() {
             await takePostRequest('draw_prize');
             await $.wait(2000);
         }
-        if($.teamInfo.draw_total_second === 0 && $.teamInfo.team_vote_total >= 180){
+        if($.teamInfo.draw_total_second === 1 && $.teamInfo.team_vote_total >= 180){
             console.log(`去抽奖2`);
             $.draw_type = 2;
             await takePostRequest('draw_prize');
@@ -125,7 +129,7 @@ async function main() {
             await takePostRequest('draw_prize');
             await $.wait(2000);
         }
-        if($.teamInfo.draw_total_second === 0 && $.teamInfo.team_vote_total >= 180){
+        if($.teamInfo.draw_total_second === 1 && $.teamInfo.team_vote_total >= 180){
             console.log(`去抽奖4`);
             $.draw_type = 2;
             await takePostRequest('draw_prize');

@@ -1,3 +1,4 @@
+// @grant    require
 /**
 惊喜牧场
 cron 23 0-23/3 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxmc.js
@@ -139,19 +140,19 @@ async function pasture() {
       await takeGetRequest('GetVisitBackCabbage');
     }
     await $.wait(2000);
-    $.GetSignInfo = {};
-    await takeGetRequest('GetSignInfo');
-    if(JSON.stringify($.GetSignInfo) !== '{}' && $.GetSignInfo.signlist){
-      let signList = $.GetSignInfo.signlist;
-      for (let j = 0; j < signList.length; j++) {
-        if(signList[j].fortoday && !signList[j].hasdone){
-          await $.wait(2000);
-          console.log(`去签到`);
-          await takeGetRequest('GetSignReward');
-        }
-      }
-    }
-    await $.wait(2000);
+    // $.GetSignInfo = {};
+    // await takeGetRequest('GetSignInfo');
+    // if(JSON.stringify($.GetSignInfo) !== '{}' && $.GetSignInfo.signlist){
+    //   let signList = $.GetSignInfo.signlist;
+    //   for (let j = 0; j < signList.length; j++) {
+    //     if(signList[j].fortoday && !signList[j].hasdone){
+    //       await $.wait(2000);
+    //       console.log(`去签到`);
+    //       await takeGetRequest('GetSignReward');
+    //     }
+    //   }
+    // }
+    // await $.wait(2000);
     if ($.crowInfo.lastgettime) {
       console.log('收奶牛金币');
       await takeGetRequest('cow');
@@ -185,7 +186,6 @@ async function pasture() {
             await $.wait(3000);
           }
         }
-
         //横扫鸡腿
         $.runFlag = true;
         console.log(`\n开始进行横扫鸡腿`);
