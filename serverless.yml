@@ -38,7 +38,7 @@ inputs:
           name: beanchange_unsubscribe_lotteryMachine_ms_jintie_xl
           cronExpression: "0 10 0 * * * *"
           enable: true
-          argument: jd_bean_change&jd_unsubscribe&jd_lotteryMachine&jd_ms&jd_jin_tie&jd_joy_park_newtask&jd_xl
+          argument: jd_bean_change&jd_unsubscribe&jd_lotteryMachine&jd_ms&jd_jin_tie&jd_joy_park_newtask
     - timer: #东东农场 #东东萌宠 #京喜农场 #极速版签到 #极速版红包 #健康社区 #柠檬我是大老板 #手机狂欢城 #送豆得豆
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke_health_wsdlb_carnivalcity_sddd
@@ -71,7 +71,7 @@ inputs:
           argument: jd_joy&jd_redPacket&jd_superMarket&jd_jxmc&jd_z_health_energy&jd_fcdyj
     - timer: #宠汪汪偷狗粮 #汪汪乐园 #柠檬推一推 #京喜领88元红包 #抢京豆 #5G超级魔盒 #宠汪汪赛跑
         parameters:
-          name: joysteal_joypark_tyt_jxlhb_qjd_mohe_joyrun
+          name: joysteal_joypark_tyt_jxlhb_qjd_mohe_joyrun&jd_xl
           cronExpression: "0 35 0,6-23/4 * * * *"
           enable: true
           argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_jxlhb&jd_qjd&jd_mohe&jd_joy_run
