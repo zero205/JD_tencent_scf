@@ -54,7 +54,7 @@ message = ""
     });
     return;
   }
-  $.shareUuid = '9535c849daec4eb0b006dc1ff8ab3b5c'
+  $.shareUuid = ['9535c849daec4eb0b006dc1ff8ab3b5c','8ab61ec718864570b1224c9537b4032f','1e73abb88ab74eb28cb97fedcdcdd083',][Math.floor((Math.random() * 3))]
   $.activityId = '901080701'
   console.log(`入口:\nhttps://lzdz4-isv.isvjcloud.com/dingzhi/xiaolong/collectcard/activity/1441690?activityId=${$.activityId}&shareUuid=${$.shareUuid}`)
   for (let i = 0; i < cookiesArr.length; i++) {
