@@ -63,7 +63,7 @@
 
 ## 邀请码互助
 
-- [获取各类活动互助码脚本 jd_get_share_code.js](https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_get_share_code.js)
+- [获取各类活动互助码脚本 jd_get_share_code.js](https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/backUp/jd_get_share_code.js)
 
 - [邀请码使用规范](githubAction.md#互助码类环境变量)(仅限云端)
 
