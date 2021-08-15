@@ -2,8 +2,11 @@
 京东多合一签到,自用,可N个京东账号
 活动入口：各处的签到汇总
 Node.JS专用
+https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_bean_sign.js
 IOS软件用户请使用 https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-更新时间：2021-8-1
+更新时间：2021-8-15
+JRBODY抓取网站:ms.jr.jd.com/gw/generic/hy/h5/m/appSign(进入金融APP签到页面,无需签到);格式:"reqData=xxx"
+变量填写示例:JRBODY: reqData=xxx&reqData=xxx&&reqData=xxx(比如第三个号没有,则留空,长度要与CK一致)
  */
 const $ = new Env('京东多合一签到SCF')
 // const vm = require('vm')
@@ -42,9 +45,27 @@ if ($.isNode()) {
     }
   }
   cookiesArr = cookiesArr.filter((_, index) => cks[index])
-  cookiesArr = cookiesArr.map(cookie => {
-   return {'cookie':cookie}
-  })
+  let jrbodys
+  if(process.env.JRBODY) {
+    jrbodys = process.env.JRBODY.split('&')
+    if (jrbodys.length != cookiesArr.length) {
+      console.error('CK和JRBODY长度不匹配,不使用JRBODY,请阅读脚本开头说明')
+      jrbodys = undefined
+    }
+  }
+  for (let i = 0; i < cookiesArr.length; i++) {
+    const data = {
+      'cookie':cookiesArr[i]
+    }
+    if (jrbodys) {
+      if(jrbodys[i].startsWith('reqData=')){
+          data['jrBody'] = jrbodys[i]
+        }else{
+          console.log(`跳过第${i+1}个JRBODY,为空或格式不正确`)
+        }
+    }
+    cookiesArr[i] = data
+  }
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】无可用cookie,结束');
     return;
@@ -60,9 +81,8 @@ if ($.isNode()) {
   const originalLog = console.log
   let notifyContent = ''
   console.log = (...args) => {
-    if(args[0].includes("【签到号")){
+    if(args[0].includes("【签到概览】") || args[0].includes("【签到号")){
       notifyContent += args[0].split('\n\n')[1] + '\n'
-      // originalLog('catch notifyContent:'+notifyContent)
     }
     originalLog.apply(
         console,
