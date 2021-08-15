@@ -21,7 +21,7 @@ if ($.isNode()) {
     $.getdata("CookieJD2"),
     ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
-$.activityId = 1604;
+$.activityId = 1605;
 !(async () => {
   $.isLoginInfo = {};
   if (!cookiesArr[0]) {
