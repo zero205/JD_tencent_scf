@@ -20,11 +20,11 @@
 
 ## 3. 配置secrets变量
   
-除必需的`JD_COOKIE`外，secret变量新增两个必填变量`SCF_REGION`和`TENCENT_FUNCTION_NAME`,一个选填变量`TENCENTSCF_MEMORYSIZE`  
+除必需的`JD_COOKIE`外，secret变量三个选填变量`SCF_REGION`,`TENCENT_FUNCTION_NAME`,`TENCENTSCF_MEMORYSIZE`.都有默认值,可不修改.
 
 `SCF_REGION`用于控制部署区域的选择，value可填`ap-guangzhou`，其他地区具体参数代码填写可以自行查找官方说明 [地域和可用区](https://cloud.tencent.com/document/product/213/6091)  
 
-`TENCENT_FUNCTION_NAME`用于控制部署到云函数后函数名的命名，value可随意，可填`JD`，但必须与下一步里云函数新建的空白函数名一致!!  
+`TENCENT_FUNCTION_NAME`用于控制部署到云函数后函数名的命名,别瞎改,改名的话确保之前的已经删除
 
 `TENCENTSCF_MEMORYSIZE`值为运行内存大小的设定值，默认为`64`，需求更大内存的可填入`128`，云函数有128MB就能满足了  
 
