@@ -124,8 +124,8 @@ async function main() {
   }
   console.log(`打印token：${$.LKYLToken ? $.LKYLToken : '暂无token'}\n`)
   if (!$.LKYLToken) {
-    $.msg($.name, '【提示】请先获取来客有礼宠汪汪token', "iOS用户微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token");
-    console.log(`尝试获取【zero205】仓库来客有礼token，如失效请提issues提醒更新\n`)
+    $.msg($.name, '【提示】请先获取来客有礼宠汪汪token', "iOS用户微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token\n");
+    console.log(`尝试获取【zero205】仓库来客有礼token，一天只更新一次，有效期几个小时，请留意TG群内消息\n`)
     $.LKYLToken = $.lkyl
     // return;
   }
@@ -376,7 +376,7 @@ function enterRoom(invitePin) {
     headers['Content-Type'] = "application/json";
     let opt = {
       // url: "//jdjoy.jd.com/common/pet/getPetTaskConfig?reqSource=h5",
-      url: `//draw.jdfcloud.com/common/pet/enterRoom/h5?reqSource=h5&invitePin=${encodeURI(invitePin)}&inviteSource=task_invite&shareSource=weapp&inviteTimeStamp=${Date.now()}&invokeKey=qRKHmL4sna8ZOP9F`,
+      url: `//draw.jdfcloud.com/common/pet/enterRoom/h5?reqSource=h5&invitePin=${encodeURI(invitePin)}&inviteSource=task_invite&shareSource=weapp&inviteTimeStamp=${Date.now()}&invokeKey=ztmFUCxcPMNyUq0P`,
       method: "GET",
       data: {},
       credentials: "include",
@@ -411,7 +411,7 @@ function helpInviteFriend(friendPin) {
     headers.LKYLToken = $.LKYLToken;
     let opt = {
       // url: "//jdjoy.jd.com/common/pet/getPetTaskConfig?reqSource=h5",
-      url: `//draw.jdfcloud.com/common/pet/helpFriend?friendPin=${encodeURI(friendPin)}&reqSource=h5&invokeKey=qRKHmL4sna8ZOP9F`,
+      url: `//draw.jdfcloud.com/common/pet/helpFriend?friendPin=${encodeURI(friendPin)}&reqSource=h5&invokeKey=ztmFUCxcPMNyUq0P`,
       method: "GET",
       data: {},
       credentials: "include",
@@ -482,7 +482,7 @@ function combatHelp(friendPin) {
     headers.LKYLToken = $.LKYLToken;
     let opt = {
       // url: "//jdjoy.jd.com/common/pet/getPetTaskConfig?reqSource=h5",
-      url: `//draw.jdfcloud.com//common/pet/combat/help?friendPin=${encodeURI(friendPin)}&invokeKey=qRKHmL4sna8ZOP9F`,
+      url: `//draw.jdfcloud.com//common/pet/combat/help?friendPin=${encodeURI(friendPin)}&invokeKey=ztmFUCxcPMNyUq0P`,
       method: "GET",
       data: {},
       credentials: "include",
@@ -521,7 +521,7 @@ function combatDetail(invitePin) {
     headers.LKYLToken = $.LKYLToken;
     let opt = {
       // url: "//jdjoy.jd.com/common/pet/getPetTaskConfig?reqSource=h5",
-      url: `//draw.jdfcloud.com/common/pet/combat/detail/v2?help=true&inviterPin=${encodeURI(invitePin)}&reqSource=h5&invokeKey=qRKHmL4sna8ZOP9F`,
+      url: `//draw.jdfcloud.com/common/pet/combat/detail/v2?help=true&inviterPin=${encodeURI(invitePin)}&reqSource=h5&invokeKey=ztmFUCxcPMNyUq0P`,
       method: "GET",
       data: {},
       credentials: "include",
