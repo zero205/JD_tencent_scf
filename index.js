@@ -1,7 +1,7 @@
 //'use strict';
 exports.main_handler = async (event, context, callback) => {
   if (!event["Message"]) {
-    console.error('没参数你在这测啥呢?!你是用Timer触发器触发的吗!脑瓜子给你打掉!')
+    console.error('没参数你在这测啥呢?!你是用Timer触发器触发的吗!教程最后一步咋写的啊?!参数呢?!写这么清楚要是还敢截图去群里问.我TM脑瓜子给你打掉!')
     return
   }
   ['log', 'warn', 'error', 'debug','info'].forEach((methodName) => {
