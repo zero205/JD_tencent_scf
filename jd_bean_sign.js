@@ -148,24 +148,24 @@ function TotalBean(cookie) {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-          resolve()
+          console.error(`${$.name} API请求失败，请检查网路重试`)
+          resolve(false)
         } else {
           if (data) {
             data = JSON.parse(data);
             if (data['retcode'] === "1001") {
-              resolve(); //cookie过期
+              resolve(false); //cookie过期
+              console.warn('CK过期')
               return
             }
             resolve(true)
           } else {
-            console.log(`京东服务器返回空数据`)
+            console.error(`京东服务器返回空数据`)
+            resolve(false)
           }
         }
       } catch (e) {
         $.logErr(e, resp)
-      } finally {
-        resolve()
       }
     })
   })
