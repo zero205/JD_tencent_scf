@@ -42,7 +42,7 @@ inputs:
     - timer: #东东农场 #东东萌宠 #京喜农场 #极速版签到 #极速版红包 #健康社区 #柠檬我是大老板 #手机狂欢城 #送豆得豆 #骁龙品牌日
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke_health_wsdlb_carnivalcity_sddd_xl
-          cronExpression: "0 0 0-18/6 * * * *"
+          cronExpression: "0 15 0-18/6 * * * *"
           enable: true
           argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_health&jd_wsdlb&jd_carnivalcity&jd_sddd&jd_xl
     - timer: #摇钱树 #摇钱树助力 #种豆得豆 #京喜财富岛 #超级红包雨
