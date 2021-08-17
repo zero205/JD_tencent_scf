@@ -43,6 +43,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 let inviteCodes = [];
+let isLoginInfo = {}
 const JD_API_HOST = 'https://api.m.jd.com/api';
 const activeEndTime = '2021/08/29 00:00:00+08:00';//活动结束时间
 let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000;
@@ -82,6 +83,7 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
       $.blockAccount = false;//黑号
       message = '';
       await TotalBean();
+      isLoginInfo[$.UserName] = $.isLogin
       console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
@@ -101,20 +103,31 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
       cookie = cookiesArr[i];
       $.canHelp = true;//能否助力
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      if ((cookiesArr && cookiesArr.length >= 1) && $.canHelp) {
-        for (let item of $.temp) {
-          console.log(`\n${$.UserName} 去助力 ${item}`);
-          const helpRes = await toHelp(item);
-          if (helpRes.data.status === 5) {
-            console.log(`${$.UserName}助力机会已耗尽，跳出助力\n`);
-            $.canHelp = false;
-            break;
+      if (!isLoginInfo[$.UserName]) continue
+      if ((cookiesArr && cookiesArr.length >= 1) && ($.temp && $.temp.length)) {
+        for (let j = 0; j < $.temp.length && $.canHelp; j++) {
+          console.log(`\n${$.UserName} 去助力 ${$.temp[j]}`);
+          $.delcode = false;
+          await toHelp($.temp[j].trim());
+          if ($.delcode) {
+            $.temp.splice(j, 1)
+            j--
+            continue
           }
         }
       }
-      if ($.canHelp) {
-        console.log(`\n${$.UserName}有剩余助力次数，帮Aaron以及zero205助力\n`)
-        await doHelp();
+      if ($.canHelp && ($.newShareCodes && $.newShareCodes.length)) {
+        console.log(`\n\n有剩余助力机会，给Aaron、zero205助力`)
+        for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
+          console.log(`\n${$.UserName} 去助力 ${$.newShareCodes[j]}`);
+          $.delcode = false;
+          await toHelp($.newShareCodes[j].trim());
+          if ($.delcode) {
+            $.newShareCodes.splice(j, 1)
+            j--
+            continue
+          }
+        }
       }
     }
   }
@@ -529,10 +542,32 @@ function toHelp(code) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
-          console.log(`助力结果:${data}`);
           data = JSON.parse(data);
           if (data && data['code'] === 200) {
-            if (data['data']['status'] === 6) console.log(`助力成功\n`)
+            if (data.data.status === 6) {
+              console.log(`助力成功`)
+            } else if (data.data.status === 5) {
+              console.log(`助力机会已耗尽，跳出助力`);
+              $.canHelp = false
+            } else if (data.data.status === 4) {
+              console.log(`助力码 ${code} 已达上限`);
+              $.delcode = true
+            } else if (data.data.status === 3) {
+              console.log(`已经助力过`);
+            } else if (data.data.status === 2) {
+              console.log(`助力码 ${code} 过期`);
+              $.delcode = true
+            } else if (data.data.status === 1) {
+              console.log(`不能助力自己`);
+            } else if (data.msg.indexOf('请求参数不合规') > -1) {
+              console.log(`助力码 ${code} 助力码有问题`)
+              $.delcode = true
+            } else if (data.msg.indexOf('火爆') > -1) {
+              console.log(`${data.msg}，跳出助力`)
+              $.canHelp = false
+            } else {
+              console.log(`助力码 ${code} 助力结果\n${JSON.stringify(data)}`)
+            }
             if (data['data']['jdNums']) $.beans += data['data']['jdNums'];
           }
         }
