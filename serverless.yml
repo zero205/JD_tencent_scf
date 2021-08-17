@@ -42,7 +42,7 @@ inputs:
     - timer: #东东农场 #东东萌宠 #京喜农场 #极速版签到 #极速版红包 #健康社区 #柠檬我是大老板 #手机狂欢城 #骁龙品牌日
         parameters:
           name: fruit_pet_jxnc_speedsign_speedredpocke_health_wsdlb_carnivalcity_xl
-          cronExpression: "0 15 0-18/6 * * * *"
+          cronExpression: "0 1 0-18/6 * * * *"
           enable: true
           argument: jd_fruit&jd_pet&jd_jxnc&jd_speed_sign&jd_speed_redpocke&jd_health&jd_wsdlb&jd_carnivalcity&jd_xl
     - timer: #摇钱树 #摇钱树助力 #种豆得豆 #京喜财富岛 #超级红包雨
@@ -81,12 +81,12 @@ inputs:
           cronExpression: "0 5 0,12 * * * *"
           enable: true
           argument: jd_rankingList&jd_sgmh&jd_joy_park_task&jd_cash&jd_small_home&jd_live&jd_gold_creator&jx_sign&jd_xyc&jd_superBrand
-    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #女装盲盒 #金机奖投票 #汽车生活节
+    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #女装盲盒 #汽车生活节
         parameters:
-          name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_nzmh_goldPhone_qcshj
+          name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_nzmh_qcshj
           cronExpression: "0 20 0,20 * * * *"
           enable: true
-          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_nzmh&jd_goldPhone&jd_qcshj
+          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_nzmh&jd_qcshj
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的

@@ -76,6 +76,39 @@ let num;
       await showMsg();
     }
   }
+  for (let j = 0; j < cookiesArr.length; j++) {
+    cookie = cookiesArr[j];
+    $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    if (jdPlantBeanShareArr && jdPlantBeanShareArr.length) {
+      if ($.isNode() && !process.env.PLANT_BEAN_SHARECODES) {
+        console.log(`\n======开始账号内互助======\n`);
+        for (let item of jdPlantBeanShareArr) {
+          console.log(`账号${$.UserName} 去助力 ${item}`)
+          await helpShare(item);
+          if ($.helpResult && $.helpResult.code === '0') {
+            if ($.helpResult.data.helpShareRes) {
+              if ($.helpResult.data.helpShareRes.state === '1') {
+                console.log(`助力好友${item}成功`)
+                console.log(`${$.helpResult.data.helpShareRes.promptText}\n`);
+              } else if ($.helpResult.data.helpShareRes.state === '2') {
+                console.log('您今日助力的机会已耗尽，已不能再帮助好友助力了\n');
+                break;
+              } else if ($.helpResult.data.helpShareRes.state === '3') {
+                console.log('该好友今日已满9人助力/20瓶营养液,明天再来为Ta助力吧\n')
+              } else if ($.helpResult.data.helpShareRes.state === '4') {
+                console.log(`${$.helpResult.data.helpShareRes.promptText}\n`)
+              } else {
+                console.log(`助力其他情况：${JSON.stringify($.helpResult.data.helpShareRes)}`);
+              }
+            }
+          } else {
+            console.log(`助力好友失败: ${JSON.stringify($.helpResult)}`);
+          }
+        }
+      }
+    }
+    await doHelp()
+  }
   if ($.isNode() && allMessage) {
     await notify.sendNotify(`${$.name}`, `${allMessage}`)
   }
@@ -100,6 +133,7 @@ async function jdPlantBean() {
       const shareUrl = $.plantBeanIndexResult.data.jwordShareInfo.shareUrl
       $.myPlantUuid = getParam(shareUrl, 'plantUuid')
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.myPlantUuid}\n`);
+      jdPlantBeanShareArr.push($.myPlantUuid)
       roundList = $.plantBeanIndexResult.data.roundList;
       currentRoundId = roundList[num].roundId;//本期的roundId
       lastRoundId = roundList[num - 1].roundId;//上期的roundId
@@ -109,7 +143,6 @@ async function jdPlantBean() {
       message += `【上期时间】${roundList[num - 1].dateDesc.replace('上期 ', '')}\n`;
       message += `【上期成长值】${roundList[num - 1].growth}\n`;
       await receiveNutrients();//定时领取营养液
-      await doHelp();//助力
       await doTask();//做日常任务
       await doEgg();
       await stealFriendWater();
