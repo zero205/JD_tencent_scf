@@ -72,7 +72,7 @@ $.appId = 10028;
     await $.wait(1000)
     res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/cfd.json')
   }
-  $.strMyShareIds = [...(res && res.shareId || []), ...(res2 && res2.shareId || [])]
+  $.strMyShareIds = [...(res && res.shareId || []), ...(res2 || [])]
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
