@@ -29,9 +29,7 @@ async function processLineByLine(jrbodys) {
       console.log(`识别到读取结束符号,结束.供读取${jrbodys.length}个`)
       return
     }
-    // console.log(`Line from file: ${line}`)
-    if (true) {}
-    jrbodys.push(line.trim())
+    jrbodys.push(line)
   }
 }
 
