@@ -8,6 +8,9 @@ IOS软件用户请使用 https://raw.githubusercontent.com/NobyDa/Script/master/
 金融签到在测试,有能力可以单独反馈.
 JRBODY抓取网站:ms.jr.jd.com/gw/generic/hy/h5/m/appSign(进入金融APP签到页面手动签到);格式:"reqData=xxx"
 变量填写示例:JRBODY: reqData=xxx&reqData=xxx&&reqData=xxx(比如第三个号没有,则留空,长度要与CK一致)
+云函数AC用户Secrests添加JRBODY_SCF,每行一个jrbody,结尾行写'Finish',某个帐号无jrbody则留空行
+其他环境用户除了JRBODY环境变量可以选用JRBODY.txt文件,放在同目录下,规则同上一行AC用户.
+注:优先是别环境变量,如使用txt文件请不要设置环境变量.
  */
 const $ = new Env('京东多合一签到SCF')
 const fs = require('fs')
