@@ -5,6 +5,7 @@
  * @Last Modified by: LXK9301
  * @Last Modified time: 2021-01-13 12:22:54
  * Modify from FanchangWang https://github.com/FanchangWang
+ * 同局域网,自定义UA好像才能用,不行就用别的方法吧.
  */
 const $ = new Env('扫码获取京东cookie');
 const qrcode = require('qrcode-terminal');
