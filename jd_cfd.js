@@ -96,6 +96,14 @@ $.appId = 10028;
       token = await getJxToken()
       await shareCodesFormat()
       await cfd();
+      if ($.newShareCodes && $.newShareCodes.length) {
+      console.log(`\n助力提供互助码\n`);
+      for (let id of $.newShareCodes) {
+        console.log(`账号${$.UserName} 去助力 ${id}`)
+        await helpByStage(id)
+        await $.wait(3000)
+
+      }
       await $.wait(2000);
       UAInfo[$.UserName] = UA
     }
