@@ -19,8 +19,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [], cookie = '', message;
 let InviterPin = '';
 
-if ($.isNode() && process.env.InviterPin) {
-  InviterPin = process.env.InviterPin;
+if ($.isNode() && process.env.INVITERPIN) {
+  InviterPin = process.env.INVITERPIN;
 }
 
 if ($.isNode()) {
