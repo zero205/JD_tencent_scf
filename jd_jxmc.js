@@ -132,19 +132,19 @@ async function pasture() {
       await takeGetRequest('GetVisitBackCabbage');
     }
     await $.wait(2000);
-    // $.GetSignInfo = {};
-    // await takeGetRequest('GetSignInfo');
-    // if(JSON.stringify($.GetSignInfo) !== '{}' && $.GetSignInfo.signlist){
-    //   let signList = $.GetSignInfo.signlist;
-    //   for (let j = 0; j < signList.length; j++) {
-    //     if(signList[j].fortoday && !signList[j].hasdone){
-    //       await $.wait(2000);
-    //       console.log(`去签到`);
-    //       await takeGetRequest('GetSignReward');
-    //     }
-    //   }
-    // }
-    // await $.wait(2000);
+    $.GetSignInfo = {};
+    await takeGetRequest('GetSignInfo');
+    if(JSON.stringify($.GetSignInfo) !== '{}' && $.GetSignInfo.signlist){
+      let signList = $.GetSignInfo.signlist;
+      for (let j = 0; j < signList.length; j++) {
+        if(signList[j].fortoday && !signList[j].hasdone){
+          await $.wait(2000);
+          console.log(`去签到`);
+          await takeGetRequest('GetSignReward');
+        }
+      }
+    }
+    await $.wait(2000);
     if ($.crowInfo.lastgettime) {
       console.log('收奶牛金币');
       await takeGetRequest('cow');
@@ -166,7 +166,7 @@ async function pasture() {
         //割草
         console.log(`\n开始进行割草`);
         $.runFlag = true;
-        for (let i = 0; i < 30 && $.runFlag; i++) {
+        for (let i = 0; i < 10 && $.runFlag; i++) {
           $.mowingInfo = {};
           console.log(`开始第${i + 1}次割草`);
           await takeGetRequest('mowing');
@@ -181,7 +181,7 @@ async function pasture() {
         //横扫鸡腿
         $.runFlag = true;
         console.log(`\n开始进行横扫鸡腿`);
-        for (let i = 0; i < 30 && $.runFlag; i++) {
+        for (let i = 0; i < 10 && $.runFlag; i++) {
           console.log(`开始第${i + 1}次横扫鸡腿`);
           await takeGetRequest('jump');
           await $.wait(2000);
