@@ -54,7 +54,7 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
   }
   console.log('【京东手机狂欢城】\n' +
       '助力逻辑: 优先自己账号内部相互邀请助力\n' +
-      '          有剩余助力机会，给Aaron以及zero205助力\n');
+      '         有剩余助力机会，给Aaron以及zero205助力\n');
   $.temp = [];
   if (nowTime > new Date(activeEndTime).getTime()) {
     //活动结束后弹窗提醒
@@ -649,7 +649,7 @@ function getListIntegral() {
             message += `累计获得积分：${$.integralCount}\n`;
             console.log(`开始抽奖，当前积分可抽奖${parseInt($.integralCount / 50)}次\n`);
             for (let i = 0; i < parseInt($.integralCount / 50); i ++) {
-              await lottery();
+              //await lottery();
               await $.wait(500);
             }
           } else {
