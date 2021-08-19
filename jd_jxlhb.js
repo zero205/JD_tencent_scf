@@ -200,6 +200,7 @@ function enrollFriend(strPin) {
               console.log(`温馨提示：如提示助力火爆，可尝试寻找京东客服`);
             }
             if (data.iRet === 2013) $.max = true;
+            if (data.iRet === 2000) $.canHelp = false;//未登录,可能未开通京喜
             console.log(`助力失败:${data.sErrMsg}\n`);
           }
         }
