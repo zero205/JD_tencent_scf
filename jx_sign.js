@@ -202,7 +202,7 @@ function signhb(type = 1) {
               for (let key of Object.keys(signlist)) {
                 let vo = signlist[key]
                 if (vo.istoday === 1) {
-                  if (vo.status === 1 && vo.tasklist.signtask.status === 1) {
+                  if (vo.status === 1 && data.signtask.status === 1) {
                     console.log(`今日已签到`)
                     $.canHelp = false
                   } else {
@@ -251,7 +251,7 @@ function helpSignhb(smp = '') {
           for (let key of Object.keys(signlist)) {
             let vo = signlist[key]
             if (vo.istoday === 1) {
-              if (vo.status === 1 && vo.tasklist.signtask.status === 1) {
+              if (vo.status === 1 && data.signtask.status === 1) {
                 // console.log(`今日已签到`)
               } else {
                 console.log(`此账号已黑`)
