@@ -100,28 +100,37 @@ $.appId = 10028;
       UAInfo[$.UserName] = UA
     }
   }
-  for (let j = 0; j < cookiesArr.length; j++) {
-    cookie = cookiesArr[j];
+  for (let i = 0; i < cookiesArr.length; i++) {
+    cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
     $.canHelp = true
     UA = UAInfo[$.UserName]
     if ($.shareCodes && $.shareCodes.length) {
       console.log(`\n自己账号内部循环互助\n`);
-      for (let id of $.shareCodes) {
-        console.log(`账号${$.UserName} 去助力 ${id}`)
-        await helpByStage(id)
-        await $.wait(3000)
-        if (!$.canHelp) break
+      for (let j = 0; j < $.shareCodes.length && $.canHelp; j++) {
+        console.log(`账号${$.UserName} 去助力 ${$.shareCodes[j]}`)
+        $.delcode = false
+        await helpByStage($.shareCodes[j])
+        await $.wait(2000)
+        if ($.delcode) {
+          $.shareCodes.splice(j, 1)
+          j--
+          continue
+        }
       }
     }
-    if (!$.canHelp) continue
-    if ($.strMyShareIds && $.strMyShareIds.length) {
+    if ($.strMyShareIds && $.strMyShareIds.length && $.canHelp) {
       console.log(`\n助力作者\n`);
-      for (let id of $.strMyShareIds) {
-        console.log(`账号${$.UserName} 去助力 ${id}`)
-        await helpByStage(id)
-        await $.wait(3000)
-        if (!$.canHelp) break
+      for (let j = 0; j < $.strMyShareIds.length && $.canHelp; j++) {
+        console.log(`账号${$.UserName} 去助力 ${$.strMyShareIds[j]}`)
+        $.delcode = false
+        await helpByStage($.strMyShareIds[j])
+        await $.wait(2000)
+        if ($.delcode) {
+          $.strMyShareIds.splice(j, 1)
+          j--
+          continue
+        }
       }
     }
   }
@@ -1160,7 +1169,10 @@ function helpByStage(shareCodes) {
           } else if (data.iRet === 2229 || data.sErrMsg === '助力失败啦~') {
             console.log(`助力失败：您的账号或被助力的账号可能已黑，请联系客服`)
             // $.canHelp = false
-          } else {
+          } else if (data.iRet === 2190 || data.sErrMsg === '达到助力上限') {
+            console.log(`助力失败：${data.sErrMsg}`)
+            $.delcode = true
+          } else{
             console.log(`助力失败：${data.sErrMsg}`)
           }
         }
