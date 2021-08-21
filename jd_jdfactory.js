@@ -256,11 +256,11 @@ async function algorithm() {
 }
 async function helpFriends() {
   if ($.isNode() && !process.env.DDFACTORY_SHARECODES) {
-    newShareCode = [...(jdFactoryShareArr || []), ...(newShareCodes || [])]
+    newShareCode = [...(jdFactoryShareArr || []), ...($.newShareCodes || [])]
   } else {
-    newShareCode = newShareCodes
+    newShareCode = $.newShareCodes
   }
-  for (let code of $.newShareCode) {
+  for (let code of newShareCode) {
     if (!code) continue
     const helpRes = await jdfactory_collectScore(code);
     if (helpRes.code === 0 && helpRes.data.bizCode === -7) {
