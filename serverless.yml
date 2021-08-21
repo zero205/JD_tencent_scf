@@ -86,7 +86,7 @@ inputs:
           name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_nzmh_qcshj
           cronExpression: "0 20 0,20 * * * *"
           enable: true
-          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_nzmh&jd_qcshj
+          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_nzmh&jd_qcshj&jd_sign_graphics
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的
