@@ -459,6 +459,7 @@ async function helpFriends() {
   if ($.canHelpFlag) {
     await shareCodesFormat();
     if ($.isNode() && !process.env.DREAM_FACTORY_SHARE_CODES) {
+      console.log(`未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
       newShareCode = [...(jdDreamFactoryShareArr || []), ...(newShareCodes || [])]
     } else {
       newShareCode = newShareCodes

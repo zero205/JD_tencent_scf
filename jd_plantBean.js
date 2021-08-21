@@ -405,6 +405,7 @@ function showTaskProcess() {
 //助力好友
 async function doHelp() {
   if ($.isNode() && !process.env.PLANT_BEAN_SHARECODES) {
+    console.log(`未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
     newShareCode = [...(jdPlantBeanShareArr || []), ...(newShareCodes || [])]
   } else {
     newShareCode = newShareCodes
