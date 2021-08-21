@@ -54,7 +54,7 @@ inputs:
     - timer: #宠汪汪积分兑换京豆
         parameters:
           name: joyreward
-          cronExpression: "30 58 7,15,23 * * * *"
+          cronExpression: "0 59 7,15,23 * * * *"
           enable: true
           argument: jd_joy_reward
     - timer:  #天天提鹅 #柠檬赚金币 #发财大赢家 #京喜工厂 #东东工厂 #财富岛热气球
