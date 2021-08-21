@@ -261,7 +261,7 @@ async function helpFriends() {
   } else {
     newShareCode = newShareCodes
   }
-  for (let code of $.newShareCode) {
+  for (let code of newShareCode) {
     if (!code) continue
     const helpRes = await jdfactory_collectScore(code);
     if (helpRes.code === 0 && helpRes.data.bizCode === -7) {
