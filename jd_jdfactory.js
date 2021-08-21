@@ -40,7 +40,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 const randomCount = $.isNode() ? 0 : 0;
 //IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [], cookie = '', jdFactoryShareArr = [], message,newShareCodes;
+let cookiesArr = [], cookie = '', jdFactoryShareArr = [], message, newShareCodes;
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
