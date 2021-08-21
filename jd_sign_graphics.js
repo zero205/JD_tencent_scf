@@ -41,6 +41,7 @@ if(process.env.JOY_HOST){
 }
 
 const turnTableId = [
+  { "name": "PLUS会员定制", "id": 1265, "url": "https://prodev.m.jd.com/mall/active/3bhgbFe5HZcFCjEZf2jzp3umx4ZR/index.html" },
   { "name": "京东商城-内衣", "id": 1071, "url": "https://prodev.m.jd.com/mall/active/4PgpL1xqPSW1sVXCJ3xopDbB1f69/index.html" },
   { "name": "京东商城-健康", "id": 527, "url": "https://prodev.m.jd.com/mall/active/w2oeK5yLdHqHvwef7SMMy4PL8LF/index.html" },
   { "name": "京东商城-清洁", "id": 446, "url": "https://prodev.m.jd.com/mall/active/2Tjm6ay1ZbZ3v7UbriTj6kHy9dn6/index.html" },
@@ -76,10 +77,9 @@ $.post = validator.injectToRequest($.post.bind($), 'channelSign', $.UA)
       await signRun()
       const UTC8 = new Date().getTime() + new Date().getTimezoneOffset()*60000 + 28800000;
       $.beanSignTime = new Date(UTC8).toLocaleString('zh', {hour12: false});
-      let msg = `【京东账号${$.index}】${$.nickName || $.UserName}\n【签到时间】:  ${$.beanSignTime}\n【签到概览】:  成功${successNum}个, 失败${errorNum}个\n【签到奖励】:  ${beanNum}京豆\n`
+      let msg = `【京东账号${$.index}】${$.nickName || $.UserName}\n【签到时间】:  ${$.beanSignTime}\n【签到概览】:  成功${successNum}个, 失败${errorNum}个\n${beanNum > 0 && "【签到奖励】:  "+beanNum+"京豆" || ""}\n`
       message += msg + '\n'
       $.msg($.name, msg);
-      // break
     }
   }
   await showMsg();
