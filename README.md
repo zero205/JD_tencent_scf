@@ -26,6 +26,7 @@
 
 * > [elecV2P](https://github.com/elecV2/elecV2P) 部署【备用】
     * 安装教程：[点此查看](https://github.com/elecV2/elecV2P-dei/blob/master/docs/01-overview.md)  
+    * 订阅任务：`https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_task.json`
     * elecV2P京东CK、通知填写格式等相关补充说明：[点此查看](./backUp/elecV2P.md)  
 
 - 获取京东cookie教程可参考：
