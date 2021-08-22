@@ -1,3 +1,4 @@
+// @grant nodejs
 /*
 ENV
 JOYPARK_JOY_START =      只做前几个CK
