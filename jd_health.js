@@ -154,7 +154,7 @@ function getTaskDetail(taskId = '') {
               await $.wait(1000 * (oc(() => data.data.result.taskVos[0].waitDuration) || 3));
               await doTask(oc(() => data.data.result.taskVos[0].shoppingActivityVos[0].taskToken), 22, 0);//完成任务
             } else {
-              for (let vo of nc(oc(() => data.data.result.taskVos.filter(vo => vo.taskType !== 19)) , [])) {
+              for (let vo of nc(oc(() => data.data.result.taskVos.filter(vo => vo.taskType !== 19 && vo.taskType !== 25)) , [])) {
                 console.log(`${vo.taskName}任务，完成次数：${vo.times}/${vo.maxTimes}`)
                 for (let i = vo.times; i < vo.maxTimes; i++) {
                   console.log(`去完成${vo.taskName}任务`)
@@ -237,6 +237,8 @@ function exchange(commodityType, commodityId) {
             if ($.isNode()) {
               allMessage += `【京东账号${$.index}】 ${$.UserName}\n兑换${data.data.result.jingBeanNum}京豆成功🎉${$.index !== cookiesArr.length ? '\n\n' : ''}`
             }
+          } else {
+            console.log(data.data.bizMsg)
           }
         }
       } catch (e) {
