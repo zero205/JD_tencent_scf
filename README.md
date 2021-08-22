@@ -1,29 +1,26 @@
-## 不要fork！！请建立私库!!!!请建立私库!!!!请建立私库!!!!  
-## 已经创建仓库的请点击仓库右上角Setting，拉到页面最下方，点击Change visibility，选择Make private，填入黑体仓库名称进行确认!
+## 为防止仓库再次被封，请使用腾讯云函数、Docker、elecV2P等方式运行
+## 有条（科学）件（上网）的可以 [点此加入组织](https://t.me/jd_zero205)
 
-## 为防止账号再次遭到封禁失联,有条（科学）件（上网）的可以加入TG交流群
-## TG交流群：https://t.me/jd_zero205
-## TG通知频道：https://t.me/jd_zero205_tz
+## 请勿直接fork！！云函数用户先按照下方教程建立私库！！！
+## 已经创建公开仓库的请点击仓库右上角`Setting`，拉到页面最下方，点击`Change visibility`，选择`Make private`，填入黑体仓库名称进行确认!
 
-## 为防止仓库再次被封，本仓库仅保留腾讯云函数、elecV2P两种方式运行
-
-## 不要fork！！请先自行创建自己的仓库
-### 方式一(如果有一定github基础,十分建议直接方式二)
+### 方式一(如果有一定github基础，十分建议直接方式二)
 * 1.创建新仓库[点击创建自己的仓库](https://github.com/new)
 * 2.点击`Import a repository`，在`Your old repository’s clone URL`处填入https://github.com/zero205/JD_tencent_scf
 * 3.然后在`Repository name`处填写仓库名，选择`Private`
-* 4.最后点击最下方的`Begin import`即可
-* 5.仓库创建后,在仓库页面点击'main'分支,在下拉菜单中点击最下方'view all branches',点击'Default branch'最右侧箭头,然后在新页面继续点击箭头,再弹出框中选择'scf'为主分支
-* 6.在仓库页面点击'main'分支,在下拉菜单中点击最下方'view all branches',点击'maim'分支右侧垃圾桶,确认删除分支
-* 7.点击刚才页面'scf'分支右侧笔图标,将其重命名为'main'
+* 4.最后点击最下方的`Begin import`
+* 5.仓库创建后，在仓库页面点击`main`分支，在下拉菜单中点击最下方`view all branches`，点击`Default branch`最右侧箭头，然后在新页面继续点击箭头，再弹出框中选择`scf`为主分支
+* 6.在仓库页面点击`main`分支，在下拉菜单中点击最下方`view all branches`，点击`maim`分支右侧垃圾桶,确认删除分支
+* 7.点击刚才页面`scf`分支右侧笔图标，将其重命名为`main`，大功告成。
 ### 方式二
-* 第一种:有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为'main'),运行一次本仓库'scf'分支的sync.yml即可
-* 第二种:直接clone一个scf分支(名字需要为main)
+* 第一种:有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为`main`),运行一次本仓库`scf`分支的sync.yml即可
+* 第二种:直接clone一个`scf`分支(名字需要为`main`)
+
 ## 自动同步本仓库脚本教程：[点此查看](https://github.com/zero205/JD_tencent_scf/blob/main/backUp/reposync.md)  
 
-# 使用教程（觉得有用的可以点个star :blush:）  
+# 使用教程（觉得有用的可以点个⭐star :blush:）  
 
-* > 【青龙】拉取仓库命令：`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR""`  
+* > 【青龙】拉取仓库命令：`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR"`  
 
 * > 腾讯云函数部署【推荐】[点此查看教程](./backUp/tencentscf.md)
 
@@ -36,10 +33,6 @@
   + [浏览器获取京东cookie教程](./backUp/GetJdCookie.md)
     
   + [插件获取京东cookie教程](./backUp/GetJdCookie2.md)
-  
-## AC运行常见问题  
-* 此处借用[RayWangQvQ](https://github.com/RayWangQvQ)大佬的教程  
-* [点击查看常见问题](https://github.com/RayWangQvQ/BiliBiliTool.Docs/blob/main/questions.md)  
 
 ## 特别声明: 
 
@@ -60,29 +53,8 @@
  **您必须在下载后的24小时内从计算机或手机中完全删除以上内容.**  </br>
 > ***您使用或者复制了本仓库且本人制作的任何脚本，则视为`已接受`此声明，请仔细阅读***   
 
-
-## 邀请码互助
-
-- [获取各类活动互助码脚本 jd_get_share_code.js](https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/backUp/jd_get_share_code.js)
-
-- [邀请码使用规范](githubAction.md#互助码类环境变量)(仅限云端)
-
-## 食用方法
-
-### ~~1. Docker~~
-
-- ~~[部署方法](./docker)~~
-
+## 环境变量
 - [环境变量集合](./githubAction.md)
- 
-- 获取京东cookie教程可参考：
-  
-  + [浏览器获取京东cookie教程](./backUp/GetJdCookie.md)
-    
-  + [插件获取京东cookie教程](./backUp/GetJdCookie2.md)
-    
-  + 京东APP扫码获取cookie(此种方式获取的cookie有效期为30天)(执行`node getJDCookie.js`即可)
-
 
 ## 特别感谢(排名不分先后)：
 
