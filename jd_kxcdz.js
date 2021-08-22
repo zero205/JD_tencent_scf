@@ -6,14 +6,14 @@ boxjs：https://raw.githubusercontent.com/Ariszy/Private-Script/master/Ariszy.bo
 
 [task_local]
 #开学充电站
-30 1 * * * https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_kxcdz.js, tag= 开学充电站
+30 0 * * * https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_kxcdz.js, tag= 开学充电站
 ================Loon==============
 [Script]
-cron "30 1 * * *" script-path= https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_kxcdz.js,tag= 开学充电站
+cron "30 0 * * *" script-path= https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_kxcdz.js,tag= 开学充电站
 ===============Surge=================
-开学充电站 = type=cron,cronexp="30 1 * * *",wake-system=1,timeout=3600,script-path= https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_kxcdz.js
+开学充电站 = type=cron,cronexp="30 0 * * *",wake-system=1,timeout=3600,script-path= https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_kxcdz.js
 ============小火箭=========
-开学充电站 = type=cron,script-path= https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_kxcdz.js, cronexpr="30 1 * * *", timeout=3600, enable=true
+开学充电站 = type=cron,script-path= https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_kxcdz.js, cronexpr="30 0 * * *", timeout=3600, enable=true
 */
 const $ = new Env('开学充电站')
 const notify = $.isNode() ?require('./sendNotify') : '';

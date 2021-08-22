@@ -1,6 +1,6 @@
 /*
 特务Z
-cron 23 8,9 * * *
+cron 23 0,9 * * * jd_superBrand.js
 要跑2次
 */
 const $ = new Env('特务Z');

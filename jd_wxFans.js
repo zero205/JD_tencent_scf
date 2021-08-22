@@ -3,7 +3,7 @@
 * 修改温某的脚本，由于温某不干活，只能自己动手修改了
 * 注意：脚本会加购，脚本会加购，脚本会加购（已取消）
 * 若发现脚本里没有的粉丝互动活动。欢迎反馈给我
-* cron  34 6,18 * * *
+cron 1 0,9 * * * jd_wxFans.js
 * */
 const $ = new Env('粉丝互动');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';

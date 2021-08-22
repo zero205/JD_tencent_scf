@@ -1,4 +1,5 @@
 /*
+cron 0 0 * * * jd_lotteryMachine.js
 京东抽奖机 https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js
 author：yangtingxiao
 github： https://github.com/yangtingxiao

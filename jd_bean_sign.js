@@ -1,4 +1,5 @@
 /*
+cron 0 0 * * * jd_bean_sign.js
 京东多合一签到,自用,可N个京东账号
 活动入口：各处的签到汇总
 Node.JS专用
@@ -112,29 +113,29 @@ if ($.isNode()) {
     return
   }
   console.log(`*****************开始${$.name}*******************\n`)
-  const originalLog = console.log
-  let notifyContent = ''
-  console.log = (...args) => {
-    if(args[0].includes("【签到概览】") || args[0].includes("【签到号")){
-      notifyContent += args[0].split('\n\n')[1] + '\n'
-    }
-    originalLog.apply(
-        console,
-        [...args]
-    )
-    if (args[0].includes('签到用时')){
-      console.log = originalLog
-      if ($.isNode() && notifyContent.length != 0) {
-        $.msg($.name, '', notifyContent)
-        sendNotify($.name, notifyContent).then(() => {
-          console.log('send Notify finish')
-          $.done()
-        })
-      }else{
-        $.done()
-      }
-    }
-  }
+  // const originalLog = console.log
+  // let notifyContent = ''
+  // console.log = (...args) => {
+  //   if(args[0].includes("【签到概览】") || args[0].includes("【签到号")){
+  //     notifyContent += args[0].split('\n\n')[1] + '\n'
+  //   }
+  //   originalLog.apply(
+  //       console,
+  //       [...args]
+  //   )
+  //   if (args[0].includes('签到用时')){
+  //     console.log = originalLog
+  //     if ($.isNode() && notifyContent.length != 0) {
+  //       $.msg($.name, '', notifyContent)
+  //       sendNotify($.name, notifyContent).then(() => {
+  //         console.log('send Notify finish')
+  //         $.done()
+  //       })
+  //     }else{
+  //       $.done()
+  //     }
+  //   }
+  // }
   eval(changeFile(content,JSON.stringify(cookiesArr)))
   // new vm.Script('console.log("start");\n'+changeFile(content,JSON.stringify(cookiesArr))+'\nconsole.log("end");').runInThisContext()
   // new vm.Script(changeFile(content,JSON.stringify(cookiesArr))).runInContext(new vm.createContext({
