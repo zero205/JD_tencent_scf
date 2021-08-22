@@ -651,6 +651,10 @@ async function masterHelpShare() {
   for (let code of newShareCode) {
     console.log(`${$.UserName}开始助力: ${code}`);
     if (!code) continue;
+    if (!$.farmInfo.farmUserPro) {
+      console.log('未种植,跳过助力\n')
+      continue
+    }
     if (code === $.farmInfo.farmUserPro.shareCode) {
       console.log('不能为自己助力哦，跳过自己的shareCode\n')
       continue
