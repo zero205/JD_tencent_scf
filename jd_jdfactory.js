@@ -67,6 +67,7 @@ let myInviteCode;
       $.index = i + 1;
       $.isLogin = true;
       $.nickName = '';
+      $.stop = false;
       message = '';
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
@@ -267,7 +268,9 @@ async function helpFriends() {
     if (helpRes.code === 0 && helpRes.data.bizCode === -7) {
       console.log(`助力机会已耗尽，跳出`);
       break
-    }
+    } else if (helpRes.code === 0 && helpRes.data.bizCode === -7001)
+      console.log(`对方电力已满，无法助力，跳出`);
+    break
   }
 }
 async function doTask() {
@@ -357,6 +360,10 @@ async function doTask() {
         if (item.status === 1) {
           console.log(`准备做此任务：${item.taskName}`);
           await jdfactory_collectScore(item.simpleRecordInfoVo.taskToken);
+          if ($.stop) {
+            console.log(`蓄电池已满，使用后才可获得更多电量哦！`);
+            break
+          }
         } else {
           console.log(`${item.taskName}已完成`);
         }
@@ -399,9 +406,12 @@ function jdfactory_collectScore(taskToken) {
             if (data.data.bizCode === 0) {
               $.taskVos = data.data.result.taskVos;//任务列表
               console.log(`领取做完任务的奖励：${JSON.stringify(data.data.result)}`);
-            } else {
-              console.log(JSON.stringify(data))
+            } else if (data.data.bizCode === -7001) {
+              $.stop = true
+              console.log(`领取做完任务的奖励：${data.data.bizMsg}`);
             }
+          } else {
+            console.log(JSON.stringify(data))
           }
         }
       } catch (e) {
