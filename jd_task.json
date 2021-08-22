@@ -1,10 +1,68 @@
 {
-  "name": "京东定时任务",
+  "name": "zero205京东定时任务",
   "desc": "elecV2P 京东定时任务订阅。该订阅仅可用于 elecV2P, 与其他软件并不兼容。相关说明参考: https://github.com/elecV2/elecV2P-dei/tree/master/docs/06-task.md",
   "author": "zero205",
-  "date": "2021-05-15 16:16:30",
+  "date": "2021-08-22 10:36:28",
   "surl": "https://gitee.com/zero205/JD_tencent_scf",
   "list": [
+    {
+      "name": "【必须】安装依赖模块①",
+      "type": "schedule",
+      "time": "10",
+      "job": {
+        "type": "exec",
+        "target": "npm install png-js"
+      }
+    },
+    {
+      "name": "【必须】安装依赖模块②",
+      "type": "schedule",
+      "time": "10",
+      "job": {
+        "type": "exec",
+        "target": "npm install crypto-js"
+      }
+    },
+    {
+      "name": "【必须】安装依赖文件_USER_AGENTS",
+      "type": "schedule",
+      "time": "3",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/USER_AGENTS.js"
+      }
+    },
+    {
+      "name": "【必须】安装图形验证依赖文件①",
+      "type": "cron",
+      "time": "50 23 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/JDJRValidator_Pure.js"
+      }
+    },
+    {
+      "name": "【必须】安装图形验证依赖文件②",
+      "type": "cron",
+      "time": "51 23 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/JDJRValidator_Smiek.js"
+      }
+    },
+    {
+      "name": "【必须】安装图形验证依赖文件③",
+      "type": "cron",
+      "time": "52 23 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/sign_graphics_validate.js"
+      }
+    },
     {
       "name": "京豆变动通知",
       "type": "cron",
@@ -33,6 +91,16 @@
       "job": {
         "type": "runjs",
         "target": "https://raw.fastgit.org/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js"
+      }
+    },
+    {
+      "name": "京东签到②",
+      "type": "cron",
+      "time": "2 0 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_sign_graphics.js"
       }
     },
     {
@@ -88,11 +156,21 @@
     {
       "name": "京喜财富岛",
       "type": "cron",
-      "time": "10 8,13,19,22 * * *",
+      "time": "10 0,8,13,19 * * *",
       "running": true,
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfd.js"
+      }
+    },
+    {
+      "name": "京喜财富岛挂机",
+      "type": "cron",
+      "time": "10 0-23/6 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfd_loop.js"
       }
     },
     {
@@ -323,16 +401,6 @@
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_ms.js"
-      }
-    },
-    {
-      "name": "点点券",
-      "type": "cron",
-      "time": "23 0,20 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_necklace.js"
       }
     },
     {
@@ -586,13 +654,23 @@
       }
     },
     {
-      "name": "发财大赢家",
+      "name": "发财大赢家开红包",
       "type": "cron",
-      "time": "30 8-23 * * *",
+      "time": "30 0,8-16 * * *",
       "running": true,
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_big_winner.js"
+      }
+    },
+    {
+      "name": "发财大赢家助力",
+      "type": "cron",
+      "time": "30 6-23/6 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_fcdyj.js"
       }
     },
     {
