@@ -1,5 +1,6 @@
 // @grant    require
 /*
+cron 20 0,6-23/2 * * * jd_cfd_loop.js
 京喜财富岛热气球挂机
 
 更新时间：2021-8-10
