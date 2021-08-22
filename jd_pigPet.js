@@ -1,3 +1,4 @@
+// @grant    require
 /*
 *
 京东金融养猪猪
