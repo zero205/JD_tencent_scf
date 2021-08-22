@@ -438,7 +438,7 @@ function safeGet(data) {
   }
 }
 function taroRequest(e) {
-  const a = $.isNode() ? require('crypto-js') : CryptoJS;
+  const a = require('crypto-js');
   const i = "98c14c997fde50cc18bdefecfd48ceb7"
   const o = a.enc.Utf8.parse(i)
   const r = a.enc.Utf8.parse("ea653f4f3c5eda12");
