@@ -8,7 +8,7 @@
 ## 为防止仓库再次被封，本仓库仅保留腾讯云函数、elecV2P两种方式运行
 
 ## 不要fork！！请先自行创建自己的仓库
-### 方式一
+### 方式一(如果有一定github基础,十分建议直接方式二)
 * 1.创建新仓库[点击创建自己的仓库](https://github.com/new)
 * 2.点击`Import a repository`，在`Your old repository’s clone URL`处填入https://github.com/zero205/JD_tencent_scf
 * 3.然后在`Repository name`处填写仓库名，选择`Private`
@@ -17,8 +17,8 @@
 * 6.在仓库页面点击'main'分支,在下拉菜单中点击最下方'view all branches',点击'maim'分支右侧垃圾桶,确认删除分支
 * 7.点击刚才页面'scf'分支右侧笔图标,将其重命名为'main'
 ### 方式二
-* 有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为'main'),运行一次本仓库'scf'分支的sync.yml即可
-* 直接clone一个scf分支(名字需要为main)
+* 第一种:有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为'main'),运行一次本仓库'scf'分支的sync.yml即可
+* 第二种:直接clone一个scf分支(名字需要为main)
 ## 自动同步本仓库脚本教程：[点此查看](https://github.com/zero205/JD_tencent_scf/blob/main/backUp/reposync.md)  
 
 # 使用教程（觉得有用的可以点个star :blush:）  
