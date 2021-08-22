@@ -77,7 +77,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
                 console.log(`\n检测到您已填助力码${$.rid}，开始助力\n`)
                 await help($.rid, $.inviter, 1)
                 if (!$.canRun) {
-                    break;
+                    continue;
                 }
                 await $.wait(1000)
                 await help($.rid, $.inviter, 2)
