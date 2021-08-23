@@ -1,4 +1,5 @@
 // @grant    require
+// @grant    require
 /*
 Node.JS专用
 https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_bean_sign.js
@@ -40,10 +41,6 @@ async function processLineByLine(jrbodys) {
   let jrbodys
   if(process.env.JRBODY) {
     jrbodys = process.env.JRBODY.split('&')
-    if (jrbodys.length != cookiesArr.length) {
-      console.error('CK和JRBODY长度不匹配,不使用JRBODY,请阅读脚本开头说明')
-      jrbodys = undefined
-    }
   }else{
     console.log(`为检测到JRBODY环境变量,开始检测${jr_file}`)
     try {
@@ -54,6 +51,10 @@ async function processLineByLine(jrbodys) {
     } catch (err) {
       console.log(`${jr_file} '不存在,跳过'`)
     }
+  }
+  if (jrbodys.length != cookiesArr.length) {
+    console.error('CK和JRBODY长度不匹配,不使用JRBODY,请阅读脚本开头说明')
+    jrbodys = undefined
   }
   for (let i = 0; i < cookiesArr.length; i++) {
     const data = {
