@@ -38,7 +38,6 @@ async function processLineByLine(jrbodys) {
     cookiesArr.push(jdCookieNode[item])
   })
   let jrbodys
-  console.log(cookiesArr)
   if(process.env.JRBODY) {
     jrbodys = process.env.JRBODY.split('&')
     if (jrbodys.length != cookiesArr.length) {
