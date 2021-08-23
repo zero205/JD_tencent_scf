@@ -74,6 +74,7 @@ $.newShareCode = [];
       subTitle = '';
       option = {};
       $.retry = 0;
+      await shareCodesFormat();
       await jdFruit();
     }
   }
