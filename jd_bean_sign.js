@@ -1859,6 +1859,7 @@ function nobyda() {
       }
     }
     console.log(`${title}\n${subtitle}\n${message}`)
+    sendNotify(title,message)
     if (isQuanX) $notify(title, subtitle, message, Opts(rawopts))
     if (isSurge) $notification.post(title, subtitle, message, Opts(rawopts))
     if (isJSBox) $push.schedule({
