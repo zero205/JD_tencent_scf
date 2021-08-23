@@ -53,6 +53,7 @@ const inviteCodes = [
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
 $.appId = 10001;
+$.newShareCode = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -460,11 +461,11 @@ async function helpFriends() {
     await shareCodesFormat();
     if ($.isNode() && !process.env.DREAM_FACTORY_SHARE_CODES) {
       console.log(`未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
-      newShareCode = [...(jdDreamFactoryShareArr || []), ...(newShareCodes || [])]
+      $.newShareCode = [...(jdDreamFactoryShareArr || []), ...(newShareCodes || [])]
     } else {
-      newShareCode = newShareCodes
+      $.newShareCode = newShareCodes
     }
-    for (let code of newShareCode) {
+    for (let code of $.newShareCode) {
       if (code) {
         if ($.encryptPin === code) {
           console.log(`不能为自己助力,跳过`);

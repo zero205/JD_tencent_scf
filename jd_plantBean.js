@@ -48,6 +48,7 @@ let roundList = [];
 let awardState = '';//上期活动的京豆是否收取
 let randomCount = $.isNode() ? 20 : 0;
 let num;
+$.newShareCode = [];
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -406,11 +407,11 @@ function showTaskProcess() {
 async function doHelp() {
   if ($.isNode() && !process.env.PLANT_BEAN_SHARECODES) {
     console.log(`未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
-    newShareCode = [...(jdPlantBeanShareArr || []), ...(newShareCodes || [])]
+    $.newShareCode = [...(jdPlantBeanShareArr || []), ...(newShareCodes || [])]
   } else {
-    newShareCode = newShareCodes
+    $.newShareCode = newShareCodes
   }
-  for (let plantUuid of newShareCode) {
+  for (let plantUuid of $.newShareCode) {
     console.log(`${$.UserName}开始助力: ${plantUuid}`);
     if (!plantUuid) continue;
     if (plantUuid === $.myPlantUuid) {

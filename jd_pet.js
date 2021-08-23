@@ -42,6 +42,7 @@ let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let goodsUrl = '', taskInfoKey = [];
 let randomCount = $.isNode() ? 0 : 0;
+$.newShareCode = [];
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -296,11 +297,11 @@ async function slaveHelp() {
   let helpPeoples = '';
   if ($.isNode() && !process.env.PETSHARECODES) {
     console.log(`未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
-    newShareCode = [...(jdPetShareArr || []), ...(newShareCodes || [])]
+    $.newShareCode = [...(jdPetShareArr || []), ...(newShareCodes || [])]
   } else {
-    newShareCode = newShareCodes
+    $.newShareCode = newShareCodes
   }
-  for (let code of newShareCode) {
+  for (let code of $.newShareCode) {
     console.log(`${$.UserName}开始助力: ${code}`);
     if (!code) continue;
     let response = await request(arguments.callee.name.toString(), {'shareCode': code});

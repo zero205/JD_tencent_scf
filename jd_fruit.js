@@ -46,6 +46,7 @@ let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活�
 let randomCount = $.isNode() ? 0 : 0;
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
+$.newShareCode = [];
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -644,11 +645,11 @@ async function masterHelpShare() {
   // console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
   if ($.isNode() && !process.env.FRUITSHARECODES) {
     console.log(`未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
-    newShareCode = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
+    $.newShareCode = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
   } else {
-    newShareCode = newShareCodes
+    $.newShareCode = newShareCodes
   }
-  for (let code of newShareCode) {
+  for (let code of $.newShareCode) {
     console.log(`${$.UserName}开始助力: ${code}`);
     if (!code) continue;
     if (!$.farmInfo.farmUserPro) {
