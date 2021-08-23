@@ -1858,7 +1858,7 @@ function nobyda() {
       }
     }
     console.log(`${title}\n${subtitle}\n${message}`)
-    sendNotify(title,message)
+    sendNotify("京东多合一签到SCF:"+title,message)
     if (isQuanX) $notify(title, subtitle, message, Opts(rawopts))
     if (isSurge) $notification.post(title, subtitle, message, Opts(rawopts))
     if (isJSBox) $push.schedule({
