@@ -1,5 +1,4 @@
 // @grant    require
-// @grant    require
 /*
 Node.JS专用
 https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_bean_sign.js
@@ -38,7 +37,7 @@ async function processLineByLine(jrbodys) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
   })
-  let jrbodys
+  let jrbodys = []
   if(process.env.JRBODY) {
     jrbodys = process.env.JRBODY.split('&')
   }else{
@@ -46,7 +45,6 @@ async function processLineByLine(jrbodys) {
     try {
       await fs.accessSync('./'+jr_file, fs.constants.F_OK)
       console.log(`${jr_file} '存在,读取配置'`)
-      jrbodys = []
       await processLineByLine(jrbodys)
     } catch (err) {
       console.log(`${jr_file} '不存在,跳过'`)
