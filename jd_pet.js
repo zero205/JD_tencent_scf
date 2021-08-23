@@ -72,7 +72,6 @@ $.newShareCode = [];
       taskInfoKey = [];
       option = {};
       $.retry = 0;
-      await shareCodesFormat();
       await jdPet();
     }
   }
@@ -80,6 +79,8 @@ $.newShareCode = [];
     if (cookiesArr[j]) {
       cookie = cookiesArr[j];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+      $.index = j + 1;
+      await shareCodesFormat();
       await slaveHelp();
     }
   }
@@ -296,7 +297,7 @@ async function slaveHelp() {
   //return
   let helpPeoples = '';
   if ($.isNode() && !process.env.PETSHARECODES) {
-    console.log(`未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
+    console.log(`您未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
     $.newShareCode = [...(jdPetShareArr || []), ...(newShareCodes || [])]
   } else {
     $.newShareCode = newShareCodes
@@ -521,7 +522,7 @@ async function showMsg() {
 // }
 function shareCodesFormat() {
   return new Promise(async resolve => {
-    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+    console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
     newShareCodes = [];
     if ($.shareCodesArr[$.index - 1]) {
       newShareCodes = $.shareCodesArr[$.index - 1].split('@');
@@ -536,7 +537,7 @@ function shareCodesFormat() {
     // if (readShareCodeRes && readShareCodeRes.code === 200) {
     //   newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
     // }
-    // console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
+    console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
     resolve();
   })
 }
