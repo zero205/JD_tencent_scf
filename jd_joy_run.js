@@ -39,7 +39,7 @@ http-request ^https:\/\/draw\.jdfcloud\.com(\/mirror)?\/\/api\/user\/user\/detai
 */
 // @grant    require
 const $ = new Env('宠汪汪赛跑');
-import { injectToRequest2 } from './JDJRValidator_Pure';
+const injectToRequest2 = require('./JDJRValidator_Pure').injectToRequest2;
 $.get = injectToRequest2($.get.bind($));
 $.post = injectToRequest2($.post.bind($));
 //宠汪汪赛跑所需token，默认读取作者服务器的
