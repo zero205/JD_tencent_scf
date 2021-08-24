@@ -1,0 +1,66 @@
+name: Config Deploy(部署到云) #部署脚本每次执行就是部署最新代码上云,Sync可以用来升级部署脚本,但一般无需手动更新部署脚本
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7 4,12,20 * * *'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event.repository.owner.id == github.event.sender.id
+    env:
+      PAT: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：https://www.jianshu.com/p/bb82b3ad1d11,需要repo和workflow权限
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'config'
+      - name: clone
+        run: |
+          git clone --single-branch --branch main https://github.com/zero205/JD_tencent_scf.git
+      - name: move config files
+        run: |
+          for i in 'JRBODY.txt' '.env';do  
+              mv $i JD_tencent_scf && echo move $i || echo Not Have $i;
+          done
+      - uses: actions/setup-node@v2
+      - name: install dependency
+        working-directory: ./JD_tencent_scf
+        run: |
+          npm i
+          npm i -g serverless
+      - name: set serverless.yml and push env
+        working-directory: ./JD_tencent_scf
+        env:
+          TENCENT_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          TENCENT_REGION: ${{ secrets.SCF_REGION }}
+          TENCENT_FUNCTION_NAME: ${{ secrets.TENCENT_FUNCTION_NAME }}
+          TENCENTSCF_MEMORYSIZE: ${{ secrets.TENCENTSCF_MEMORYSIZE }}
+          TENCENT_TIMEOUT: ${{ secrets.TENCENT_TIMEOUT }}
+        run: |
+          if [[ ! -z $TENCENT_REGION ]]; then sed -i -E 's/region:[^\n]+/region: '"$TENCENT_REGION"'/' serverless.yml; fi;
+          if [[ ! -z $TENCENT_FUNCTION_NAME ]]; then sed -i -E 's/^  name:[^\n]+/  name: '"$TENCENT_FUNCTION_NAME"'/' serverless.yml; fi;
+          if [[ ! -z $TENCENT_FUNCTION_NAME ]]; then sed -i -E 's/^name:[^\n]+/name: '"$TENCENT_FUNCTION_NAME"'/' serverless.yml; fi;
+          if [[ ! -z $TENCENTSCF_MEMORYSIZE ]]; then sed -i -E 's/memorySize:[^\n]+/memorySize: '"$TENCENTSCF_MEMORYSIZE"'/' serverless.yml; fi;
+          if [[ ! -z $TENCENT_TIMEOUT ]]; then sed -i -E 's/timeout:[^\n]+/timeout: '"$TENCENT_TIMEOUT"'/' serverless.yml; fi;
+          while read line;do
+            echo "      $line" >> serverless.yml
+          done < ../config.yml
+          cat serverless.yml
+          cat .env
+          PUSH_VARIS=$(sed -r 's/(process.env.[a-z0-9A-Z\_]+)/\1\n/g' sendNotify.js | sed -rn 's/.*process.env.([a-z0-9A-Z\_]+).*/\1/p' | sort | uniq)
+          parameter=$(tr "\n" "|" <<< $PUSH_VARIS)
+          parameter=${parameter::-1}
+          grep -E "^($parameter):" < ../config.yml | sed 's/: /=/' | while read line;do    echo $line >> $GITHUB_ENV;done
+      - name: Check Visibility
+        working-directory: ./JD_tencent_scf
+        if: ${{ github.event_name == 'workflow_dispatch' && !github.event.repository.private}}
+        run: |
+          echo 'Not a private repo!!! Please change to private!'
+          echo 'require("./sendNotify").sendNotify("仓库非私有!","配置文件部署方式仓库必须为私有!(如已经私有请忽略并反馈Issues,感谢!)")' > notify.js
+          node notify.js
+          rm -rf notify.js
+      - name: deploy
+        working-directory: ./JD_tencent_scf
+        run: |
+          sls deploy && echo 'Deploy Success' || (echo 'Deploy Failed'; echo 'require("./sendNotify").sendNotify("云函数部署异常！请重试","点击通知，登入后查看详情",{ url: process.env.GITHUB_SERVER_URL + "/" + process.env.GITHUB_REPOSITORY + "/actions/runs/" + process.env.GITHUB_RUN_ID + "?check_suite_focus=true" })' > notify.js; node notify.js; exit 1)
