@@ -23,7 +23,7 @@
 
 # 使用教程（觉得有用的可以点个⭐star :blush:）  
 
-* > 【青龙】拉取仓库命令：`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR"`  
+* > 【青龙】拉取仓库命令：`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp|icon" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR"`  
 
 * > 腾讯云函数部署建议阅读@hshx123大佬的[教程](https://66ccff.work/teach/jd.html)【推荐】.[旧教程](./backUp/tencentscf.md)【不推荐】
 
