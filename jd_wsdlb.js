@@ -92,7 +92,7 @@ if(dlbtz == true){
        if($.info.data.plantInfo[0].nowStep == 4){
        allMessage += `京东账号${$.index}-${$.nickName || $.UserName}\n当前种植水果可以收取了${$.index !== cookiesArr.length ? '\n\n' : '\n\n'}`;
        }
-  await help($.info.data.encPin)
+  await help("7057MkYN_M4C3K_QNqU2YQ")
         if(dlbtz == true){
         allMessage += `京东账号${$.index}-${$.nickName || $.UserName}\n当前种植水果：${$.info.data.plantInfo[0].cropName}\n当前阶段: ${$.info.data.plantInfo[0].nowStep}\n当前下一阶段还需要浇水：${$.info.data.plantInfo[0].upgradeWateringNum}次${$.index !== cookiesArr.length ? '\n\n' : '\n\n'}`;}
                 if (getwat.code === 0 ){
