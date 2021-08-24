@@ -179,6 +179,10 @@ function help(sharePin) {
               $.isLogin = true;
               if (res.resultData.data) {
                 userInfo = res.resultData.data;
+                if (!userInfo.treeInfo.workerSum) {
+                  $.canRun = false;
+                  return
+                }
                 if (userInfo.treeInfo.workerSum === 4) {
                   console.log(`助力失败，对方助力已满`);
                 } else {
