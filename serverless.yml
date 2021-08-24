@@ -15,6 +15,7 @@ inputs:
       - '*.!(js|txt)'
       - '.github/**'
       - 'backUp/**'
+      - 'icon/**'
       - 'node_modules/@(qrcode-terminal|http-server)/**'
       - 'getJDCookie.js'
       - 'JD_extra_cookie.js'
