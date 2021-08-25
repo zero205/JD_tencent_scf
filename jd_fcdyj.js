@@ -86,8 +86,8 @@ const JD_API_HOST = `https://api.m.jd.com`;
     }
     if (new Date().getHours() >= 10) {
         await getAuthorShareCode()
-        for (let i = 0; i < cookiesArr.length; i++) {
-            if (cookiesArr[i]) {
+        if ($.authorCode) {
+            for (let i = 0; i < cookiesArr.length; i++) {
                 cookie = cookiesArr[i];
                 $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
                 $.canRun = true
