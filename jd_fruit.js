@@ -53,6 +53,31 @@ $.newShareCode = [];
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
     return;
   }
+  console.log('开始收集您的互助码，用于账号内部互助，请稍等...');
+  for (let i = 0; i < cookiesArr.length; i++) {
+    if (cookiesArr[i]) {
+      cookie = cookiesArr[i];
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+      $.index = i + 1;
+      $.isLogin = true;
+      $.nickName = '';
+      await TotalBean();
+      console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
+      if (!$.isLogin) {
+        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+
+        if ($.isNode()) {
+          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+        }
+        continue
+      }
+      message = '';
+      subTitle = '';
+      option = {};
+      $.retry = 0;
+      await collect();
+    }
+  }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -78,15 +103,6 @@ $.newShareCode = [];
       await jdFruit();
     }
   }
-  for (let j = 0; j < cookiesArr.length; j++) {
-    if (cookiesArr[j]) {
-      cookie = cookiesArr[j];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      $.index = j + 1;
-      await shareCodesFormat();
-      await masterHelpShare();//助力好友
-    }
-  }
   if ($.isNode() && allMessage && $.ctrTemp) {
     await notify.sendNotify(`${$.name}`, `${allMessage}`)
   }
@@ -104,10 +120,11 @@ async function jdFruit() {
     if ($.farmInfo.farmUserPro) {
       // option['media-url'] = $.farmInfo.farmUserPro.goodsImage;
       message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
-      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
-      jdFruitShareArr.push($.farmInfo.farmUserPro.shareCode)
+      // console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
+      // jdFruitShareArr.push($.farmInfo.farmUserPro.shareCode)
       console.log(`\n【已成功兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`);
       message += `【已兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`;
+      await masterHelpShare();//助力好友
       if ($.farmInfo.treeState === 2 || $.farmInfo.treeState === 3) {
         option['open-url'] = urlSchema;
         $.msg($.name, ``, `【京东账号${$.index}】${$.nickName || $.UserName}\n【提醒⏰】${$.farmInfo.farmUserPro.name}已可领取\n请去京东APP或微信小程序查看\n点击弹窗即达`, option);
@@ -645,13 +662,13 @@ async function masterHelpShare() {
   let remainTimes = 3;//今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
   let helpSuccessPeoples = '';//成功助力好友
   // console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
-  if ($.isNode() && !process.env.FRUITSHARECODES) {
-    console.log(`您未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
-    $.newShareCode = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
-  } else {
-    $.newShareCode = newShareCodes
-  }
-  for (let code of $.newShareCode) {
+  // if ($.isNode() && !process.env.FRUITSHARECODES) {
+  //   console.log(`您未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
+  //   $.newShareCode = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
+  // } else {
+  //   $.newShareCode = newShareCodes
+  // }
+  for (let code of newShareCodes) {
     console.log(`${$.UserName}开始助力: ${code}`);
     if (!code) continue;
     if (!$.farmInfo.farmUserPro) {
@@ -965,6 +982,19 @@ async function duck() {
       console.log(`小鸭子游戏达到上限`)
       break;
     }
+  }
+}
+async function collect() {
+  try {
+    await initForFarm();
+    if ($.farmInfo.farmUserPro) {
+      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
+      jdFruitShareArr.push($.farmInfo.farmUserPro.shareCode)
+    } else {
+      console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
+    }
+  } catch (e) {
+    $.logErr(e);
   }
 }
 // ========================API调用接口========================
@@ -1334,9 +1364,12 @@ function shareCodesFormat() {
     if ($.shareCodesArr[$.index - 1]) {
       newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     } else {
-      // console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
       newShareCodes = shareCodes[tempIndex].split('@');
+      if ($.isNode() && !process.env.FRUITSHARECODES) {
+        console.log(`您未填写助力码变量，优先进行账号内互助，再帮【zero205】助力`);
+        newShareCodes = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
+      }
     }
     // const readShareCodeRes = await readShareCode();
     // if (readShareCodeRes && readShareCodeRes.code === 200) {
