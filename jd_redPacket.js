@@ -49,9 +49,9 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jd_red.json')
   }
   let res2 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_red.json')
-  if (!res) {
+  if (!res2) {
     await $.wait(1000)
-    res = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jd_red.json')
+    res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jd_red.json')
   }
   $.authorMyShareIds = [...(res || []),...(res2 || [])];
   for (let i = 0; i < cookiesArr.length; i++) {
