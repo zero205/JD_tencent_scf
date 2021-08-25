@@ -59,11 +59,11 @@ if ($.isNode()) {
         }
         continue
       }
+      await start()
       if (lsjdh.length !== 0) {
         $.log("检测到您设置了兑换变量，开始兑换")
         await duihuan()
       }
-      await start()
     }
   }
   console.log(`\n开始账号内互助\n`);
