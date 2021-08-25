@@ -1,19 +1,19 @@
 {
-  "name": "",
+  "name": "jd_tencent_scf",
   "version": "1.0.0",
-  "description": "{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}",
-  "main": "AlipayManor.js",
+  "description": "jd script use tencent scf to deploy",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/zero205/JD_tencent_scf"
   },
   "keywords": [
     "京东薅羊毛工具, 京东水果、宠物、种豆等等"
   ],
-  "author": "",
+  "author": "zero205",
   "license": "ISC",
   "dependencies": {
     "crypto-js": "^4.1.1",
