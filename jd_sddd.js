@@ -3,11 +3,11 @@
  * 至少需要6个ck
  * 入口：京东APP->领京豆->送豆得豆
  * 优先账号内互助，然后再助力【zero205】
- * 45 0,8 * * *  https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_sddd.js
+ * 45 15-23/2  26 8 *  https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_sddd.js
 */
 const $ = new Env('送豆得豆');
-const notify = $.isNode() ? require('../sendNotify') : '';
-const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [];
 if ($.isNode()) {
