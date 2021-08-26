@@ -1,4 +1,3 @@
-// @grant    require
 /*
 tgchannel：https://t.me/Ariszy8028
 github：https://github.com/Ariszy/Private-Script

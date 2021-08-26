@@ -1,4 +1,3 @@
-// @grant    require
 /*
 jd宠汪汪 搬的https://github.com/uniqueque/QuantumultX/blob/4c1572d93d4d4f883f483f907120a75d925a693e/Script/jd_joy.js
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -1137,7 +1136,7 @@ function jsonParse(str) {
   }
 }
 function taroRequest(e) {
-  const a = require('crypto-js');
+  const a = $.isNode() ? require('crypto-js') : CryptoJS;
   const i = "98c14c997fde50cc18bdefecfd48ceb7"
   const o = a.enc.Utf8.parse(i)
   const r = a.enc.Utf8.parse("ea653f4f3c5eda12");

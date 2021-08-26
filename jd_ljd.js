@@ -1,4 +1,3 @@
-// @grant    require
 /*
 // https://h5.m.jd.com/rn/42yjy8na6pFsq1cx9MJQ5aTgu3kX/index.html
 

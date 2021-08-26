@@ -1,4 +1,3 @@
-// @grant    require
 /*
 Last Modified time: 2021-6-6 10:22:37
 活动入口：京东APP我的-更多工具-宠汪汪
@@ -704,7 +703,7 @@ function jsonParse(str) {
   }
 }
 function taroRequest(e) {
-  const a = require('crypto-js');
+  const a = $.isNode() ? require('crypto-js') : CryptoJS;
   const i = "98c14c997fde50cc18bdefecfd48ceb7"
   const o = a.enc.Utf8.parse(i)
   const r = a.enc.Utf8.parse("ea653f4f3c5eda12");

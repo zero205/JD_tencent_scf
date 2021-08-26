@@ -1,4 +1,3 @@
-// @grant    require
 /*
 Node.JS专用
 https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_bean_sign.js

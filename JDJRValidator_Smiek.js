@@ -1,4 +1,3 @@
-// @grant    require
 const https = require('https');
 const http = require('http');
 const stream = require('stream');
