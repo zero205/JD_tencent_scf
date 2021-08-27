@@ -1,4 +1,4 @@
-name: Sync yml repo
+name: Sync yml repo(切换到AC部署分支)
 on:
   schedule:
     - cron: '5 */3 * * *'
