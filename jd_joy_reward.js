@@ -114,7 +114,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
 
 async function joyReward() {
   try {
-    let starttime = process.env.JOY_STARTTIME ? process.env.JOY_STARTTIME : 59.8;
+    let starttime = process.env.JOY_STARTTIME ? process.env.JOY_STARTTIME : 60;
     let nowtime = new Date().Format("s.S")
     if ($.index == 1 && nowtime < starttime) {
       let sleeptime = (starttime - nowtime) * 1000;
