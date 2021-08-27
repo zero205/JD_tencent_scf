@@ -1,3 +1,4 @@
+## 禁止Star!!
 ## 为防止仓库再次被封，请使用腾讯云函数、Docker、elecV2P等方式运行
 ## 有条（科学）件（上网）的可以 [点此加入组织](https://t.me/jd_zero205)
 
@@ -21,7 +22,7 @@
 
 ## 自动同步本仓库脚本教程：[点此查看](https://github.com/zero205/JD_tencent_scf/blob/main/backUp/reposync.md)  
 
-# 使用教程（觉得有用的可以点个⭐star :blush:）  
+# 使用教程
 
 * > 【青龙】拉取仓库命令：`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp|icon" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR"`  
 
