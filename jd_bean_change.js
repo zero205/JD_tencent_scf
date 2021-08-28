@@ -2,7 +2,7 @@
 cron "30 10,22 * * *" jd_bean_change.js, tag:资产变化强化版by-ccwav
 */
 
-//更新by ccwav,20210827
+//更新by ccwav,20210828
 
 const $ = new Env('京东资产变动通知');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -120,12 +120,12 @@ async function showMsg() {
   } 
   if($.JdFarmProdName != ""){
 	if($.JdtreeEnergy!=0){
-		ReturnMessage+=`东东农场：${$.JdFarmProdName},进度${(($.JdtreeEnergy / $.JdtreeTotalEnergy) * 100).toFixed(2)}%`;
-		
 		if ($.treeState === 2 || $.treeState === 3) {
-			allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.JdFarmProdName}已可领取\n`;
+			ReturnMessage+=`东东农场：${$.JdFarmProdName} 可以兑换了!`;
+			allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.JdFarmProdName} (东东农场)\n`;
 			ReturnMessage+=`\n`;
 		} else {
+			ReturnMessage+=`东东农场：${$.JdFarmProdName},进度${(($.JdtreeEnergy / $.JdtreeTotalEnergy) * 100).toFixed(2)}%`;
 			if($.JdwaterD!='Infinity' && $.JdwaterD!='-Infinity'){
 			  ReturnMessage+=`,${$.JdwaterD === 1 ? '明天' : $.JdwaterD === 2 ? '后天' : $.JdwaterD + '天'}可兑🍉\n`;
 			} else {
@@ -143,10 +143,10 @@ async function showMsg() {
         ReturnMessage += `东东工厂：${$.ddFactoryInfo}\n`
     }
     if ($.DdFactoryReceive) {
-		allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.DdFactoryReceive}\n`;
+		allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.DdFactoryReceive} (东东工厂)\n`;
 	}
 	if ($.jxFactoryReceive) {
-		allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.jxFactoryReceive}\n`;
+		allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.jxFactoryReceive} (京喜工厂)\n`;
 	}
   const response = await await PetRequest('energyCollect');
   const initPetTownRes = await PetRequest('initPetTown');
@@ -765,8 +765,8 @@ function getJxFactory() {
                                     infoMsg = `${$.jxProductName} ,进度:${((production.investedElectric / production.needElectric) * 100).toFixed(2)}%`;
                                     if (production.investedElectric >= production.needElectric) {
                                         if (production['exchangeStatus'] === 1) {
-                                            infoMsg = `${$.productName}已可兑换`;
-											$.jxFactoryReceive=`${$.productName}已可兑换`;
+                                            infoMsg = `${$.jxProductName}已可兑换`;
+											$.jxFactoryReceive=`${$.jxProductName}`;
                                         }
                                         if (production['exchangeStatus'] === 3) {
                                             if (new Date().getHours() === 9) {
@@ -891,7 +891,7 @@ async function getDdFactoryInfo() {
                                 if (((remainScore * 1 + useScore * 1) >= totalScore * 1 + 100000) && (couponCount * 1 > 0)) {
                                     // await jdfactory_addEnergy();
                                     infoMsg = `${name} 可以兑换了!`
-									$.DdFactoryReceive=`${name} 可以兑换了!`;
+									$.DdFactoryReceive=`${name}`;
 									
                                 }
 
