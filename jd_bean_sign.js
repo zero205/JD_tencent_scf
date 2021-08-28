@@ -900,7 +900,7 @@ function JDUserSign1(s, key, title, body) {
 async function JDUserSign2(s, key, title, tid) {
   await new Promise(resolve => {
     $nobyda.get({
-      url: `https://jdjoy.jd.com/api/turncard/channel/detail?turnTableId=${tid}&invokeKey=RtKLB8euDo7KwsO0`,
+      url: `https://jdjoy.jd.com/api/turncard/channel/detail?turnTableId=${tid}&invokeKey=ztmFUCxcPMNyUq0P`,
       headers: {
         Cookie: KEY
       }
@@ -912,7 +912,7 @@ async function JDUserSign2(s, key, title, tid) {
   return new Promise(resolve => {
     setTimeout(() => {
       const JDUrl = {
-        url: 'https://jdjoy.jd.com/api/turncard/channel/sign?invokeKey=RtKLB8euDo7KwsO0',
+        url: 'https://jdjoy.jd.com/api/turncard/channel/sign?invokeKey=ztmFUCxcPMNyUq0P',
         headers: {
           lkt: '1629984131120',
           lks: 'd7db92cf40ad5a8d54b9da2b561c5f84',
