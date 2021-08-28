@@ -883,7 +883,7 @@ async function getDdFactoryInfo() {
                                     couponCount,
                                     name
                                 } = data.data.result.factoryInfo;
-								if (ouponCount==0){
+								if (couponCount==0){
 									infoMsg = `${name} 没货了,死了这条心吧!`
 								} else {									
 									infoMsg = `${name} 剩余${couponCount};完成度:${((remainScore * 1 + useScore * 1) / (totalScore * 1)).toFixed(2) * 100}%`
