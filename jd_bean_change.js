@@ -469,7 +469,7 @@ function getMs() {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data)
-            if (data.code === 2041) {
+            if (data.code === 2042) {
               $.JdMsScore = data.result.assignment.assignmentPoints || 0              
             }
           }
