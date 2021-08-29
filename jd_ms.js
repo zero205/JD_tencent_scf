@@ -124,7 +124,7 @@ function getUserInfo(info=true) {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data)
-            if (data.code === 2041) {
+            if (data.code === 2042) {
               $.score = data.result.assignment.assignmentPoints || 0
               if(info) console.log(`当前秒秒币${$.score}`)
             }
