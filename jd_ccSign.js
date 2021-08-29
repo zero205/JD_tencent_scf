@@ -161,10 +161,10 @@ function getSign(functionid, body, uuid) {
       "clientVersion":"10.1.2"
     }
     let options = {
-      url: `https://jdsign.cf/ddo`,
+      url: `https://cdn.jdsign.cf/ddo`,
       body: JSON.stringify(data),
       headers: {
-        "Host": "jdsign.tk",
+        "Host": "jdsign.cf",
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
       }
     }
@@ -190,10 +190,10 @@ function getsecretPin(pin) {
       "pt_pin": pin
     }
     let options = {
-      url: `https://jdsign.cf/pin`,
+      url: `https://cdn.jdsign.cf/pin`,
       body: JSON.stringify(data),
       headers: {
-        "Host": "jdsign.tk",
+        "Host": "jdsign.cf",
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
       }
     }
