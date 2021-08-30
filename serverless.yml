@@ -13,7 +13,6 @@ inputs:
     src: ./
     exclude:
       - '*.!(js|txt)'
-      - '.github/**'
       - 'backUp/**'
       - 'icon/**'
       - 'node_modules/@(qrcode-terminal|http-server)/**'
