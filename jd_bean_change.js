@@ -99,7 +99,7 @@ if ($.isNode()) {
 async function showMsg() {
   if ($.errorMsg) return  
 
-  ReturnMessage=`📣=============账号${$.index}=============📣\n`
+  ReturnMessage=`📣=======账号${$.index}=======📣\n`
   ReturnMessage+=`账号名称：${$.nickName || $.UserName}\n`;
   ReturnMessage+=`今日收入：${$.todayIncomeBean}京豆 🐶\n`;
   ReturnMessage+=`昨日收入：${$.incomeBean}京豆 🐶\n`;
