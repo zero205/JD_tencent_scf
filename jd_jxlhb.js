@@ -97,7 +97,7 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
       if (!$.packetIdArr[i]) continue;
       console.log(`\n【${$.UserName}】去拆第${grade}个红包`);
       await openRedPack($.packetIdArr[i]['strUserPin'], grade);
-      await $.wait(5000);
+      await $.wait(15000);
     }
   }
 })()
