@@ -78,6 +78,10 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
                 continue
             }
             await getid("superBrandSecondFloorMainPage", "secondfloor")
+            if(!$.cando){
+                console.log('今天没活动,退出')
+                return
+            }
             if ($.cando && $.enpid) {
                 await getCode("secondfloor", $.actid)
                 if ($.taskList) {
