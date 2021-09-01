@@ -57,12 +57,12 @@ inputs:
           cronExpression: "0 59 7,15,23 * * * *"
           enable: true
           argument: jd_joy_reward&jd_redPacket
-    - timer:  #天天提鹅 #柠檬赚金币 #发财大赢家 #京喜工厂 #东东工厂 #财富岛热气球
+    - timer:  #柠檬赚金币 #发财大赢家 #京喜工厂 #东东工厂 #财富岛热气球
         parameters:
-          name: dailyegg_zjb_bigwinner_dreamFactory_jdfactory_cfdloop
+          name: zjb_bigwinner_dreamFactory_jdfactory_cfdloop
           cronExpression: "2 45 0,6-23/1 * * * *"
           enable: true
-          argument: jd_daily_egg&jd_zjb&jd_big_winner&jd_dreamFactory&jd_jdfactory&jd_cfd_loop
+          argument: jd_zjb&jd_big_winner&jd_dreamFactory&jd_jdfactory&jd_cfd_loop
     - timer: #宠汪汪 #东东超市 #京喜牧场 #健康社区收取能量 #发财大赢家互助
         parameters:
           name: joy_superMarket_jxmc_healthenergy_fcdyj
