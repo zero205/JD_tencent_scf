@@ -1,27 +1,29 @@
 /*
 // https://h5.m.jd.com/rn/42yjy8na6pFsq1cx9MJQ5aTgu3kX/index.html
 
-cron 8 0 * * * jd_ljd.js
-入口：首页-领京豆-升级赚京豆
+入口：APP首页-领京豆-升级赚京豆
 21 9 * * * https://raw.githubusercontent.com/smiek2221/scripts/master/gua_MMdou.js, tag=MM领京豆, enabled=true
 
 */
 
 const $ = new Env('MM领京豆');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const jdVersion = '10.0.8'
+const notify = $.isNode() ? require('./sendNotify') : '';
+
+const jdVersion = '10.1.2'
 const iphoneVersion = [Math.ceil(Math.random()*2+12),Math.ceil(Math.random()*4)]
-const UA = `jdapp;iPhone;${jdVersion};${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};network/wifi;model/iPhone12,1;addressid/0;appBuild/167741;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${iphoneVersion[0]}_${iphoneVersion[1]} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
+const UA = `jdapp;iPhone;${jdVersion};${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};network/wifi;model/iPhone12,1;addressid/0;appBuild/167802;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${iphoneVersion[0]}_${iphoneVersion[1]} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
 const UUID = UA.split(';') && UA.split(';')[4] || ''
 function randomString(e) {
   e = e || 32;
-  let t = "abcdefhijkmnprstwxyz2345678", a = t.length, n = "";
+  let t = "abcdef0123456789", a = t.length, n = "";
   for (i = 0; i < e; i++)
     n += t.charAt(Math.floor(Math.random() * a));
   return n
 }
 
 let cookiesArr = [];
+let message = ''
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -41,9 +43,16 @@ if ($.isNode()) {
       $.cookie = cookiesArr[i] + '';
       $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       $.index = i + 1;
-      $.isLogin = true;
+      $.bean = 0
       console.log(`\n*****开始【京东账号${$.index}】${$.UserName}****\n`);
       await run();
+      if($.bean > 0) message += `【京东账号${$.index}】获得${$.bean}京豆\n`
+    }
+  }
+  if(message){
+    $.msg($.name, ``, `${message}\n入口：APP首页-领京豆-升级赚京豆`);
+    if ($.isNode()){
+      await notify.sendNotify(`${$.name}`, `${message}\n入口：APP首页-领京豆-升级赚京豆`);
     }
   }
 })()
@@ -57,6 +66,7 @@ async function run() {
   try{
     $.taskList = [];
     await takePostRequest('beanTaskList')
+    await takePostRequest('morningGetBean')
     console.log(`做任务\n`);
     if($.viewAppHome && $.viewAppHome.takenTask == false){
       $.IconDoTaskFlag = 0
@@ -130,6 +140,10 @@ async function takePostRequest(type) {
       body = `{"actionType":${$.actionType},"taskToken":"${$.oneActivityInfo.taskToken}"}`;
       myRequest = await getGetRequest(`beanDoTask`, escape(body));
       break;
+    case 'morningGetBean':
+      body = `{"fp":"-1","shshshfp":"-1","shshshfpa":"-1","referUrl":"-1","userAgent":"-1","jda":"-1","rnVersion":"3.9"}`;
+      myRequest = await getGetRequest(`morningGetBean`, escape(body));
+      break;
     default:
       console.log(`错误${type}`);
   }
@@ -183,10 +197,21 @@ async function dealReturn(type, res) {
         console.log((data.data.bizMsg || data.data.remindMsg));
         if(data.data.growthResult && data.data.growthResult.sceneLevelConfig){
           console.log(`获得:${data.data.growthResult.sceneLevelConfig.beanNum || 0}京豆`)
+          $.bean += Number(data.data.growthResult.sceneLevelConfig.beanNum) || 0
           if(!data.data.growthResult.sceneLevelConfig.beanNum){
             console.log(JSON.stringify(data.data.growthResult.sceneLevelConfig))
           }
         }
+      } else {
+        console.log(res);
+      }
+      break;
+    case 'morningGetBean':
+      if (data.code == 0 && data.data && data.data.awardResultFlag+"" == "1") {
+        console.log(`获得:${data.data.beanNum || 0}京豆`)
+        $.bean += Number(data.data.beanNum) || 0
+      } else if (data.data && data.data.bizMsg) {
+        console.log(data.data.bizMsg);
       } else {
         console.log(res);
       }
