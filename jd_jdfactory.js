@@ -270,9 +270,10 @@ async function helpFriends() {
     if (helpRes.code === 0 && helpRes.data.bizCode === -7) {
       console.log(`助力机会已耗尽，跳出`);
       break
-    } else if (helpRes.code === 0 && helpRes.data.bizCode === -7001)
-      console.log(`对方电力已满，无法助力，跳出`);
-    break
+    } else if (helpRes.code === 0 && helpRes.data.bizCode === -7001){
+      console.log(`对方电力已满，无法助力，跳过`);
+      continue
+    }
   }
 }
 async function doTask() {
