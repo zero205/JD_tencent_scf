@@ -27,12 +27,12 @@ inputs:
   asyncRunEnable: true # 是否启用异步执行
   retryNum: 0
   events: #触发器
-    - timer: #签到 #摇京豆 #进店领豆 #京东试用 #京东汽车 #图形签到 #店铺签到
+    - timer: #签到 #摇京豆 #进店领豆 #京东汽车 #图形签到 #店铺签到
         parameters:
-          name: beansign_clublottery_shop_beanhome_try_car_signgraphics_dpqd
+          name: beansign_clublottery_shop_beanhome_car_signgraphics_dpqd
           cronExpression: "1 0 0 * * * *"
           enable: true
-          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_bean_home&jd_try&jd_car&jd_sign_graphics&jd_dpqd
+          argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_bean_home&jd_car&jd_sign_graphics&jd_dpqd
     - timer: #领券中心签到 #京豆变动通知 #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #领金贴
         parameters:
           name: ccSign_beanchange_unsubscribe_lotteryMachine_ms_jintie
