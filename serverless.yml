@@ -81,12 +81,12 @@ inputs:
           cronExpression: "0 5 0,12 * * * *"
           enable: true
           argument: jd_rankingList&jd_sgmh&jd_joy_park_task&jd_cash&jd_small_home&jd_live&jd_gold_creator&jx_sign&jd_wish&jd_superBrand
-    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #女装盲盒 #积分换话费
+    - timer: #金融养猪 #十元街 #京东快递 #京东赚赚 #东东乐园 #柠檬零食街 #早起福利 #领京豆 #积分换话费
         parameters:
-          name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_nzmh_dwapp
+          name: pigPet_syj_kd_jdzz_ddly_lsj_zqfl_ljd_dwapp
           cronExpression: "0 20 0,20 * * * *"
           enable: true
-          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_nzmh&jd_dwapp
+          argument: jd_pigPet&jd_syj&jd_kd&jd_jdzz&jd_ddly&jd_lsj&jd_zqfl&jd_ljd&jd_dwapp
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的
