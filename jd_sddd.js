@@ -437,11 +437,11 @@ async function help() {
       try {
         if (res) {
           res = JSON.parse(res);
-          if(res.data.result === 5){
-            $.oneTuanInfo['completed'] = true;
-          }else if(res.data.result === 0 || res.data.result === 1){
-            $.canHelp = false;
-          }
+          // if(res.data.result === 5){
+          //   $.oneTuanInfo['completed'] = true;
+          // }else if(res.data.result === 0 || res.data.result === 1){
+          //   $.canHelp = false;
+          // }
           console.log(JSON.stringify(res));
         }
       } catch (e) {
