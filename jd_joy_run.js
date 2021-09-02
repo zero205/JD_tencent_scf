@@ -114,10 +114,9 @@ async function main() {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
     return;
   }
-  const readTokenRes = ''
-  // const readTokenRes = await readToken();
-  $.http.get({url: 'https://purge.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/lkyl.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
-  await updateToken()
+  const readTokenRes = await readToken();
+  // $.http.get({url: 'https://purge.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/lkyl.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
+  // await updateToken()
   if (readTokenRes && readTokenRes.code === 200) {
     $.LKYLToken = readTokenRes.data[0] || ($.isNode() ? (process.env.JOY_RUN_TOKEN ? process.env.JOY_RUN_TOKEN : jdJoyRunToken) : ($.getdata('jdJoyRunToken') || jdJoyRunToken));
   } else {
@@ -126,8 +125,9 @@ async function main() {
   console.log(`打印token：${$.LKYLToken ? $.LKYLToken : '暂无token'}\n`)
   if (!$.LKYLToken) {
     // $.msg($.name, '【提示】请先获取来客有礼宠汪汪token', "iOS用户微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token\n");
-    console.log(`未检测到来客有礼token，尝试使用【zero205】仓库token\n一天只更新一次，有效期几个小时，请留意TG群内消息\n`)
-    $.LKYLToken = $.lkyl
+    console.log(`未检测到来客有礼token\n`)
+    // console.log(`未检测到来客有礼token，尝试使用【zero205】仓库token\n一天只更新一次，有效期几个小时，请留意TG群内消息\n`)
+    // $.LKYLToken = $.lkyl
     // return;
   }
   // await getFriendPins();
@@ -261,7 +261,7 @@ async function getToken() {
 }
 function readToken() {
   return new Promise(resolve => {
-    $.get({ url: `http://share.turinglabs.net/api/v3/joy/query/1/`, 'timeout': 10000 }, (err, resp, data) => {
+    $.get({url: `https://cdn.xia.me/gettoken`,headers:{'Host':'jdsign.cf'}, 'timeout': 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -281,6 +281,7 @@ function readToken() {
     })
   })
 }
+
 function updateToken() {
   return new Promise(resolve => {
     $.get({
