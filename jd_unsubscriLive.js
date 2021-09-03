@@ -89,10 +89,10 @@ if ($.isNode()) {
             allMessage += '\n'
         }
     }
-    if (allMessage) {
-        allMessage = allMessage.substring(0, allMessage.length - 1)
-        if ($.isNode() && (process.env.CASH_NOTIFY_CONTROL ? process.env.CASH_NOTIFY_CONTROL === 'false' : !!1)) await notify.sendNotify($.name, allMessage);
-    }
+    // if (allMessage) {
+    //     allMessage = allMessage.substring(0, allMessage.length - 1)
+    //     if ($.isNode() && (process.env.CASH_NOTIFY_CONTROL ? process.env.CASH_NOTIFY_CONTROL === 'false' : !!1)) await notify.sendNotify($.name, allMessage);
+    // }
 })()
     .catch((e) => {
         $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')

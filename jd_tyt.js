@@ -79,15 +79,17 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
   // nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
   if (new Date().getHours() >= 15) {
     await getAuthorShareCode()
-    for (let i = 0; i < cookiesArr.length; i++) {
-      if (cookiesArr[i]) {
-        cookie = cookiesArr[i];
-        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-        console.log(`${$.UserName} 去助力【zero205】`)
-        for (let j = 0; j < $.authorCode.length; j++) {
-          let tytpacketId = $.authorCode[j];
-          await tythelp(tytpacketId)
-          await $.wait(1000)
+    if ($.authorCode && $.authorCode.length) {
+      for (let i = 0; i < cookiesArr.length; i++) {
+        if (cookiesArr[i]) {
+          cookie = cookiesArr[i];
+          $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+          console.log(`${$.UserName} 去助力【zero205】`)
+          for (let j = 0; j < $.authorCode.length; j++) {
+            let tytpacketId = $.authorCode[j];
+            await tythelp(tytpacketId)
+            await $.wait(1000)
+          }
         }
       }
     }

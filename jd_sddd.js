@@ -103,8 +103,9 @@ if ($.isNode()) {
     }
     await helpMain();
   }
-  console.log(`\n开始帮【zero205】助力，感谢！\n`);
   await getAuthorShareCode()
+  if ($.authorCode && $.authorCode.length) {
+  console.log(`\n开始帮【zero205】助力，感谢！\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
@@ -130,6 +131,7 @@ if ($.isNode()) {
     await help();
     await $.wait(2000);
   }
+}
   console.log(`\n开始领取奖励\n`);
   for (let i = 0; i < cookiesArr.length && i < openCount; i++) {
     $.cookie = cookiesArr[i];
