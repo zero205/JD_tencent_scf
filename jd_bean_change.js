@@ -2,7 +2,7 @@
 cron "30 10,22 * * *" jd_bean_change.js, tag:资产变化强化版by-ccwav
 */
 
-//更新by ccwav,20210829
+//更新by ccwav,20210902
 
 const $ = new Env('京东资产变动');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -29,11 +29,11 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  for (let i = 0; i < cookiesArr.length; i++) {
+  for (let i = 0; i < cookiesArr.length; i++) {	
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-    $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
+	  $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
       $.index = i + 1;
       $.beanCount = 0;
       $.incomeBean = 0;
@@ -45,23 +45,24 @@ if ($.isNode()) {
       $.message = '';
       $.balance = 0;
       $.expiredBalance = 0;
-    $.JdzzNum=0;
-    $.JdMsScore = 0;
-    $.JdFarmProdName = '';
-    $.JdtreeEnergy=0;
-    $.JdtreeTotalEnergy=0;
-    $.treeState=0;    
-    $.JdwaterTotalT = 0;
-    $.JdwaterD = 0;
-    $.JDwaterEveryDayT=0;
-    $.JDtotalcash=0;
-    $.JDEggcnt=0;
-    $.Jxmctoken='';
-    $.DdFactoryReceive='';
-    $.jxFactoryInfo='';
-    $.jxFactoryReceive='';
+	  $.JdzzNum=0;
+	  $.JdMsScore = 0;
+	  $.JdFarmProdName = '';
+	  $.JdtreeEnergy=0;
+	  $.JdtreeTotalEnergy=0;
+	  $.treeState=0;	  
+	  $.JdwaterTotalT = 0;
+	  $.JdwaterD = 0;
+	  $.JDwaterEveryDayT=0;
+	  $.JDtotalcash=0;
+	  $.JDEggcnt=0;
+	  $.Jxmctoken='';
+	  $.DdFactoryReceive='';
+	  $.jxFactoryInfo='';
+	  $.jxFactoryReceive='';
+	  $.jdCash=0;	  
       await TotalBean();
-      //console.log(`\n********开始【京东账号${$.index}】${$.nickName || $.UserName}******\n`);
+      console.log(`******开始查询【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);	
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
 
@@ -70,21 +71,22 @@ if ($.isNode()) {
         }
         continue
       }
-    await getJdZZ();
-    await getMs();
-    await jdfruitRequest('taskInitForFarm', {"version":14,"channel":1,"babelChannel":"120"});
-    await getjdfruit();
-    await cash();
-    await requestAlgo();
-    await JxmcGetRequest();
+	  await getJdZZ();
+	  await getMs();
+	  await jdfruitRequest('taskInitForFarm', {"version":14,"channel":1,"babelChannel":"120"});
+	  await getjdfruit();
+	  await cash();
+	  await requestAlgo();
+	  await JxmcGetRequest();
       await bean();
       await getJxFactory();   //惊喜工厂
       await getDdFactoryInfo(); // 京东工厂
+	  await jdCash();
       await showMsg();
     }
   }
-  if(allReceiveMessage){    
-    allMessage="【⏰商品白嫖活动领取提醒⏰】\n"+allReceiveMessage+"\n"+allMessage;
+  if(allReceiveMessage){	  
+	  allMessage="【⏰商品白嫖活动领取提醒⏰】\n"+allReceiveMessage+"\n"+allMessage;
   }
   if ($.isNode() && allMessage) {
     await notify.sendNotify(`${$.name}`, `${allMessage}`, { url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean` })
@@ -99,7 +101,7 @@ if ($.isNode()) {
 async function showMsg() {
   if ($.errorMsg) return  
 
-  ReturnMessage=`📣=======账号${$.index}=======📣\n`
+  ReturnMessage=`👇=========账号${$.index}=========👇\n`
   ReturnMessage+=`账号名称：${$.nickName || $.UserName}\n`;
   ReturnMessage+=`今日收入：${$.todayIncomeBean}京豆 🐶\n`;
   ReturnMessage+=`昨日收入：${$.incomeBean}京豆 🐶\n`;
@@ -107,34 +109,38 @@ async function showMsg() {
   ReturnMessage+=`当前京豆：${$.beanCount}(今日将过期${$.expirejingdou})京豆🐶\n`;
   
   if(typeof $.JDEggcnt !== "undefined"){
-  ReturnMessage+=`京喜牧场：${$.JDEggcnt}枚鸡蛋\n`;
+	ReturnMessage+=`京喜牧场：${$.JDEggcnt}枚鸡蛋\n`;
   } 
   if(typeof $.JDtotalcash !== "undefined"){
-  ReturnMessage+=`极速金币：${$.JDtotalcash}金币(≈${$.JDtotalcash / 10000}元)\n`;
+	ReturnMessage+=`极速金币：${$.JDtotalcash}金币(≈${($.JDtotalcash / 10000).toFixed(2)}元)\n`;
   }
   if(typeof $.JdzzNum !== "undefined"){
-  ReturnMessage+=`京东赚赚：${$.JdzzNum}金币(≈${$.JdzzNum / 10000}元)\n`;
+	ReturnMessage+=`京东赚赚：${$.JdzzNum}金币(≈${($.JdzzNum / 10000).toFixed(2)}元)\n`;
   }
   if($.JdMsScore!=0){
-  ReturnMessage+=`京东秒杀：${$.JdMsScore}秒秒币(≈${$.JdMsScore / 1000}元)\n`;
+	ReturnMessage+=`京东秒杀：${$.JdMsScore}秒秒币(≈${($.JdMsScore / 1000).toFixed(2)}元)\n`;
   } 
-  if($.JdFarmProdName != ""){
-  if($.JdtreeEnergy!=0){
-    if ($.treeState === 2 || $.treeState === 3) {
-      ReturnMessage+=`东东农场：${$.JdFarmProdName} 可以兑换了!`;
-      allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.JdFarmProdName} (东东农场)\n`;
-      ReturnMessage+=`\n`;
-    } else {
-      ReturnMessage+=`东东农场：${$.JdFarmProdName},进度${(($.JdtreeEnergy / $.JdtreeTotalEnergy) * 100).toFixed(2)}%`;
-      if($.JdwaterD!='Infinity' && $.JdwaterD!='-Infinity'){
-        ReturnMessage+=`,${$.JdwaterD === 1 ? '明天' : $.JdwaterD === 2 ? '后天' : $.JdwaterD + '天'}可兑🍉\n`;
-      } else {
-        ReturnMessage+=`\n`;
-      }
-    }
-  } else {
-    ReturnMessage+=`东东农场：${$.JdFarmProdName}\n`;
+  if($.jdCash!=0){
+	ReturnMessage+=`领现金  ：${$.jdCash}元\n`;
   }
+  
+  if($.JdFarmProdName != ""){
+	if($.JdtreeEnergy!=0){
+		if ($.treeState === 2 || $.treeState === 3) {
+			ReturnMessage+=`东东农场：${$.JdFarmProdName} 可以兑换了!`;
+			allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.JdFarmProdName} (东东农场)\n`;
+			ReturnMessage+=`\n`;
+		} else {
+			ReturnMessage+=`东东农场：${$.JdFarmProdName},进度:${(($.JdtreeEnergy / $.JdtreeTotalEnergy) * 100).toFixed(2)}%`;
+			if($.JdwaterD!='Infinity' && $.JdwaterD!='-Infinity'){
+			  ReturnMessage+=`(${$.JdwaterD}天)\n`;
+			} else {
+			  ReturnMessage+=`\n`;
+			}
+		}
+	} else {
+		ReturnMessage+=`东东农场：${$.JdFarmProdName}\n`;
+	}
   }
     if ($.jxFactoryInfo) {
         ReturnMessage += `京喜工厂：${$.jxFactoryInfo}\n`
@@ -143,26 +149,27 @@ async function showMsg() {
         ReturnMessage += `东东工厂：${$.ddFactoryInfo}\n`
     }
     if ($.DdFactoryReceive) {
-    allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.DdFactoryReceive} (东东工厂)\n`;
-  }
-  if ($.jxFactoryReceive) {
-    allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.jxFactoryReceive} (京喜工厂)\n`;
-  }
+		allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.DdFactoryReceive} (东东工厂)\n`;
+	}
+	if ($.jxFactoryReceive) {
+		allReceiveMessage+=`【账号${$.index} ${$.nickName || $.UserName}】${$.jxFactoryReceive} (京喜工厂)\n`;
+	}
   const response = await await PetRequest('energyCollect');
   const initPetTownRes = await PetRequest('initPetTown');
   if (initPetTownRes.code === '0' && initPetTownRes.resultCode === '0' && initPetTownRes.message === 'success') {
       $.petInfo = initPetTownRes.result;
-    if (response.resultCode === '0') {
-    ReturnMessage += `东东萌宠：${$.petInfo.goodsInfo.goodsName},`;
-    ReturnMessage += `勋章${response.result.medalNum}/${response.result.medalNum+response.result.needCollectMedalNum}块(${response.result.medalPercent}%)\n`;
-    //ReturnMessage += `          已有${response.result.medalNum}块勋章，还需${response.result.needCollectMedalNum}块\n`;
+	  if (response.resultCode === '0') {
+		ReturnMessage += `东东萌宠：${$.petInfo.goodsInfo.goodsName},`;
+		ReturnMessage += `进度:${response.result.medalPercent}%(${response.result.medalNum}/${response.result.medalNum+response.result.needCollectMedalNum}块)\n`;
+		//ReturnMessage += `          已有${response.result.medalNum}块勋章，还需${response.result.needCollectMedalNum}块\n`;
 
-    }
-  }
+	  }
+	}
   ReturnMessage+=`🧧🧧🧧🧧红包明细🧧🧧🧧🧧`;
   ReturnMessage+=`${$.message}\n\n`;
   allMessage+=ReturnMessage;
-  $.msg($.name, '', ReturnMessage , {"open-url": "https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean"});
+  console.log(`${ReturnMessage}`);
+  //$.msg($.name, '', ReturnMessage , {"open-url": "https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean"});
 }
 async function bean() {
   // console.log(`北京时间零点时间戳:${parseInt((Date.now() + 28800000) / 86400000) * 86400000 - 28800000}`);
@@ -225,6 +232,88 @@ async function bean() {
   // console.log(`昨日收入：${$.incomeBean}个京豆 🐶`);
   // console.log(`昨日支出：${$.expenseBean}个京豆 🐶`)
 }
+
+	
+async function jdCash() {
+  let functionId = "cash_homePage"
+  let body = "%7B%7D"
+  let uuid = randomString(16)
+  let sign = await getSign(functionId, decodeURIComponent(body), uuid)
+  let url = `${JD_API_HOST}?functionId=${functionId}&build=167774&client=apple&clientVersion=10.1.0&uuid=${uuid}&${sign}`
+  return new Promise((resolve) => {
+    $.post(apptaskUrl(url, body), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            if(data.code===0 && data.data.result){
+                 $.jdCash=data.data.result.totalMoney||0;
+                return
+              }
+            }
+          }
+        } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}	
+function apptaskUrl(url, body) {
+  return {
+    url,
+    body: `body=${body}`,
+    headers: {
+      'Cookie': cookie,
+      'Host': 'api.m.jd.com',
+      'Connection': 'keep-alive',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Referer': '',
+      'User-Agent': 'JD4iPhone/167774 (iPhone; iOS 14.7.1; Scale/3.00)',
+      'Accept-Language': 'zh-Hans-CN;q=1',
+      'Accept-Encoding': 'gzip, deflate, br',
+    }
+  }
+}
+function getSign(functionid, body, uuid) {
+  return new Promise(async resolve => {
+    let data = {
+      "functionId":functionid,
+      "body":body,
+      "uuid":uuid,
+      "client":"apple",
+      "clientVersion":"10.1.0"
+    }
+    let HostArr = ['jdsign.cf', 'signer.nz.lu']
+    let Host = HostArr[Math.floor((Math.random() * HostArr.length))]
+    let options = {
+      url: `https://cdn.jdsign.cf/ddo`,
+      body: JSON.stringify(data),
+      headers: {
+        Host,
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    }
+    $.post(options, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} getSign API请求失败，请检查网路重试`)
+        } else {
+
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}	
 function TotalBean() {
   return new Promise(async resolve => {
     const options = {
@@ -371,7 +460,7 @@ function redPacket() {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
-          if (data) {     
+          if (data) {			
             data = JSON.parse(data).data
             $.jxRed = 0, $.jsRed = 0, $.jdRed = 0, $.jdhRed = 0, $.jxRedExpire = 0, $.jsRedExpire = 0, $.jdRedExpire = 0, $.jdhRedExpire = 0;
             let t = new Date()
@@ -430,7 +519,7 @@ function getJdZZ() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (safeGet(data)) {
-            data = JSON.parse(data);    
+            data = JSON.parse(data);		
             $.JdzzNum = data.data.totalNum
           }
         }
@@ -533,19 +622,19 @@ async function getjdfruit() {
         } else {
           if (safeGet(data)) {
             $.farmInfo = JSON.parse(data)
-      if ($.farmInfo.farmUserPro) {
-        $.JdFarmProdName=$.farmInfo.farmUserPro.name;
-        $.JdtreeEnergy=$.farmInfo.farmUserPro.treeEnergy;
-        $.JdtreeTotalEnergy=$.farmInfo.farmUserPro.treeTotalEnergy;     
-        $.treeState=$.farmInfo.treeState;   
-        let waterEveryDayT = $.JDwaterEveryDayT;
-        let waterTotalT = ($.farmInfo.farmUserPro.treeTotalEnergy - $.farmInfo.farmUserPro.treeEnergy - $.farmInfo.farmUserPro.totalEnergy) / 10;//一共还需浇多少次水
-        let waterD = Math.ceil(waterTotalT / waterEveryDayT);
-        
-        $.JdwaterTotalT = waterTotalT;
-        $.JdwaterD = waterD;
-      }
-      }
+			if ($.farmInfo.farmUserPro) {
+				$.JdFarmProdName=$.farmInfo.farmUserPro.name;
+				$.JdtreeEnergy=$.farmInfo.farmUserPro.treeEnergy;
+				$.JdtreeTotalEnergy=$.farmInfo.farmUserPro.treeTotalEnergy;			
+				$.treeState=$.farmInfo.treeState;		
+				let waterEveryDayT = $.JDwaterEveryDayT;
+				let waterTotalT = ($.farmInfo.farmUserPro.treeTotalEnergy - $.farmInfo.farmUserPro.treeEnergy - $.farmInfo.farmUserPro.totalEnergy) / 10;//一共还需浇多少次水
+				let waterD = Math.ceil(waterTotalT / waterEveryDayT);
+				
+				$.JdwaterTotalT = waterTotalT;
+				$.JdwaterD = waterD;
+			}
+		  }
         }
       } catch (e) {
         $.logErr(e, resp)
@@ -569,7 +658,7 @@ function jdfruitRequest(function_id, body = {}, timeout = 1000){
           } else {
             if (safeGet(data)) {
               data = JSON.parse(data);
-        $.JDwaterEveryDayT = data.totalWaterTaskInit.totalWaterTaskTimes;
+			  $.JDwaterEveryDayT = data.totalWaterTaskInit.totalWaterTaskTimes;
             }
           }
         } catch (e) {
@@ -726,9 +815,9 @@ async function JxmcGetRequest() {
           console.log(`请求失败`)
         } else {
           data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
-      if (data.ret === 0) {
-      $.JDEggcnt=data.data.eggcnt;  
-      }
+		  if (data.ret === 0) {
+			$.JDEggcnt=data.data.eggcnt;	
+		  }
         }
       } catch (e) {
         console.log(data);
@@ -762,11 +851,11 @@ function getJxFactory() {
                                     $.commodityDimId = production.commodityDimId;
                                     // subTitle = data.user.pin;
                                     await GetCommodityDetails();//获取已选购的商品信息
-                                    infoMsg = `${$.jxProductName} ,进度:${((production.investedElectric / production.needElectric) * 100).toFixed(2)}%`;
+                                    infoMsg = `${$.jxProductName},进度:${((production.investedElectric / production.needElectric) * 100).toFixed(2)}%`;
                                     if (production.investedElectric >= production.needElectric) {
                                         if (production['exchangeStatus'] === 1) {
                                             infoMsg = `${$.jxProductName}已可兑换`;
-                      $.jxFactoryReceive=`${$.jxProductName}`;
+											$.jxFactoryReceive=`${$.jxProductName}`;
                                         }
                                         if (production['exchangeStatus'] === 3) {
                                             if (new Date().getHours() === 9) {
@@ -775,7 +864,7 @@ function getJxFactory() {
                                         }
                                         // await exchangeProNotify()
                                     } else {
-                                        infoMsg += `,:${((production.needElectric - production.investedElectric) / (2 * 60 * 60 * 24)).toFixed(0)}天可兑`;
+                                        infoMsg += `(${((production.needElectric - production.investedElectric) / (2 * 60 * 60 * 24)).toFixed(0)}天)`;
                                     }
                                     if (production.status === 3) {
                                         infoMsg = "已失效，请重选商品";
@@ -883,16 +972,16 @@ async function getDdFactoryInfo() {
                                     couponCount,
                                     name
                                 } = data.data.result.factoryInfo;
-                if (couponCount==0){
-                  infoMsg = `${name} 没货了,死了这条心吧!`
-                } else {                  
-                  infoMsg = `${name} 剩余${couponCount};完成度:${((remainScore * 1 + useScore * 1) / (totalScore * 1)).toFixed(2) * 100}%`
-                }
+								if (couponCount==0){
+									infoMsg = `${name} 没货了,死了这条心吧!`
+								} else {									
+									infoMsg = `${name},进度:${((remainScore * 1 + useScore * 1) / (totalScore * 1)* 100).toFixed(2)}%(剩${couponCount}件)`
+								}
                                 if (((remainScore * 1 + useScore * 1) >= totalScore * 1 + 100000) && (couponCount * 1 > 0)) {
                                     // await jdfactory_addEnergy();
                                     infoMsg = `${name} 可以兑换了!`
-                  $.DdFactoryReceive=`${name}`;
-                  
+									$.DdFactoryReceive=`${name}`;
+									
                                 }
 
                             } else {
