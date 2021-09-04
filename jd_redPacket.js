@@ -48,7 +48,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jd_red.json')
   }
   if (res && res.length > 0) {
-    $.authorCode = getRandomArrayElements(res, 1)[0];
+    $.authorCode = [getRandomArrayElements(res, 1)[0]];
   }
   let res2 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_red.json')  
   if (!res2) {
@@ -691,6 +691,16 @@ function TotalBean() {
   })
 }
 
+function getRandomArrayElements(arr, count) {
+  var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+  while (i-- > min) {
+      index = Math.floor((i + 1) * Math.random());
+      temp = shuffled[index];
+      shuffled[index] = shuffled[i];
+      shuffled[i] = temp;
+  }
+  return shuffled.slice(min);
+}
 function jsonParse(str) {
   if (typeof str == "string") {
     try {
