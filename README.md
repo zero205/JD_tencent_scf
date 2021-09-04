@@ -11,7 +11,7 @@
 
 * 1.创建新仓库[点击创建自己的仓库](https://github.com/new)
 * 2.点击`Import a repository`，在`Your old repository’s clone URL`处填入https://github.com/Ca11back/doge-template
-* 3.阅读仓库内唯一文件,按注释设置PAT
+* 3.阅读仓库内唯一文件,按注释设置PAT(PAT需要给予repo和wrokflow权限)
 * 4.点击仓库下方Action(如提示启用,则按提示启用)
 * 5.在Action界面选择'Sync(手动执行接换到部署分支)'
 * 6.点击右侧Run workflow
