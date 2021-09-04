@@ -17,7 +17,7 @@
 * 6.点击右侧Run workflow
 * 7.再次点击弹出的Run workflow
 ### 方式二
-* 第一种:有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为`main`),运行一次本仓库`scf`分支的sync.yml即可
+* 第一种:有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为`main`),运行一次https://github.com/Ca11back/doge-template的唯一action即可
 * 第二种:直接clone一个`scf`分支(名字需要为`main`)
 
 ## 自动同步本仓库脚本教程：[点此查看](https://github.com/zero205/JD_tencent_scf/blob/main/backUp/reposync.md)  
