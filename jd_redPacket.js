@@ -47,12 +47,15 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     await $.wait(1000)
     res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jd_red.json')
   }
+  if (res && res.length > 0) {
+    $.authorCode = getRandomArrayElements(res, 1)[0];
+  }
   let res2 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_red.json')  
   if (!res2) {
     await $.wait(1000)
     res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jd_red.json')
   }
-  $.authorMyShareIds = [...(res || []),...(res2 || [])];
+  $.authorMyShareIds = [...($.authorCode || []),...(res2 || [])];
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
