@@ -117,6 +117,7 @@ async function start() {
   await gettoken()
   await $.wait(1000)
   await getinfo()
+  await getAwardList()
   $.log("开始领取首页水滴")
   await dotree(1)
   await $.wait(3000)
@@ -185,6 +186,51 @@ function getinfo() {
                 //     await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】 ${$.nickName}\n已可兑换牛奶\n兑换入口：京东APP->美食馆->瓜分京豆，每天10点开始兑换\n更多脚本->"https://github.com/zero205/JD_tencent_scf"`);
                 //   }
                 // }
+              }
+            } else {
+              console.log(`查询失败：${JSON.stringify(data)}\n`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+
+function getAwardList() {
+  return new Promise(async (resolve) => {
+    let options = {
+      url: `https://jinggengjcq-isv.isvjcloud.com/dm/front/foodRunning/AwardList?open_id=&mix_nick=&bizExtString=&user_id=10299171`,
+      body: `{"jsonRpc":"2.0","params":{"commonParameter":{"appkey":"51B59BB805903DA4CE513D29EC448375","m":"POST","sign":"65cca44e291e1c711229f0a3c80f4de1","timestamp":1630735244638,"userId":10299171},"admJson":{"method":"/foodRunning/AwardList","actId":"jd_food_running","buyerNick":"${nick}","pushWay":1,"userId":10299171}}}`,
+      headers: {
+        "Origin": "https://jinggengjcq-isv.isvjcloud.com",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Sec-Fetch-Site": "same-origin",
+        "Host": "jinggengjcq-isv.isvjcloud.com",
+        "Referer": "https://jinggengjcq-isv.isvjcloud.com/paoku/index.html?sid=75b413510cb227103e928769818a74ew&un_area=4_48201_54794_0",
+        "User-Agent": "jdapp;android;10.0.4;10;7303439343432346-7356431353233323;network/4g;model/PCAM00;addressid/4228801336;aid/7049442d7e415232;oaid/;osVer/29;appBuild/88641;partner/oppo;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 10; PCAM00 Build/QKQ1.190918.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
+      }
+    }
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (data) {
+            data = JSON.parse(data);
+            if (data.success) {
+              if (data.data.status === 200) {
+                $.item = data.data.data
+                if ($.item.length > 3 && $.cion > $.item[$.item.length-1].needCoinNum && $.item[$.item.length-1].num > 0) {
+                  if ($.isNode()) {
+                    await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】 ${$.nickName}\n已可兑换${$.item[$.item.length-1].awardName}\n剩余数量：${$.item[$.item.length-1].num}\n兑换入口：京东APP->美食馆->瓜分京豆\n更多脚本->"https://github.com/zero205/JD_tencent_scf"`);
+                  }
+                }
               }
             } else {
               console.log(`查询失败：${JSON.stringify(data)}\n`);
