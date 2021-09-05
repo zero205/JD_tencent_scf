@@ -48,6 +48,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 $.newShareCode = [];
 !(async () => {
+  if (!process.env.JD_JOIN_ZLC || process.env.JD_JOIN_ZLC !== 'false')
   console.log(`【注意】本脚本默认加入助力池互助！\n如需退出助力池，请添加变量名称：JD_JOIN_ZLC，变量值填false\n`)
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -1381,10 +1382,10 @@ function shareCodesFormat() {
     } else {
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
       newShareCodes = shareCodes[tempIndex].split('@');
-      if ($.isNode() && !process.env.FRUITSHARECODES) {
-        console.log(`您未填写助力码变量，优先进行账号内互助，再帮【zero205】助力`);
-        newShareCodes = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
-      }
+    }
+    if ($.isNode() && !process.env.FRUITSHARECODES) {
+      console.log(`您未填写助力码变量，优先进行账号内互助，再帮【zero205】助力`);
+      newShareCodes = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
     }
     if (process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false') {
       console.log(`您设置了不加入助力池，跳过\n`)

@@ -171,7 +171,7 @@ if (process.env.PUSH_PLUS_USER) {
  */
 async function sendNotify(text, desp, params = {TG交流群:'https://t.me/jd_zero_205'}, author = 'zero205') {
   //提供6种通知
-  desp += '\n本仓库部分脚本已加入助力池\n具体提交助力码方法请加入TG交流群\n回复助力池，即可获取相关教程\nTG群:https://t.me/jd_zero_205';//增加作者信息，防止被贩卖等
+  desp += '\n\n助力池提交方法请加入TG群组：\nhttps://t.me/jd_zero_205';//增加作者信息，防止被贩卖等
   await Promise.all([
     serverNotify(text, desp), //微信server酱
     pushPlusNotify(text, desp) //pushplus(推送加)

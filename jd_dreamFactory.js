@@ -64,6 +64,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 !(async () => {
+  if (!process.env.JD_JOIN_ZLC || process.env.JD_JOIN_ZLC !== 'false')
   console.log(`【注意】本脚本默认加入助力池互助！\n如需退出助力池，请添加变量名称：JD_JOIN_ZLC，变量值填false\n`)
   $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
   await requireConfig();

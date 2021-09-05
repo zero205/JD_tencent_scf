@@ -53,6 +53,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', { "open-url": "https://bean.m.jd.com/" });
     return;
   }
+  if (!process.env.JD_JOIN_ZLC || process.env.JD_JOIN_ZLC !== 'false')
   console.log(`【注意】本脚本默认加入助力池互助！\n如需退出助力池，请添加变量名称：JD_JOIN_ZLC，变量值填false\n`)
   await requireConfig();
   for (let i = 0; i < cookiesArr.length; i++) {
