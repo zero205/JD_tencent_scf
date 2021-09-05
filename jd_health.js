@@ -149,9 +149,9 @@ function getTaskDetail(taskId = '') {
 
                 // ***************************
                 // 报告运行次数
-                if(data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken){
+                if(data.data.result.taskVos[0].assistTaskDetailVo.taskToken){
                   $.get({
-                  url: `https://api.sharecode.ga/api/runTimes?activityId=health&sharecode=${data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken}`
+                  url: `https://api.sharecode.ga/api/runTimes?activityId=health&sharecode=${data.data.result.taskVos[0].assistTaskDetailVo.taskToken}`
                   }, (err, resp, data) => {
                     if (err) {
                       console.log('上报失败', err)
