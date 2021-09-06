@@ -29,7 +29,7 @@ let args_xh = {
      * 是否进行通知
      * 可设置环境变量：JD_TRY_NOTIFY
      * */
-    isNotify: process.env.JD_TRY_NOTIFY || true,
+//     isNotify: process.env.JD_TRY_NOTIFY || true,
     // 商品原价，低于这个价格都不会试用
     jdPrice: process.env.JD_TRY_PRICE || 0,
     /*
