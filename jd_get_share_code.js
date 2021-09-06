@@ -653,8 +653,8 @@ async function getShareCode() {
   await getJdFactory()
   await getJxFactory()
   await getJxNc()
-  await getJdZZ()
-  await getJoy()
+  // await getJdZZ() //助力任务已结束
+  // await getJoy() //已移除脚本
   await getSgmh()
   await getCFD()
   await getJdCash()

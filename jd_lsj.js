@@ -13,7 +13,7 @@ export lsjdh="jdAward2" ##兑换10豆
 export lsjdh="jdAward3" ##兑换100豆
 export lsjdh="jdAward4" ##兑换牛奶
 [task_local]
-0 11 * * *  jd_lsj.js
+0 0,6-22/2 * * *  jd_lsj.js
 */
 const $ = new Env('柠檬京东零食街');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -49,6 +49,7 @@ if ($.isNode()) {
       $.isLogin = true;
       $.nickName = '';
       message = '';
+      $.finish = false
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       if (!$.isLogin) {
@@ -120,40 +121,41 @@ async function start() {
   await getAwardList()
   $.log("开始领取首页水滴")
   await dotree(1)
-  await $.wait(3000)
-  await dotree(2)
-  await $.wait(3000)
-  await dotree(3)
-  await $.wait(3000)
-  $.log("开始浏览会场")
-  await doliulan(1)
-  await $.wait(3000)
-  await doliulan(2)
-  await $.wait(3000)
-  await doliulan(3)
-  //await gettask()  
-  $.log("开始浏览旗舰店")
-  await doshop(1000014803)
-  await $.wait(3000)
-  await doshop(10299171)
-  await $.wait(3000)
-  await doshop(1000077335)
-  await $.wait(3000)
-  await doshop(1000008814)
-  await $.wait(3000)
-  await doshop(1000101562)
-  $.log("开始浏览推荐商品")
-  await doGoods(1)
-  await $.wait(3000)
-  await doGoods(2)
-  await $.wait(3000)
-  await doGoods(3)
-  await $.wait(3000)
-  await doGoods(4)
-  $.log("开始游戏刷分")
-  await playgame()
+  if (!$.finish) {
+    await $.wait(3000)
+    await dotree(2)
+    await $.wait(3000)
+    await dotree(3)
+    await $.wait(3000)
+    $.log("开始浏览会场")
+    await doliulan(1)
+    await $.wait(3000)
+    await doliulan(2)
+    await $.wait(3000)
+    await doliulan(3)
+    //await gettask()  
+    $.log("开始浏览旗舰店")
+    await doshop(1000014803)
+    await $.wait(3000)
+    await doshop(10299171)
+    await $.wait(3000)
+    await doshop(1000077335)
+    await $.wait(3000)
+    await doshop(1000008814)
+    await $.wait(3000)
+    await doshop(1000101562)
+    $.log("开始浏览推荐商品")
+    await doGoods(1)
+    await $.wait(3000)
+    await doGoods(2)
+    await $.wait(3000)
+    await doGoods(3)
+    await $.wait(3000)
+    await doGoods(4)
+    $.log("开始游戏刷分")
+    await playgame()
+  }
 }
-
 function getinfo() {
   return new Promise(async (resolve) => {
     let options = {
@@ -332,7 +334,6 @@ function doshop(goodsNumId) {
 
           $.log(`${reust.data.data.remark}\n获得${reust.data.data.sendNum}`)
         } else if (reust.errorCode == 500) {
-
           $.log("今日已领取完毕,请明日再来！" + reust.errorMessage)
         }
       } catch (e) {
@@ -458,6 +459,7 @@ function dotree(goodsNumId) {
           $.log(`${reust.data.data.remark}\n获得${reust.data.data.sendNum}`)
         } else if (reust.errorCode == 500) {
           $.log("今日已领取完毕,请明日再来！" + reust.errorMessage)
+          $.finish = true
         }
       } catch (e) {
         $.logErr(e, resp);
