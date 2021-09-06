@@ -215,7 +215,7 @@ function try_feedsList(tabId, page){
                                 }else if(parseFloat(data.data.feedList[i].trialPrice) > args_xh.trialPrice){
                                     console.log(`商品被过滤，期待价格高于预设价格 \n`)
                                 }else if(args_xh.titleFilters.some(fileter_word => data.data.feedList[i].skuTitle.includes(fileter_word))){
-                                    console.log(`商品被过滤，含有关键词 ${filters}\n`)
+                                    console.log('商品被过滤，含有关键词 \n')
                                 }else{
                                     console.log(`商品通过，将加入试用组，trialActivityId为${data.data.feedList[i].trialActivityId}\n`)
                                     trialActivityIdList.push(data.data.feedList[i].trialActivityId)
