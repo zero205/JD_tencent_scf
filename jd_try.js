@@ -6,7 +6,7 @@
  * TG通知频道：https://t.me/jd_zero205_tz
  *
  update 2021/09/05
- 京东试用：脚本更新地址 https://raw.githubusercontent.com/ZCY01/daily_scripts/main/jd/jd_try.js
+ 京东试用：脚本更新地址 https://github.com/zero205/JD_tencent_scf/raw/main/jd_try.js
  脚本兼容: Node.js
  每天最多关注300个商店，但用户商店关注上限为500个。
  请配合取关脚本试用，使用 jd_unsubscribe.js 提前取关至少250个商店确保京东试用脚本正常运行。
