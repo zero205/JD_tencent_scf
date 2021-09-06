@@ -645,6 +645,52 @@ function getJdCash() {
     })
   })
 }
+
+//东东健康
+function getJDHealth(){
+  function taskUrl(function_id, body = {}) {
+    return {
+      url: `https://api.m.jd.com/?functionId=${function_id}&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0&uuid=`,
+      headers: {
+        "Cookie": cookie,
+        "origin": "https://h5.m.jd.com",
+        "referer": "https://h5.m.jd.com/",
+        'accept-language': 'zh-cn',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+      }
+    }
+  }
+  function oc(fn, defaultVal) {//optioanl chaining
+    try {
+      return fn()
+    } catch (e) {
+      return undefined
+    }
+  }
+  return new Promise(resolve => {
+    $.get(taskUrl('jdhealth_getTaskDetail', {"buildingId": "", taskId: 6, "channelId": 1}),
+        async (err, resp, data) => {
+          try {
+            if (safeGet(data)) {
+              data = $.toObj(data)
+              if (oc(() => data.data.result.taskVos)) {
+                console.log(`【京东账号${$.index}（${$.UserName}）京东健康】${oc(() => data.data.result.taskVos[0].assistTaskDetailVo.taskToken)}`);
+              }else{
+                console.log(`京东健康获取失败:${data.data.bizCode}`);
+              }
+            }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
+          }
+        })
+  })
+}
+
 async function getShareCode() {
   console.log(`======账号${$.index}开始======`)
   await getJDFruit()
@@ -658,6 +704,7 @@ async function getShareCode() {
   await getSgmh()
   await getCFD()
   await getJdCash()
+  await getJDHealth()
   console.log(`======账号${$.index}结束======\n`)
 }
 
