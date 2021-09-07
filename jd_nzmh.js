@@ -1,6 +1,5 @@
 /*
 女装盲盒
-活动时间：2021-7-1至2021-7-31
 活动地址：https://h5.m.jd.com/babelDiy/Zeus/3eeruLXVbXge6CexVq8XkBbBvAfy/index.html
 活动入口：京东app-女装馆-赢京豆
 已支持IOS双京东账号,Node.js支持N个京东账号
@@ -64,8 +63,7 @@ if ($.isNode()) {
         continue
       }
       try {
-        await jdMh('https://anmp.jd.com/babelDiy/Zeus/3bMo2AgbRYYfZt83qHLZ3ruVtrtG/index.html') // 8.1-8.31
-        await jdMh('https://anmp.jd.com/babelDiy/Zeus/3c3Bt7WEWr28mWZKXbTR7f881WHM/index.html') // 8.18-8.31
+        await jdMh('https://anmp.jd.com/babelDiy/Zeus/2z9yVc6pg2Rixp4zdMEGi7GBBUqP/index.html') // 9.6-9.30
       } catch (e) {
         $.logErr(e)
       }
