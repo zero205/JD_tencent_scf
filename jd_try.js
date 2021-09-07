@@ -108,7 +108,7 @@ let args_xh = {
      * 白名单关键词，当标题存在关键词时，加入到试用组
      * 可通过环境变量控制：JD_TRY_WHITELIST，用@分隔
      * */
-    whiteListKeywords: process.env.JD_TRY_WHITELIST && process.env.JD_TRY_WHITELIST.split('@') || [],
+    whiteListKeywords: process.env.JD_TRY_WHITELISTKEYWORDS && process.env.JD_TRY_WHITELISTKEYWORDS.split('@') || [],
 }
 //上面很重要，遇到问题请把上面注释看一遍再来问
 !(async() => {

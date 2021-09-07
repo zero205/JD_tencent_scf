@@ -10,26 +10,24 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList = [
+    {"actid":"b6bd7155cefe443aae1e5a74383008f2","endTime":1635695999000},
+    {"actid":"4368aa3b3c26477dbf8f9a3a45226938","endTime":1631545200000},
+    {"actid":"3651af1ff7194fb3b37235dd15538d58","endTime":1632067199000},
+    {"actid":"6b1fb17eceb047c487537b2deb9694d8","endTime":1631261565000},
+    {"actid":"2bfa9b34365140f8a51293043ca2821f","endTime":1633017599000},
+    {"actid":"9c9ebe1af0ee49658730c3b4f002d3e9","endTime":1631116800000},
     {"actid":"3ae867cd253f42b1992ae90598b7549a","endTime":1632931200000},
-    {"actid":"0b0d300c6e7b4f8996ed1681b290d811","endTime":1630943999000},
     {"actid":"9f90ca09236d4f9b86aca47db4d885f2","endTime":1631375999000},
     {"actid":"2d2280b86b394cc09d436feecb4e5d3b","endTime":1632931200000},
     {"actid":"0b8f1d09788947669f75c4bcc4fde4ae","endTime":1633017599000},
     {"actid":"e7a53032cfe84b1fb882c3bbf43f5e5e","endTime":1631203200000},
-    {"actid":"018f79e347ff4a03abbe8fdefba8af07","endTime":1630944000000},
     {"actid":"7d50a3e8ab124db9bc12b9730b3a55c9","endTime":1631116799000},
     {"actid":"bde48555ac8b41669f516f892f95e21c","endTime":1633017599000},
-    {"actid":"5cb6520637a74a1dbe3b1922c1d395e1","endTime":1630944000000},
-    {"actid":"fcd18ebdd93747f1927b536daf0ac92f","endTime":1630944000000},
     {"actid":"86eab05c547d4d28829d269e2a5c4f1e","endTime":1633017599000},
     {"actid":"73086c4fed7746e1b911a776d2e8662e","endTime":1633017599000},
     {"actid":"179e156d768240db84393751fc9c427b","endTime":1633017599000},
     {"actid":"fa3c9189473141c0aec883301452e562","endTime":1633017599000},
     {"actid":"bed695cfc40941c0a641eba935f9601e","endTime":1633017599000},
-    {"actid":"4e259914ef4c41c0b1006a55bb2c370f","endTime":1630857599000},
-    {"actid":"959ddcb1701d43fbbbd6e5b60136489f","endTime":1630857600000},
-    {"actid":"6994d2900dfc4cfba9ab0b2c12b725e6","endTime":1630684799000},
-    {"actid":"6b7811e7b0a4438893f2ac9d5f53a8b8","endTime":1630857599000},
     {"actid":"eff9c47393be446f9dd576e26d13dd9d","endTime":1631635200000},
     {"actid":"5622386323bb4a82a2ed4e0158f7c6a7","endTime":1631289599000}
 ]
