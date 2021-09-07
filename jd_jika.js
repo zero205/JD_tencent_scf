@@ -112,35 +112,10 @@ async function start() {
       console.log(`获取活动失败`);
       return;
   }
-  // $.finish = false
-  $.group_finish = false
   await taskList()
-  for (let i = 0; i < $.componentTaskInfo.length; i++) {
-    await $.wait(1000)
-    if ($.componentTaskInfo[i].taskType === 5){
-      console.log('开卡跳过')
-      continue
-    }else if($.componentTaskInfo[i].taskStatus === 3){
-      console.log('任务已完成')
-      continue
-    }
-    for (let j = 0; j < $.componentTaskInfo[i].completedItemCount; j++) {
-      console.log(`执行任务：【${$.componentTaskInfo[i].taskDesc}】\n`)
-      await doTask($.activityKey, $.componentTaskInfo[i].encryptTaskId, $.componentTaskInfo[i].itemId)
-      await $.wait(2000)
-      if ($.group_finish) continue
-      await taskList()
-    }
-  }
-  console.log(`京东账号${$.index} ${$.nickName || $.UserName}已完成全部任务\n`)
+  await $.wait(1000)
   await cardHomePage()
   await $.wait(1000)
-  if ($.activityDetail.collectedCardsNum === $.activityDetail.totalCardsNum) {
-      const thisMessage = `第【${$.index}】个账号，卡片已满，进APP查看`;
-      await notify.sendNotify('天天集卡券', thisMessage);
-  } else {
-      console.log(`已有卡片【${$.activityDetail.collectedCardsNum}】张，总共需要卡片【${$.activityDetail.totalCardsNum}】张`);
-  }
   for (let i = 0; i < $.item; i++) {
     await openCard()
   }
@@ -181,7 +156,7 @@ async function doHelp(groupId) {
                     console.log(JSON.stringify(data));
                 }
             } else {
-                console.error(JSON.stringify(data));
+                console.log(JSON.stringify(data));
             }
           }
         }
@@ -263,7 +238,24 @@ async function taskList() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.data.biz_code === 0) {
-              $.componentTaskInfo = data.data.result.componentTaskInfo
+              let tasklist = data.data.result.componentTaskInfo
+              for (let i = 0; i < tasklist.length - 1; i++) {
+                $.itemId = tasklist[i].itemId
+                $.taskType = tasklist[i].taskType
+                $.encryptTaskId = tasklist[i].encryptTaskId
+                $.groupItemCount = tasklist[i].groupItemCount
+                $.completedItemCount = tasklist[i].completedItemCount
+                if ($.taskType === 5) continue
+                if ($.finish) break
+                for (let j = $.groupItemCount; j > $.completedItemCount; j++) {
+                  console.log(`执行任务：【${tasklist[i].taskDesc}】\n`)
+                  await doTask($.activityKey, $.encryptTaskId, $.itemId)
+                  await $.wait(2000)
+                  if ($.finish) break
+                  await taskList()
+                }
+              }
+              console.log(`京东账号${$.index} ${$.nickName || $.UserName}已完成全部任务\n`)
             }
           }
         }
@@ -289,8 +281,8 @@ function doTask(activityKey, encryptTaskId, itemId) {
             if (data.data.biz_code === 0) {
               console.log(`已完成${data.data.result.completedItemCount}/${data.data.result.groupItemCount}\n`)
             } else if (data.data.biz_code === 4) {
-              console.log(`已完成此任务gorup全部任务\n`)
-              $.group_finish = true
+              console.log(`已完成全部任务\n`)
+              $.finish = true
             }
           }
         }
