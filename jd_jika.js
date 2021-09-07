@@ -125,7 +125,7 @@ async function start() {
       continue
     }
     for (let j = 0; j < $.componentTaskInfo[i].completedItemCount; j++) {
-      console.log(`执行任务：【${task.taskDesc}】\n`)
+      console.log(`执行任务：【${$.componentTaskInfo[i].taskDesc}】\n`)
       await doTask($.activityKey, $.componentTaskInfo[i].encryptTaskId, $.componentTaskInfo[i].itemId)
       await $.wait(2000)
       if ($.group_finish) continue
