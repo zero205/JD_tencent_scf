@@ -91,13 +91,13 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
     cookie = cookiesArr[i];
     $.canOpenGrade = true;
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-    const grades = [1, 2, 3, 4, 5, 6];
+    const grades = [1, 2, 3, 4, 5, 6, 7];
     for (let grade of grades) {
       if (!$.canOpenGrade) break;
       if (!$.packetIdArr[i]) continue;
       console.log(`\n【${$.UserName}】去拆第${grade}个红包`);
       await openRedPack($.packetIdArr[i]['strUserPin'], grade);
-      await $.wait(15000);
+      await $.wait(10000);
     }
   }
 })()
