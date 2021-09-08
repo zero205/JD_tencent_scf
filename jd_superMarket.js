@@ -103,6 +103,7 @@ async function jdSuperMarket() {
         // await limitTimeProduct();
         await smtg_shopIndex();
         await smtg_newHome_xh();
+        await receiveUserUpgradeBlue()
         // await smtgHome();
         // await Home();
         if (helpAu === true) {
@@ -110,6 +111,32 @@ async function jdSuperMarket() {
         }
     } catch (e) {
         $.logErr(e)
+    }
+}
+
+//领取店铺升级的蓝币奖励和营业额
+async function receiveUserUpgradeBlue() {
+    // $.receiveUserUpgradeBlue = 0;
+    // if ($.userUpgradeBlueVos && $.userUpgradeBlueVos.length > 0) {
+    //     for (let item of $.userUpgradeBlueVos) {
+    //         const receiveCoin = await smtgReceiveCoin({
+    //             "id": item.id,
+    //             "type": 5
+    //         })
+    //         // $.log(`\n${JSON.stringify(receiveCoin)}`)
+    //         if (receiveCoin && receiveCoin.data['bizCode'] === 0) {
+    //             $.receiveUserUpgradeBlue += receiveCoin.data.result['receivedBlue']
+    //         }
+    //     }
+    //     $.log(`店铺升级奖励获取:${$.receiveUserUpgradeBlue}蓝币\n`)
+    // }
+    const res = await smtgReceiveCoin({
+        "type": 4,
+        "channel": "18"
+    })
+    // $.log(`${JSON.stringify(res)}\n`)
+    if (res && res.data['bizCode'] === 0) {
+        console.log(`\n收取营业额：获得 ${res.data.result['receivedTurnover']}\n`);
     }
 }
 
