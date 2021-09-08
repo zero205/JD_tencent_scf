@@ -157,7 +157,7 @@ async function cfd() {
 
     // 寻宝
     console.log(`寻宝`)
-    let XBDetail = beginInfo.XbStatus.XBDetail.filter((x) => x.dwRemainCnt !== 1)
+    let XBDetail = beginInfo.XbStatus.XBDetail.filter((x) => x.dwRemainCnt !== 0)
     if (XBDetail.length !== 0) {
       console.log(`开始寻宝`)
       for (let key of Object.keys(XBDetail)) {
