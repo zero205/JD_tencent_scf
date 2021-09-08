@@ -113,7 +113,7 @@ async function start() {
     return;
   }
   $.group_finish = false
-  let boundry = 50
+  let boundry = 30
   while (boundry--) {
     await taskList()
     $.componentTaskInfo = $.componentTaskInfo.filter(task => {
@@ -123,6 +123,7 @@ async function start() {
       console.log(`【京东账号${$.index}】${$.nickName || $.UserName}已完成全部任务\n`)
       break
     }
+    console.log(`执行任务：【${$.componentTaskInfo[0].taskDesc}】\n`)
     await doTask($.activityKey, $.componentTaskInfo[0].encryptTaskId, $.componentTaskInfo[0].itemId)
     await $.wait(2000)
   }
