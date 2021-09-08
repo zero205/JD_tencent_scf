@@ -104,16 +104,19 @@ message = ""
       // 签到 / 逛会场 / 浏览商品
       for (const task of $.taskList) {
         if (task.taskType === 'SIGN') {
-          $.log(`${task.taskTitle} 签到`)
+          $.log(`${task.taskTitle}`)
           await apDoTask(task.id, task.taskType, undefined);
-
-          $.log(`${task.taskTitle} 领取签到奖励`)
+          $.log(`${task.taskTitle} 领取奖励`)
           await apTaskDrawAward(task.id, task.taskType);
-
         }
-        if (task.taskType === 'BROWSE_PRODUCT' || task.taskType === 'BROWSE_CHANNEL') {
+        if (task.taskType === 'BROWSE_CHANNEL') {
+          $.log(`${task.taskTitle}`)
+          await apDoTask2(task.id, task.taskType, task.taskSourceUrl);
+          $.log(`${task.taskTitle} 领取奖励`)
+          await apTaskDrawAward(task.id, task.taskType);
+        }
+        if (task.taskType === 'BROWSE_PRODUCT') {
           let productList = await apTaskDetail(task.id, task.taskType);
-
           let productListNow = 0;
           if (productList.length === 0) {
             let resp = await apTaskDrawAward(task.id, task.taskType);
@@ -276,6 +279,25 @@ function apDoTask(taskId, taskType, itemId = '', appid = 'activities_platform') 
   //await $.wait(20)
   return new Promise(resolve => {
     $.post(taskPostClientActionUrl(`body={"taskType":"${taskType}","taskId":${taskId},"channel":4,"linkId":"LsQNxL7iWDlXUs6cFl-AAg","itemId":"${itemId}"}&appid=${appid}`, `apDoTask`), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          data = JSON.parse(data);
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
+
+function apDoTask2(taskId, taskType, itemId, appid = 'activities_platform') {
+  return new Promise(resolve => {
+    $.post(taskPostClientActionUrl(`body={"taskType":"${taskType}","taskId":${taskId},"linkId":"LsQNxL7iWDlXUs6cFl-AAg","itemId":"${itemId}"}&appid=${appid}`, `apDoTask`), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
