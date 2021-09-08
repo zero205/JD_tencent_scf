@@ -91,12 +91,11 @@ async function jdGlobal() {
     await wheelsHome()
     await apTaskList()
     await wheelsHome()
-
-    await signInit()
-    await sign()
-    if (new Date().getDate() >= 6) {
-      await cashout()
-    }
+    // await signInit()
+    // await sign()
+    // if (new Date().getDate() >= 6) {
+    //   await cashout()
+    // }
     if ($.canhelp) {
       console.log(`\n京东账号${$.index}开始助力【zero205】邀请有礼，感谢！\n`);
       await invite()
@@ -106,7 +105,7 @@ async function jdGlobal() {
     $.total = 0
     await taskList()
     await queryJoy()
-    await signInit()
+    // await signInit()
     await cash()
     // await showMsg()
   } catch (e) {

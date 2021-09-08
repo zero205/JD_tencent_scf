@@ -76,28 +76,28 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     for (let j = 0; j < $.inviteList.length && $.canHelp; j++) {
-        $.oneInvite = $.inviteList[j]
-        if ($.UserName === $.oneInvite.user || $.oneInvite.max) {
-            continue
-        }
-        console.log(`${$.UserName}去助力 ${$.oneInvite.groupId}`);
-        await doHelp($.oneInvite.groupId)
-        await $.wait(3000);
+      $.oneInvite = $.inviteList[j]
+      if ($.UserName === $.oneInvite.user || $.oneInvite.max) {
+        continue
+      }
+      console.log(`${$.UserName}去助力 ${$.oneInvite.groupId}`);
+      await doHelp($.oneInvite.groupId)
+      await $.wait(3000);
     }
   }
   if ($.authorCode && $.authorCode.length) {
     for (let i = 0; i < cookiesArr.length; i++) {
-        cookie = cookiesArr[i];
-        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-        $.canHelp = true;
-        console.log(`\n${$.UserName} 去助力【zero205】\n`)
-        for (let j = 0; j < $.authorCode.length && $.canHelp; j++) {
-            $.item = $.authorCode[j];
-            await doHelp($.item)
-            await $.wait(2000)
-        }
+      cookie = cookiesArr[i];
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+      $.canHelp = true;
+      console.log(`\n${$.UserName} 去助力【zero205】\n`)
+      for (let j = 0; j < $.authorCode.length && $.canHelp; j++) {
+        $.item = $.authorCode[j];
+        await doHelp($.item)
+        await $.wait(2000)
+      }
     }
-}
+  }
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -109,13 +109,31 @@ async function start() {
   $.activityDetail = {};
   await cardHomePage()
   if (JSON.stringify($.activityDetail) === '{}') {
-      console.log(`获取活动失败`);
-      return;
+    console.log(`获取活动失败`);
+    return;
   }
-  await taskList()
-  await $.wait(1000)
+  $.group_finish = false
+  let boundry = 50
+  while (boundry--) {
+    await taskList()
+    $.componentTaskInfo = $.componentTaskInfo.filter(task => {
+      return task.taskType != 5 && task.taskStatus != 3
+    })
+    if ($.componentTaskInfo.length == 0) {
+      console.log(`【京东账号${$.index}】${$.nickName || $.UserName}已完成全部任务\n`)
+      break
+    }
+    await doTask($.activityKey, $.componentTaskInfo[0].encryptTaskId, $.componentTaskInfo[0].itemId)
+    await $.wait(2000)
+  }
   await cardHomePage()
   await $.wait(1000)
+  if ($.activityDetail.collectedCardsNum === $.activityDetail.totalCardsNum) {
+    const thisMessage = `【京东账号${$.index}】${$.nickName || $.UserName}\n卡片已集齐，请打开APP查看`;
+    await notify.sendNotify('天天集卡券', thisMessage);
+  } else {
+    console.log(`已有卡片【${$.activityDetail.collectedCardsNum}】张，总共需要卡片【${$.activityDetail.totalCardsNum}】张`);
+  }
   for (let i = 0; i < $.item; i++) {
     await openCard()
   }
@@ -140,23 +158,23 @@ async function doHelp(groupId) {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.rtn_code === 0) {
-                let thisData = data.data;
-                if (thisData.biz_code === 0) {
-                    console.log(`助力成功`);
-                } else if (thisData.biz_code === 6) {
-                    console.log(`助力次数已用完`);
-                    $.canHelp = false;
-                } else if (thisData.biz_code === 7) {
-                    console.log(`助力已满`);
-                    $.oneInvite.max = true;
-                } else if (thisData.biz_code === 2222) {
-                    console.log(`黑号`);
-                    $.canHelp = false;
-                } else {
-                    console.log(JSON.stringify(data));
-                }
-            } else {
+              let thisData = data.data;
+              if (thisData.biz_code === 0) {
+                console.log(`助力成功`);
+              } else if (thisData.biz_code === 6) {
+                console.log(`助力次数已用完`);
+                $.canHelp = false;
+              } else if (thisData.biz_code === 7) {
+                console.log(`助力已满`);
+                $.oneInvite.max = true;
+              } else if (thisData.biz_code === 2222) {
+                console.log(`黑号`);
+                $.canHelp = false;
+              } else {
                 console.log(JSON.stringify(data));
+              }
+            } else {
+              console.error(JSON.stringify(data));
             }
           }
         }
@@ -180,15 +198,15 @@ async function collectShareCode() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.rtn_code === 0) {
-                let groupId = data.data.result.groupId;
-                console.log(`助力码：${groupId}`);
-                $.inviteList.push({
-                    'groupId': groupId,
-                    'user': $.UserName,
-                    'max': false
-                });
+              let groupId = data.data.result.groupId;
+              console.log(`助力码：${groupId}\n`);
+              $.inviteList.push({
+                'groupId': groupId,
+                'user': $.UserName,
+                'max': false
+              });
             } else {
-                console.log(JSON.stringify(data));
+              console.log(JSON.stringify(data));
             }
           }
         }
@@ -214,7 +232,7 @@ function cardHomePage() {
             $.activityDetail = data.data.result;
             if ($.activityDetail.drawCardStatus === 2) {
               $.item = $.activityDetail.drawCardChance
-              console.log(`当前拥有${$.item}次抽卡机会`)
+              console.log(`当前拥有${$.item}次抽卡机会\n`)
             }
           }
         }
@@ -238,24 +256,7 @@ async function taskList() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.data.biz_code === 0) {
-              let tasklist = data.data.result.componentTaskInfo
-              for (let i = 0; i < tasklist.length - 1; i++) {
-                $.itemId = tasklist[i].itemId
-                $.taskType = tasklist[i].taskType
-                $.encryptTaskId = tasklist[i].encryptTaskId
-                $.groupItemCount = tasklist[i].groupItemCount
-                $.completedItemCount = tasklist[i].completedItemCount
-                if ($.taskType === 5) continue
-                if ($.finish) break
-                for (let j = $.groupItemCount; j > $.completedItemCount; j++) {
-                  console.log(`执行任务：【${tasklist[i].taskDesc}】\n`)
-                  await doTask($.activityKey, $.encryptTaskId, $.itemId)
-                  await $.wait(2000)
-                  if ($.finish) break
-                  await taskList()
-                }
-              }
-              console.log(`京东账号${$.index} ${$.nickName || $.UserName}已完成全部任务\n`)
+              $.componentTaskInfo = data.data.result.componentTaskInfo
             }
           }
         }
@@ -280,9 +281,13 @@ function doTask(activityKey, encryptTaskId, itemId) {
             data = JSON.parse(data);
             if (data.data.biz_code === 0) {
               console.log(`已完成${data.data.result.completedItemCount}/${data.data.result.groupItemCount}\n`)
+              if (data.data.result.completedItemCount && data.data.result.groupItemCount && (data.data.result.completedItemCount == data.data.result.groupItemCount)) {
+                console.log(`已完成此任务全部任务\n`)
+                $.group_finish = true
+              }
             } else if (data.data.biz_code === 4) {
               console.log(`已完成全部任务\n`)
-              $.finish = true
+              $.group_finish = true
             }
           }
         }
@@ -321,25 +326,25 @@ function openCard() {
 
 function getAuthorShareCode() {
   return new Promise(resolve => {
-      $.get({
-          url: "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jika.json",
-          headers: {
-              "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-          }
-      }, async (err, resp, data) => {
-          try {
-              if (err) {
-                  console.log(`${JSON.stringify(err)}`);
-                  console.log(`${$.name} API请求失败，请检查网路重试`);
-              } else {
-                  $.authorCode = JSON.parse(data);
-              }
-          } catch (e) {
-              $.logErr(e, resp)
-          } finally {
-              resolve();
-          }
-      })
+    $.get({
+      url: "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jika.json",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    }, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`);
+          console.log(`${$.name} API请求失败，请检查网路重试`);
+        } else {
+          $.authorCode = JSON.parse(data);
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
   })
 }
 
@@ -363,15 +368,15 @@ function taskPostUrl(functionId, body) {
 
 function randomWord(randomFlag, min, max) {
   var str = "",
-      range = min,
-      arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    range = min,
+    arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
   // 随机产生
   if (randomFlag) {
-      range = Math.round(Math.random() * (max - min)) + min;
+    range = Math.round(Math.random() * (max - min)) + min;
   }
   for (var i = 0; i < range; i++) {
-      pos = Math.round(Math.random() * (arr.length - 1));
-      str += arr[pos];
+    pos = Math.round(Math.random() * (arr.length - 1));
+    str += arr[pos];
   }
   return str;
 }
