@@ -9,14 +9,14 @@
 ============Quantumultx===============
 [task_local]
 #集萌宝得团圆礼包
-10 0,8,23 * * * https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jika.js, tag=集萌宝得团圆礼包, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
+10 8,23 * * * https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jika.js, tag=集萌宝得团圆礼包, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "10 0,8,23 * * *" script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jika.js, tag=集萌宝得团圆礼包
+cron "10 8,23 * * *" script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jika.js, tag=集萌宝得团圆礼包
 
 ===============Surge=================
-集萌宝得团圆礼包 = type=cron,cronexp="10 0,8,23 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jika.js
+集萌宝得团圆礼包 = type=cron,cronexp="10 8,23 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jika.js
 
 ============小火箭=========
 集萌宝得团圆礼包 = type=cron,script-path=https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jika.js, cronexpr="10 0,8,23 * * *", timeout=200, enable=true
