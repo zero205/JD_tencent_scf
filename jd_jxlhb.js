@@ -7,17 +7,17 @@
 ==============Quantumult X==============
 [task_local]
 #京喜领88元红包
-4 10 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jxlhb.js, tag=京喜领88元红包, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+4 10,16,21,16,21 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jxlhb.js, tag=京喜领88元红包, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ==============Loon==============
 [Script]
-cron "4 10 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jxlhb.js,tag=京喜领88元红包
+cron "4 10,16,21 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jxlhb.js,tag=京喜领88元红包
 
 ================Surge===============
-京喜领88元红包 = type=cron,cronexp="4 10 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jxlhb.js
+京喜领88元红包 = type=cron,cronexp="4 10,16,21 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jxlhb.js
 
 ===============小火箭==========
-京喜领88元红包 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jxlhb.js, cronexpr="4 10 * * *", timeout=3600, enable=true
+京喜领88元红包 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jxlhb.js, cronexpr="4 10,16,21 * * *", timeout=3600, enable=true
  */
 const $ = new Env('京喜领88元红包');
 const notify = $.isNode() ? require('./sendNotify') : {};
@@ -44,18 +44,15 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  console.log('京喜领88元红包\n' +
-      '活动入口：京喜app-》我的-》京喜领88元红包\n' +
-      '助力逻辑：脚本会助力作者，介意请取消脚本')
+  console.log('京喜领88元红包\n'+'活动入口：京喜app -> 我的 -> 领88元红包\n'+'助力逻辑：优先账号内部互助，有剩余助力次数再帮【zero205】助力\n')
   let res = await getAuthorShareCode() || [];
-  let res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jxhb.json') || [];
-  if (res && res.activeId) $.activeId = res.activeId;
-  $.authorMyShareIds = [...((res && res.codes) || []), ...res2];
+  $.authorMyShareIds = [...(res || [])];
   //开启红包,获取互助码
   for (let i = 0; i < cookiesArr.length; i++) {
     $.index = i + 1;
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    $.nickName = '';
     await TotalBean();
     console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
     await main();
@@ -71,16 +68,15 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
        if ($.UserName === code['userName']) continue;
        if (!$.canHelp) break
        if ($.max) break
-       console.log(`【${$.UserName}】去助力【${code['userName']}】邀请码：${code['strUserPin']}`);
+       console.log(`【${$.UserName}】去助力【${code['userName']}】`);
        await enrollFriend(code['strUserPin']);
        await $.wait(2500);
      }
     if ($.canHelp) {
-      console.log(`\n【${$.UserName}】有剩余助力机会，开始助力作者\n`)
+      console.log(`\n【${$.UserName}】有剩余助力机会，开始助力【zero205】\n`)
       for (let item of $.authorMyShareIds) {
         if (!item) continue;
         if (!$.canHelp) break
-        console.log(`【${$.UserName}】去助力作者的邀请码：${item}`);
         await enrollFriend(item);
         await $.wait(2500);
       }
@@ -97,7 +93,7 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
       if (!$.packetIdArr[i]) continue;
       console.log(`\n【${$.UserName}】去拆第${grade}个红包`);
       await openRedPack($.packetIdArr[i]['strUserPin'], grade);
-      await $.wait(10000);
+      await $.wait(15000);
     }
   }
 })()
@@ -195,10 +191,8 @@ function enrollFriend(strPin) {
             // if (data.Data.strUserPin) $.packetIdArr.push(data.Data.strUserPin);
           } else {
             if (data.iRet === 2015) $.canHelp = false;//助力已达上限
-            if (data.iRet === 2016) {
-              $.canHelp = false;//助力火爆
-              console.log(`温馨提示：如提示助力火爆，可尝试寻找京东客服`);
-            }
+            if (data.iRet === 2016) $.canHelp = false;//助力火爆
+              // console.log(`温馨提示：如提示助力火爆，可尝试寻找京东客服`);
             if (data.iRet === 2013) $.max = true;
             if (data.iRet === 2000) $.canHelp = false;//未登录,可能未开通京喜
             console.log(`助力失败:${data.sErrMsg}\n`);
@@ -307,7 +301,7 @@ function TotalBean() {
               $.nickName = data.data.userInfo.baseInfo.nickname;
             }
           } else {
-            $.log('京东服务器返回空数据');
+            console.log('京东服务器返回空数据');
           }
         }
       } catch (e) {
