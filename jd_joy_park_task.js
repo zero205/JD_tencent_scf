@@ -109,20 +109,14 @@ message = ""
           $.log(`${task.taskTitle} 领取奖励`)
           await apTaskDrawAward(task.id, task.taskType);
         }
-        if (task.taskType === 'BROWSE_CHANNEL') {
-          $.log(`${task.taskTitle}`)
-          await apDoTask2(task.id, task.taskType, task.taskSourceUrl);
-          $.log(`${task.taskTitle} 领取奖励`)
-          await apTaskDrawAward(task.id, task.taskType);
-        }
-        if (task.taskType === 'BROWSE_PRODUCT') {
+        if (task.taskType === 'BROWSE_PRODUCT' || task.taskType === 'BROWSE_CHANNEL' && task.taskLimitTimes !== 1) {
           let productList = await apTaskDetail(task.id, task.taskType);
           let productListNow = 0;
           if (productList.length === 0) {
             let resp = await apTaskDrawAward(task.id, task.taskType);
 
             if (!resp.success) {
-              $.log(`${task.taskTitle} 领取完成!`)
+              $.log(`${task.taskTitle}|${task.taskShowTitle} 领取完成!`)
               productList = await apTaskDetail(task.id, task.taskType);
 
             }
@@ -138,7 +132,7 @@ message = ""
             let resp = await apDoTask(task.id, task.taskType, productList[productListNow].itemId, productList[productListNow].appid);
 
             if (resp.code === 2005 || resp.code === 0) {
-              $.log(`${task.taskTitle} 任务完成！`)
+              $.log(`${task.taskTitle}|${task.taskShowTitle} 任务完成！`)
             } else {
               $.log(`${resp.echo} 任务失败！`)
             }
@@ -153,7 +147,7 @@ message = ""
             let resp = await apTaskDrawAward(task.id, task.taskType);
 
             if (!resp.success) {
-              $.log(`${task.taskTitle} 领取完成!`)
+              $.log(`${task.taskTitle}|${task.taskShowTitle} 领取完成!`)
               break
             }
           }
@@ -166,6 +160,12 @@ message = ""
             }
             $.log("领取助力奖励成功！")
           }
+        }
+        if (task.taskType === 'BROWSE_CHANNEL' && task.taskLimitTimes === 1) {
+          $.log(`${task.taskTitle}|${task.taskShowTitle}`)
+          await apDoTask2(task.id, task.taskType, task.taskSourceUrl);
+          $.log(`${task.taskTitle}|${task.taskShowTitle} 领取奖励`)
+          await apTaskDrawAward(task.id, task.taskType);
         }
       }
     }
