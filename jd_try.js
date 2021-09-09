@@ -111,7 +111,7 @@ let args_xh = {
      * 白名单关键词，当标题存在关键词时，加入到试用组
      * 可通过环境变量控制：JD_TRY_WHITELIST，用@分隔
      * */
-    whiteListKeywords: process.env.JD_TRY_WHITELIST && process.env.JD_TRY_WHITELIST.split('@') || [],
+    whiteListKeywords: process.env.JD_TRY_WHITELISTKEYWORDS && process.env.JD_TRY_WHITELISTKEYWORDS.split('@') || [],
 }
 //上面很重要，遇到问题请把上面注释看一遍再来问
 !(async() => {
@@ -154,6 +154,7 @@ let args_xh = {
                 // await try_tabList();
                 // return;
                 $.isForbidden = false
+                size = 1
                 while(trialActivityIdList.length < args_xh.maxLength && $.isForbidden === false){
                     if($.nowTabIdIndex === args_xh.tabId.length){
                         console.log(`tabId组已遍历完毕，不在获取商品\n`);
@@ -485,7 +486,7 @@ function try_MyTrials(page, selected){
                             if(data.success && data.data){
                                 for(let item of data.data.list){
                                     item.status === 4 || item.text.text.includes('已放弃') ? $.giveupNum += 1 : ''
-                                    item.text.text.includes('请尽快领取') ? $.successNum += 1 : ''
+                                    item.text.text.includes('试用资格将保留') ? $.successNum += 1 : ''
                                 }
                                 console.log(`待领取 | 已放弃：${$.successNum} | ${$.giveupNum}`)
                             } else {
@@ -547,7 +548,7 @@ async function showMsg(){
     let message = ``;
     message += `👤 京东账号${$.index} ${$.nickName || $.UserName}\n`;
     if($.totalSuccess !== 0 && $.totalTry !== 0){
-        message += `🎉 本次申请成功：${$.totalSuccess}/${$.totalTry}个商品🛒\n`;
+        message += `🎉 本次提交申请：${$.totalSuccess}/${$.totalTry}个商品🛒\n`;
         message += `🎉 ${$.successNum}个商品待领取\n`;
         message += `🗑 ${$.giveupNum}个商品已放弃\n`;
     } else {
