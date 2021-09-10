@@ -71,7 +71,12 @@ let allMessage = '';
       await jdConnoisseur()
     }
   }
-  $.shareCodes = [...$.shareCodes, ...(res || [])]
+  let res2 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/connoisseur.json')
+  if (!res2) {
+    await $.wait(1000)
+    res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/connoisseur.json')
+  }
+  $.shareCodes = [...$.shareCodes, ...(res || []), ...(res2 || [])]
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
