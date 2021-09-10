@@ -89,23 +89,16 @@ if ($.isNode()) {
   let shareCodes = [
     '28D1B0FF74A7A1D4FBE02ED2FA90A9F3C49D80AFF03099EF32C50897D923F6F049336DE54E26AA8F2834B248E6398CB7A755DF4FDAE585EC3E1ABE26F3DD3CFFC956D12974FF00A045D8E31A84FE84C18A8357DE96A1F617B8AC4D64BC24B689',
     '16C819C7B4D681C695A9D56F0F58F2FC7BD1102FE0B67DE91732CDD3AAE6028C49336DE54E26AA8F2834B248E6398CB7A755DF4FDAE585EC3E1ABE26F3DD3CFFC956D12974FF00A045D8E31A84FE84C18A8357DE96A1F617B8AC4D64BC24B689',
+    '8F95A8DFE62615AB2F5D4659F314B02BADA48AC3892738D601260F02FD6885E949336DE54E26AA8F2834B248E6398CB7A755DF4FDAE585EC3E1ABE26F3DD3CFFC956D12974FF00A045D8E31A84FE84C18A8357DE96A1F617B8AC4D64BC24B689',
+    '1FB95B877E05EC290F8DB479CA87C54680371A41532FF90761CE60C3887A5BE4652DFCA338160A7673C5812A45C0EC3FEB6090E56CFD81F696A17988574F70D0DDDA672BF446E2FCC0D1D6B4E52826D1',
+    'AEB1FBFD99A3427E770186B8E946243EE51A3390532CA446AA2C2F918410EC9E74D05EDAD17077AFFA80DAD7387DD28B3BEE5701143FCA11A003164F79A3ADAEDDDA672BF446E2FCC0D1D6B4E52826D1',
     '03993DF61B85FE5639C3B364280671045FD22655FE89C43DEEABD6252DA532CF652DFCA338160A7673C5812A45C0EC3FEB6090E56CFD81F696A17988574F70D0DDDA672BF446E2FCC0D1D6B4E52826D1'
-  ];
+  ][Math.floor((Math.random() * 6))];
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
-    $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-    if (!useInfo[$.UserName]) continue;
     $.canHelp = true;
-    for (let j = 0; j < shareCodes.length && $.canHelp; j++) {
-      $.oneCodeInfo = shareCodes[j];
-      if ($.UserName === shareCodes[j].usr || $.oneCodeInfo.max) {
-        continue;
-      }
-      console.log(`${$.UserName}去助力【zero205】`)
-      nick = useInfo[$.UserName];
-      await dohelp(shareCodes[j]);
-      await $.wait(3000)
-    }
+      await dohelp(shareCodes);
+      await $.wait(2000)
   }
 })()
   .catch((e) => {
@@ -181,13 +174,7 @@ function getinfo() {
             if (data.success) {
               if (data.data.status === 200) {
                 $.cion = data.data.data.customer.remainChance;
-                console.log(`\n查询成功：京东账号【${$.nickName || $.UserName}】当前剩余金币为：${$.cion}`)
-                // if ($.cion > 750000) {
-                //   $.msg($.name, `【提示】\n京东账号【${$.nickName || $.UserName}】已可兑换牛奶`, `\n兑换入口：京东APP->美食馆->瓜分京豆\n每天10点开始兑换`, { "更多脚本": "https://github.com/zero205/JD_tencent_scf" });
-                //   if ($.isNode()) {
-                //     await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】 ${$.nickName}\n已可兑换牛奶\n兑换入口：京东APP->美食馆->瓜分京豆，每天10点开始兑换\n更多脚本->"https://github.com/zero205/JD_tencent_scf"`);
-                //   }
-                // }
+                console.log(`\n查询金币成功：京东账号【${$.nickName || $.UserName}】当前剩余金币为：${$.cion}`)
               }
             } else {
               console.log(`查询失败：${JSON.stringify(data)}\n`);
@@ -232,6 +219,8 @@ function getAwardList() {
                   if ($.isNode()) {
                     await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】 ${$.nickName}\n已可兑换${$.item[$.item.length-1].awardName}\n剩余数量：${$.item[$.item.length-1].num}\n兑换入口：京东APP->美食馆->瓜分京豆\n更多脚本->"https://github.com/zero205/JD_tencent_scf"`);
                   }
+                } else if ($.item.length <= 3) {
+                  console.log(`查询奖品成功：暂无牛奶，${$.item[$.item.length-1].awardName}剩余数量：${$.item[$.item.length-1].num}\n`);
                 }
               }
             } else {
@@ -458,7 +447,7 @@ function dotree(goodsNumId) {
         if (reust.errorCode == 200) {
           $.log(`${reust.data.data.remark}\n获得${reust.data.data.sendNum}`)
         } else if (reust.errorCode == 500) {
-          $.log("今日已领取完毕,请明日再来！" + reust.errorMessage)
+          $.log(reust.errorMessage)
           $.finish = true
         }
       } catch (e) {
