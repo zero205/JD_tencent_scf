@@ -69,9 +69,9 @@ inputs:
           cronExpression: "0 20 0,6-23/2 * * * *"
           enable: true
           argument: jd_joy&jd_superMarket&jd_jxmc&jd_z_health_energy&jd_fcdyj
-    - timer: #宠汪汪偷狗粮 #汪汪乐园 #柠檬推一推 #5G超级魔盒 #宠汪汪赛跑 #京喜领88元红包 #送豆得豆
+    - timer: #宠汪汪偷狗粮 #汪汪乐园 #柠檬推一推 #5G超级魔盒 #宠汪汪赛跑 #京喜领88元红包
         parameters:
-          name: joysteal_joypark_tyt_mohe_joyrun_jxlhb_sddd
+          name: joysteal_joypark_tyt_mohe_joyrun_jxlhb
           cronExpression: "0 35 0,6-23/4 * * * *"
           enable: true
           argument: jd_joy_steal&jd_joy_park&jd_tyt&jd_mohe&jd_joy_run&jd_jxlhb
