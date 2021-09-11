@@ -80,12 +80,13 @@ async function run() {
       await takePostRequest('beanHomeIconDoTask')
       await $.wait(getRndInteger(1000, 1500))
     }
-
+    let s = 0
     do{
+      s++;
       await task()
       await $.wait(getRndInteger(1000, 1500))
       await takePostRequest('beanTaskList1')
-    }while ($.taskFlag)
+    }while ($.taskFlag && s < 4)
 
     await $.wait(getRndInteger(1000, 1500))
   }catch (e) {
@@ -104,16 +105,16 @@ async function task() {
       for (let j = 0; j < $.activityInfoList.length; j++) {
         $.taskFlag = true
         $.oneActivityInfo = $.activityInfoList[j];
-        console.log(`做任务:${$.oneActivityInfo.title};等待完成`);
+        console.log(`做任务:${$.oneActivityInfo.title || $.oneTask.taskName};等待完成`);
         $.actionType = 0
-        if($.oneTask.taskType == 9){
+        if($.oneTask.taskType == 9 || $.oneTask.taskType == 8){
           $.actionType = 1
           await takePostRequest('beanDoTask');
-          await $.wait(getRndInteger(4000, 5500))
+          await $.wait(getRndInteger($.oneTask.waitDuration && $.oneTask.waitDuration*1000 + 1000 || 6500, $.oneTask.waitDuration && $.oneTask.waitDuration*1000 + 2000 || 7000 ))
           $.actionType = 0
         }
         await takePostRequest('beanDoTask');
-        await $.wait(getRndInteger(2000, 2500))
+        await $.wait(getRndInteger(4000, 5500))
       }
     }else if ($.oneTask.status === 2){
       console.log(`任务:${$.oneTask.taskName};已完成`);
