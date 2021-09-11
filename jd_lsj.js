@@ -65,6 +65,10 @@ if ($.isNode()) {
         $.log("检测到您设置了兑换变量，开始兑换")
         await duihuan()
       }
+      if ($.finish) {
+        console.log(`\n======牛奶库存监控完成，结束运行======\n`)
+        return;
+      }
     }
   }
   console.log(`\n开始账号内互助\n`);
@@ -97,8 +101,8 @@ if ($.isNode()) {
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     $.canHelp = true;
-      await dohelp(shareCodes);
-      await $.wait(2000)
+    await dohelp(shareCodes);
+    await $.wait(2000)
   }
 })()
   .catch((e) => {
@@ -215,12 +219,12 @@ function getAwardList() {
             if (data.success) {
               if (data.data.status === 200) {
                 $.item = data.data.data
-                if ($.item.length > 3 && $.cion > $.item[$.item.length-1].needCoinNum && $.item[$.item.length-1].num > 0) {
+                if ($.item.length > 3 && $.cion > $.item[$.item.length - 1].needCoinNum && $.item[$.item.length - 1].num > 0) {
                   if ($.isNode()) {
-                    await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】 ${$.nickName}\n已可兑换${$.item[$.item.length-1].awardName}\n剩余数量：${$.item[$.item.length-1].num}\n兑换入口：京东APP->美食馆->瓜分京豆\n更多脚本->"https://github.com/zero205/JD_tencent_scf"`);
+                    await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】 ${$.nickName}\n已可兑换${$.item[$.item.length - 1].awardName}\n剩余数量：${$.item[$.item.length - 1].num}\n兑换入口：京东APP->美食馆->瓜分京豆\n更多脚本->"https://github.com/zero205/JD_tencent_scf"`);
                   }
                 } else if ($.item.length <= 3) {
-                  console.log(`查询奖品成功：暂无牛奶，${$.item[$.item.length-1].awardName}剩余数量：${$.item[$.item.length-1].num}\n`);
+                  console.log(`查询奖品成功：暂无牛奶，当前${$.item[$.item.length - 1].awardName}剩余数量：${$.item[$.item.length - 1].num}\n`);
                 }
               }
             } else {
@@ -475,7 +479,7 @@ function dohelp(inviterNick) {
     }
     $.post(options, async (err, resp, data) => {
       try {
-        console.log(data);
+        // console.log(data);
         const reust = JSON.parse(data)
         if (reust.errorCode == 200) {
           if (reust.data.data.remark === `好友助力数量已达上限，无法为好友助力！`) {
