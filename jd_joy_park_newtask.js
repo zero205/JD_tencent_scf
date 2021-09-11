@@ -1,8 +1,6 @@
 /*
 抄自@Tsukasa007 汪汪乐园脚本
 
-cron 15 0 * * * jd_joy_park_newtask.js
-
 仅用于完成汪汪乐园新手引导
 
 https://github.com/zero205/JD_tencent_scf

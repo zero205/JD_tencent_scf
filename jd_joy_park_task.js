@@ -7,17 +7,17 @@ export HELP_JOYPARK=""
 ============Quantumultx===============
 [task_local]
 #汪汪乐园每日任务
-20 7,9,17,20 * * * jd_joypark_task.js, tag=汪汪乐园每日任务, img-url=https://raw.githubusercontent.com/tsukasa007/icon/master/jd_joypark_task.png, enabled=true
+0 0,7,9,17,20 * * * jd_joypark_task.js, tag=汪汪乐园每日任务, img-url=https://raw.githubusercontent.com/tsukasa007/icon/master/jd_joypark_task.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "20 7,9,17,20 * * *" script-path=jd_joypark_task.js,tag=汪汪乐园每日任务
+cron "0 0,7,9,17,20 * * *" script-path=jd_joypark_task.js,tag=汪汪乐园每日任务
 
 ===============Surge=================
-汪汪乐园每日任务 = type=cron,cronexp="20 7,9,17,20 * * *",wake-system=1,timeout=3600,script-path=jd_joypark_task.js
+汪汪乐园每日任务 = type=cron,cronexp="0 0,7,9,17,20 * * *",wake-system=1,timeout=3600,script-path=jd_joypark_task.js
 
 ============小火箭=========
-汪汪乐园每日任务 = type=cron,script-path=jd_joypark_task.js, cronexpr="20 7,9,17,20 * * *", timeout=3600, enable=true
+汪汪乐园每日任务 = type=cron,script-path=jd_joypark_task.js, cronexpr="0 0,7,9,17,20 * * *", timeout=3600, enable=true
 */
 const $ = new Env('汪汪乐园每日任务');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -63,8 +63,9 @@ message = ""
       if ($.isNode()) {
         if (process.env.HELP_JOYPARK && process.env.HELP_JOYPARK == "false") {
         } else {
-          for (let j = 0; j < $.invitePin.length; j++) {
-            let resp = await getJoyBaseInfo(undefined, 2, $.invitePin[j]);
+          for (let j = 0; j < 5; j++) {
+            $.kgw_invitePin = ["zZkewfd3OKs-WtoJd8Jw6OIrD81WzO3SX56S2DGMlZ0","7zG4VHS99AUEoX1mQTkC9Q","BbsjCRrQudIL06kRvqmVln053h03GiApg7HN_Vhy_Og","sAxL-dc5T6lS6wtKqP6SlA","bcVxt4PbZdbX7tiT1Q_ubg"][Math.floor((Math.random() * 5))];
+            let resp = await getJoyBaseInfo(undefined, 2, $.kgw_invitePin);
             if (resp.data && resp.data.helpState && resp.data.helpState === 1) {
               $.log("帮【zero205】开工位成功，感谢！\n");
             } else if (resp.data && resp.data.helpState && resp.data.helpState === 3) {

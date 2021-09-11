@@ -154,13 +154,13 @@
       }
     },
     {
-      "name": "京喜财富岛提现",
+      "name": "京喜财富岛合成月饼",
       "type": "cron",
-      "time": "59 11,12,23 * * *",
+      "time": "13 6,13,23 * * *",
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_cfdtx.js"
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_cfd_mooncake.js"
       }
     },
     {
@@ -181,6 +181,16 @@
       "job": {
         "type": "runjs",
         "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_daily_egg.js"
+      }
+    },
+    {
+      "name": "积分换话费",
+      "type": "cron",
+      "time": "50 8 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_dwapp.js"
       }
     },
     {
@@ -314,6 +324,26 @@
       }
     },
     {
+      "name": "京小鸽",
+      "type": "cron",
+      "time": "45 0 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jxg.js"
+      }
+    },
+    {
+      "name": "京喜领红包",
+      "type": "cron",
+      "time": "3 0,6-20/4 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jxlhb.js"
+      }
+    },
+    {
       "name": "京东快递签到",
       "type": "cron",
       "time": "25 0 * * *",
@@ -331,6 +361,16 @@
       "job": {
         "type": "runjs",
         "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_ljd.js"
+      }
+    },
+    {
+      "name": "零食街",
+      "type": "cron",
+      "time": "2 0,6-23 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_lsj.js"
       }
     },
     {
@@ -534,6 +574,16 @@
       }
     },
     {
+      "name": "赚金币",
+      "type": "cron",
+      "time": "6 0,15 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_zjb.js"
+      }
+    },
+    {
       "name": "健康社区",
       "type": "cron",
       "time": "30 10-22/3 * * *",
@@ -681,6 +731,36 @@
       "job": {
         "type": "runjs",
         "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_superBrand.js"
+      }
+    },
+    {
+      "name": "星店长",
+      "type": "cron",
+      "time": "20 10 * 9 *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_star_shop.js"
+      }
+    },
+    {
+      "name": "许愿池",
+      "type": "cron",
+      "time": "20 0,11 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_wish.js"
+      }
+    },
+    {
+      "name": "内容鉴赏官",
+      "type": "cron",
+      "time": "15 0,21 * 9 *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_connoisseur.js"
       }
     },
     {
