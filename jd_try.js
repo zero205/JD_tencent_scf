@@ -118,7 +118,7 @@ let args_xh = {
 }
 //上面很重要，遇到问题请把上面注释看一遍再来问
 !(async() => {
-    console.log('X1a0He留：遇到问题请把脚本内的注释看一遍再来问，谢谢')
+    console.log('京东试用只建议懂如何配置的跑,不只是脚本配置,京东试用规则本身也比较复杂.这也是为什么默认不跑. 云函数也是,可能会跑很久.如果你问的问题不是脚本的代码问题,我十分不建议跑')
     await $.wait(500)
     if(process.env.JD_TRY && process.env.JD_TRY === 'true'){
         await requireConfig()
