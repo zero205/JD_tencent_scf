@@ -1,10 +1,12 @@
 // @grant nodejs
 /*
 ENV
-JOYPARK_JOY_START =      只做前几个CK
+
 JOY_COIN_MAXIMIZE =      最大化硬币收益，如果合成后全部挖土后还有空位，则开启此模式（默认关闭） 0关闭 1开启
 
 请确保新用户助力过开工位，否则开启游戏了就不算新用户，后面就不能助力开工位了！！！！！！！！！！
+
+脚本会默认帮zero205助力开工位，如需关闭请添加变量，变量名：HELP_JOYPARK，变量值：false
 
 更新地址：https://github.com/Tsukasa007/my_script
 
@@ -58,11 +60,11 @@ message = ""
     return;
   }
   for (let i = 0; i < cookiesArr.length; i++) {
-    //$.wait(50)
-    if (process.env.JOYPARK_JOY_START && i == process.env.JOYPARK_JOY_START){
-      console.log(`\n汪汪乐园养joy 只运行 ${process.env.JOYPARK_JOY_START} 个Cookie\n`);
-      break
-    }
+    //$.wait(50) 
+    // if (process.env.JOYPARK_JOY_START && i == process.env.JOYPARK_JOY_START){
+    //   console.log(`\n汪汪乐园养joy 只运行 ${process.env.JOYPARK_JOY_START} 个Cookie\n`);
+    //   break
+    // }
     cookie = cookiesArr[i];
     if (cookie) {
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -80,6 +82,25 @@ message = ""
         continue
       }
       console.log(`\n\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
+      if ($.isNode()) {
+        if (process.env.HELP_JOYPARK && process.env.HELP_JOYPARK == "false") {
+        } else {
+          for (let j = 0; j < 5; j++) {
+            $.kgw_invitePin = ["zZkewfd3OKs-WtoJd8Jw6OIrD81WzO3SX56S2DGMlZ0","7zG4VHS99AUEoX1mQTkC9Q","BbsjCRrQudIL06kRvqmVln053h03GiApg7HN_Vhy_Og","sAxL-dc5T6lS6wtKqP6SlA","bcVxt4PbZdbX7tiT1Q_ubg"][Math.floor((Math.random() * 5))];
+            let resp = await getJoyBaseInfo(undefined, 2, $.kgw_invitePin);
+            if (resp.data && resp.data.helpState && resp.data.helpState === 1) {
+              $.log("帮【zero205】开工位成功，感谢！\n");
+            } else if (resp.data && resp.data.helpState && resp.data.helpState === 3) {
+              $.log("你不是新用户！跳过开工位助力\n");
+              break
+            } else if (resp.data && resp.data.helpState && resp.data.helpState === 2) {
+              $.log(`他的工位已全部开完啦！\n`);
+            } else {
+              $.log("开工位失败！\n");
+            }
+          }
+        }
+      }
       //下地后还有有钱买Joy并且买了Joy
       $.hasJoyCoin = true
       await getJoyBaseInfo(undefined,undefined,undefined,true);
