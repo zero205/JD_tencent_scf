@@ -63,20 +63,18 @@ message = ""
       if ($.isNode()) {
         if (process.env.HELP_JOYPARK && process.env.HELP_JOYPARK == "false") {
         } else {
-          for (let j = 0; j < 5; j++) {
-            $.kgw_invitePin = ["zZkewfd3OKs-WtoJd8Jw6OIrD81WzO3SX56S2DGMlZ0","7zG4VHS99AUEoX1mQTkC9Q","BbsjCRrQudIL06kRvqmVln053h03GiApg7HN_Vhy_Og","sAxL-dc5T6lS6wtKqP6SlA","bcVxt4PbZdbX7tiT1Q_ubg"][Math.floor((Math.random() * 5))];
-            let resp = await getJoyBaseInfo(undefined, 2, $.kgw_invitePin);
-            if (resp.data && resp.data.helpState && resp.data.helpState === 1) {
-              $.log("帮【zero205】开工位成功，感谢！\n");
-            } else if (resp.data && resp.data.helpState && resp.data.helpState === 3) {
-              $.log("你不是新用户！跳过开工位助力\n");
-              break
-            } else if (resp.data && resp.data.helpState && resp.data.helpState === 2) {
-              $.log(`他的工位已全部开完啦！\n`);
-              $.openIndex++
-            } else {
-              $.log("开工位失败！\n");
-            }
+          $.kgw_invitePin = ["7zG4VHS99AUEoX1mQTkC9Q"][Math.floor((Math.random() * 1))];
+          let resp = await getJoyBaseInfo(undefined, 2, $.kgw_invitePin);
+          if (resp.data && resp.data.helpState && resp.data.helpState === 1) {
+            $.log("帮【zero205】开工位成功，感谢！\n");
+          } else if (resp.data && resp.data.helpState && resp.data.helpState === 3) {
+            $.log("你不是新用户！跳过开工位助力\n");
+            break
+          } else if (resp.data && resp.data.helpState && resp.data.helpState === 2) {
+            $.log(`他的工位已全部开完啦！\n`);
+            $.openIndex++
+          } else {
+            $.log("开工位失败！\n");
           }
         }
       }
