@@ -22,7 +22,7 @@ jobs:
           for i in 'JRBODY.txt' '.env';do  
               mv $i JD_tencent_scf && echo move $i || echo Not Have $i;
           done
-          [ -e diy ] && mv -f diy/* JD_tencent_scf/
+          if [ -d diy ]; then mv -f diy/* JD_tencent_scf/; fi;
       - uses: actions/setup-node@v2
       - name: install dependency
         working-directory: ./JD_tencent_scf
