@@ -28,7 +28,7 @@ cron "59 7,15,23 * * *" script-path=jd_joy_reward.js,tag=宠汪汪积分兑换�
 // @grant    require
 // prettier-ignore
 const $ = new Env('宠汪汪积分兑换奖品');
-const zooFaker = require('./JDJRValidator_Pure');
+const zooFaker = require('./JDJRValidator_Aaron');
 // $.get = zooFaker.injectToRequest2($.get.bind($));
 // $.post = zooFaker.injectToRequest2($.post.bind($));
 let allMessage = '';
