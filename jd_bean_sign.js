@@ -15,6 +15,8 @@ const fs = require('fs')
 const jr_file = 'JRBODY.txt'
 const readline = require('readline')
 let cookiesArr = []
+const stopVar = process.env.JD_BEAN_STOP ? process.env.JD_BEAN_STOP : '0';
+console.log('Stop:',stopVar)
 
 async function processLineByLine(jrbodys) {
   const fileStream = fs.createReadStream(jr_file)
@@ -181,7 +183,7 @@ hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com
 
 var LogDetails = false; //是否开启响应日志, true则开启
 
-var stop = '0'; //自定义延迟签到, 单位毫秒. 默认分批并发无延迟; 该参数接受随机或指定延迟(例: '2000'则表示延迟2秒; '2000-5000'则表示延迟最小2秒,最大5秒内的随机延迟), 如填入延迟则切换顺序签到(耗时较长), Surge用户请注意在SurgeUI界面调整脚本超时; 注: 该参数Node.js或JSbox环境下已配置数据持久化, 留空(var stop = '')即可清除.
+var stop = stopVar; //自定义延迟签到, 单位毫秒. 默认分批并发无延迟; 该参数接受随机或指定延迟(例: '2000'则表示延迟2秒; '2000-5000'则表示延迟最小2秒,最大5秒内的随机延迟), 如填入延迟则切换顺序签到(耗时较长), Surge用户请注意在SurgeUI界面调整脚本超时; 注: 该参数Node.js或JSbox环境下已配置数据持久化, 留空(var stop = '')即可清除.
 
 var DeleteCookie = false; //是否清除所有Cookie, true则开启.
 
