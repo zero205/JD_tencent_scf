@@ -150,13 +150,11 @@ async function joyReward() {
           giftSaleInfos = 'beanConfigs0';
           $.Num = 0
           rewardNum = 500
-        }
-        if (time >= 7 && time < 15) {
+        }else if (time >= 7 && time < 15) {
           giftSaleInfos = 'beanConfigs8';
           $.Num = 8
           rewardNum = 500
-        }
-        if (time >= 15 && time < 23) {
+        }else if (time >= 15 && time < 23) {
           giftSaleInfos = 'beanConfigs16';
           $.Num = 16
           rewardNum = 20
