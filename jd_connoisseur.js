@@ -92,7 +92,7 @@ let allMessage = '';
             continue
           }
           $.delcode = false
-          await getTaskInfo("2", $.projectCode, $.taskCode, "24", "2", $.shareCodes[j].code)
+          await getTaskInfo("2", $.projectCode, $.taskCode, $.helpType, "2", $.shareCodes[j].code)
           await $.wait(2000)
           if ($.delcode) {
             $.shareCodes.splice(j, 1)
@@ -172,7 +172,7 @@ async function getActiveInfo(url = 'https://prodev.m.jd.com/mall/active/2y1S9xVY
 }
 async function getTaskInfo(type, projectId, assignmentId, ofn, helpType = '1', itemId = '') {
   let body = {"type":type,"projectId":projectId,"assignmentId":assignmentId,"doneHide":false}
-  if (ofn === "24") body['itemId'] = itemId; body['helpType'] = helpType
+  if (ofn === $.helpType) body['itemId'] = itemId; body['helpType'] = helpType
   return new Promise(async resolve => {
     $.post(taskUrl('interactive_info', body), async (err, resp, data) => {
       try {
@@ -219,7 +219,7 @@ async function getTaskInfo(type, projectId, assignmentId, ofn, helpType = '1', i
               } else {
                 console.log(data.message)
               }
-            } else if (ofn === "24") {
+            } else if (ofn === $.helpType) {
               if (helpType === '1') {
                 if (data.code === "0" && data.data) {
                   if (data.data[0].status !== "2") {
@@ -422,15 +422,16 @@ async function getshareCode() {
             data = JSON.parse(data)
             for (let key of Object.keys(data.floorList)) {
               let vo = data.floorList[key]
-              if (vo.ofn && vo.ofn === "20") {
+              if (vo.ofn && (vo.ofn === "20" && vo.template === 'customcode')) {
                 await getTaskInfo("1", vo.boardParams.projectCode, vo.boardParams.taskCode, vo.ofn)
                 await $.wait(2000)
-              } else if (vo.ofn && vo.ofn === "24") {
+              } else if (vo.ofn && ((vo.ofn === "22" || vo.ofn === "24") && vo.template === 'customcode')) {
                 $.projectCode = vo.boardParams.projectCode
                 $.taskCode = vo.boardParams.taskCode
+                $.helpType = vo.ofn
               }
             }
-            await getTaskInfo("2", $.projectCode, $.taskCode, "24")
+            await getTaskInfo("2", $.projectCode, $.taskCode, $.helpType)
           }
         }
       } catch (e) {
