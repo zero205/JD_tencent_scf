@@ -25,7 +25,7 @@ async function JDJS_utils() {
 
   await downloadJS("sendNotify", "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/sendNotify.js", "./script/JSFile")
 
-  await downloadJS("JDJRValidator_Pure", "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/JDJRValidator_Pure.js", "./script/JSFile")
+  await downloadJS("JDJRValidator_Aaron", "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/JDJRValidator_Aaron.js", "./script/JSFile")
 
   await downloadJS("JDJRValidator_Smiek", "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/JDJRValidator_Smiek.js", "./script/JSFile")
 
