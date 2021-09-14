@@ -55,6 +55,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
     const signactid = 1000021
     const signenpid = "uK2fYitTgioETuevoY88bGEts3U"
     const signdataeid = "47E6skJcyZx7GSUFXyomLgF1FLCA"
+    getShareCode()
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
         if (cookie) {
@@ -108,6 +109,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
             }
         }
     }
+    codeList = [...(codeList || []), ...($.shareCode || [])]
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
         if (cookie) {
@@ -144,8 +146,32 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
 })()
 .catch((e) => $.logErr(e))
     .finally(() => $.done())
-//获取活动信息
 
+function getShareCode() {
+  return new Promise(resolve => {
+    $.get({
+      url: "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/tewu.json",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    }, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`);
+          console.log(`${$.name} API请求失败，请检查网路重试`);
+        } else {
+          console.log(`优先账号内部互助，有剩余助力次数再帮【zero205】助力`);
+          $.shareCode = JSON.parse(data);
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
+//获取活动信息
 function getid(functionid, source) {
     return new Promise(async (resolve) => {
         const options = taskPostUrl(functionid, `{"source":"${source}"}`)
