@@ -55,7 +55,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
     const signactid = 1000021
     const signenpid = "uK2fYitTgioETuevoY88bGEts3U"
     const signdataeid = "47E6skJcyZx7GSUFXyomLgF1FLCA"
-    getShareCode()
+    await getShareCode()
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
         if (cookie) {
