@@ -150,7 +150,8 @@ async function getAuthorShareCode() {
                     console.log(`${JSON.stringify(err)}`);
                     console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
-                    $.authorCode = JSON.parse(data);
+                    $.authorCode = JSON.parse(data)
+                    $.authorCode = $.authorCode.sort(() => 0.5 - Math.random())
                 }
             } catch (e) {
                 $.logErr(e, resp)
