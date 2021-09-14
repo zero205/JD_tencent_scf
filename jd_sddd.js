@@ -88,7 +88,7 @@ if ($.isNode()) {
   await getAuthorShareCode()
   if ($.authorCode && $.authorCode.length) {
     console.log(`\n开始帮【zero205】助力，感谢！\n`);
-    for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = 0; i < cookiesArr.length && i < $.authorCode.length; i++) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
       $.index = i + 1;
