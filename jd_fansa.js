@@ -49,7 +49,7 @@ if ($.isNode()) {
             }
             authorCodeList = [
                 '9cc579792aef4986809f1720fca3f470',
-                '0IzWPVQGlmepafqlqgOSXw',
+                '3a2657606e034d79b6826f940752a660',
                 '594c7b10af6e45d39e6d92dac27af38c',
             ]
             $.bean = 0;
