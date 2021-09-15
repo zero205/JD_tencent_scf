@@ -109,7 +109,7 @@ async function superFans() {
                     $.log("店铺已经关注过了此脚本只运行一次即可\n")
                 }
                 if(!['card','car'].includes(process.env.FS_LEVEL)){
-                    $.log("不加购,脚本结束,设置FS_CARD=card开卡+加购; FS_CARD=car只加购")
+                    $.log("不加购,脚本结束,设置FS_LEVEL=card开卡+加购; FS_LEVEL=car只加购")
                     return
                 }
                 $.log("\n加入购物车")
@@ -119,7 +119,7 @@ async function superFans() {
                     $.log("已经加购过了,此脚本只运行一次即可\n")
                 }
                 if(process.env.FS_LEVEL!='card'){
-                    $.log("不开卡,脚本结束,设置FS_CARD=card开卡+加购; FS_CARD=car只加购")
+                    $.log("不开卡,脚本结束,设置FS_LEVEL=card开卡+加购; FS_LEVEL=car只加购")
                     return
                 }
                 $.log("准备开卡,填错了的话5s后悔时间\n")
