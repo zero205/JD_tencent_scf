@@ -243,7 +243,7 @@ async function joyReward() {
 }
 function getExchangeRewards() {
   let opt = {
-    url: "//jdjoy.jd.com/common/gift/getBeanConfigs?reqSource=h5&invokeKey=RtKLB8euDo7KwsO0",
+    url: "//jdjoy.jd.com/common/gift/getBeanConfigs?reqSource=h5&invokeKey=JL1VTNRadM68cIMQ",
     method: "GET",
     data: {},
     credentials: "include",
@@ -251,7 +251,7 @@ function getExchangeRewards() {
   }
   return new Promise((resolve) => {
     let lkt = new Date().getTime()
-    let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
+    let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
     const option = {
       url: "https:" + taroRequest(opt)['url'] + $.validate[$.index-1],
       headers: {
@@ -291,13 +291,13 @@ function getExchangeRewards() {
 function exchange(saleInfoId, orderSource) {
   let body = { "buyParam": { "orderSource": orderSource, "saleInfoId": saleInfoId }, "deviceInfo": {} }
   let opt = {
-    "url": "//jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=RtKLB8euDo7KwsO0",
+    "url": "//jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=JL1VTNRadM68cIMQ",
     "data": body,
     "credentials": "include", "method": "POST", "header": { "content-type": "application/json" }
   }
   return new Promise((resolve) => {
     let lkt = new Date().getTime()
-    let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
+    let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
     const option = {
       url: "https:" + taroRequest(opt)['url'] + $.validate[$.index-1],
       body: `${JSON.stringify(body)}`,
