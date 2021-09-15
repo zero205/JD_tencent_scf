@@ -60,6 +60,7 @@ if ($.isNode()) {
             $.activityId = 'dz2109100001616201'
             $.activityShopId = '1000016162'
             $.activityUrl = `https://lzdz1-isv.isvjcloud.com/dingzhi/shop/league/activity?activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}&adsource=null&shareuserid4minipg=null&shopid=${$.activityShopId}&lng=00.000000&lat=00.000000&sid=&un_area=`
+            console.log('活动入口:',$.activityUrl)
             await superFans();
             await $.wait(2000);
             if ($.bean > 0) {
