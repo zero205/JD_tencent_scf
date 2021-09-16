@@ -272,7 +272,7 @@ async function getBigReward(){
   return new Promise(async resolve => {
     $.post(myRequest, (err, resp, data) => {
       try {
-        console.log(data);
+        // console.log(data);
         data = JSON.parse(data);
         if(data.success === true && data.code === 1){
           if(data && data.content && data.content.rewardDTO){
