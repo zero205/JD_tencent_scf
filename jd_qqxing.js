@@ -42,7 +42,7 @@ if ($.isNode()) {
 
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
 message = ""
-$.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6216f"][Math.floor((Math.random() * 2))];
+$.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6216f","2d4ce1b209d7442aaf1a114752277e85"][Math.floor((Math.random() * 3))];
 !(async () => {
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
