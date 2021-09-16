@@ -422,7 +422,7 @@ async function getshareCode() {
             data = JSON.parse(data)
             for (let key of Object.keys(data.floorList)) {
               let vo = data.floorList[key]
-              if (vo.ofn && (vo.ofn === "20" && vo.template === 'customcode')) {
+              if (vo.ofn && ((vo.ofn === "16" || vo.ofn === "18" || vo.ofn === "20") && vo.template === 'customcode')) {
                 await getTaskInfo("1", vo.boardParams.projectCode, vo.boardParams.taskCode, vo.ofn)
                 await $.wait(2000)
               } else if (vo.ofn && ((vo.ofn === "22" || vo.ofn === "24") && vo.template === 'customcode')) {

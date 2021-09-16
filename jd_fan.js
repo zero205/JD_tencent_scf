@@ -12,8 +12,6 @@ let cookiesArr = [];
 const activityList = [
     {"actid": "2aac05400cfb47c1b91cf8152f90b8e7", "endTime": 1632931200000},
     {"actid": "f1f1d34436ec4909aa7903f64205e283", "endTime": 1633622400000},
-    {"actid": "e9c2a3156dc44c6e9fe59e9d890f694f", "endTime": 1631721599000},
-    {"actid": "bf5a0953a44b4cdb95a704a330719534", "endTime": 1631635200000},
     {"actid": "2e8a6f983f934eef8ec3da0e6eef6fd2", "endTime": 1631894400000},
     {"actid": "7377aba024114ddfa25bad00948a8722", "endTime": 1632931200000},
     {"actid": "b6bd7155cefe443aae1e5a74383008f2", "endTime": 1635695999000},
@@ -27,7 +25,6 @@ const activityList = [
     {"actid": "73086c4fed7746e1b911a776d2e8662e", "endTime": 1633017599000},
     {"actid": "179e156d768240db84393751fc9c427b", "endTime": 1633017599000},
     {"actid": "bed695cfc40941c0a641eba935f9601e", "endTime": 1633017599000},
-    {"actid": "eff9c47393be446f9dd576e26d13dd9d", "endTime": 1631635200000}
 ]
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
