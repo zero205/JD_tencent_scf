@@ -764,6 +764,16 @@
       }
     },
     {
+      "name": "QQ星系牧场",
+      "type": "cron",
+      "time": "30 0,6-23/6 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_qqxing.js"
+      }
+    },
+    {
       "name": "店铺签到",
       "type": "cron",
       "time": "20 8 * * *",
