@@ -18,7 +18,7 @@ https://lzdz-isv.isvjcloud.com/dingzhi/qqxing/pasture/activity?activityId=901210
 ============Quantumultx===============
 [task_local]
 #星系牧场
-45 0,6-23/4 * * * https://raw.githubusercontent.com/Wenmoux/scripts/wen/jd/jd_qqxing.js, tag=星系牧场, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+45 0,6-23/2 * * * https://raw.githubusercontent.com/Wenmoux/scripts/wen/jd/jd_qqxing.js, tag=星系牧场, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 const $ = new Env('QQ星系牧场');
 //Node.js用户请在jdCookie.js处填写京东ck;
