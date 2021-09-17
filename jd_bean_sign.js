@@ -43,7 +43,7 @@ async function processLineByLine(jrbodys) {
   if(process.env.JRBODY) {
     jrbodys = process.env.JRBODY.split('&')
   }else{
-    console.log(`为检测到JRBODY环境变量,开始检测${jr_file}`)
+    console.log(`未检测到JRBODY环境变量,开始检测${jr_file}`)
     try {
       await fs.accessSync('./'+jr_file, fs.constants.F_OK)
       console.log(`${jr_file} '存在,读取配置'`)
@@ -53,7 +53,7 @@ async function processLineByLine(jrbodys) {
     }
   }
   if (jrbodys.length != cookiesArr.length) {
-    console.error('CK和JRBODY长度不匹配,不使用JRBODY,请阅读脚本开头说明')
+    console.error(`CK和JRBODY长度不匹配,不使用JRBODY,请阅读脚本开头说明.当前ck长度:${cookiesArr.length},JRBODY长度:${jrbodys.length}`)
     jrbodys = undefined
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -62,10 +62,10 @@ async function processLineByLine(jrbodys) {
     }
     if (jrbodys) {
       if(jrbodys[i].startsWith('reqData=')){
-          data['jrBody'] = jrbodys[i]
-        }else{
-          console.log(`跳过第${i+1}个JRBODY,为空或格式不正确`)
-        }
+        data['jrBody'] = jrbodys[i]
+      }else{
+        console.log(`跳过第${i+1}个JRBODY,为空或格式不正确`)
+      }
     }
     cookiesArr[i] = data
   }
