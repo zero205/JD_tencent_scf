@@ -110,13 +110,15 @@ $.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6
                 }
                 await getinfo()
                 await $.wait(3000)
-                console.log(`【开始喂食】`)
-                do {
+                let th = $.isNode() ? (process.env.CowKeep ? process.env.CowKeep : 100) : ($.getdata("CowKeep") ? $.getdata("CowKeep") : 100)
+                th = Math.max(100,th)
+                console.log(`【准备喂食,当前设置食物>${th}则喂食物,可通过设置环境变量CowKeep进行更改,需要大于100】`)
+                while($.foodNum >= th) {
                     await feed()
                     await $.wait(3000)
                     await getinfo2()
                     await $.wait(3000)
-                } while ($.foodNum >= 100);
+                }
                 for (k = 0; k < $.drawchance; k++) {
                     await draw()
                     await $.wait(2000)
