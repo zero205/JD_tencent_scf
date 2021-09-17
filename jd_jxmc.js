@@ -275,6 +275,7 @@ async function pasture() {
                 console.log(`开始收鸡蛋`);
                 await takeGetRequest('GetEgg');
                 await $.wait(1000);
+                $.canFeedTimes++
               }
             }
           }
