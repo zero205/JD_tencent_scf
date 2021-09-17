@@ -109,14 +109,17 @@ $.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6
                     }
                 }
                 await getinfo()
+                await $.wait(3000)
                 console.log(`【开始喂食】`)
                 do {
                     await feed()
-                    await $.wait(2000)
+                    await $.wait(3000)
                     await getinfo2()
+                    await $.wait(3000)
                 } while ($.foodNum >= 100);
                 for (k = 0; k < $.drawchance; k++) {
                     await draw()
+                    await $.wait(2000)
                 }
                 let exchanges = Math.floor($.foodNum / 3000)
                 console.log(`可兑换 ${exchanges} 次 50京🐶`)
