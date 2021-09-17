@@ -116,8 +116,8 @@ $.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6
                 while($.foodNum >= th) {
                     await feed()
                     await $.wait(3000)
-                    await getinfo2()
-                    await $.wait(3000)
+                    // await getinfo2()
+                    // await $.wait(3000)
                 }
                 for (k = 0; k < $.drawchance; k++) {
                     await draw()
@@ -450,35 +450,6 @@ function getinfo() {
 
 }
 
-
-function getinfo2() {
-    let config = taskPostUrl("/dingzhi/qqxing/pasture/myInfo", `activityId=90121061401&pin=${encodeURIComponent($.pin)}&pinImg=${$.pinImg}&nick=${$.nick}&cjyxPin=&cjhyPin=&shareUuid=${$.shareuuid}`)
-    return new Promise(resolve => {
-        $.post(config, async (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} getinfo API请求失败，请检查网路重试`)
-                } else {
-                    data = JSON.parse(data);
-                    if (data.result) {
-                        $.food = data.data.bags.filter(x => x.bagId == 'food')[0]
-                        $.foodNum = $.food.totalNum - $.food.useNum
-                        console.log(`当前剩余饲料：${$.foodNum}`)
-                    } else {
-                        console.log(data.errorMessage)
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
-            }
-        })
-    })
-
-}
-
 // 获取浏览商品
 function getproduct() {
     return new Promise(resolve => {
@@ -537,6 +508,7 @@ function feed() {
                     data = JSON.parse(data);
                     if (data.data && data.result) {
                         console.log(`喂食成功`)
+                        $.foodNum -= 100
                     }
                 }
             } catch (e) {
