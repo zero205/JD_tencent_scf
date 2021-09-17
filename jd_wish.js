@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1E1NXxq0', '1ElBTx6o'];
-let appNameArr = ['众筹许愿池', '企有此礼'];
+let appIdArr = ['1E1NXxq0', '1ElBTx6o', '1ElJYxqY'];
+let appNameArr = ['众筹许愿池', '企有此礼', '芯意制造盒'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
@@ -63,7 +63,7 @@ if ($.isNode()) {
       for (let j = 0; j < appIdArr.length; j++) {
         appId = appIdArr[j]
         appName = appNameArr[j]
-        console.log(`开始第${j + 1}个活动：${appName}\n`)
+        console.log(`\n开始第${j + 1}个活动：${appName}\n`)
         await jd_wish();
       }
     }
@@ -127,12 +127,13 @@ async function jd_wish() {
     await $.wait(2000)
 
     if (forNum === 0) {
-      console.log(`没有抽奖机会\n\n`)
+      console.log(`没有抽奖机会\n`)
     } else {
-      console.log(`可以抽奖${forNum}次，去抽奖\n\n`)
+      console.log(`可以抽奖${forNum}次，去抽奖\n`)
     }
 
-    for (let j = 0; j < forNum; j++) {
+    $.canLottery = true
+    for (let j = 0; j < forNum && $.canLottery; j++) {
       await interact_template_getLotteryResult()
       await $.wait(2000)
     }
@@ -263,13 +264,18 @@ function interact_template_getLotteryResult() {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            let userAwardsCacheDto = data.data.result.userAwardsCacheDto
-            if (userAwardsCacheDto && userAwardsCacheDto.type === 2) {
-              console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.quantity}${userAwardsCacheDto.jBeanAwardVo.ext}`)
-            } else if (userAwardsCacheDto && userAwardsCacheDto.type === 0) {
-              console.log(`很遗憾未中奖~`)
+            let userAwardsCacheDto = data && data.data && data.data.result && data.data.result.userAwardsCacheDto
+            if (userAwardsCacheDto) {
+              if (userAwardsCacheDto.type === 2) {
+                console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.quantity}${userAwardsCacheDto.jBeanAwardVo.ext}`)
+              } else if (userAwardsCacheDto.type === 0) {
+                console.log(`很遗憾未中奖~`)
+              } else {
+                console.log(JSON.stringify(data))
+              }
             } else {
-              console.log(JSON.stringify(data))
+              $.canLottery = false
+              console.log(`此活动已黑，无法抽奖\n`)
             }
           }
         }
