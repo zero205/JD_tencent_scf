@@ -33,12 +33,12 @@ inputs:
           cronExpression: "1 0 0 * * * *"
           enable: true
           argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_bean_home&jd_car&jd_dpqd&jd_fansa
-    - timer: #领券中心签到 #京豆变动通知 #取关京东店铺商品 #京东抽奖机 #京东秒秒币 #领金贴 #京东试用 #图形签到 #京小鸽
+    - timer: #领券中心签到 #京豆变动通知 #取关京东店铺商品 #京东秒秒币 #领金贴 #京东试用 #图形签到 #京小鸽
         parameters:
-          name: ccSign_beanchange_unsubscribe_lotteryMachine_ms_jintie_try_signgraphics_jxg
+          name: ccSign_beanchange_unsubscribe_ms_jintie_try_signgraphics_jxg
           cronExpression: "0 10 0 * * * *"
           enable: true
-          argument: jd_ccSign&jd_bean_change&jd_unsubscribe&jd_lotteryMachine&jd_ms&jd_jin_tie&jd_try&jd_sign_graphics&jd_jxg
+          argument: jd_ccSign&jd_bean_change&jd_unsubscribe&jd_ms&jd_jin_tie&jd_try&jd_sign_graphics&jd_jxg
     - timer: #东东农场 #东东萌宠 #极速版签到 #极速版红包 #健康社区 #柠檬我是大老板 #母婴跳一跳 #东东世界 #京东手机狂欢城
         parameters:
           name: fruit_pet_speedsign_speedredpocke_health_wsdlb_jump_ddworld_carnivalcity
