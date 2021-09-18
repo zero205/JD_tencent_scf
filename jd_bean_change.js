@@ -10,6 +10,7 @@ const JXUserAgent = $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USE
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let allMessage = '';
+let allMessage2 = '';
 let allReceiveMessage = '';
 let allWarnMessage = '';
 let ReturnMessage = '';
@@ -104,36 +105,31 @@ if ($.isNode()) {
             if (intPerSent > 0) {
                 if ((i + 1) % intPerSent == 0) {
                     console.log("分段通知条件达成，处理发送通知....");
-					if (allWarnMessage) {
-						allMessage = "【⏰东东农场种植提醒⏰】\n" + allWarnMessage + "\n" + allMessage;
-					}
-                    if (allReceiveMessage) {
-                        allMessage = "【⏰商品白嫖活动领取提醒⏰】\n" + allReceiveMessage + "\n" + allMessage;
-                    }
                     if ($.isNode() && allMessage) {
                         await notify.sendNotify(`${$.name}`, `${allMessage}`, {
                             url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
                         })
                     }
-					allWarnMessage="";
-                    allReceiveMessage = "";
                     allMessage = "";
                 }
 
             }
         }
     }
+
+    if (allReceiveMessage) {
+        allMessage2 = `【⏰商品白嫖活动领取提醒⏰】\n` + allReceiveMessage;
+    }
+    if (allWarnMessage) {
+        if (allMessage2) {
+            allMessage2 = `\n` + allMessage2;
+        }
+        allMessage2 = `【⏰商品白嫖活动任务提醒⏰】\n` + allWarnMessage + allMessage2;
+    }
+
     if (intPerSent > 0) {
-        if ((i + 1) % intPerSent != 0) {
+        if (cookiesArr.length % intPerSent != 0) {
             console.log("分段通知收尾，处理发送通知....");
-            if (allWarnMessage) {
-                allMessage = "【⏰商品白嫖活动任务提醒⏰】\n" + allWarnMessage + "\n" + allMessage;
-            }
-
-            if (allReceiveMessage) {
-                allMessage = "【⏰商品白嫖活动领取提醒⏰】\n" + allReceiveMessage + "\n" + allMessage;
-            }
-
             if ($.isNode() && allMessage) {
                 await notify.sendNotify(`${$.name}`, `${allMessage}`, {
                     url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
@@ -141,18 +137,17 @@ if ($.isNode()) {
             }
         }
     } else {
-        if (allWarnMessage) {
-            allMessage = "【⏰商品白嫖活动任务提醒⏰】\n" + allWarnMessage + "\n" + allMessage;
-        }
-
-        if (allReceiveMessage) {
-            allMessage = "【⏰商品白嫖活动领取提醒⏰】\n" + allReceiveMessage + "\n" + allMessage;
-        }
         if ($.isNode() && allMessage) {
             await notify.sendNotify(`${$.name}`, `${allMessage}`, {
                 url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
             })
         }
+    }
+
+    if ($.isNode() && allMessage2) {
+        await notify.sendNotify(`${$.name}`, `${allMessage2}`, {
+            url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
+        })
     }
 
 })()
