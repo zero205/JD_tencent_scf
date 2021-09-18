@@ -23,6 +23,7 @@ jobs:
               mv $i JD_tencent_scf && echo move $i || echo Not Have $i;
           done
           if [ -d diy ]; then mv -f diy/* JD_tencent_scf/; fi;
+          if [ -f diy.sh ]; then bash diy.sh; fi;
       - uses: actions/setup-node@v2
       - name: install dependency
         working-directory: ./JD_tencent_scf
