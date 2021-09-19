@@ -74,7 +74,7 @@ if ($.isNode()) {
        await getsecretp()
        await Ariszy()
        await zy()
-       await unlock()
+       //await unlock()
    }
 
 })()
