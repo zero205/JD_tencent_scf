@@ -51,6 +51,7 @@ const inviteCodes = [
   'GFwo6PntxDHH95ZRzZ5uAg==@6lw84c1ARwpoRyOtfnF77g==@J1t777njetfQcyEg57lzQA==@W9u_eBl3YKbSjXu0QP3HGQ=@VV55A_oKz5u5CYrL3jxPdg==@9TCPf6sW9_v3B9f3KUoa7Q=='
 ];
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const ZLC = !(process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false')
 $.tuanIds = [];
 $.appId = 10001;
 $.newShareCode = [];
@@ -64,7 +65,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 !(async () => {
-  if (!process.env.JD_JOIN_ZLC || process.env.JD_JOIN_ZLC !== 'false') {
+  if (!process.env.JD_JOIN_ZLC) {
     console.log(`【注意】本脚本默认会给助力池进行助力！\n如需加入助力池请添加TG群：https://t.me/jd_zero_205\n如不加入助力池互助，可添加变量名称：JD_JOIN_ZLC，变量值：false\n`)
   }
   $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
@@ -680,17 +681,19 @@ function userInfo() {
 
                 // ***************************
                 // 报告运行次数
-                $.get({
-                  url: `https://api.jdsharecode.xyz/api/runTimes?activityId=jxfactory&sharecode=${data.user.encryptPin}`
-                }, (err, resp, data) => {
-                  if (err) {
-                    console.log('上报失败', err)
-                  } else {
-                    if (data === '1' || data === '0') {
-                      console.log('上报成功')
+                if (ZLC) {
+                  $.get({
+                    url: `https://api.jdsharecode.xyz/api/runTimes?activityId=jxfactory&sharecode=${data.user.encryptPin}`
+                  }, (err, resp, data) => {
+                    if (err) {
+                      console.log('上报失败', err)
+                    } else {
+                      if (data === '1' || data === '0') {
+                        console.log('上报成功')
+                      }
                     }
-                  }
-                })
+                  })
+                }
                 // ***************************
 
                 if (production.investedElectric >= production.needElectric) {
@@ -1424,7 +1427,7 @@ function shareCodesFormat() {
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
       newShareCodes = inviteCodes[tempIndex].split('@');
     }
-    if (process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false') {
+    if (!ZLC) {
       console.log(`您设置了不加入助力池，跳过\n`)
     } else {
       const readShareCodeRes = await readShareCode();

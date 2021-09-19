@@ -47,8 +47,9 @@ let randomCount = $.isNode() ? 20 : 5;
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 $.newShareCode = [];
+const ZLC = !(process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false')
 !(async () => {
-  if (!process.env.JD_JOIN_ZLC || process.env.JD_JOIN_ZLC !== 'false') {
+  if (!process.env.JD_JOIN_ZLC) {
     console.log(`【注意】本脚本默认会给助力池进行助力！\n如需加入助力池请添加TG群：https://t.me/jd_zero_205\n如不加入助力池互助，可添加变量名称：JD_JOIN_ZLC，变量值：false\n`)
   }
   await requireConfig();
@@ -123,17 +124,19 @@ async function jdFruit() {
     if ($.farmInfo.farmUserPro) {
       // ***************************
       // 报告运行次数
-      $.get({
-        url: `https://api.jdsharecode.xyz/api/runTimes?activityId=farm&sharecode=${$.farmInfo.farmUserPro.shareCode}`
-      }, (err, resp, data) => {
-        if (err) {
-          console.log('上报失败', err)
-        } else {
-          if (data === '1' || data === '0') {
-            console.log('上报成功')
+      if (ZLC) {
+        $.get({
+          url: `https://api.jdsharecode.xyz/api/runTimes?activityId=farm&sharecode=${$.farmInfo.farmUserPro.shareCode}`
+        }, (err, resp, data) => {
+          if (err) {
+            console.log('上报失败', err)
+          } else {
+            if (data === '1' || data === '0') {
+              console.log('上报成功')
+            }
           }
-        }
-      })
+        })
+      }
       // ***************************
       // option['media-url'] = $.farmInfo.farmUserPro.goodsImage;
       message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
@@ -1388,7 +1391,7 @@ function shareCodesFormat() {
       console.log(`您未填写助力码变量，优先进行账号内互助，再帮【zero205】助力`);
       newShareCodes = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
     }
-    if (process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false') {
+    if (!ZLC) {
       console.log(`您设置了不加入助力池，跳过\n`)
     } else {
       const readShareCodeRes = await readShareCode();
