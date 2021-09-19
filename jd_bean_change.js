@@ -188,7 +188,7 @@ async function showMsg() {
         if ($.isPlusVip == 1)
             ReturnMessage += `(${$.levelName}Plus)`;
         else
-            ReturnMessage += `(${$.levelName})`;
+            ReturnMessage += `(${$.levelName}会员)`;
     }
 
     if ($.errorMsg)
