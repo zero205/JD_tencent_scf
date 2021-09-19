@@ -39,12 +39,12 @@ inputs:
           cronExpression: "0 10 0 * * * *"
           enable: true
           argument: jd_ccSign&jd_bean_change&jd_unsubscribe&jd_ms&jd_jin_tie&jd_try&jd_sign_graphics&jd_jxg
-    - timer: #东东农场 #东东萌宠 #极速版签到 #极速版红包 #健康社区 #柠檬我是大老板 #母婴跳一跳 #东东世界 #京东手机狂欢城
+    - timer: #东东农场 #东东萌宠 #极速版签到 #极速版红包 #健康社区 #柠檬我是大老板 #母婴跳一跳 #东东世界 #京东手机狂欢城 #东东玩家
         parameters:
-          name: fruit_pet_speedsign_speedredpocke_health_wsdlb_jump_ddworld_carnivalcity
+          name: fruit_pet_speedsign_speedredpocke_health_wsdlb_jump_ddworld_carnivalcity_ddwj 
           cronExpression: "0 1 0-18/6 * * * *"
           enable: true
-          argument: jd_fruit&jd_pet&jd_speed_sign&jd_speed_redpocke&jd_health&jd_wsdlb&jd_jump&jd_ddworld&jd_carnivalcity
+          argument: jd_fruit&jd_pet&jd_speed_sign&jd_speed_redpocke&jd_health&jd_wsdlb&jd_jump&jd_ddworld&jd_carnivalcity&jd_ddwj
     - timer: #摇钱树 #摇钱树助力 #种豆得豆 #京喜财富岛 #超级红包雨
         parameters:
           name: moneyTree_moneyTteehelp_plantBean_cfd_superRedrain
