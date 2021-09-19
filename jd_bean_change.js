@@ -2,7 +2,7 @@
 cron "30 10,22 * * *" jd_bean_change.js, tag:资产变化强化版by-ccwav
  */
 
-//更新by ccwav,20210914
+//更新by ccwav,20210919
 
 const $ = new Env('京东资产变动');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -54,6 +54,7 @@ if ($.isNode()) {
             $.errorMsg = '';
             $.isLogin = true;
             $.nickName = '';
+            $.levelName = '';
             $.message = '';
             $.balance = 0;
             $.expiredBalance = 0;
@@ -73,6 +74,7 @@ if ($.isNode()) {
             $.jxFactoryInfo = '';
             $.jxFactoryReceive = '';
             $.jdCash = 0;
+            $.isPlusVip = 0;
             await TotalBean();
             console.log(`******开始查询【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
             if (!$.isLogin) {
@@ -158,13 +160,41 @@ if ($.isNode()) {
     $.done();
 })
 async function showMsg() {
+    //if ($.errorMsg)
+    //return
+
+    ReturnMessage = `👇=======账号${$.index}=======👇\n`
+        ReturnMessage += `【账号名称】${$.nickName || $.UserName}`;
+
+    if ($.levelName) {
+        if ($.levelName.length > 2)
+            $.levelName = $.levelName.substring(0, 2);
+
+        if ($.levelName == "注册")
+            $.levelName = `😊普通`;
+		
+		if ($.levelName == "钻石")
+			$.levelName =`💎钻石`;
+		
+		if ($.levelName == "金牌")
+			$.levelName =`🥇金牌`;
+		
+		if ($.levelName == "银牌")
+			$.levelName =`🥈银牌`;
+		
+		if ($.levelName == "铜牌")
+			$.levelName =`🥉铜牌`;
+		
+        if ($.isPlusVip == 1)
+            ReturnMessage += `(${$.levelName}Plus)`;
+        else
+            ReturnMessage += `(${$.levelName})`;
+    }
+
     if ($.errorMsg)
-        return
+        ReturnMessage += `\n【数据报错】获取京豆数据异常!`;
 
-        ReturnMessage = `👇=======账号${$.index}=======👇\n`
-            ReturnMessage += `【账号名称】${$.nickName || $.UserName}\n`;
-
-    ReturnMessage += `【今日京豆】收${$.todayIncomeBean}豆`;
+    ReturnMessage += `\n【今日京豆】收${$.todayIncomeBean}豆`;
 
     if ($.todayOutcomeBean != 0) {
         ReturnMessage += `,支${$.todayOutcomeBean}豆`;
@@ -220,13 +250,13 @@ async function showMsg() {
             }
         } else {
             if ($.treeState === 0) {
-                allWarnMessage += `【账号${$.index} ${$.nickName || $.UserName}】未种植水果! (东东农场)\n`;
-                ReturnMessage += `【东东农场】未执行新的种植!\n`;
+                allWarnMessage += `【账号${$.index} ${$.nickName || $.UserName}】水果领取后未重新种植! (东东农场)\n`;
+                //ReturnMessage += `【东东农场】水果领取后未重新种植!\n`;
             } else if ($.treeState === 1) {
                 ReturnMessage += `【东东农场】${$.JdFarmProdName}种植中...\n`;
             } else {
                 allWarnMessage += `【账号${$.index} ${$.nickName || $.UserName}】状态异常! (东东农场)\n`;
-                ReturnMessage += `【东东农场】${$.JdFarmProdName}状态异常${$.treeState}...\n`;
+                //ReturnMessage += `【东东农场】${$.JdFarmProdName}状态异常${$.treeState}...\n`;
             }
         }
     }
@@ -252,7 +282,7 @@ async function showMsg() {
             ReturnMessage += `【东东萌宠】${$.petInfo.goodsInfo.goodsName}已可领取!\n`;
             allReceiveMessage += `【账号${$.index} ${$.nickName || $.UserName}】${$.petInfo.goodsInfo.goodsName}可以兑换了! (东东萌宠)\n`;
         } else if ($.petInfo.petStatus === 6) {
-            ReturnMessage += `【东东萌宠】未选择物品!\n`;
+            //ReturnMessage += `【东东萌宠】未选择物品!\n`;
             allWarnMessage += `【账号${$.index} ${$.nickName || $.UserName}】未选择物品! (东东萌宠)\n`;
         } else if (response.resultCode === '0') {
             ReturnMessage += `【东东萌宠】${$.petInfo.goodsInfo.goodsName}`;
@@ -299,8 +329,8 @@ async function bean() {
                     }
                 }
             } else {
-                //$.errorMsg = `数据异常`;
-                //$.msg($.name, ``, `账号${$.index}：${$.nickName}\n${$.errorMsg}`);
+                $.errorMsg = `数据异常`;
+                $.msg($.name, ``, `账号${$.index}：${$.nickName}\n${$.errorMsg}`);
                 t = 1;
             }
         } else if (response && response.code === "3") {
@@ -339,7 +369,8 @@ async function jdCash() {
     let functionId = "cash_homePage"
         let body = "%7B%7D"
         let uuid = randomString(16)
-        let sign = await getSign(functionId, decodeURIComponent(body), uuid)
+        console.log(`正在获取领现金任务签名...`);
+    let sign = await getSign(functionId, decodeURIComponent(body), uuid)
         if (!sign) {
             console.log(`领现金任务签名获取失败,等待10秒后再次尝试...`)
             await $.wait(10 * 1000);
@@ -422,7 +453,7 @@ function getSign(functionid, body, uuid) {
             try {
                 if (err) {
                     console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} getSign API请求失败，请检查网路重试`)
+                    //console.log(`${$.name} getSign API请求失败，请检查网路重试`)
                 } else {}
             } catch (e) {
                 $.logErr(e, resp)
@@ -455,15 +486,21 @@ function TotalBean() {
                 } else {
                     if (data) {
                         data = JSON.parse(data);
+
                         if (data['retcode'] === "1001") {
                             $.isLogin = false; //cookie过期
                             return;
                         }
                         if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
                             $.nickName = data.data.userInfo.baseInfo.nickname;
+                            $.levelName = data.data.userInfo.baseInfo.levelName;
+                            $.isPlusVip = data.data.userInfo.isPlusVip;
+
                         }
                         if (data['retcode'] === '0' && data.data && data.data['assetInfo']) {
                             $.beanCount = data.data && data.data['assetInfo']['beanNum'];
+                        } else {
+                            $.errorMsg = `数据异常`;
                         }
                     } else {
                         $.log('京东服务器返回空数据');
@@ -626,10 +663,14 @@ function redPacket() {
                             $.balance = data.balance
                             $.expiredBalance = ($.jxRedExpire + $.jsRedExpire + $.jdRedExpire).toFixed(2)
                             $.message += `【红包总额】${$.balance}(总过期${$.expiredBalance})元 \n`;
-                        $.message += `【京喜红包】${$.jxRed}(将过期${$.jxRedExpire.toFixed(2)})元 \n`;
-                        $.message += `【极速红包】${$.jsRed}(将过期${$.jsRedExpire.toFixed(2)})元 \n`;
-                        $.message += `【京东红包】${$.jdRed}(将过期${$.jdRedExpire.toFixed(2)})元 \n`;
-                        $.message += `【健康红包】${$.jdhRed}(将过期${$.jdhRedExpire.toFixed(2)})元 `;
+                        if ($.jxRed > 0)
+                            $.message += `【京喜红包】${$.jxRed}(将过期${$.jxRedExpire.toFixed(2)})元 \n`;
+                        if ($.jsRed > 0)
+                            $.message += `【极速红包】${$.jsRed}(将过期${$.jsRedExpire.toFixed(2)})元 \n`;
+                        if ($.jdRed > 0)
+                            $.message += `【京东红包】${$.jdRed}(将过期${$.jdRedExpire.toFixed(2)})元 \n`;
+                        if ($.jdhRed > 0)
+                            $.message += `【健康红包】${$.jdhRed}(将过期${$.jdhRedExpire.toFixed(2)})元 `;
                     } else {
                         console.log(`京东服务器返回空数据`)
                     }
