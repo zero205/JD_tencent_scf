@@ -33,7 +33,7 @@ inputs:
           cronExpression: "1 0 0 * * * *"
           enable: true
           argument: jd_bean_sign&jd_club_lottery&jd_shop&jd_bean_home&jd_car&jd_dpqd&jd_fansa
-    - timer: #领券中心签到 #京豆变动通知 #取关京东店铺商品 #京东秒秒币 #领金贴 #京东试用 #图形签到 #京小鸽 #东东世界游戏
+    - timer: #领券中心签到 #京豆变动通知 #取关京东店铺商品 #京东秒秒币 #领金贴 #京东试用 #图形签到 #京小鸽 #东东玩家游戏
         parameters:
           name: ccSign_beanchange_unsubscribe_ms_jintie_try_signgraphics_jxg_ddgame
           cronExpression: "0 10 0 * * * *"
