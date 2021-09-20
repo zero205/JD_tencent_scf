@@ -77,6 +77,17 @@ if ($.isNode()) {
        await zy()
        //await userScore()
    }
+for(let i = 0; i < cookiesArr.length; i++){
+      cookie = cookiesArr[i];
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+      message = ''
+      $.isLogin = true;
+      $.index = i + 1;
+       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}助力模块*********\n`);
+      await getsecretp()
+      await control()
+      await userScore()
+}
 
 })()
     .catch((e) => $.logErr(e))
@@ -233,8 +244,8 @@ async function control(){
 }
 }
 async function dosupport(){
-   const body = `sceneval=&callback=funny_collectScore&functionId=funny_collectScore&appid=o2_act&client=wh5&clientVersion=1.0.0&uuid=-1&body=%7B%22ss%22%3A%22%7B%5C%22extraData%5C%22%3A%7B%5C%22log%5C%22%3A%5C%22%5C%22%2C%5C%22sceneid%5C%22%3A%5C%22HWJhPagewx%5C%22%7D%2C%5C%22secretp%5C%22%3A%5C%22${secretp}%5C%22%2C%5C%22random%5C%22%3A%5C%2295854278%5C%22%7D%22%2C%22inviteId%22%3A%22${token}%22%2C%22isCommonDealError%22%3Atrue%7D&loginType=1&loginWQBiz=businesst1`
- const MyRequest = PostRequest(``,body)
+   const body = `functionId=funny_collectScore&body=%7B%22ss%22%3A%22%7B%5C%22extraData%5C%22%3A%7B%5C%22log%5C%22%3A%5C%22%5C%22%2C%5C%22sceneid%5C%22%3A%5C%22HWJhPageh5%5C%22%7D%2C%5C%22secretp%5C%22%3A%5C%22${secretp}%5C%22%2C%5C%22random%5C%22%3A%5C%2269009870%5C%22%7D%22%2C%22inviteId%22%3A%22${helpcode}%22%2C%22isCommonDealError%22%3Atrue%7D&client=wh5&clientVersion=1.0.0&uuid=0bcbcdb2a68f16cf9c9ad7c9b944fd141646a849&appid=o2_act`
+ const MyRequest = PostRequest(`advId=funny_collectScore`,body)
  return new Promise((resolve) => {
    $.post(MyRequest,async(error, response, data) =>{
     try{
@@ -440,9 +451,9 @@ async function userScore(){
         if(logs)$.log(data)
         if(result.code == 0){
         let userScore = result.data.result.homeMainInfo.raiseInfo.remainScore
-        let turn = Math.floor(userScore / result.data.result.homeMainInfo.raiseInfo.curLevelStartScore+1)
+        let turn = Math.floor(userScore / (result.data.result.homeMainInfo.raiseInfo.nextLevelScore - result.data.result.homeMainInfo.raiseInfo.curLevelStartScore))
         if(turn > 0){
-        $.log("共有好玩币："+userScore+";开始解锁🔓\n")
+        $.log("共有好玩币："+userScore+";开始解锁🔓"+turn+"次\n")
         for(let i = 0; i < turn; i++){
         await unlock()
         }
