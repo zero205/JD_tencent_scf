@@ -72,9 +72,10 @@ if ($.isNode()) {
        await gethelpcode()
        await getlist()
        await getsecretp()
+       await getfeedtoken()
        await Ariszy()
        await zy()
-       //await unlock()
+       //await userScore()
    }
 
 })()
@@ -191,8 +192,12 @@ async function Ariszy(){
     taskid = listtokenArr[j].match(/\d+/)
     $.log("TaskId："+taskid)
     $.log("Token："+token)
+    if(taskid == 2 ||taskid == 4 || taskid == 8 || taskid ==14){
     await doTask()
     await DoTask()
+   }else{
+    await doTask()
+}
   }
     
 }
@@ -365,6 +370,39 @@ list1tokenArr.push(list4.productInfoVos[i].taskToken)
     })
    })
   }
+async function getfeedtoken(){
+for(let i = 9; i < 13;i++){
+  await getfeedlist(i)
+}
+}
+async function getfeedlist(Taskid){
+ const Body = `functionId=funny_getFeedDetail&body=%7B%22taskId%22%3A%22${Taskid}%22%7D&client=wh5&clientVersion=1.0.0&appid=o2_act`
+ const MyRequest = PostRequest(`?advId=funny_getFeedDetail`,Body)
+ return new Promise((resolve) => {
+    $.post(MyRequest,async(error, response, data) =>{
+    try{
+        const result = JSON.parse(data)
+        if(logs)$.log(data)
+        if(result.data.bizCode == 0){
+let lists = result.data.result.addProductVos.find(item => item.taskId == Taskid)
+       let maxTimes = lists.maxTimes
+       for(let i = 0; i < maxTimes; i++){
+listtokenArr.push(Taskid+lists.productInfoVos[i].taskToken)
+list2tokenArr.push(lists.productInfoVos[i].taskToken)
+//$.log(JSON.stringify((list2tokenArr)))
+       }
+        //await zy()
+        }else{
+           $.log(result.data.bizMsg+"\n")
+        }
+        }catch(e) {
+          $.logErr(e, response);
+      } finally {
+        resolve();
+      } 
+    })
+   })
+  }
 async function gethelpcode(){
  const MyRequest = PostRequest(`?advId=funny_getTaskDetail`,`functionId=funny_getTaskDetail&body=%7B%22taskId%22%3A%22%22%2C%22appSign%22%3A%221%22%7D&client=wh5&clientVersion=1.0.0&uuid=0bcbcdb2a68f16cf9c9ad7c9b944fd141646a849&appid=o2_act`)
  return new Promise((resolve) => {
@@ -402,7 +440,7 @@ async function userScore(){
         if(logs)$.log(data)
         if(result.code == 0){
         let userScore = result.data.result.homeMainInfo.raiseInfo.remainScore
-        let turn = Math.floor(userScore / result.data.result.homeMainInfo.raiseInfo.curLevelStartScore)
+        let turn = Math.floor(userScore / result.data.result.homeMainInfo.raiseInfo.curLevelStartScore+1)
         if(turn > 0){
         $.log("共有好玩币："+userScore+";开始解锁🔓\n")
         for(let i = 0; i < turn; i++){
