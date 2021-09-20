@@ -28,7 +28,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let shareId = ["t_7LVGP8mopofh8AG0Q7E8AdoUJQ3Dik", "0IzWPVQGlmepafqlqgOSXw", "zExA7lNc3HrJrbVuG3xRVMAdoUJQ3Dik", "cvwWiz9o2evNHFdNk0oNbMAdoUJQ3Dik"][Math.floor((Math.random() * 4))];
-let helpId = ["9fc0f627-6fa8-442f-a703-dc2673d71d3b", "92efd5b1-d5df-4d9a-a153-c165161d288e", "6e3d78ce-e6cd-43ec-9790-960d9089c023","b62e75e8-e682-44b9-ab99-75cd0a99b327"];
+let helpId = ["9fc0f627-6fa8-442f-a703-dc2673d71d3b", "92efd5b1-d5df-4d9a-a153-c165161d288e", "6e3d78ce-e6cd-43ec-9790-960d9089c023", "b62e75e8-e682-44b9-ab99-75cd0a99b327"];
 $.shareCodes = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -110,6 +110,7 @@ async function pigPetLottery() {
   if ($.currentCount > 0) {
     for (let i = 0; i < $.currentCount; i++) {
       await pigPetLotteryPlay();
+      await $.wait(6000)
     }
   }
 }
@@ -442,8 +443,11 @@ function pigPetLotteryPlay() {
             if (data.resultCode === 0) {
               if (data.resultData.resultCode === 0) {
                 if (data.resultData.resultData) {
-                  console.log(`大转盘抽奖结果：${JSON.stringify(data)}`)
-                  // console.log(`大转盘抽奖获得：${data.resultData.resultData.award.name} * ${data.resultData.resultData.award.count}`);
+                  if (data.resultData.resultData.award) {
+                    console.log(`大转盘抽奖获得：${data.resultData.resultData.award.name} * ${data.resultData.resultData.award.count}`);
+                  } else {
+                    console.log(`大转盘抽奖结果：没抽中，再接再励哦～`)
+                  }
                   $.currentCount = data.resultData.resultData.currentCount;//抽奖后剩余的抽奖次数
                 }
               } else {
