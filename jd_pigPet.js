@@ -27,7 +27,9 @@ const MISSION_BASE_API = `https://ms.jr.jd.com/gw/generic/mission/h5/m`;
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let shareId = ["t_7LVGP8mopofh8AG0Q7E8AdoUJQ3Dik", "0IzWPVQGlmepafqlqgOSXw", "zExA7lNc3HrJrbVuG3xRVMAdoUJQ3Dik"][Math.floor((Math.random() * 3))];
+let shareId = ["t_7LVGP8mopofh8AG0Q7E8AdoUJQ3Dik", "0IzWPVQGlmepafqlqgOSXw", "zExA7lNc3HrJrbVuG3xRVMAdoUJQ3Dik", "cvwWiz9o2evNHFdNk0oNbMAdoUJQ3Dik"][Math.floor((Math.random() * 4))];
+let helpId = ["9fc0f627-6fa8-442f-a703-dc2673d71d3b", "92efd5b1-d5df-4d9a-a153-c165161d288e", "6e3d78ce-e6cd-43ec-9790-960d9089c023","b62e75e8-e682-44b9-ab99-75cd0a99b327"];
+$.shareCodes = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -42,7 +44,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
     return;
   }
-  console.log(`\n【原作者：LXK大佬】\n\nBy：zero205\n添加：邀请新用户\n修改：优化日志输出，自动喂食\n`);
+  console.log(`\n【原作者：LXK大佬】\n\nBy：zero205\n添加：邀请新用户，大转盘助力\n修改：优化日志输出，自动喂食\nTodo：抢粮食`);
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -50,6 +52,7 @@ if ($.isNode()) {
       $.index = i + 1;
       $.isLogin = true;
       $.nickName = '';
+      $.finish = false;
       await TotalBean();
       console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
       if (!$.isLogin) {
@@ -60,6 +63,19 @@ if ($.isNode()) {
         continue
       }
       await jdPigPet();
+    }
+  }
+  console.log(`\n======开始大转盘助力======\n`);
+  $.shareCodes = [...$.shareCodes, ...helpId]
+  for (let j = 0; j < cookiesArr.length; j++) {
+    cookie = cookiesArr[j];
+    if ($.shareCodes && $.shareCodes.length) {
+      console.log(`\n自己账号内部循环互助，有剩余次数再帮【zero205】助力\n`);
+      for (let item of $.shareCodes) {
+        await pigPetLotteryHelpFriend(item)
+        await $.wait(1000)
+        // if (!$.canRun) break
+      }
     }
   }
   if (allMessage && new Date().getHours() % 6 === 0) {
@@ -84,6 +100,7 @@ async function jdPigPet() {
     await pigPetLottery();
     await pigPetMissionList();
     await missions();
+    if ($.finish) return
     await pigPetUserBag();
   } catch (e) {
     $.logErr(e)
@@ -260,6 +277,8 @@ function pigPetLogin() {
                 if (data.resultData.resultData.wished) {
                   if (data.resultData.resultData.wishAward) {
                     allMessage += `京东账号${$.index} ${$.nickName || $.UserName}\n${data.resultData.resultData.wishAward.name}已可兑换${$.index !== cookiesArr.length ? '\n\n' : ''}`
+                    console.log(`【京东账号${$.index}】${$.nickName || $.UserName} ${data.resultData.resultData.wishAward.name}已可兑换，请及时去京东金融APP领取`)
+                    $.finish = true
                   }
                 }
                 console.log(`\n【京东账号${$.index}】${$.nickName || $.UserName} 的邀请码为${data.resultData.resultData.user.shareId}\n`)
@@ -295,17 +314,17 @@ function pigPetOpenBox() {
             if (data.resultCode === 0) {
               if (data.resultData.resultCode === 0) {
                 if (data.resultData.resultData && data.resultData.resultData.award) {
-                  console.log(`开宝箱获得${data.resultData.resultData.award.content}，数量：${data.resultData.resultData.award.count}`);
+                  console.log(`开宝箱获得${data.resultData.resultData.award.content}，数量：${data.resultData.resultData.award.count}\n`);
 
                 } else {
-                  console.log(`开宝箱暂无奖励`)
+                  console.log(`开宝箱暂无奖励\n`)
                 }
                 await $.wait(2000);
                 await pigPetOpenBox();
               } else if (data.resultData.resultCode === 420) {
-                console.log(`开宝箱失败:${data.resultData.resultMsg}`)
+                console.log(`开宝箱失败:${data.resultData.resultMsg}\n`)
               } else {
-                console.log(`开宝箱其他情况：${JSON.stringify(data)}`)
+                console.log(`开宝箱其他情况：${JSON.stringify(data)}\n`)
               }
             }
           } else {
@@ -341,7 +360,9 @@ function pigPetLotteryIndex() {
             if (data.resultCode === 0) {
               if (data.resultData.resultCode === 0) {
                 if (data.resultData.resultData) {
-                  console.log(`当前大转盘剩余免费抽奖次数：：${data.resultData.resultData.currentCount}`);
+                  console.log(`当前大转盘剩余免费抽奖次数：${data.resultData.resultData.currentCount}\n`);
+                  console.log(`您的大转盘助力码为：${data.resultData.resultData.helpId}\n`);
+                  $.shareCodes.push(data.resultData.resultData.helpId)
                   $.currentCount = data.resultData.resultData.currentCount;
                 }
               } else {
@@ -407,8 +428,8 @@ function pigPetLotteryPlay() {
       "source": 2,
       "channelLV": "juheye",
       "riskDeviceParam": "{}",
-      "t": Date.now(),
-      "type": 0,
+      "validation": "",
+      "type": 0
     }
     $.post(taskUrl('pigPetLotteryPlay', body), (err, resp, data) => {
       try {
@@ -417,17 +438,59 @@ function pigPetLotteryPlay() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (data) {
-            // console.log(data)
             data = JSON.parse(data);
             if (data.resultCode === 0) {
               if (data.resultData.resultCode === 0) {
                 if (data.resultData.resultData) {
-                  // console.log(`当前大转盘剩余免费抽奖次数：：${data.resultData.resultData.currentCount}`);
+                  console.log(`大转盘抽奖结果：${JSON.stringify(data)}`)
+                  // console.log(`大转盘抽奖获得：${data.resultData.resultData.award.name} * ${data.resultData.resultData.award.count}`);
                   $.currentCount = data.resultData.resultData.currentCount;//抽奖后剩余的抽奖次数
                 }
               } else {
                 console.log(`其他情况：${JSON.stringify(data)}`)
               }
+            }
+          } else {
+            console.log(`京东服务器返回空数据`)
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
+
+function pigPetLotteryHelpFriend(helpId) {
+  return new Promise(async resolve => {
+    const body = {
+      "source": 2,
+      "helpId": helpId,
+      "channelLV": "juheye",
+      "riskDeviceParam": "{}"
+    }
+    $.post(taskUrl('pigPetLotteryHelpFriend', body), (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (data) {
+            data = JSON.parse(data);
+            if (data.resultCode === 0) {
+              if (data.resultData.resultCode === 0) {
+                if (data.resultData.resultData.opResult == 0) {
+                  console.log(`大转盘助力结果：助力成功\n`);
+                } else if (data.resultData.resultData.opResult == 461) {
+                  console.log(`大转盘助力结果：助力失败，已经助力过了\n`);
+                } else {
+                  console.log(`大转盘助力结果：助力失败`);
+                }
+              }
+            } else {
+              console.log(`${JSON.stringify(data)}\n`)
             }
           } else {
             console.log(`京东服务器返回空数据`)
