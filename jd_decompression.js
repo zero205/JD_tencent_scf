@@ -111,7 +111,8 @@ async function main() {
         await takePostRequest('drawContent');
         await $.wait(1000);
     }
-    for (let i = 0; i < score2; i++) {
+    $.score2Flag = true;
+    for (let i = 0; i < score2 && $.score2Flag; i++) {
         console.log(`进行第${i+1}次扭蛋`);
         await takePostRequest('draw');
         await $.wait(1500);
@@ -291,6 +292,7 @@ function dealReturn(type, data) {
                     console.log(`获得其他`);
                 }
             } else {
+                $.score2Flag = false;
                 //console.log(JSON.stringify(data))
             }
             console.log(JSON.stringify(data))
