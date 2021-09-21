@@ -358,7 +358,7 @@ function BarkNotify(text, desp, params = {}) {
       const url = BARK_PUSH.substr(0,index)+"push"
       const device_key = BARK_PUSH.substr(index)
       const options = {
-        url:BARK_PUSH,
+        url,
         json:{
         device_key,
         title: text,
