@@ -419,7 +419,7 @@ async function getPlantBean() {
   async function jdPlantBean() {
     await plantBeanIndex();
     // console.log(plantBeanIndexResult.data.taskList);
-    if ($.plantBeanIndexResult.code === "0") {
+    if ($.plantBeanIndexResult.code === "0" &&  typeof($.plantBeanIndexResult.errorCode) == "undefined") {
       const shareUrl = $.plantBeanIndexResult.data.jwordShareInfo.shareUrl;
       $.myPlantUuid = getParam(shareUrl, "plantUuid");
       console.log(`【京东账号${$.index}（${$.UserName}）种豆得豆】${$.myPlantUuid}`);
