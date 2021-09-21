@@ -53,10 +53,10 @@ inputs:
           argument: jd_moneyTree&jd_moneyTree_help&jd_plantBean&jd_cfd&jd_super_redrain
     - timer: #宠汪汪积分兑换京豆 #全民开红包
         parameters:
-          name: joyreward_redPacket
+          name: joyreward_redPacket_decompression
           cronExpression: "0 59 7,15,23 * * * *"
           enable: true
-          argument: jd_joy_reward&jd_redPacket
+          argument: jd_joy_reward&jd_redPacket&jd_decompression
     - timer:  #柠檬赚金币 #发财大赢家 #京喜工厂 #东东工厂 #财富岛热气球
         parameters:
           name: zjb_bigwinner_dreamFactory_jdfactory_cfdloop
