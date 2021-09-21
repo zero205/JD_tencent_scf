@@ -354,14 +354,24 @@ function CoolPush(text, desp) {
 function BarkNotify(text, desp, params = {}) {
   return new Promise(resolve => {
     if (BARK_PUSH) {
+      const index = BARK_PUSH.lastIndexOf('/') + 1
+      const url = BARK_PUSH.substr(0,index)+"push"
+      const device_key = BARK_PUSH.substr(index)
       const options = {
-        url: `${BARK_PUSH}/${encodeURIComponent(text)}/${encodeURIComponent(desp)}?sound=${BARK_SOUND}&group=${BARK_GROUP}&${querystring.stringify(params)}`,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+        url:BARK_PUSH,
+        json:{
+        device_key,
+        title: text,
+        body:desp,
+        sound:BARK_SOUND,
+        group:BARK_GROUP,
+        },
+         headers: {
+          'Content-Type': 'application/json; charset=utf-8'
         },
         timeout
       }
-      $.get(options, (err, resp, data) => {
+      $.post(options, (err, resp, data) => {
         try {
           if (err) {
             console.log('Bark APP发送通知调用API失败！！\n')
