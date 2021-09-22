@@ -153,7 +153,7 @@ function getTaskDetail(taskId = '') {
 
                 // ***************************
                 // 报告运行次数
-                if(data.data.result.taskVos[0].assistTaskDetailVo.taskToken){
+                if(oc(() => data.data.result.taskVos[0].assistTaskDetailVo.taskToken)){
                   if (ZLC) {
                     $.get({
                     url: `https://api.jdsharecode.xyz/api/runTimes?activityId=health&sharecode=${data.data.result.taskVos[0].assistTaskDetailVo.taskToken}`
