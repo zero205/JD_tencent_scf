@@ -112,10 +112,12 @@ async function main() {
         await $.wait(1000);
     }
     $.score2Flag = true;
-    for (let i = 0; i < score2 && $.score2Flag; i++) {
+    $.score2Time = 0;
+    for (let i = 0; i < score2 && $.score2Flag && $.score2Time< 10; i++) {
         console.log(`进行第${i+1}次扭蛋`);
         await takePostRequest('draw');
         await $.wait(1500);
+        $.score2Time++;
     }
     if($.index === '1'){
         $.shareUuid = $.activityData.actorUuid;
