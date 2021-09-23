@@ -18,3 +18,5 @@
 https://github.com/Ca11back/scf-experiment
 
 欢迎各位大佬尝试/PR实验性特性.
+## 临时性通知:
+1. 日志失败原因是ETIMEDOUT的,等待腾讯修复,手动部署估计就没问题了.
