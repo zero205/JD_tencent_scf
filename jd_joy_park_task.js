@@ -191,7 +191,7 @@ message = ""
       $.newinvitePinTaskList = [...($.invitePinTaskList || []), ...($.invitePin || [])]
       for (const invitePinTaskListKey of $.newinvitePinTaskList) {
         $.log(`【京东账号${$.index}】${$.nickName || $.UserName} 助力 ${invitePinTaskListKey}`)
-        let resp = await getJoyBaseInfo(167, 1, invitePinTaskListKey);
+        let resp = await getJoyBaseInfo(261, 1, invitePinTaskListKey);
         if (resp.success) {
           if (resp.data.helpState === 1) {
             $.log("助力成功！");
