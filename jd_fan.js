@@ -200,7 +200,7 @@ async function doTask(){
         }
     }
     //加购商品任务
-    if($.activityData.task3AddCart && $.runFalag){
+    if($.activityData.task3AddCart && $.runFalag && ["card","car"].includes(process.env.FS_LEVEL)){
         if($.activityData.task3AddCart.finishedCount !== $.activityData.task3AddCart.upLimit){
             needFinishNumber = Number($.activityData.task3AddCart.upLimit) - Number($.activityData.task3AddCart.finishedCount);
             console.log(`开始做加购商品任务`);
