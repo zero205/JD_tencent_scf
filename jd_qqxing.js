@@ -14,7 +14,8 @@ https://lzdz-isv.isvjcloud.com/dingzhi/qqxing/pasture/activity?activityId=901210
 
 添加：自动喂食；
 修改：默认不做加购物车任务，优化黑号处理。By:zero205
-
+环境变量:
+CowKeep:保留食物的数量(低于这个才喂食物)
 ============Quantumultx===============
 [task_local]
 #星系牧场
