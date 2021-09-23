@@ -14,6 +14,7 @@ https://lzdz-isv.isvjcloud.com/dingzhi/qqxing/pasture/activity?activityId=901210
 
 添加：自动喂食；
 修改：默认不做加购物车任务，优化黑号处理。By:zero205
+需要加购FS_LEVEL=car (或者card,仓库内很多脚本都是这个变量,card=开卡+加购,car=只加购)
 环境变量:
 CowKeep:保留食物的数量(低于这个才喂食物)
 ============Quantumultx===============
@@ -103,7 +104,11 @@ $.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6
                         await writePersonInfo($.vid)
                         await dotask(task.taskid, $.pparam)
                     } else if (task.taskid == "add2cart") {
-                        console.log(`跳过加购物车任务`)
+                        if(['card','car'].includes(process.env.FS_LEVEL)){
+                            await dotask(task.taskid, $.pparam)
+                        }else{
+                            console.log(`跳过加购物车任务`)
+                        }
                     } else {
                         await dotask(task.taskid, task.params)
                         await $.wait(5000)
