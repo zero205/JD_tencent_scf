@@ -151,7 +151,7 @@ async function clubLottery() {
     await shakeSign();//京东会员签到
     await superShakeBean();//京东APP首页超级摇一摇
     await superbrandShakeBean();//京东APP首页超级品牌日
-    await mofang();//小魔方
+//     await mofang();//小魔方
   } catch (e) {
     $.logErr(e)
   }
