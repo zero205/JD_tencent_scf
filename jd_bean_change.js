@@ -552,9 +552,10 @@ function TotalBean2() {
 							return;
 						}
 						const userInfo = data.user;
+						
 						if (userInfo) {
 							if (!$.nickName)
-								$.nickName = userInfo.unickName;
+								$.nickName = userInfo.petName;
 							if ($.beanCount == 0) {
 								$.beanCount = userInfo.jingBean;
 								$.isPlusVip = 3;
