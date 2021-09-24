@@ -6,9 +6,10 @@
 2. TENCENT开头的NAME/REGION/MEMORYSIZE/TIMEOUT依然使用Secrets
 3. TENCENT的SECRET_ID/SECRET_KEY请填入config分支的.env文件
 4. 其余所有环境变量填入config分支的config.yml格式请照第一行填写(追加在后面,每个一行,注意冒号后方空格).
-5. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.
+5. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(此条未来会逐步废弃,请按下一条将JRBODY.txt放入diy文件夹)
 6. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).仅适用于有高级需求的朋友.
 7. config分支diy.sh如果有的话会自动运行(仅面向高级用户)
+
 暂时只推荐有一点点基础的用户使用.
 
 **云函数问题可以入群寻求帮助(仔细阅读教程,需要有一定基础,进群后看反馈流程后再提问).入群地址见主仓库.**
