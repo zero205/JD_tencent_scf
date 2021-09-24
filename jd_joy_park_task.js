@@ -152,7 +152,7 @@ message = ""
           }
         } else if (task.taskType === 'SHARE_INVITE') {
           for (let j = 0; j < 5; j++) {
-            let resp = await apTaskDrawAward(167, 'SHARE_INVITE');
+            let resp = await apTaskDrawAward(261, 'SHARE_INVITE');
 
             if (!resp.success) {
               break
