@@ -17,11 +17,19 @@ jobs:
       - name: clone
         run: |
           git clone --single-branch --branch main https://github.com/zero205/JD_tencent_scf.git
-      - name: move config files
+      - name: Pre Tasks
+        env:
+          EXPERIMENT: ${{ secrets.EXPERIMENT }}
         run: |
           for i in 'JRBODY.txt' '.env';do  
-              mv $i JD_tencent_scf && echo move $i || echo Not Have $i;
+              mv $i JD_tencent_scf || echo Not Have $i;
           done
+          if [ $EXPERIMENT ];
+          then
+            echo 'EXPERIMENT flag exist! Adding experiment features!'
+            wget https://raw.githubusercontent.com/Ca11back/scf-experiment/master/diy.sh -O experiment.sh
+            bash experiment.sh
+          fi;
           if [ -d diy ]; then mv -f diy/* JD_tencent_scf/; fi;
           if [ -f diy.sh ]; then bash diy.sh; fi;
       - uses: actions/setup-node@v2
