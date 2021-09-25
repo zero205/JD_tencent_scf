@@ -22,7 +22,7 @@ jobs:
           EXPERIMENT: ${{ secrets.EXPERIMENT }}
         run: |
           for i in 'JRBODY.txt' '.env';do  
-              mv $i JD_tencent_scf || echo Not Have $i;
+              mv $i JD_tencent_scf && echo move $i || echo Not Have $i;
           done
           if [ $EXPERIMENT ];
           then
