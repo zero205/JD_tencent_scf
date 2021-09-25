@@ -22,3 +22,4 @@ https://github.com/Ca11back/scf-experiment
 ## 临时性通知:
 1. 日志失败原因是ETIMEDOUT的,等待腾讯修复,手动部署估计就没问题了.
 2. ETIMEDOUT 错误腾讯可能较难解决,请尝试手动删除config分支.env文件中的,尝试关闭境外加速:GLOBAL_ACCELERATOR_NA=true.如果还是经常失败的话,请进群反馈!
+3. 部署错误需要解决的,提供完整github部署日志.除了失败别的什么也提供不了.我修不了或者干脆不修你们也能理解吧.
