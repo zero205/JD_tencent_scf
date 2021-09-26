@@ -17,6 +17,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const JXUserAgent =  $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USER_AGENT : ``):``;
 $.inviteCodeList = [];
 $.inviteCodeList_hb = [];
+let flag_hb = true
 let cookiesArr = [];
 $.appId = 10028;
 $.helpCkList = [];
@@ -59,22 +60,24 @@ let token ='';
     await pasture();
     await $.wait(2000);
   }
-  console.log('\n##################开始账号内互助(红包)#################\n');
-  await getShareCode('jxmc_hb.json')
-  $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
-  for(let i = 0;i<$.helpCkList.length;i++){
-    $.can_help = true
-    $.cookie = $.helpCkList[i]
-    token = await getJxToken()
-    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
-    for (let j = 0; j < $.inviteCodeList_hb.length && $.can_help; j++) {
-      $.oneCodeInfo = $.inviteCodeList_hb[j]
-      if($.oneCodeInfo.use === $.UserName){
-        continue
+  if (flag_hb) {
+    console.log('\n##################开始账号内互助(红包)#################\n');
+    await getShareCode('jxmc_hb.json')
+    $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
+    for(let i = 0;i<$.helpCkList.length;i++){
+      $.can_help = true
+      $.cookie = $.helpCkList[i]
+      token = await getJxToken()
+      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
+      for (let j = 0; j < $.inviteCodeList_hb.length && $.can_help; j++) {
+        $.oneCodeInfo = $.inviteCodeList_hb[j]
+        if($.oneCodeInfo.use === $.UserName){
+          continue
+        }
+        console.log(`\n${$.UserName}去助力${$.oneCodeInfo.use},助力码：${$.oneCodeInfo.code}\n`);
+        await takeGetRequest('help_hb');
+        await $.wait(2000);
       }
-      console.log(`\n${$.UserName}去助力${$.oneCodeInfo.use},助力码：${$.oneCodeInfo.code}\n`);
-      await takeGetRequest('help_hb');
-      await $.wait(2000);
     }
   }
   console.log('\n##################开始账号内互助#################\n');
@@ -178,7 +181,9 @@ async function pasture() {
       }
       $.crowInfo = $.homeInfo.cow;
     }
-    await takeGetRequest('GetInviteStatus')
+    if (flag_hb) {
+      await takeGetRequest('GetInviteStatus')
+    }
     $.GetVisitBackInfo = {};
     await $.wait(1000);
     await takeGetRequest('GetVisitBackInfo');
@@ -420,13 +425,11 @@ async function takeGetRequest(type) {
       break;
     case 'GetInviteStatus':
         url = `https://m.jingxi.com/jxmc/operservice/GetInviteStatus?channel=7&sceneid=1001&activeid=jxmc_active_0001&activekey=null&jxmc_jstoken=${token.farm_jstoken}&timestamp=${token.timestamp}&phoneid=${token.phoneid}`;
-        // url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
         break;
     case 'help_hb':
         url = `https://m.jingxi.com/jxmc/operservice/InviteEnroll?channel=7&sceneid=1001&activeid=jxmc_active_0001&activekey=null&sharekey=${$.oneCodeInfo.code}`
         url += `&jxmc_jstoken=${token.farm_jstoken}&timestamp=${token.timestamp}&phoneid=${token.phoneid}`;
         url += `&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Csharekey%2Ctimestamp&_ste=1`;
-        // url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&g_ty=ls`;
         break;
     default:
       console.log(`错误${type}`);
@@ -582,7 +585,10 @@ function dealReturn(type, data) {
                 console.log(`红包邀请码:${data.data.sharekey}`);
                 $.inviteCodeList_hb.push({'use':$.UserName,'code':data.data.sharekey,'max':false});
             }
-        } else {
+        } else if(data.ret === 2704){
+            console.log('红包今天领完了,跳过红包相关')
+            flag_hb = false
+        } else{
             console.log(`异常：${JSON.stringify(data)}\n`);
         }
         break;
