@@ -16,7 +16,7 @@
 https://github.com/Ca11back/scf-experiment
 
 欢迎各位大佬尝试/PR实验性特性.
-## FAQ:
+## FAQ(常见问题):
 ### Github部署日志:ETIMEOUT ERROR
 ETIMEDOUT 错误腾讯是腾讯问题,初步怀疑同时部署人数较多
 1. 请尝试手动删除/添加config分支.env文件中的GLOBAL_ACCELERATOR_NA=true,尝试关闭/或开启境外加速.
