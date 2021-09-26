@@ -19,7 +19,7 @@ https://github.com/Ca11back/scf-experiment
 ## FAQ(常见问题):
 ### Github部署日志:ETIMEOUT ERROR
 ETIMEDOUT 错误腾讯是腾讯问题,初步怀疑同时部署人数较多
-1. 请尝试手动删除/添加config分支.env文件中的GLOBAL_ACCELERATOR_NA=true,尝试关闭/或开启境外加速.
+1. 请尝试手动删除/添加config分支.env文件中的GLOBAL_ACCELERATOR_NA=true,尝试关闭/或开启境外加速.(默认开启,且建议开启)
 2. 启用随机分钟部署(尚未更新)
 
 如果还是经常失败的话,请进群反馈(置顶反馈流程)!提供完整github部署日志.除了失败别的什么也提供不了.我修不了或者干脆不修你们也能理解吧.
