@@ -1,4 +1,4 @@
-name: Config Deploy(部署到云) #部署脚本每次执行就是部署最新代码上云,Sync可以用来升级部署脚本,但一般无需手动更新部署脚本
+name: Deploy(部署到云) #部署脚本每次执行就是部署最新代码上云,Sync可以用来升级部署脚本,但一般无需手动更新部署脚本
 on:
   workflow_dispatch:
   schedule:
