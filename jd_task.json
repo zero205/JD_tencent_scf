@@ -774,6 +774,16 @@
       }
     },
     {
+      "name": "集魔方",
+      "type": "cron",
+      "time": "18 7,17 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_jmf.js"
+      }
+    },
+    {
       "name": "店铺签到",
       "type": "cron",
       "time": "20 8 * * *",
