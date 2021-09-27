@@ -37,20 +37,24 @@ let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let intPerSent = 0;
 let i = 0;
-if (process.env.BEANCHANGE_PERSENT) {
+let DisableCash = "false";
+if ($.isNode() && process.env.BEANCHANGE_PERSENT) {
 	intPerSent = parseInt(process.env.BEANCHANGE_PERSENT);
 	console.log(`检测到设定了分段通知:` + intPerSent);
 }
 
-if (process.env.BEANCHANGE_USERGP1) {
+if ($.isNode() && process.env.BEANCHANGE_USERGP1) {
 	MessageUserGp1 = process.env.BEANCHANGE_USERGP1 ? process.env.BEANCHANGE_USERGP1.split('&') : [];
 	intPerSent = 0; //分组推送，禁用账户拆分
 	console.log(`检测到设定了分组推送1,将禁用分段通知`);
 }
-if (process.env.BEANCHANGE_USERGP2) {
+if ($.isNode() && process.env.BEANCHANGE_USERGP2) {
 	MessageUserGp2 = process.env.BEANCHANGE_USERGP2 ? process.env.BEANCHANGE_USERGP2.split('&') : [];
 	intPerSent = 0; //分组推送，禁用账户拆分
 	console.log(`检测到设定了分组推送2,将禁用分段通知`);
+}
+if ($.isNode() && process.env.BEANCHANGE_DISABLECASH) {
+	DisableCash = process.env.BEANCHANGE_DISABLECASH;
 }
 let userIndex1 = -1;
 let userIndex2 = -1;
@@ -71,7 +75,7 @@ if ($.isNode()) {
 		});
 		return;
 	}
-	for (i = 0; i < cookiesArr.length; i++) {	
+	for (i = 0; i < cookiesArr.length; i++) {
 		if (cookiesArr[i]) {
 			cookie = cookiesArr[i];
 			$.pt_pin = (cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -138,7 +142,9 @@ if ($.isNode()) {
 			await bean();
 			await getJxFactory(); //京喜工厂
 			await getDdFactoryInfo(); // 京东工厂
-			await jdCash();
+			if (DisableCash == "false") {
+				await jdCash();
+			}
 			await showMsg();
 
 			if (intPerSent > 0) {
