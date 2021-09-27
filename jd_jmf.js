@@ -53,10 +53,15 @@ if ($.isNode()) {
         console.log(`\n==========开始账号内互助==========\n`);
         for (let j = 0; j < cookiesArr.length; j++) {
             cookie = cookiesArr[j];
-            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-            for (let item of $.shareCodesList) {
-                console.log(`账号${$.UserName} 去助力 ${item}`)
-                await await doInteractiveAssignment($.projectId, $.encryptAssignmentId, item)
+            $.index = j + 1;
+            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+            $.itemId = $.shareCodesList[$.index];
+            if (j == cookiesArr.length - 1) {
+                console.log(`账号${$.UserName} 去助力 账号1`)
+                await doInteractiveAssignment($.projectId, $.encryptAssignmentId, $.shareCodesList[0])
+            } else {
+                console.log(`账号${$.UserName} 去助力 账号${$.index + 1}`)
+                await doInteractiveAssignment($.projectId, $.encryptAssignmentId, $.itemId)
                 await $.wait(1000)
             }
         }
