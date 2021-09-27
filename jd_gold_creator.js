@@ -7,17 +7,17 @@
 ===================quantumultx================
 [task_local]
 #金榜创造营
-13 0,22 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_gold_creator.js, tag=金榜创造营, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+13 1,22 * * * jd_gold_creator.js, tag=金榜创造营, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 =====================Loon================
 [Script]
-cron "13 0,22 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_gold_creator.js, tag=金榜创造营
+cron "13 1,22 * * *" script-path=jd_gold_creator.js, tag=金榜创造营
 
 ====================Surge================
-金榜创造营 = type=cron,cronexp="13 0,22 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_gold_creator.js
+金榜创造营 = type=cron,cronexp="13 1,22 * * *",wake-system=1,timeout=3600,script-path=jd_gold_creator.js
 
 ============小火箭=========
-金榜创造营 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_gold_creator.js, cronexpr="13 0,22 * * *", timeout=3600, enable=true
+金榜创造营 = type=cron,script-path=jd_gold_creator.js, cronexpr="13 1,22 * * *", timeout=3600, enable=true
  */
 const $ = new Env('金榜创造营');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -48,7 +48,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
       $.index = i + 1;
       $.isLogin = true;
       $.beans = 0
@@ -80,7 +80,7 @@ async function main() {
   try {
     await goldCreatorTab();//获取顶部主题
     await getDetail();
-    // await showMsg();
+    await showMsg();
   } catch (e) {
     $.logErr(e)
   }
@@ -164,6 +164,7 @@ function goldCreatorDetail(groupId, subTitleId, taskId, batchId, flag = false) {
               $.remainVotes = data.result.remainVotes || 0;
               $.skuList = data.result.skuList || [];
               $.taskList = data.result.taskList || [];
+              $.signTask = data.result.signTask
               if (flag) {
                 await doTask2(batchId);
               } else {
@@ -211,6 +212,10 @@ async function doTask2(batchId) {
       await goldCreatorDoTask(body);
       await $.wait(2000);
     }
+  }
+  if ($.signTask['taskStatus'] === 1) {
+    const body = {"taskId": $.signTask['taskId'], "itemId": $.signTask['taskItemInfo']['itemId'], "type": $.signTask['taskType'], batchId};
+    await goldCreatorDoTask(body);
   }
 }
 function goldCreatorDoTask(body) {
@@ -264,9 +269,9 @@ function taskUrl(function_id, body = {}) {
 function TotalBean() {
   return new Promise(async resolve => {
     const options = {
-      url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
+      url: "https://wq.jd.com/user_new/info/GetJDUserInfoUnion?sceneval=2",
       headers: {
-        Host: "me-api.jd.com",
+        Host: "wq.jd.com",
         Accept: "*/*",
         Connection: "keep-alive",
         Cookie: cookie,
@@ -283,15 +288,15 @@ function TotalBean() {
         } else {
           if (data) {
             data = JSON.parse(data);
-            if (data['retcode'] === "1001") {
+            if (data['retcode'] === 1001) {
               $.isLogin = false; //cookie过期
               return;
             }
-            if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
+            if (data['retcode'] === 0 && data.data && data.data.hasOwnProperty("userInfo")) {
               $.nickName = data.data.userInfo.baseInfo.nickname;
             }
           } else {
-            $.log('京东服务器返回空数据');
+            console.log('京东服务器返回空数据');
           }
         }
       } catch (e) {
