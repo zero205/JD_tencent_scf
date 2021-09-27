@@ -69,12 +69,15 @@ async function main() {
     await queryInteractiveInfo($.projectId)
     if ($.taskList) {
         for (const vo of $.taskList) {
-            if (vo.ext.extraType !== 'brandMemberList' && vo.ext.extraType !== 'assistTaskDetail') {
+            if (vo.ext.extraType !== 'brandMemberList') {
                 if (vo.completionCnt < vo.assignmentTimesLimit) {
                     console.log(`任务：${vo.assignmentName},去完成`);
                     if (vo.ext) {
                         if (vo.ext.extraType === 'sign1') {
                             await doInteractiveAssignment($.projectId, vo.encryptAssignmentId, vo.ext.sign1.itemId)
+                        }
+                        if (vo.ext.extraType === 'assistTaskDetail') {
+                            $.shareCodesList.push(vo.ext.assistTaskDetail.itemId)
                         }
                         for (let vi of vo.ext.productsInfo || []) {
                             if (vi.status === 1) {
@@ -149,11 +152,6 @@ function queryInteractiveInfo(projectId) {
                         data = JSON.parse(data);
                         $.taskList = data.assignmentList
                         $.encryptAssignmentId = $.taskList[1].encryptAssignmentId
-                        if ($.taskList[1].userVerificationInfo.completionCnt < $.taskList[1].assignmentTimesLimit) {
-                            $.shareCodes = $.taskList[1].ext.assistTaskDetail.itemId
-                            console.log("【您的助力码为】" + $.shareCodes)
-                            $.shareCodesList.push($.shareCodes)
-                        }
                     } else {
                         console.log("没有返回数据")
                     }
