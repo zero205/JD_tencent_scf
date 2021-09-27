@@ -30,8 +30,16 @@ jobs:
             wget https://raw.githubusercontent.com/Ca11back/scf-experiment/master/diy.sh -O experiment.sh
             bash experiment.sh
           fi;
-          if [ -d diy ]; then mv -f diy/* JD_tencent_scf/; fi;
-          if [ -f diy.sh ]; then bash diy.sh; fi;
+          if [ -d diy ];
+          then
+            echo 'Dir diy exist, move contents'
+            mv -f diy/* JD_tencent_scf/
+          fi;
+          if [ -f diy.sh ];
+          then
+            echo 'diy.sh exist, execute!'
+            bash diy.sh
+          fi;
       - uses: actions/setup-node@v2
       - name: install dependency
         working-directory: ./JD_tencent_scf
