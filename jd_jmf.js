@@ -148,7 +148,11 @@ async function queryInteractiveInfo(encryptProjectId, sourceCode) {
                 }
               } else if (vo.ext.extraType !== "brandMemberList") {
                 if(vo.ext.extraType === 'assistTaskDetail') {
-                  $.shareCodesList.push(vo.ext.assistTaskDetail.itemId)
+                  if (vo.completionCnt) {
+                    console.log('助力已满')
+                  }else{
+                    $.shareCodesList.push(vo.ext.assistTaskDetail.itemId)
+                  }
                   continue
                 }
                 console.log(`去做【${vo.assignmentName}】`)
