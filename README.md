@@ -17,7 +17,7 @@ https://github.com/Ca11back/scf-experiment
 
 欢迎各位大佬尝试/PR实验性特性. 
 
-项目内也包含一些建议diy.sh的example,需要可以看一下.
+项目内也包含一些简易(也许还实用)diy.sh的example,需要可以看一下.
 ## FAQ(常见问题):
 ### Github部署日志:ETIMEOUT ERROR
 ETIMEDOUT 错误腾讯是腾讯问题,初步怀疑同时部署人数较多
