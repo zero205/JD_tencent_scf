@@ -76,26 +76,26 @@ async function main() {
                         if (vo.ext.extraType === 'sign1') {
                             await doInteractiveAssignment($.projectId, vo.encryptAssignmentId, vo.ext.sign1.itemId)
                         }
-                        for (let vi of vo.ext.productsInfo ?? []) {
+                        for (let vi of vo.ext.productsInfo || []) {
                             if (vi.status === 1) {
                                 await doInteractiveAssignment($.projectId, vo.encryptAssignmentId, vi.itemId)
                             }
                         }
-                        for (let vi of vo.ext.shoppingActivity ?? []) {
+                        for (let vi of vo.ext.shoppingActivity || []) {
                             if (vi.status === 1) {
                                 await doInteractiveAssignment($.projectId, vo.encryptAssignmentId, vi.advId, 1)
                                 await $.wait(6000)
                                 await doInteractiveAssignment($.projectId, vo.encryptAssignmentId, vi.advId, 0)
                             }
                         }
-                        for (let vi of vo.ext.browseShop ?? []) {
+                        for (let vi of vo.ext.browseShop || []) {
                             if (vi.status === 1) {
                                 await doInteractiveAssignment($.projectId, vo.encryptAssignmentId, vi.itemId, 1)
                                 await $.wait(6000)
                                 await doInteractiveAssignment($.projectId, vo.encryptAssignmentId, vi.itemId, 0)
                             }
                         }
-                        for (let vi of vo.ext.addCart ?? []) {
+                        for (let vi of vo.ext.addCart || []) {
                             if (vi.status === 1) {
                                 await doInteractiveAssignment($.projectId, vo.encryptAssignmentId, vi.itemId, 1)
                                 await $.wait(6000)
