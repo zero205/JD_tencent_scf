@@ -10,7 +10,13 @@
 6. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(此条未来会逐步废弃,请按下一条将JRBODY.txt放入diy文件夹)
 7. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).仅适用于有高级需求的朋友.
 8. config分支diy.sh如果有的话会自动运行(仅面向高级用户)
-9. 添加一个Secret:EXPERIMENT即可使用实验性特性(执行顺序在上述两个diy操作之前,所以diy内容如果跟实验性特性有冲突,会覆盖,也方便各位大佬施展自己的骚操作).具体请看下方.
+9. 添加一个Secret:EXPERIMENT即可使用实验性特性(执行顺序在上述两个diy操作之前,所以diy内容如果跟实验性特性有冲突,会覆盖,也方便各位大佬施展自己的骚操作).具体请见下方.
+
+## 云函数部分常用变量说明:
+1. TENCENT_NAME: 函数名字,修改后注意删除原来名字的函数
+2. TENCENT_NAME_MEMORYSIZE: 运行内存64,128,256.默认64,大内存会加快配额消耗.单位Mb
+3. TENCENT_TIMEOUT: 云函数超时时间,单位秒
+4. SCF_REGION: 云函数部署地区,注意修改后删除原地区旧函数
 
 ## 未来可能的更新(实验性特性,仅限高级用户):
 https://github.com/Ca11back/scf-experiment
