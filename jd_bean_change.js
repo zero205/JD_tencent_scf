@@ -18,11 +18,14 @@ let allMessage2 = '';
 let allReceiveMessage = '';
 let allWarnMessage = '';
 let ReturnMessage = '';
+let ReturnMessageMonth = '';
+let allMessageMonth = '';
 
 let MessageUserGp1 = '';
 let ReceiveMessageGp1 = '';
 let WarnMessageGp1 = '';
 let allMessageGp1 = '';
+let allMessageMonthGp1 = '';
 let allMessage2Gp1 = '';
 let IndexGp1 = 0;
 
@@ -31,16 +34,22 @@ let ReceiveMessageGp2 = '';
 let WarnMessageGp2 = '';
 let allMessageGp2 = '';
 let allMessage2Gp2 = '';
+let allMessageMonthGp2 = '';
 let IndexGp2 = 0;
 
 let notifySkipList = "";
 let IndexAll = 0;
+let EnableMonth = "false";
+
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let intPerSent = 0;
 let i = 0;
 let DisableCash = "false";
+let llShowMonth = false;
+let Today = new Date();
+
 if ($.isNode() && process.env.BEANCHANGE_PERSENT) {
 	intPerSent = parseInt(process.env.BEANCHANGE_PERSENT);
 	console.log(`检测到设定了分段通知:` + intPerSent);
@@ -59,6 +68,13 @@ if ($.isNode() && process.env.BEANCHANGE_USERGP2) {
 if ($.isNode() && process.env.BEANCHANGE_DISABLECASH) {
 	DisableCash = process.env.BEANCHANGE_DISABLECASH;
 }
+if ($.isNode() && process.env.BEANCHANGE_ENABLEMONTH) {
+	EnableMonth = process.env.BEANCHANGE_ENABLEMONTH;
+}
+
+if (EnableMonth == "true" && Today.getDate() == 1 && Today.getHours() > 17)
+	llShowMonth = true;
+
 let userIndex1 = -1;
 let userIndex2 = -1;
 
@@ -116,6 +132,9 @@ if ($.isNode()) {
 			$.isPlusVip = 0;
 			$.JingXiang = "";
 
+			$.allincomeBean = 0; //月收入
+			$.allexpenseBean = 0; //月支出
+
 			console.log(`******开始查询【京东账号${$.index}】${$.nickName || $.UserName}*********`);
 
 			await TotalBean();
@@ -143,6 +162,14 @@ if ($.isNode()) {
 			await requestAlgo();
 			await JxmcGetRequest();
 			await bean();
+
+			if (llShowMonth) {
+				console.log("开始获取月数据，请稍后...");
+				await Monthbean();
+				console.log("月数据获取完毕，暂停10秒防止IP被黑...");
+				await $.wait(10 * 1000);
+			}
+
 			await getJxFactory(); //京喜工厂
 			await getDdFactoryInfo(); // 京东工厂
 			if (DisableCash == "false") {
@@ -158,7 +185,13 @@ if ($.isNode()) {
 							url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
 						})
 					}
+					if ($.isNode() && allMessageMonth) {
+						await notify.sendNotify(`京东月资产变动`, `${allMessageMonth}`, {
+							url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
+						})
+					}
 					allMessage = "";
+					allMessageMonth = "";
 				}
 
 			}
@@ -206,6 +239,11 @@ if ($.isNode()) {
 					url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
 				})
 			}
+			if ($.isNode() && allMessageMonth) {
+				await notify.sendNotify(`京东月资产变动`, `${allMessageMonth}`, {
+					url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
+				})
+			}
 		}
 	} else {
 		if ($.isNode() && allMessageGp1) {
@@ -220,6 +258,22 @@ if ($.isNode()) {
 		}
 		if ($.isNode() && allMessage) {
 			await notify.sendNotify(`${$.name}`, `${allMessage}`, {
+				url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
+			})
+		}
+
+		if ($.isNode() && allMessageMonthGp1) {
+			await notify.sendNotify(`京东月资产变动#1`, `${allMessageMonthGp1}`, {
+				url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
+			})
+		}
+		if ($.isNode() && allMessageMonthGp2) {
+			await notify.sendNotify(`京东月资产变动#2`, `${allMessageMonthGp2}`, {
+				url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
+			})
+		}
+		if ($.isNode() && allMessageMonth) {
+			await notify.sendNotify(`京东月资产变动`, `${allMessageMonth}`, {
 				url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
 			})
 		}
@@ -303,6 +357,23 @@ async function showMsg() {
 	if ($.JingXiang)
 		ReturnMessage += `${$.JingXiang}`;
 
+	if (llShowMonth) {
+		ReturnMessageMonth = ReturnMessage;
+		ReturnMessageMonth += `\n【上月收入】：${$.allincomeBean}京豆 🐶\n`;
+		ReturnMessageMonth += `【上月支出】：${$.allexpenseBean}京豆 🐶\n`;
+
+		console.log(ReturnMessageMonth);
+		if (userIndex1 != -1) {
+			allMessageMonthGp1 += ReturnMessageMonth + `\n`;
+		}
+		if (userIndex2 != -1) {
+			allMessageMonthGp2 += ReturnMessageMonth + `\n`;
+		}
+		if (userIndex1 == -1 && userIndex2 == -1) {
+			allMessageMonth += ReturnMessageMonth + `\n`;
+		}
+
+	}
 	if ($.errorMsg)
 		ReturnMessage += `\n【数据报错】获取京豆数据异常!`;
 
@@ -312,11 +383,6 @@ async function showMsg() {
 		ReturnMessage += `,支${$.todayOutcomeBean}豆`;
 	}
 	ReturnMessage += `\n`;
-
-	//if($.expirejingdou!=0){
-	//ReturnMessage+=`【今日过期】${$.expirejingdou}京豆\n`;
-	//}
-
 
 	ReturnMessage += `【昨日京豆】收${$.incomeBean}豆`;
 
@@ -426,7 +492,7 @@ async function showMsg() {
 		}
 
 	}
-	const response = await await PetRequest('energyCollect');
+	const response = await PetRequest('energyCollect');
 	const initPetTownRes = await PetRequest('initPetTown');
 	if (initPetTownRes.code === '0' && initPetTownRes.resultCode === '0' && initPetTownRes.message === 'success') {
 		$.petInfo = initPetTownRes.result;
@@ -504,6 +570,7 @@ async function bean() {
 	todayArr = [];
 	do {
 		let response = await getJingBeanBalanceDetail(page);
+		await $.wait(2000);
 		// console.log(`第${page}页: ${JSON.stringify(response)}`);
 		if (response && response.code === "0") {
 			page++;
@@ -557,6 +624,76 @@ async function bean() {
 	await redPacket(); //过期红包
 	// console.log(`昨日收入：${$.incomeBean}个京豆 🐶`);
 	// console.log(`昨日支出：${$.expenseBean}个京豆 🐶`)
+}
+
+async function Monthbean() {
+	let time = new Date();
+	let year = time.getFullYear();
+	let month = parseInt(time.getMonth()); //取上个月
+	if (month == 0) {
+		//一月份，取去年12月，所以月份=12，年份减1
+		month = 12;
+		year -= 1;
+	}
+
+	//开始时间 时间戳
+	let start = new Date(year + "-" + month + "-01 00:00:00").getTime();
+	console.log(`计算月京豆起始日期:` + GetDateTime(new Date(year + "-" + month + "-01 00:00:00")));
+
+	//结束时间 时间戳
+	if (month == 12) {
+		//取去年12月，进1个月，所以月份=1，年份加1
+		month = 1;
+		year += 1;
+	}
+	let end = new Date(year + "-" + (month + 1) + "-01 00:00:00").getTime();
+	console.log(`计算月京豆结束日期:` + GetDateTime(new Date(year + "-" + (month + 1) + "-01 00:00:00")));
+
+	let allpage = 1,
+	allt = 0,
+	allyesterdayArr = [];
+	do {
+		let response = await getJingBeanBalanceDetail(allpage);
+		await $.wait(2000);
+		// console.log(`第${allpage}页: ${JSON.stringify(response)}`);
+		if (response && response.code === "0") {
+			allpage++;
+			let detailList = response.detailList;
+			if (detailList && detailList.length > 0) {
+				for (let item of detailList) {
+					const date = item.date.replace(/-/g, '/') + "+08:00";
+					if (start <= new Date(date).getTime() && new Date(date).getTime() < end) {
+						//日期区间内的京豆记录
+						allyesterdayArr.push(item);
+					} else if (start > new Date(date).getTime()) {
+						//前天的
+						allt = 1;
+						break;
+					}
+				}
+			} else {
+				$.errorMsg = `数据异常`;
+				$.msg($.name, ``, `账号${$.index}：${$.nickName}\n${$.errorMsg}`);
+				allt = 1;
+			}
+		} else if (response && response.code === "3") {
+			console.log(`cookie已过期，或者填写不规范，跳出`)
+			allt = 1;
+		} else {
+			console.log(`未知情况：${JSON.stringify(response)}`);
+			console.log(`未知情况，跳出`)
+			allt = 1;
+		}
+	} while (allt === 0);
+
+	for (let item of allyesterdayArr) {
+		if (Number(item.amount) > 0) {
+			$.allincomeBean += Number(item.amount);
+		} else if (Number(item.amount) < 0) {
+			$.allexpenseBean += Number(item.amount);
+		}
+	}
+
 }
 
 async function jdCash() {
@@ -782,7 +919,7 @@ function getJingBeanBalanceDetail(page) {
 					} else {
 						console.log(`京东服务器返回空数据`)
 					}
-				}
+				}				
 			} catch (e) {
 				$.logErr(e, resp)
 			}
@@ -1653,5 +1790,428 @@ function timeFormat(time) {
 	}
 	return date.getFullYear() + '-' + ((date.getMonth() + 1) >= 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)) + '-' + (date.getDate() >= 10 ? date.getDate() : '0' + date.getDate());
 }
+
+function GetDateTime(date) {
+
+	var timeString = "";
+
+	var timeString = date.getFullYear() + "-";
+	if ((date.getMonth() + 1) < 10)
+		timeString += "0" + (date.getMonth() + 1) + "-";
+	else
+		timeString += (date.getMonth() + 1) + "-";
+
+	if ((date.getDate()) < 10)
+		timeString += "0" + date.getDate() + " ";
+	else
+		timeString += date.getDate() + " ";
+
+	if ((date.getHours()) < 10)
+		timeString += "0" + date.getHours() + ":";
+	else
+		timeString += date.getHours() + ":";
+
+	if ((date.getMinutes()) < 10)
+		timeString += "0" + date.getMinutes() + ":";
+	else
+		timeString += date.getMinutes() + ":";
+
+	if ((date.getSeconds()) < 10)
+		timeString += "0" + date.getSeconds();
+	else
+		timeString += date.getSeconds();
+
+	return timeString;
+}
+
 // prettier-ignore
-function Env(t,e){"undefined"!=typeof process&&JSON.stringify(process.env).indexOf("GITHUB")>-1&&process.exit(0);class s{constructor(t){this.env=t}send(t,e="GET"){t="string"==typeof t?{url:t}:t;let s=this.get;return"POST"===e&&(s=this.post),new Promise((e,i)=>{s.call(this,t,(t,s,r)=>{t?i(t):e(s)})})}get(t){return this.send.call(this.env,t)}post(t){return this.send.call(this.env,t,"POST")}}return new class{constructor(t,e){this.name=t,this.http=new s(this),this.data=null,this.dataFile="box.dat",this.logs=[],this.isMute=!1,this.isNeedRewrite=!1,this.logSeparator="\n",this.startTime=(new Date).getTime(),Object.assign(this,e),this.log("",`🔔${this.name}, 开始!`)}isNode(){return"undefined"!=typeof module&&!!module.exports}isQuanX(){return"undefined"!=typeof $task}isSurge(){return"undefined"!=typeof $httpClient&&"undefined"==typeof $loon}isLoon(){return"undefined"!=typeof $loon}toObj(t,e=null){try{return JSON.parse(t)}catch{return e}}toStr(t,e=null){try{return JSON.stringify(t)}catch{return e}}getjson(t,e){let s=e;const i=this.getdata(t);if(i)try{s=JSON.parse(this.getdata(t))}catch{}return s}setjson(t,e){try{return this.setdata(JSON.stringify(t),e)}catch{return!1}}getScript(t){return new Promise(e=>{this.get({url:t},(t,s,i)=>e(i))})}runScript(t,e){return new Promise(s=>{let i=this.getdata("@chavy_boxjs_userCfgs.httpapi");i=i?i.replace(/\n/g,"").trim():i;let r=this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");r=r?1*r:20,r=e&&e.timeout?e.timeout:r;const[o,h]=i.split("@"),n={url:`http://${h}/v1/scripting/evaluate`,body:{script_text:t,mock_type:"cron",timeout:r},headers:{"X-Key":o,Accept:"*/*"}};this.post(n,(t,e,i)=>s(i))}).catch(t=>this.logErr(t))}loaddata(){if(!this.isNode())return{};{this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e);if(!s&&!i)return{};{const i=s?t:e;try{return JSON.parse(this.fs.readFileSync(i))}catch(t){return{}}}}}writedata(){if(this.isNode()){this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e),r=JSON.stringify(this.data);s?this.fs.writeFileSync(t,r):i?this.fs.writeFileSync(e,r):this.fs.writeFileSync(t,r)}}lodash_get(t,e,s){const i=e.replace(/\[(\d+)\]/g,".$1").split(".");let r=t;for(const t of i)if(r=Object(r)[t],void 0===r)return s;return r}lodash_set(t,e,s){return Object(t)!==t?t:(Array.isArray(e)||(e=e.toString().match(/[^.[\]]+/g)||[]),e.slice(0,-1).reduce((t,s,i)=>Object(t[s])===t[s]?t[s]:t[s]=Math.abs(e[i+1])>>0==+e[i+1]?[]:{},t)[e[e.length-1]]=s,t)}getdata(t){let e=this.getval(t);if(/^@/.test(t)){const[,s,i]=/^@(.*?)\.(.*?)$/.exec(t),r=s?this.getval(s):"";if(r)try{const t=JSON.parse(r);e=t?this.lodash_get(t,i,""):e}catch(t){e=""}}return e}setdata(t,e){let s=!1;if(/^@/.test(e)){const[,i,r]=/^@(.*?)\.(.*?)$/.exec(e),o=this.getval(i),h=i?"null"===o?null:o||"{}":"{}";try{const e=JSON.parse(h);this.lodash_set(e,r,t),s=this.setval(JSON.stringify(e),i)}catch(e){const o={};this.lodash_set(o,r,t),s=this.setval(JSON.stringify(o),i)}}else s=this.setval(t,e);return s}getval(t){return this.isSurge()||this.isLoon()?$persistentStore.read(t):this.isQuanX()?$prefs.valueForKey(t):this.isNode()?(this.data=this.loaddata(),this.data[t]):this.data&&this.data[t]||null}setval(t,e){return this.isSurge()||this.isLoon()?$persistentStore.write(t,e):this.isQuanX()?$prefs.setValueForKey(t,e):this.isNode()?(this.data=this.loaddata(),this.data[e]=t,this.writedata(),!0):this.data&&this.data[e]||null}initGotEnv(t){this.got=this.got?this.got:require("got"),this.cktough=this.cktough?this.cktough:require("tough-cookie"),this.ckjar=this.ckjar?this.ckjar:new this.cktough.CookieJar,t&&(t.headers=t.headers?t.headers:{},void 0===t.headers.Cookie&&void 0===t.cookieJar&&(t.cookieJar=this.ckjar))}get(t,e=(()=>{})){t.headers&&(delete t.headers["Content-Type"],delete t.headers["Content-Length"]),this.isSurge()||this.isLoon()?(this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient.get(t,(t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status),e(t,s,i)})):this.isQuanX()?(this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t))):this.isNode()&&(this.initGotEnv(t),this.got(t).on("redirect",(t,e)=>{try{if(t.headers["set-cookie"]){const s=t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();s&&this.ckjar.setCookieSync(s,null),e.cookieJar=this.ckjar}}catch(t){this.logErr(t)}}).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>{const{message:s,response:i}=t;e(s,i,i&&i.body)}))}post(t,e=(()=>{})){if(t.body&&t.headers&&!t.headers["Content-Type"]&&(t.headers["Content-Type"]="application/x-www-form-urlencoded"),t.headers&&delete t.headers["Content-Length"],this.isSurge()||this.isLoon())this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient.post(t,(t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status),e(t,s,i)});else if(this.isQuanX())t.method="POST",this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t));else if(this.isNode()){this.initGotEnv(t);const{url:s,...i}=t;this.got.post(s,i).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>{const{message:s,response:i}=t;e(s,i,i&&i.body)})}}time(t,e=null){const s=e?new Date(e):new Date;let i={"M+":s.getMonth()+1,"d+":s.getDate(),"H+":s.getHours(),"m+":s.getMinutes(),"s+":s.getSeconds(),"q+":Math.floor((s.getMonth()+3)/3),S:s.getMilliseconds()};/(y+)/.test(t)&&(t=t.replace(RegExp.$1,(s.getFullYear()+"").substr(4-RegExp.$1.length)));for(let e in i)new RegExp("("+e+")").test(t)&&(t=t.replace(RegExp.$1,1==RegExp.$1.length?i[e]:("00"+i[e]).substr((""+i[e]).length)));return t}msg(e=t,s="",i="",r){const o=t=>{if(!t)return t;if("string"==typeof t)return this.isLoon()?t:this.isQuanX()?{"open-url":t}:this.isSurge()?{url:t}:void 0;if("object"==typeof t){if(this.isLoon()){let e=t.openUrl||t.url||t["open-url"],s=t.mediaUrl||t["media-url"];return{openUrl:e,mediaUrl:s}}if(this.isQuanX()){let e=t["open-url"]||t.url||t.openUrl,s=t["media-url"]||t.mediaUrl;return{"open-url":e,"media-url":s}}if(this.isSurge()){let e=t.url||t.openUrl||t["open-url"];return{url:e}}}};if(this.isMute||(this.isSurge()||this.isLoon()?$notification.post(e,s,i,o(r)):this.isQuanX()&&$notify(e,s,i,o(r))),!this.isMuteLog){let t=["","==============📣系统通知📣=============="];t.push(e),s&&t.push(s),i&&t.push(i),console.log(t.join("\n")),this.logs=this.logs.concat(t)}}log(...t){t.length>0&&(this.logs=[...this.logs,...t]),console.log(t.join(this.logSeparator))}logErr(t,e){const s=!this.isSurge()&&!this.isQuanX()&&!this.isLoon();s?this.log("",`❗️${this.name}, 错误!`,t.stack):this.log("",`❗️${this.name}, 错误!`,t)}wait(t){return new Promise(e=>setTimeout(e,t))}done(t={}){const e=(new Date).getTime(),s=(e-this.startTime)/1e3;this.log("",`🔔${this.name}, 结束! 🕛 ${s} 秒`),this.log(),(this.isSurge()||this.isQuanX()||this.isLoon())&&$done(t)}}(t,e)}
+function Env(t, e) {
+    "undefined" != typeof process && JSON.stringify(process.env).indexOf("GITHUB") > -1 && process.exit(0);
+    class s {
+        constructor(t) {
+            this.env = t
+        }
+        send(t, e = "GET") {
+            t = "string" == typeof t ? {
+                url: t
+            }
+             : t;
+            let s = this.get;
+            return "POST" === e && (s = this.post),
+            new Promise((e, i) => {
+                s.call(this, t, (t, s, r) => {
+                    t ? i(t) : e(s)
+                })
+            })
+        }
+        get(t) {
+            return this.send.call(this.env, t)
+        }
+        post(t) {
+            return this.send.call(this.env, t, "POST")
+        }
+    }
+    return new class {
+        constructor(t, e) {
+            this.name = t,
+            this.http = new s(this),
+            this.data = null,
+            this.dataFile = "box.dat",
+            this.logs = [],
+            this.isMute = !1,
+            this.isNeedRewrite = !1,
+            this.logSeparator = "\n",
+            this.startTime = (new Date).getTime(),
+            Object.assign(this, e),
+            this.log("", `🔔${this.name}, 开始!`)
+        }
+        isNode() {
+            return "undefined" != typeof module && !!module.exports
+        }
+        isQuanX() {
+            return "undefined" != typeof $task
+        }
+        isSurge() {
+            return "undefined" != typeof $httpClient && "undefined" == typeof $loon
+        }
+        isLoon() {
+            return "undefined" != typeof $loon
+        }
+        toObj(t, e = null) {
+            try {
+                return JSON.parse(t)
+            } catch {
+                return e
+            }
+        }
+        toStr(t, e = null) {
+            try {
+                return JSON.stringify(t)
+            } catch {
+                return e
+            }
+        }
+        getjson(t, e) {
+            let s = e;
+            const i = this.getdata(t);
+            if (i)
+                try {
+                    s = JSON.parse(this.getdata(t))
+                } catch {}
+            return s
+        }
+        setjson(t, e) {
+            try {
+                return this.setdata(JSON.stringify(t), e)
+            } catch {
+                return !1
+            }
+        }
+        getScript(t) {
+            return new Promise(e => {
+                this.get({
+                    url: t
+                }, (t, s, i) => e(i))
+            })
+        }
+        runScript(t, e) {
+            return new Promise(s => {
+                let i = this.getdata("@chavy_boxjs_userCfgs.httpapi");
+                i = i ? i.replace(/\n/g, "").trim() : i;
+                let r = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
+                r = r ? 1 * r : 20,
+                r = e && e.timeout ? e.timeout : r;
+                const[o, h] = i.split("@"),
+                n = {
+                    url: `http://${h}/v1/scripting/evaluate`,
+                    body: {
+                        script_text: t,
+                        mock_type: "cron",
+                        timeout: r
+                    },
+                    headers: {
+                        "X-Key": o,
+                        Accept: "*/*"
+                    }
+                };
+                this.post(n, (t, e, i) => s(i))
+            }).catch(t => this.logErr(t))
+        }
+        loaddata() {
+            if (!this.isNode())
+                return {}; {
+                this.fs = this.fs ? this.fs : require("fs"),
+                this.path = this.path ? this.path : require("path");
+                const t = this.path.resolve(this.dataFile),
+                e = this.path.resolve(process.cwd(), this.dataFile),
+                s = this.fs.existsSync(t),
+                i = !s && this.fs.existsSync(e);
+                if (!s && !i)
+                    return {}; {
+                    const i = s ? t : e;
+                    try {
+                        return JSON.parse(this.fs.readFileSync(i))
+                    } catch (t) {
+                        return {}
+                    }
+                }
+            }
+        }
+        writedata() {
+            if (this.isNode()) {
+                this.fs = this.fs ? this.fs : require("fs"),
+                this.path = this.path ? this.path : require("path");
+                const t = this.path.resolve(this.dataFile),
+                e = this.path.resolve(process.cwd(), this.dataFile),
+                s = this.fs.existsSync(t),
+                i = !s && this.fs.existsSync(e),
+                r = JSON.stringify(this.data);
+                s ? this.fs.writeFileSync(t, r) : i ? this.fs.writeFileSync(e, r) : this.fs.writeFileSync(t, r)
+            }
+        }
+        lodash_get(t, e, s) {
+            const i = e.replace(/\[(\d+)\]/g, ".$1").split(".");
+            let r = t;
+            for (const t of i)
+                if (r = Object(r)[t], void 0 === r)
+                    return s;
+            return r
+        }
+        lodash_set(t, e, s) {
+            return Object(t) !== t ? t : (Array.isArray(e) || (e = e.toString().match(/[^.[\]]+/g) || []), e.slice(0, -1).reduce((t, s, i) => Object(t[s]) === t[s] ? t[s] : t[s] = Math.abs(e[i + 1]) >> 0 == +e[i + 1] ? [] : {}, t)[e[e.length - 1]] = s, t)
+        }
+        getdata(t) {
+            let e = this.getval(t);
+            if (/^@/.test(t)) {
+                const[, s, i] = /^@(.*?)\.(.*?)$/.exec(t),
+                r = s ? this.getval(s) : "";
+                if (r)
+                    try {
+                        const t = JSON.parse(r);
+                        e = t ? this.lodash_get(t, i, "") : e
+                    } catch (t) {
+                        e = ""
+                    }
+            }
+            return e
+        }
+        setdata(t, e) {
+            let s = !1;
+            if (/^@/.test(e)) {
+                const[, i, r] = /^@(.*?)\.(.*?)$/.exec(e),
+                o = this.getval(i),
+                h = i ? "null" === o ? null : o || "{}" : "{}";
+                try {
+                    const e = JSON.parse(h);
+                    this.lodash_set(e, r, t),
+                    s = this.setval(JSON.stringify(e), i)
+                } catch (e) {
+                    const o = {};
+                    this.lodash_set(o, r, t),
+                    s = this.setval(JSON.stringify(o), i)
+                }
+            } else
+                s = this.setval(t, e);
+            return s
+        }
+        getval(t) {
+            return this.isSurge() || this.isLoon() ? $persistentStore.read(t) : this.isQuanX() ? $prefs.valueForKey(t) : this.isNode() ? (this.data = this.loaddata(), this.data[t]) : this.data && this.data[t] || null
+        }
+        setval(t, e) {
+            return this.isSurge() || this.isLoon() ? $persistentStore.write(t, e) : this.isQuanX() ? $prefs.setValueForKey(t, e) : this.isNode() ? (this.data = this.loaddata(), this.data[e] = t, this.writedata(), !0) : this.data && this.data[e] || null
+        }
+        initGotEnv(t) {
+            this.got = this.got ? this.got : require("got"),
+            this.cktough = this.cktough ? this.cktough : require("tough-cookie"),
+            this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar,
+            t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar))
+        }
+        get(t, e = (() => {})) {
+            t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]),
+            this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
+                        "X-Surge-Skip-Scripting": !1
+                    })), $httpClient.get(t, (t, s, i) => {
+                    !t && s && (s.body = i, s.statusCode = s.status),
+                    e(t, s, i)
+                })) : this.isQuanX() ? (this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
+                        hints: !1
+                    })), $task.fetch(t).then(t => {
+                    const {
+                        statusCode: s,
+                        statusCode: i,
+                        headers: r,
+                        body: o
+                    } = t;
+                    e(null, {
+                        status: s,
+                        statusCode: i,
+                        headers: r,
+                        body: o
+                    }, o)
+                }, t => e(t))) : this.isNode() && (this.initGotEnv(t), this.got(t).on("redirect", (t, e) => {
+                    try {
+                        if (t.headers["set-cookie"]) {
+                            const s = t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
+                            s && this.ckjar.setCookieSync(s, null),
+                            e.cookieJar = this.ckjar
+                        }
+                    } catch (t) {
+                        this.logErr(t)
+                    }
+                }).then(t => {
+                    const {
+                        statusCode: s,
+                        statusCode: i,
+                        headers: r,
+                        body: o
+                    } = t;
+                    e(null, {
+                        status: s,
+                        statusCode: i,
+                        headers: r,
+                        body: o
+                    }, o)
+                }, t => {
+                    const {
+                        message: s,
+                        response: i
+                    } = t;
+                    e(s, i, i && i.body)
+                }))
+        }
+        post(t, e = (() => {})) {
+            if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon())
+                this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
+                        "X-Surge-Skip-Scripting": !1
+                    })), $httpClient.post(t, (t, s, i) => {
+                    !t && s && (s.body = i, s.statusCode = s.status),
+                    e(t, s, i)
+                });
+            else if (this.isQuanX())
+                t.method = "POST", this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
+                        hints: !1
+                    })), $task.fetch(t).then(t => {
+                    const {
+                        statusCode: s,
+                        statusCode: i,
+                        headers: r,
+                        body: o
+                    } = t;
+                    e(null, {
+                        status: s,
+                        statusCode: i,
+                        headers: r,
+                        body: o
+                    }, o)
+                }, t => e(t));
+            else if (this.isNode()) {
+                this.initGotEnv(t);
+                const {
+                    url: s,
+                    ...i
+                } = t;
+                this.got.post(s, i).then(t => {
+                    const {
+                        statusCode: s,
+                        statusCode: i,
+                        headers: r,
+                        body: o
+                    } = t;
+                    e(null, {
+                        status: s,
+                        statusCode: i,
+                        headers: r,
+                        body: o
+                    }, o)
+                }, t => {
+                    const {
+                        message: s,
+                        response: i
+                    } = t;
+                    e(s, i, i && i.body)
+                })
+            }
+        }
+        time(t, e = null) {
+            const s = e ? new Date(e) : new Date;
+            let i = {
+                "M+": s.getMonth() + 1,
+                "d+": s.getDate(),
+                "H+": s.getHours(),
+                "m+": s.getMinutes(),
+                "s+": s.getSeconds(),
+                "q+": Math.floor((s.getMonth() + 3) / 3),
+                S: s.getMilliseconds()
+            };
+            /(y+)/.test(t) && (t = t.replace(RegExp.$1, (s.getFullYear() + "").substr(4 - RegExp.$1.length)));
+            for (let e in i)
+                new RegExp("(" + e + ")").test(t) && (t = t.replace(RegExp.$1, 1 == RegExp.$1.length ? i[e] : ("00" + i[e]).substr(("" + i[e]).length)));
+            return t
+        }
+        msg(e = t, s = "", i = "", r) {
+            const o = t => {
+                if (!t)
+                    return t;
+                if ("string" == typeof t)
+                    return this.isLoon() ? t : this.isQuanX() ? {
+                        "open-url": t
+                    }
+                 : this.isSurge() ? {
+                    url: t
+                }
+                 : void 0;
+                if ("object" == typeof t) {
+                    if (this.isLoon()) {
+                        let e = t.openUrl || t.url || t["open-url"],
+                        s = t.mediaUrl || t["media-url"];
+                        return {
+                            openUrl: e,
+                            mediaUrl: s
+                        }
+                    }
+                    if (this.isQuanX()) {
+                        let e = t["open-url"] || t.url || t.openUrl,
+                        s = t["media-url"] || t.mediaUrl;
+                        return {
+                            "open-url": e,
+                            "media-url": s
+                        }
+                    }
+                    if (this.isSurge()) {
+                        let e = t.url || t.openUrl || t["open-url"];
+                        return {
+                            url: e
+                        }
+                    }
+                }
+            };
+            if (this.isMute || (this.isSurge() || this.isLoon() ? $notification.post(e, s, i, o(r)) : this.isQuanX() && $notify(e, s, i, o(r))), !this.isMuteLog) {
+                let t = ["", "==============📣系统通知📣=============="];
+                t.push(e),
+                s && t.push(s),
+                i && t.push(i),
+                console.log(t.join("\n")),
+                this.logs = this.logs.concat(t)
+            }
+        }
+        log(...t) {
+            t.length > 0 && (this.logs = [...this.logs, ...t]),
+            console.log(t.join(this.logSeparator))
+        }
+        logErr(t, e) {
+            const s = !this.isSurge() && !this.isQuanX() && !this.isLoon();
+            s ? this.log("", `❗️${this.name}, 错误!`, t.stack) : this.log("", `❗️${this.name}, 错误!`, t)
+        }
+        wait(t) {
+            return new Promise(e => setTimeout(e, t))
+        }
+        done(t = {}) {
+            const e = (new Date).getTime(),
+            s = (e - this.startTime) / 1e3;
+            this.log("", `🔔${this.name}, 结束! 🕛 ${s} 秒`),
+            this.log(),
+            (this.isSurge() || this.isQuanX() || this.isLoon()) && $done(t)
+        }
+    }
+    (t, e)
+}
