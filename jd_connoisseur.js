@@ -279,14 +279,14 @@ function interactive_done(type, projectId, assignmentId, itemId) {
           if (data) {
             data = JSON.parse(data)
             if (type === "2") {
-              if (data.code === "0") {
+              if (data.code === "0" && data.busiCode === "0") {
                 console.log(data.data.msg)
                 if (!data.data.success) $.canHelp = false
               } else {
                 console.log(data.message)
               }
             } else {
-              if (data.code === "0") {
+              if (data.code === "0" && data.busiCode === "0") {
                 console.log(data.data.rewardMsg)
               } else {
                 console.log(data.message)
@@ -337,7 +337,7 @@ function interactive_reward(type, projectId, assignmentId) {
         } else {
           if (data) {
             data = JSON.parse(data)
-            if (data.code === "0") {
+            if (data.code === "0" && data.busiCode === "0") {
               console.log(data.data.rewardMsg)
             } else {
               console.log(data.message)
