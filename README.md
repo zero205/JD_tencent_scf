@@ -24,7 +24,7 @@
 
 * > 腾讯云函数部署建议阅读@hshx123大佬的[教程](https://66ccff.work/teach/jd.html)【推荐】.[旧教程](./backUp/tencentscf.md)【备用】
 
-* > [elecV2P](https://github.com/elecV2/elecV2P) 部署【随缘维护，建议转战➟[Docker](https://www.runoob.com/docker/windows-docker-install.html)青龙】
+* > [elecV2P](https://github.com/elecV2/elecV2P) 部署【随缘维护，建议转战➟[Docker](https://www.runoob.com/docker/windows-docker-install.html) [青龙](https://github.com/whyour/qinglong)】
     * 安装教程：[点此查看](https://github.com/elecV2/elecV2P-dei/blob/master/docs/01-overview.md)  
     * 订阅任务：`https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_task.json`
     * elecV2P京东CK、通知填写格式等相关补充说明：[点此查看](./backUp/elecV2P.md)  
