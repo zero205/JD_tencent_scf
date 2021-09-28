@@ -12,19 +12,18 @@
 1. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).
 2. config分支diy.sh如果有的话会自动运行(仅面向高级用户)
 3. 添加一个Secret:EXPERIMENT即可使用实验性特性(执行顺序在上述两个diy操作之前,所以diy内容如果跟实验性特性有冲突,会覆盖,也方便各位大佬施展自己的骚操作).具体请见下方.
+#### 未来可能的更新(实验性特性,仅限高级用户):
+https://github.com/Ca11back/scf-experiment
 
+欢迎各位大佬尝试/PR实验性特性. 
+
+项目内也包含一些简易(也许还实用)diy.sh的example,需要可以看一下.
 ## 云函数部分常用变量说明:
 1. TENCENT_NAME: 函数名字,修改后注意删除原来名字的函数
 2. TENCENT_NAME_MEMORYSIZE: 运行内存64,128,256.默认64,大内存会加快配额消耗.单位Mb
 3. TENCENT_TIMEOUT: 云函数超时时间,单位秒
 4. SCF_REGION: 云函数部署地区,注意修改后删除原地区旧函数
 
-## 未来可能的更新(实验性特性,仅限高级用户):
-https://github.com/Ca11back/scf-experiment
-
-欢迎各位大佬尝试/PR实验性特性. 
-
-项目内也包含一些简易(也许还实用)diy.sh的example,需要可以看一下.
 ## FAQ(常见问题):
 ### Github部署日志:ETIMEOUT ERROR
 ETIMEDOUT 错误腾讯是腾讯问题,初步怀疑同时部署人数较多
