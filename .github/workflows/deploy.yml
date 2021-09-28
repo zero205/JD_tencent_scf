@@ -49,8 +49,6 @@ jobs:
       - name: set serverless.yml and push env
         working-directory: ./JD_tencent_scf
         env:
-          TENCENT_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
-          TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
           TENCENT_REGION: ${{ secrets.SCF_REGION }}
           TENCENT_FUNCTION_NAME: ${{ secrets.TENCENT_FUNCTION_NAME }}
           TENCENTSCF_MEMORYSIZE: ${{ secrets.TENCENTSCF_MEMORYSIZE }}
