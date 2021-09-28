@@ -152,6 +152,7 @@ async function queryInteractiveInfo(encryptProjectId, sourceCode) {
                     console.log('助力已满')
                   }else{
                     $.shareCodesList.push(vo.ext.assistTaskDetail.itemId)
+                    console.log('助力码:',vo.ext.assistTaskDetail.itemId)
                   }
                   continue
                 }
