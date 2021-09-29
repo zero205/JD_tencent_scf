@@ -22,7 +22,7 @@ https://github.com/Ca11back/scf-experiment
 1. TENCENT_NAME: 函数名字,修改后注意删除原来名字的函数
 2. TENCENT_NAME_MEMORYSIZE: 运行内存64,128,256.默认64,大内存会加快配额消耗.单位Mb
 3. TENCENT_TIMEOUT: 云函数超时时间,单位秒,默认值见仓库serverless.yml
-4. SCF_REGION: 云函数部署地区,注意修改后删除原地区旧函数,默认广州
+4. SCF_REGION: 云函数部署地区,注意修改后删除原地区旧函数,默认ap-guangzhou
 
 ## FAQ(常见问题):
 ### Github部署日志:ETIMEOUT ERROR
