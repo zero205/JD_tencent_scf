@@ -554,6 +554,16 @@
       }
     },
     {
+      "name": "天天拼图",
+      "type": "cron",
+      "time": "18 0,18 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_ttpt.js"
+      }
+    },
+    {
       "name": "取关京东店铺商品",
       "type": "cron",
       "time": "30 23 * * *",
