@@ -29,6 +29,8 @@ https://github.com/Ca11back/scf-experiment
 ETIMEDOUT 错误腾讯是腾讯问题,初步怀疑同时部署人数较多
 1. 请尝试手动删除/添加config分支.env文件中的GLOBAL_ACCELERATOR_NA=true,尝试关闭/或开启境外加速.(默认开启,且建议开启)
 2. 启用随机分钟部署(默认开启,在定时的小时随机抽取分钟进行执行).关闭请直接禁用Random Cron workflow
+### Github部署日志:未找到函数执行入口文件
+云函数面板删除函数,更改Secret函数名字TENCENT_NAME,重新运行action部署.
 
 如果还是经常失败的话,请进群反馈(置顶反馈流程)!提供完整github部署日志.除了失败别的什么也提供不了.我修不了或者干脆不修你们也能理解吧.
 
