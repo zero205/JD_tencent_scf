@@ -104,8 +104,8 @@ let allMessage = '';
 async function jdMofang() {
   console.log(`集魔方 赢大奖`)
   await getInteractionHomeInfo()
-  console.log(`\n集魔方 抽京豆 赢新品`)
-  await getInteractionInfo()
+  // console.log(`\n集魔方 抽京豆 赢新品`)
+  // await getInteractionInfo()
 }
 
 async function getInteractionHomeInfo() {
@@ -143,9 +143,9 @@ async function queryInteractiveInfo(encryptProjectId, sourceCode) {
               let vo = data.assignmentList[key]
               if (vo.ext.extraType === "sign1") {
                 console.log(`去做【${vo.assignmentName}】`)
-                let signDay = (vo.ext[vo.ext.extraType].signList && vo.ext[vo.ext.extraType].signList.length) || 0
-                $.type = vo.rewards[signDay].rewardType
                 if (vo.ext[vo.ext.extraType].status !== 2) {
+                  let signDay = (vo.ext[vo.ext.extraType].signList && vo.ext[vo.ext.extraType].signList.length) || 0
+                  $.type = vo.rewards[signDay].rewardType
                   await doInteractiveAssignment(vo.ext.extraType, encryptProjectId, sourceCode, vo.encryptAssignmentId, vo.ext[vo.ext.extraType].itemId)
                 } else {
                   console.log(`今日已签到`)
