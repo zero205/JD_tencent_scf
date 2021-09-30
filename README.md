@@ -19,10 +19,11 @@ https://github.com/Ca11back/scf-experiment
 
 项目内也包含一些简易(也许还实用)diy.sh的example,需要可以看一下.
 ## 云函数部分常用变量说明(默认值见仓库serverless.yml):
-1. TENCENT_NAME: 函数名字,修改后注意删除原来名字的函数
-2. TENCENT_NAME_MEMORYSIZE: 运行内存64,128,256.大内存会加快配额消耗.单位Mb
-3. TENCENT_TIMEOUT: 云函数超时时间,单位秒
-4. SCF_REGION: 云函数部署地区,注意修改后删除原地区旧函数
+1. TENCENT_NAME(Secret): 函数名字,修改后注意删除原来名字的函数
+2. TENCENT_NAME_MEMORYSIZE(Secret): 运行内存64,128,256.大内存会加快配额消耗.单位Mb
+3. TENCENT_TIMEOUT(Secret): 云函数超时时间,单位秒
+4. SCF_REGION(Secret): 云函数部署地区,注意修改后删除原地区旧函数
+5. NOT_RUN(环境变量): 不运行的脚本.如: jd_cfd&jd_joy&jd_jdfactory
 
 ## FAQ(常见问题):
 ### Github部署日志:ETIMEOUT ERROR
