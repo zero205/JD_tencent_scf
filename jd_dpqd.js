@@ -8,7 +8,7 @@ DPQDTK: token1&token2
 */
 let token = []
 if (process.env.DPQDTK) {
-  token = [...token,...process.env.DPQDTK.split('&')]
+  token = [...process.env.DPQDTK.split('&'),...token]
 }
 if (!token.length) {
   console.log('无店铺签到token,不执行.')
