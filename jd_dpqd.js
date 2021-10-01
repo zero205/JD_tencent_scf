@@ -2,7 +2,17 @@
 cron 0 0 * * * jd_dpqd.js
 店铺签到，各类店铺签到，有新的店铺直接添加token即可
 搬运cui521大佬脚本，请勿外传！！！
+环境变量:
+DPQDTK: token1&token2
+仓库不再提供token
 */
+const token = []
+if (process.env.DPQDTK) {
+  token = process.env.DPQDTK.split('&')
+}
+if (!token.length) {
+  console.log('无店铺签到token,不执行.')
+}
 const $ = new Env('店铺签到');
 
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -16,30 +26,6 @@ let activityId = ''
 let vender = ''
 let num = 0
 let shopname = ''
-const token = [
-  '98CCFA28021D0623A6835480228862D5',//2-3天70京豆；
-  '9133123518A9C372D79D54407C5DF0F9',//15天100京豆；
-  'B633CA47876BC61E7F639EBED79DDF34',//3天20京豆；
-  'D92B26255A899BF4DD32B80196EB8934',
-  '10B6286F445A9F94C356B35469DB9A4D',
-  '5C1B739656B358743D816EAE714C83F3',
-  "A4469A359592ECFDF1A927B3EE6E7357", 
-  "FAC8EFA459B45C8208817F11C313C05D", 
-  '1D9BC39B71C4DF268D034D4DC78B81D3',
-  '3D99640B8E65273658E3A21908FFEC4C',
-  '9544C0361A02BCE538FBECA84D3A9508',
-  '261F616B5F721EFB1E112D6A1FA69BE1',
-  '94E9660F7E513526BE90DAE600414C03',
-  '9944E3E6476F61BEF9D4107210D24D55',
-  'D48CC0BF38018BFBD65E495201A160C6',
-  'C1B43EE810DF7CF9BCD82256690AD16B',
-  '0FD7C0E275B44718D79AD02D0D73770F',
-  'FEFF64118D0FB5D049763864E46ACBA3',
-  'EBAA272399094FA03629BF1A6D1410EC',
-  'CEDDE5C4517E0F402FD4B9A62B1F22D6',
-]
-//IOS等用户直接用NobyDa的jd cookie
-
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
