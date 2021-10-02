@@ -1,6 +1,5 @@
 ## 主仓库地址: https://github.com/zero205/JD_tencent_scf/tree/main
 ## 为了您的数据安全,必须将仓库私有,具体内容请到主仓库地址查看.
-## 当前:配置文件部署方式(暂时只推荐有一点点基础的用户使用)
 ## 配置文件部署方式说明:
 1. 需要配合配置文件分支config使用.(请运行对应action获取分支,获取后点击左上方 main 来切换分支.)
 2. TENCENT开头的NAME/REGION(SCF_REGION)/MEMORYSIZE/TIMEOUT依然使用Secrets
