@@ -74,6 +74,8 @@ https://github.com/Ca11back/scf-experiment
     }
 }
 ```
+5. 部分兑换类脚本单独使用一个触发器,且不受timeout参数控制.详见:serverless.yml
+
 ## 云函数部分常用变量说明(默认值见仓库serverless.yml):
 1. TENCENT_NAME(Secret): 函数名字,修改后注意删除原来名字的函数,名字强烈建议自己搞一个,别用默认的.
 2. TENCENT_NAME_MEMORYSIZE(Secret): 运行内存64,128,256.大内存会加快配额消耗.单位Mb
