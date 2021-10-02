@@ -81,7 +81,7 @@ https://github.com/Ca11back/scf-experiment
 2. TENCENT_NAME_MEMORYSIZE(Secret): 运行内存64,128,256.大内存会加快配额消耗.单位Mb
 3. TENCENT_TIMEOUT(Secret): 云函数超时时间,单位秒
 4. SCF_REGION(Secret): 云函数部署地区,注意修改后删除原地区旧函数
-5. NOT_RUN(环境变量): 不运行的脚本.如: jd_cfd&jd_joy&jd_jdfactory
+5. NOT_RUN(环境变量): 不运行的脚本.如: jd_cfd&jd_joy&jd_jdfactory. 无默认值
 
 ## FAQ(常见问题):
 ### Github部署日志:ETIMEOUT ERROR
