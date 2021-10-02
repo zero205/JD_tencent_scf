@@ -18,7 +18,7 @@ https://github.com/Ca11back/scf-experiment
 欢迎各位大佬尝试/PR实验性特性. 嗯,开发时候没发现,结果实验性特性收费更低了...具体内容请看群内置顶/或回复'云函数扣费'关键字,欢迎各位大佬探讨.
 
 项目内也包含一些简易(也许还实用)diy.sh的example,需要可以看一下.
-
+#### config_diy.json使用说明/例子:
 **前排提醒,diy文件夹下confg_diy.json中的内容会对config.json也就是官方默认配置的规则是:有则覆盖,无则合并.比如config.json中某脚本4小时运行一次,我在confg_diy.json中3小时运行一次,则规则覆盖.如果那个脚本官方配置中没有,则使用confg_diy.json的配置**
 1. 在diy文件夹下新加入config_diy.json来自定义脚本运行,格式与config.json相同. 比如我想自定义运行jd_cfd_loop,从每天6点到23点.则config_diy为:
 ```json
