@@ -16,6 +16,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //惊喜APP的UA。领取助力任务奖励需要惊喜APP的UA,环境变量：JX_USER_AGENT，有能力的可以填上自己的UA
 const JXUserAgent =  $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USER_AGENT : ``):``;
 $.inviteCodeList = [];
+$.inviteCodeList_hb = [];
+let flag_hb = true
 let cookiesArr = [];
 $.appId = 10028;
 $.helpCkList = [];
@@ -58,8 +60,29 @@ let token ='';
     await pasture();
     await $.wait(2000);
   }
+  if (flag_hb) {
+    console.log('\n##################开始账号内互助(红包)#################\n');
+    await getShareCode('jxmc_hb.json')
+    $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
+    for(let i = 0;i<$.helpCkList.length;i++){
+      $.can_help = true
+      $.cookie = $.helpCkList[i]
+      token = await getJxToken()
+      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
+      for (let j = 0; j < $.inviteCodeList_hb.length && $.can_help; j++) {
+        $.oneCodeInfo = $.inviteCodeList_hb[j]
+        if($.oneCodeInfo.use === $.UserName){
+          continue
+        }
+        console.log(`\n${$.UserName}去助力${$.oneCodeInfo.use},助力码：${$.oneCodeInfo.code}\n`);
+        await takeGetRequest('help_hb');
+        await $.wait(2000);
+      }
+    }
+  }
   console.log('\n##################开始账号内互助#################\n');
-  await getShareCode()
+  $.shareCode = undefined
+  await getShareCode('jxmc.json')
   let newCookiesArr = [];
   for(let i = 0;i<$.helpCkList.length;i+=4){
     newCookiesArr.push($.helpCkList.slice(i,i+4))
@@ -104,10 +127,10 @@ let token ='';
       $.done();
     })
 
-function getShareCode() {
+function getShareCode(name) {
   return new Promise(resolve => {
     $.get({
-      url: "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jxmc.json",
+      url: "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/"+name,
       headers: {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
       }
@@ -157,6 +180,9 @@ async function pasture() {
         }
       }
       $.crowInfo = $.homeInfo.cow;
+    }
+    if (flag_hb) {
+      await takeGetRequest('GetInviteStatus')
     }
     $.GetVisitBackInfo = {};
     await $.wait(1000);
@@ -397,6 +423,14 @@ async function takeGetRequest(type) {
       url += `&jxmc_jstoken=${token.farm_jstoken}&timestamp=${token.timestamp}&phoneid=${token.phoneid}`
       url += `&_stk=activeid%2Cactivekey%2Cchannel%2Ccurrdate%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`;
       break;
+    case 'GetInviteStatus':
+        url = `https://m.jingxi.com/jxmc/operservice/GetInviteStatus?channel=7&sceneid=1001&activeid=jxmc_active_0001&activekey=null&jxmc_jstoken=${token.farm_jstoken}&timestamp=${token.timestamp}&phoneid=${token.phoneid}`;
+        break;
+    case 'help_hb':
+        url = `https://m.jingxi.com/jxmc/operservice/InviteEnroll?channel=7&sceneid=1001&activeid=jxmc_active_0001&activekey=null&sharekey=${$.oneCodeInfo.code}`
+        url += `&jxmc_jstoken=${token.farm_jstoken}&timestamp=${token.timestamp}&phoneid=${token.phoneid}`;
+        url += `&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Csharekey%2Ctimestamp&_ste=1`;
+        break;
     default:
       console.log(`错误${type}`);
   }
@@ -545,6 +579,26 @@ function dealReturn(type, data) {
         console.log(JSON.stringify(data));
       }
       break;
+    case 'GetInviteStatus':
+        if (data.ret === 0) {
+            if(data.data.sharekey){
+                console.log(`红包邀请码:${data.data.sharekey}`);
+                $.inviteCodeList_hb.push({'use':$.UserName,'code':data.data.sharekey,'max':false});
+            }
+        } else if(data.ret === 2704){
+            console.log('红包今天领完了,跳过红包相关')
+            flag_hb = false
+        } else{
+            console.log(`异常：${JSON.stringify(data)}\n`);
+        }
+        break;
+    case 'help_hb':
+        if (data.ret == 2711) {
+          console.log(`无助力次数`)
+          $.can_help = false
+        }
+        console.log(`红包助力：${JSON.stringify(data)}\n`);
+        break;
     default:
       console.log(JSON.stringify(data));
   }
