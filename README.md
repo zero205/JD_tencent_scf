@@ -49,6 +49,7 @@ https://github.com/Ca11back/scf-experiment
     {
         "global":
         {
+            "exec": "sync",
             "timeout": 15
         }
     }
@@ -62,6 +63,7 @@ https://github.com/Ca11back/scf-experiment
     {
         "global":
         {
+            "exec": "sync",
             "timeout": 15
         },
         "jd_speed_sign":
