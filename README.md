@@ -19,13 +19,29 @@ https://github.com/Ca11back/scf-experiment
 项目内也包含一些简易(也许还实用)diy.sh的example,需要可以看一下.
 #### config_diy.json使用说明/例子:
 **前排提醒,diy文件夹下confg_diy.json中的内容会对config.json也就是官方默认配置的规则是:有则覆盖,无则合并.比如config.json中某脚本4小时运行一次,我在confg_diy.json中3小时运行一次,则规则覆盖.如果那个脚本官方配置中没有,则使用confg_diy.json的配置**
-1. 在diy文件夹下新加入config_diy.json来自定义脚本运行,格式与config.json相同. 比如我想自定义运行jd_cfd_loop,从每天6点到23点.则config_diy为:
+1. 在diy文件夹下新加入config_diy.json来自定义脚本运行,格式与config.json相同. 比如我想自定义运行jd_cfd_loop,从每天6点到23点(另一种时间写入方式见下方第3条)则config_diy为:
 ```json
 {
     "jd_cfd_loop": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
 }
 ```
-2. 自定义每个脚本的超时时常为15分钟.注意:TENCENT_TIMEOUT为全局超时,也就是每次整个函数运行时候的超时时间,建议使用默认值3600.(此处例子我想要jd_cfd_loop每3小时运行,注意3两侧没有方括号).
+2. 同步执行(顺序执行,推荐 总体运行时间短的/高级用户 开启):
+- 默认异步运行
+- 异步运行脚本运行时间更短,同步是顺序运行,时间更长.
+- 同步运行解决了异步运行有潜在的冲突可能性
+- 异步运行不支持timeout参数,也就是单脚本有异常也不会在自定义超时时间停止,只能靠TENCENT_TIMEOUT整体超时参数结束.
+```json
+{
+    "params":
+    {
+        "global":
+        {
+            "exec": "sync"
+        }
+    }
+}
+```
+3. 自定义每个脚本的超时时常为15分钟(同步执行才生效).注意:TENCENT_TIMEOUT为全局超时,也就是每次整个函数运行时候的超时时间,建议使用默认值3600.(此处例子我想要jd_cfd_loop每3小时运行,注意3两侧没有方括号).
 ```json
 {
     "jd_cfd_loop": 3,
@@ -38,7 +54,7 @@ https://github.com/Ca11back/scf-experiment
     }
 }
 ```
-3. 自定义某个脚本(例子中是jd_speed_sign)超时时常为50分钟,在执行这个脚本时,超时会使用50分钟,而不是15分钟:
+4. 自定义某个脚本(例子中是jd_speed_sign)超时时常为50分钟(同步执行才生效),在执行这个脚本时,超时会使用50分钟,而不是15分钟:
 ```json
 {
     "jd_cfd_loop": 3,
@@ -55,20 +71,7 @@ https://github.com/Ca11back/scf-experiment
     }
 }
 ```
-4. 同步执行(顺序执行,推荐 总体运行时间短的/高级用户 开启):
-- 异步运行脚本运行时间更短,同步是顺序运行,时间更长.
-- 同步运行解决了异步运行有潜在的冲突可能性
-```json
-{
-    "params":
-    {
-        "global":
-        {
-            "exec": "sync"
-        }
-    }
-}
-```
+
 5. 部分兑换类脚本单独使用一个触发器,且不受timeout参数控制.详见:serverless.yml
 
 ## 云函数部分常用变量说明(默认值见仓库serverless.yml):
