@@ -1,12 +1,11 @@
 ## 主仓库地址: https://github.com/zero205/JD_tencent_scf/tree/main
 ## 为了您的数据安全,必须将仓库私有,具体内容请到主仓库地址查看.
 ## 配置文件部署方式说明:
-**提醒一下,config.yml内的bool值(true/false),请带引号, 如XXXX: 'false'**
 1. 需要配合配置文件分支config使用.(请运行对应action获取分支,获取后点击左上方 main 来切换分支.)
 2. TENCENT开头的NAME/REGION(SCF_REGION)/MEMORYSIZE/TIMEOUT依然使用Secrets
 3. PAT依然使用Secrests
 4. TENCENT的SECRET_ID/SECRET_KEY请填入config分支的.env文件.
-5. 其余所有环境变量填入config分支的config.yml格式请照第一行填写(追加在后面,每个一行,英文冒号,注意冒号后方空格).
+5. 其余所有环境变量填入config分支的config.yml格式请照第一行填写(追加在后面,每个一行,英文冒号,注意冒号后方空格.bool值(true/false),请带引号, 如XXXX: 'false').
 6. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(此条未来会逐步废弃,请按下一条将JRBODY.txt放入diy文件夹)
 ### 面向大佬/高级用户:
 1. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).
