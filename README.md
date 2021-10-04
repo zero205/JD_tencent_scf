@@ -6,7 +6,7 @@
 3. PAT依然使用Secrests
 4. TENCENT的SECRET_ID/SECRET_KEY请填入config分支的.env文件.
 5. 其余所有环境变量填入config分支的config.yml格式请照第一行填写(追加在后面,每个一行,英文冒号,注意冒号后方空格.bool值(true/false),请带引号, 如XXXX: 'false').
-6. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(此条未来会逐步废弃,请按将JRBODY.txt放入diy文件夹)
+6. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(此条未来会逐步废弃,请将JRBODY.txt放入diy文件夹)
 
 ## 云函数部分常用变量说明(默认值见仓库serverless.yml):
 1. TENCENT_NAME(Secret): 函数名字,修改后注意删除原来名字的函数,名字强烈建议自己搞一个,别用默认的.
