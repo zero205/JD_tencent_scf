@@ -103,5 +103,10 @@ https://github.com/Ca11back/scf-experiment
     }
 }
 ```
-
 5. 部分兑换类脚本单独使用一个触发器,且不受timeout参数控制.详见:serverless.yml
+6. jd_cfd_loop已经移除,需要请自己添加至config_diy.json,参考cron:"jd_cfd_loop",只建议同步用户添加: 
+```json
+{
+    "jd_cfd_loop": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+}
+```
