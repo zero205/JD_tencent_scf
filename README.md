@@ -33,8 +33,8 @@
 额外说一句: 云函数只是一个运行环境,怎么用还是看人,并不是很多脚本云函数就不能跑,只是你不会用...觉得麻烦考虑转青龙吧,各有各的优点.云函数对于个人用来说还是很友好的.
 
 ## 面向高级用户:
-1. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(请将JRBODY.txt按一条放入diy文件夹)
-2. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).diy文件夹创建方法:在config分支下,点击右上方'Add File'->'Create New File', 名字写diy/xxx, 填好内容点commit即可
+1. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(请将JRBODY.txt按下一条放入diy文件夹)
+2. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).
 3. config分支diy.sh如果有的话会自动运行.[部分例子](https://github.com/Ca11back/scf-experiment/tree/master/examples)
 4. 支持config_diy.json自定义运行规则,见下文.[部分例子](https://github.com/Ca11back/scf-experiment/tree/master/examples)
 5. 之前添加Secret:EXPERIMENT.请删除.避免下一次测试开启自动载入.
