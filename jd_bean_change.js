@@ -56,6 +56,17 @@ let i = 0;
 let DisableCash = "false";
 let llShowMonth = false;
 let Today = new Date();
+let RemainMessage ='\n'+"🔪兑换请尽快处理🔪"+'\n';
+RemainMessage+="⭕提醒:⭕"+'\n';
+RemainMessage+='【极速金币】京东极速版->我的->金币(极速版使用)\n';
+RemainMessage+='【京东赚赚】微信->京东赚赚小程序->底部赚好礼->提现无门槛红包(京东使用)\n';
+RemainMessage+='【京东秒杀】京东->中间频道往右划找到京东秒杀->中间点立即签到->兑换无门槛红包(京东使用)\n';
+RemainMessage+='【东东萌宠】京东->我的->东东萌宠,完成是京东红包,可以用于京东app的任意商品\n';
+RemainMessage+='【领现金】京东->我的->东东萌宠->领现金(微信提现+京东红包)\n';
+RemainMessage+='【东东农场】京东->我的->东东农场,完成是京东红包,可以用于京东app的任意商品\n';
+RemainMessage+='【京喜工厂】京喜->我的->京喜工厂,完成是商品红包,用于购买指定商品(不兑换会过期)\n';
+RemainMessage+='【其他】京喜红包只能在京喜使用,其他同理';
+
 
 if ($.isNode() && process.env.BEANCHANGE_PERSENT) {
 	intPerSent = parseInt(process.env.BEANCHANGE_PERSENT);
@@ -194,8 +205,7 @@ if ($.isNode()) {
 				await jdCash();
 			}
 
-			await showMsg();
-
+			await showMsg();			
 			if (intPerSent > 0) {
 				if ((i + 1) % intPerSent == 0) {
 					console.log("分段通知条件达成，处理发送通知....");
@@ -329,24 +339,28 @@ if ($.isNode()) {
 	}
 
 	if ($.isNode() && allMessage2Gp2) {
+		allMessage2Gp2+=RemainMessage;
 		await notify.sendNotify("京东白嫖榜#2", `${allMessage2Gp2}`, {
 			url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
 		})
 		await $.wait(10 * 1000);
 	}
 	if ($.isNode() && allMessage2Gp3) {
+		allMessage2Gp3+=RemainMessage;
 		await notify.sendNotify("京东白嫖榜#3", `${allMessage2Gp3}`, {
 			url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
 		})
 		await $.wait(10 * 1000);
 	}
 	if ($.isNode() && allMessage2Gp4) {
+		allMessage2Gp4+=RemainMessage;
 		await notify.sendNotify("京东白嫖榜#4", `${allMessage2Gp4}`, {
 			url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
 		})
 		await $.wait(10 * 1000);
 	}
 	if ($.isNode() && allMessage2) {
+		allMessage2+=RemainMessage;
 		await notify.sendNotify("京东白嫖榜", `${allMessage2}`, {
 			url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean`
 		})
