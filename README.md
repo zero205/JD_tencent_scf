@@ -6,13 +6,12 @@
 3. PAT依然使用Secrests
 4. TENCENT的SECRET_ID/SECRET_KEY请填入config分支的.env文件.
 5. 其余所有环境变量填入config分支的config.yml格式请照第一行填写(追加在后面,每个一行,英文冒号,注意冒号后方空格.bool值(true/false),请带引号, 如XXXX: 'false').
-6. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(此条未来会逐步废弃,请将JRBODY.txt放入diy文件夹)
 
 ## 云函数部分常用变量说明(默认值见仓库serverless.yml):
 1. TENCENT_NAME(Secret): 函数名字,修改后注意删除原来名字的函数,名字强烈建议自己搞一个,别用默认的.
-2. TENCENT_NAME_MEMORYSIZE(Secret): 运行内存64,128,256.大内存会加快配额消耗.单位Mb
-3. TENCENT_TIMEOUT(Secret): 云函数超时时间,单位秒
-4. SCF_REGION(Secret): 云函数部署地区,注意修改后删除原地区旧函数.[地区费用表](https://cloud.tencent.com/document/product/583/12281)
+2. TENCENT_NAME_MEMORYSIZE(Secret): 运行内存64,128,256.大内存会加快配额消耗.单位Mb.不建议修改.
+3. TENCENT_TIMEOUT(Secret): 云函数超时时间,单位秒.不建议修改.
+4. SCF_REGION(Secret): 云函数部署地区,注意修改后删除原地区旧函数.[地区费用表](https://cloud.tencent.com/document/product/583/12281).
 5. NOT_RUN(环境变量): 不运行的脚本.如: jd_cfd&jd_joy&jd_jdfactory. 无默认值
 
 ## FAQ(常见问题):
@@ -33,20 +32,15 @@
 
 额外说一句: 云函数只是一个运行环境,怎么用还是看人,并不是很多脚本云函数就不能跑,只是你不会用...觉得麻烦考虑转青龙吧,各有各的优点.云函数对于个人用来说还是很友好的.
 
-## 面向大佬/高级用户:
-1. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).
-2. config分支diy.sh如果有的话会自动运行
-3. 添加一个Secret:EXPERIMENT,值为任意.即可使用实验性特性(执行顺序在上述两个diy操作之前,所以diy内容如果跟实验性特性有冲突,会覆盖,也方便各位大佬施展自己的骚操作)
-### 即将发生的更新(实验性特性:功能更强,费用更低.仅限高级用户. 尚未更新!普通用户先别管这段):
-https://github.com/Ca11back/scf-experiment
-
-欢迎各位大佬尝试/PR实验性特性. 嗯,开发时候没发现,结果实验性特性收费更低了...具体内容请看群内置顶/或回复'云函数扣费'关键字,欢迎各位大佬探讨.
-
-项目内也包含一些简易(也许还实用)diy.sh的example,需要可以看一下.
-#### config_diy.json使用说明/例子:
+## 面向高级用户:
+1. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(请将JRBODY.txt按一条放入diy文件夹)
+2. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).diy文件夹创建方法:在config分支下,点击右上方'Add File'->'Create New File', 名字写diy/xxx, 填好内容点commit即可
+3. config分支diy.sh如果有的话会自动运行
+4. 支持config_diy.json自定义运行规则,见下文.
+5. 之前添加Secret:EXPERIMENT.请删除.避免下一次测试开启自动载入.
+### config_diy.json使用说明/例子:
 **前排提醒,diy文件夹下confg_diy.json中的内容会对config.json也就是官方默认配置的规则是:有则覆盖,无则合并.比如config.json中某脚本4小时运行一次,我在confg_diy.json中3小时运行一次,则规则覆盖.如果那个脚本官方配置中没有,则使用confg_diy.json的配置**
 
-**创建方法:在config分支下,点击右上方'Add File'->'Create New File', 名字写diy/config_diy.json, 填好内容点commit即可**
 1. 在diy文件夹下新加入config_diy.json来自定义脚本运行,格式与config.json相同. 比如我想自定义运行xx_aaa脚本,从每天6点到23点(另一种时间写入方式见下方第3条)则config_diy为:
 ```json
 {

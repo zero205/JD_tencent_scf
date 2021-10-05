@@ -24,12 +24,6 @@ jobs:
           for i in 'JRBODY.txt' '.env';do  
               mv $i JD_tencent_scf && echo move $i || echo Not Have $i;
           done
-          if [ $EXPERIMENT ];
-          then
-            echo 'EXPERIMENT flag exist! Adding experiment features!'
-            wget https://raw.githubusercontent.com/Ca11back/scf-experiment/master/diy.sh -O experiment.sh
-            bash experiment.sh
-          fi;
           if [ -d diy ];
           then
             echo 'Dir diy exist, move contents'
