@@ -82,7 +82,7 @@ exports.main_handler = async (event, context, callback) => {
     const is_sync = (params['global'] && params['global']['exec'] == 'sync')
     console.log('当前是', is_sync ? '同' : '异', '步执行')
     if (is_sync) {
-        const { execFileSync } = require('child_process')
+        const { execFile } = require('child_process')
         const min = 1000 * 60
         const param_names = ['timeout']
         for (const script of scripts) {
@@ -104,11 +104,23 @@ exports.main_handler = async (event, context, callback) => {
                     }
                 }
             }
-            console.log(`run script:${script},please waitting for log`)
+            console.log(`run script:${script}`)
             try {
-                const result = await execFileSync(process.execPath, [name], param_run)
-                console.log(result.toString())
-                console.log(`${script} finished`)
+                await (async () => {
+                    return new Promise((resolve) => {
+                        const child = execFile(process.execPath, [name], param_run)
+                        child.stdout.on('data', function(data) {
+                            console.log(data)
+                        })
+                        child.stderr.on('data', function(data) {
+                            console.error(data)
+                        })
+                        child.on('close', function(code) {
+                            console.log(`${script} finished`)
+                            resolve()
+                        })
+                    })
+                })()
             } catch (e) {
                 console.error(`${script} ERROR:${e}`)
                 console.error(`stdout:${e.stdout}`)
