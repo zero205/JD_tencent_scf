@@ -81,7 +81,7 @@
         },
         "jd_speed_sign":
         {
-            "timeout": 60
+            "timeout": 55
         }
     }
 }
