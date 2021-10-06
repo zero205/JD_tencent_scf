@@ -73,4 +73,4 @@ jobs:
       - name: deploy
         working-directory: ./JD_tencent_scf
         run: |
-          sls deploy && echo 'Deploy Success' || (echo 'Deploy Failed'; echo 'require("./sendNotify").sendNotify("云函数部署异常！请重试","点击通知，登入后查看详情",{ url: process.env.GITHUB_SERVER_URL + "/" + process.env.GITHUB_REPOSITORY + "/actions/runs/" + process.env.GITHUB_RUN_ID + "?check_suite_focus=true" })' > notify.js; node notify.js; exit 1)
+          sls deploy && echo 'Deploy Success' || (echo 'Deploy Failed'; echo 'require("./sendNotify").sendNotify("云函数部署异常！请重试","点击通知，登入后查看详情.\n或自己登陆github私库查看错误日志",{ url: process.env.GITHUB_SERVER_URL + "/" + process.env.GITHUB_REPOSITORY + "/actions/runs/" + process.env.GITHUB_RUN_ID + "?check_suite_focus=true" })' > notify.js; node notify.js; exit 1)
