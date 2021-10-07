@@ -36,7 +36,7 @@
 ***
 **从此向下有一定门槛,需要一定基础/动手能力/理解能力!**
 ***
-## 面向高级用户:
+## 面向且仅面向 高级用户 :
 1. 金融签到可以在config分支新建JRBODY.txt文件,按jd_bean_sign开头格式写入JRBODY.(请将JRBODY.txt按下一条放入diy文件夹)
 2. config分支内diy文件夹内所有内容(如果有的话)会覆盖/加入仓库文件并部署上去(当然包含serverless.yml).
 3. config分支diy.sh如果有的话会自动运行.[部分例子](https://github.com/Ca11back/scf-experiment/tree/master/examples)
