@@ -458,9 +458,7 @@ async function showMsg() {
 		}
 
 	}
-	if ($.errorMsg)
-		ReturnMessage += `\n【数据报错】获取京豆数据异常!`;
-
+	
 	ReturnMessage += `\n【今日京豆】收${$.todayIncomeBean}豆`;
 
 	if ($.todayOutcomeBean != 0) {
