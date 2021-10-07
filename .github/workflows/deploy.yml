@@ -21,9 +21,7 @@ jobs:
         env:
           EXPERIMENT: ${{ secrets.EXPERIMENT }}
         run: |
-          for i in 'JRBODY.txt' '.env';do  
-              mv $i JD_tencent_scf && echo move $i || echo Not Have $i;
-          done
+          mv .env JD_tencent_scf
           if [ -d diy ];
           then
             echo 'Dir diy exist, move contents'
