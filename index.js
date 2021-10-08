@@ -5,7 +5,7 @@ exports.main_handler = async (event, context, callback) => {
     const single_flag = event["Message"] != 'config'
     if (single_flag) {
         if (!event["Message"]) {
-            console.error('ERROR, NO ARGUMENTS FOUND!!!')
+            console.error('未接收到任何参数,请阅读@hshx123大佬教程的测试步骤,查看如何使用.')
             return 
         }
         console.log('参数触发方式(不读取配置文件),触发参数:', event["Message"])
