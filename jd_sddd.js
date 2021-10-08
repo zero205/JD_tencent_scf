@@ -19,7 +19,7 @@ const $ = new Env('送豆得豆');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [];
+let cookiesArr = [], isLoginInfo = {};
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -29,7 +29,6 @@ if ($.isNode()) {
   cookiesArr = [$.getdata("CookieJD"), $.getdata("CookieJD2"), ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
 !(async () => {
-  $.isLoginInfo = {};
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -42,8 +41,15 @@ if ($.isNode()) {
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     $.isLogin = true;
     $.nickName = ''
-    await TotalBean();
-    if (!$.isLogin) continue
+    if (isLoginInfo[$.UserName] === false) {
+      
+    } else {
+      if (!isLoginInfo[$.UserName]) {
+        await TotalBean();
+        isLoginInfo[$.UserName] = $.isLogin
+      }
+    }
+    if (!isLoginInfo[$.UserName]) continue
     await getActivityInfo();
   }
   if ($.activityId === '') {
@@ -60,9 +66,16 @@ if ($.isNode()) {
     $.index = i + 1;
     $.isLogin = true;
     $.nickName = '';
-    await TotalBean();
     console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
-    if (!$.isLogin) continue
+    if (isLoginInfo[$.UserName] === false) {
+      
+    } else {
+      if (!isLoginInfo[$.UserName]) {
+        await TotalBean();
+        isLoginInfo[$.UserName] = $.isLogin
+      }
+    }
+    if (!isLoginInfo[$.UserName]) continue
     await openTuan();
   }
   console.log('\n开团信息\n'+JSON.stringify($.openTuanList));
@@ -73,11 +86,18 @@ if ($.isNode()) {
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     $.index = i + 1;
     $.isLogin = true;
-    await TotalBean();
-    $.isLoginInfo[$.UserName] = $.isLogin;
     console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
-    if (!$.isLogin) {
+    if (isLoginInfo[$.UserName] === false) {
+
+    } else {
+      if (!isLoginInfo[$.UserName]) {
+        await TotalBean();
+        isLoginInfo[$.UserName] = $.isLogin
+      }
+    }
+    if (!isLoginInfo[$.UserName]) {
       $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+      
       if ($.isNode()) {
         await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
       }
@@ -120,8 +140,16 @@ if ($.isNode()) {
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     $.index = i + 1;
     $.isLogin = true;
-    console.log(`\n*****开始【京东账号${$.index}】${$.UserName}*****\n`);
-    if (!$.isLoginInfo[$.UserName]) continue
+    console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
+    if (isLoginInfo[$.UserName] === false) {
+      
+    } else {
+      if (!isLoginInfo[$.UserName]) {
+        await TotalBean();
+        isLoginInfo[$.UserName] = $.isLogin
+      }
+    }
+    if (!isLoginInfo[$.UserName]) continue
     await rewardMain();
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -130,12 +158,20 @@ if ($.isNode()) {
     $.index = i + 1;
     $.isLogin = true;
     $.nickName = ''
-    await TotalBean();
-    console.log(`\n*****开始【京东账号${$.index}】${$.UserName}*****\n`);
-    if (!$.isLogin) continue
+    console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
+    if (isLoginInfo[$.UserName] === false) {
+      
+    } else {
+      if (!isLoginInfo[$.UserName]) {
+        await TotalBean();
+        isLoginInfo[$.UserName] = $.isLogin
+      }
+    }
+    if (!isLoginInfo[$.UserName]) continue
     await myReward()
   }
 })().catch((e) => {$.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')}).finally(() => {$.done();});
+
 
 async function getAuthorShareCode() {
     return new Promise(resolve => {
@@ -217,7 +253,7 @@ async function myReward(){
           let canReward = false
           for (let key of Object.keys(data.datas)) {
             let vo = data.datas[key]
-            if (vo.status === 3 && vo.type === 1) {
+            if (vo.status === 3 && vo.type === 2) {
               canReward = true
               $.rewardRecordId = vo.id
               await rewardBean()
@@ -434,7 +470,7 @@ async function help() {
           }else if(res.data.result === 0 || res.data.result === 1){
             $.canHelp = false;
           }
-          console.log(res.data.desc);
+          console.log(JSON.stringify(res));
         }
       } catch (e) {
         console.log(e);
