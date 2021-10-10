@@ -15,6 +15,8 @@
 5. NOT_RUN(环境变量): 不运行的脚本.如: jd_cfd&jd_joy&jd_jdfactory. 无默认值
 
 ## FAQ(常见问题):
+### 脚本什么时候执行?
+配合下方'面向高级用户'第1和3条,阅读config.json文件.不难的,尝试读一下就能理解.
 ### Github部署日志:ETIMEOUT ERROR
 1. 请尝试手动删除/添加config分支.env文件中的GLOBAL_ACCELERATOR_NA=true,尝试关闭/或开启境外加速.(默认开启,且建议开启)
 2. 启用随机分钟部署(默认开启,在定时的小时随机抽取分钟进行执行).关闭请直接禁用Random Cron workflow
