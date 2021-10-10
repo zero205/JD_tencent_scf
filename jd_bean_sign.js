@@ -30,7 +30,7 @@ async function processLineByLine(jrbodys) {
   for await (let line of rl) {
     line = line.trim()
     if (line == 'Finish'){
-      console.log(`识别到读取结束符号,结束.供读取${jrbodys.length}个`)
+      console.log(`识别到读取结束符号,结束.共读取${jrbodys.length}个`)
       return
     }
     jrbodys.push(line)
