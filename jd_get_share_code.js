@@ -717,12 +717,12 @@ async function getShareCode() {
   await getPlantBean()
   await getJdFactory()
   await getJxFactory()
-  await getJxNc()
+//   await getJxNc()
   // await getJdZZ() //助力任务已结束
   // await getJoy() //已移除脚本
   await getSgmh()
-  await getCFD()
-  await getJdCash()
+//   await getCFD()
+//   await getJdCash()
   await getJDHealth()
   console.log(`======账号${$.index}结束======\n`)
 }
