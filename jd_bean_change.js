@@ -271,8 +271,8 @@ if ($.isNode()) {
 	}
 
 	if (intPerSent > 0) {
-		console.log("分段通知还剩下" + cookiesArr.length % intPerSent + "个账号需要发送...");
-		if (cookiesArr.length % intPerSent != 0) {
+		//console.log("分段通知还剩下" + cookiesArr.length % intPerSent + "个账号需要发送...");
+		if (allMessage || allMessageMonth) {
 			console.log("分段通知收尾，处理发送通知....");
 			if ($.isNode() && allMessage) {
 				await notify.sendNotify(`${$.name}`, `${allMessage}`, {
