@@ -44,7 +44,7 @@ const rd_char = "0123456789abcdefghijklmnopqrstuvwxyz"
         continue
       }
 	  $.configCode = `f11f0375da524037a3e7e1da6cb4510b`
-	  $.eid = randomString(90,rd_char.toUpperCase()) //抓到eid填到里面
+	  $.eid = randomEid()
 	  $.fp = randomString(32,rd_char)
 	  if ($.eid !== null || $.eid !== undefined || $.eid !== '') {
 		  await get_tasklist($.configCode);
@@ -188,15 +188,20 @@ function origin() {
 
 function randomString(len,char) {
   let res = ""
-  // let char = "0123456789abcdefghijklmnopqrstuvwxyz"
-  // if (num == true) {
-	 //  char = "0123456789"
-  // }
   let a = char.length
   for (let i = 0; i < len; i++) {
 	  res += char.charAt(Math.floor(Math.random() * a));
   }
   return res.toString();
+}
+
+function randomEid() {
+  const is_num = '000000110000001010000100000010010010000100010000100100010001101000011001000100000001000000'
+  const eid = []
+  for (const flag of is_num) {
+    eid.push((flag == '1') ? randomString(1,'0123456789'):randomString(1,'ABCDEFGHIJKLMNOPQRSTUVWXYZ'))
+  }
+  return eid.join('')
 }
 
 function safeGet(data) {
