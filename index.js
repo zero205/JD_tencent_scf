@@ -2,8 +2,7 @@
 exports.main_handler = async (event, context, callback) => {
     let params = {}
     let scripts = []
-    const single_flag = event["Message"] != 'config'
-    if (single_flag) {
+    if (event["Message"] != 'config') {
         if (!event["Message"]) {
             console.error('未接收到任何参数,请阅读@hshx123大佬教程的测试步骤,查看如何使用.')
             return 
@@ -88,20 +87,18 @@ exports.main_handler = async (event, context, callback) => {
         for (const script of scripts) {
             const name = './' + script + '.js'
             const param_run = {}
-            if (!single_flag) {
-                const param = params[script]
-                for (const param_name of param_names) {
-                    if (param) {
-                        if (param[param_name]) {
-                            console.debug(`${script} has specific ${param_name}:${param[param_name]}`)
-                            param_run[param_name] = min * param[param_name]
-                        }
-                    } else if (params['global'] && params['global'][param_name]) {
-                        console.debug(`${script} use global ${param_name}`)
-                        param_run[param_name] = min * params['global'][param_name]
-                    } else {
-                        console.warn(`No global ${param_name}!`)
+            const param = params[script]
+            for (const param_name of param_names) {
+                if (param) {
+                    if (param[param_name]) {
+                        console.debug(`${script} has specific ${param_name}:${param[param_name]}`)
+                        param_run[param_name] = min * param[param_name]
                     }
+                } else if (params['global'] && params['global'][param_name]) {
+                    console.debug(`${script} use global ${param_name}`)
+                    param_run[param_name] = min * params['global'][param_name]
+                } else {
+                    console.warn(`No global ${param_name}!`)
                 }
             }
             console.log(`run script:${script}`)
