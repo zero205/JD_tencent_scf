@@ -1,5 +1,7 @@
 //'use strict';
 exports.main_handler = async (event, context, callback) => {
+    var parser = require('cron-parser');
+
     let params = {}
     let scripts = []
     const single_flag = event["Message"] != 'config'
@@ -12,6 +14,7 @@ exports.main_handler = async (event, context, callback) => {
         scripts = event["Message"].split("&")
     } else {
         const now_hour = (new Date().getUTCHours() + 8) % 24
+        const now_Minu = new Date().getUTCMinutes()
         console.log('hourly config触发:', now_hour)
         const { readFileSync, accessSync, constants } = require('fs')
         const config_file = 'config.json'
@@ -52,15 +55,33 @@ exports.main_handler = async (event, context, callback) => {
             const cron = config[script]
             if (typeof cron == 'number') {
                 // console.debug(`number param:${cron}`)
-                if (now_hour % cron == 0) {
+                if (now_hour % cron == 0 && now_Minu == 0) {
                     console.debug(`${script}:number cron triggered!`)
                     scripts.push(script)
                 }
             } else {
-                // console.debug(`dict param:${cron}`)
-                if (cron.includes(now_hour)) {
-                    console.debug(`${script}:array cron triggered!`)
-                    scripts.push(script)
+                if (typeof cron == 'string') {
+                  // console.debug(`string param:${cron}`)
+                  try {
+                    var options = {
+                      currentDate: Date.now(),
+                      tz: process.env.TZ
+                    };
+                    var interval = parser.parseExpression(cron, options);
+                    if (Math.abs((new Date(options.currentDate) - new Date(interval.next().getTime())) / 1000) < 10 
+                    || Math.abs((new Date(options.currentDate) - new Date(interval.prev().getTime())) / 1000) < 10) {
+                      console.debug(`${script}:string cron triggered!`)
+                      scripts.push(script)
+                    }
+                  } catch (err) {
+                    console.log('Error: ' + err.message);
+                  }
+                } else {
+                    // console.debug(`dict param:${cron}`)
+                    if (cron.includes(now_hour) && now_Minu == 0) {
+                        console.debug(`${script}:array cron triggered!`)
+                        scripts.push(script)
+                    }                    
                 }
             }
         }
