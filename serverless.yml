@@ -27,7 +27,7 @@ inputs:
     - timer:
         parameters:
           name: config
-          cronExpression: "0 0 * * * * *"
+          cronExpression: "0 */10 * * * * *"
           enable: true
           argument: config
     - timer: #宠汪汪积分兑换京豆
