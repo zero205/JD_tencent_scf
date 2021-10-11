@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cron-parser": "^4.0.0",
     "crypto-js": "^4.1.1",
     "got": "^11.8.2",
     "png-js": "^1.0.0",
