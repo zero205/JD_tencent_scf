@@ -3,7 +3,7 @@
 * 入口：荣耀京东自营旗舰店
 * 说明：脚本加密，会加购，不会开卡，会助力作者，没有环境变量（也许会考虑加入不执行加购的环境变量），活动做游戏会有豆子，感觉水很少
 *      由于就前几次游戏会给豆子，脚本默认执行5轮游戏，若想多做游戏，可重复执行脚本（会考虑加入执行游戏次数变量）
-cron  40 23 1-11 10 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_honour.js
+cron  12 23 1-11 10 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_honour.js
 *
 * */
 const $ = new Env('荣耀新品传送挑战');
