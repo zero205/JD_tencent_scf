@@ -40,7 +40,7 @@ inputs:
         parameters:
           name: car_exchange
           cronExpression: "0 0 0 * * * *"
-          enable: true
+          enable: false
           argument: jd_car_exchange
     - timer: #超市蓝币兑换
         parameters:
