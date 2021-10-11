@@ -1,4 +1,5 @@
 {
+    "jd_lucky_egg": [0],
     "jd_fruit":[6, 12 ,18],
     "jd_cfd": [6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jx_sign": [8, 13],
@@ -60,7 +61,6 @@
     "jd_genz":[13],
     "jd_decompression": [9,19],
     "jd_industrial_task": [10,17],
-    "jd_lucky_egg": [10],
     "jd_jmf": [9,21],
     "jd_ttpt": [1],
     "jd_bean_change": [17],
