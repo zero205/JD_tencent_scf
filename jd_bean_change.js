@@ -461,7 +461,10 @@ async function showMsg() {
 		if (userIndex2 == -1 && userIndex3 == -1 && userIndex4 == -1) {
 			allMessageMonth += ReturnMessageMonth + `\n`;
 		}
-
+		if ($.isNode() && WP_APP_TOKEN_ONE) {
+			await notify.sendNotifybyWxPucher("京东月资产变动", `${ReturnMessageMonth}`,`${$.UserName}`);
+		}
+	
 	}
 
 	ReturnMessage += `\n【今日京豆】收${$.todayIncomeBean}豆`;
