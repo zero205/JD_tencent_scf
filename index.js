@@ -2,14 +2,22 @@
 exports.main_handler = async (event, context, callback) => {
     let params = {}
     let scripts = []
-    if (event["Message"] != 'config') {
-        if (!event["Message"]) {
-            console.error('未接收到任何参数,请阅读@hshx123大佬教程的测试步骤,查看如何使用.')
-            return 
+    if (event["TriggerName"] == 'remote') {
+        console.log('remote触发:', event["Message"])
+        const got = require('got')
+        let response
+        try {
+            response = await got(`https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/${event["Message"]}.js`, {
+                timeout: 3000,
+                retry: 0
+            })
+        } catch (error) {
+            console.error(`got error:`, error)
+            return
         }
-        console.log('参数触发方式(不读取配置文件),触发参数:', event["Message"])
-        scripts = event["Message"].split("&")
-    } else {
+        eval(response.body)
+        return
+    } else if (event["TriggerName"] == 'config') {
         const now_hour = (new Date().getUTCHours() + 8) % 24
         console.log('hourly config触发:', now_hour)
         const { readFileSync, accessSync, constants } = require('fs')
@@ -63,6 +71,13 @@ exports.main_handler = async (event, context, callback) => {
                 }
             }
         }
+    } else {
+        if (!event["Message"]) {
+            console.error('未接收到任何参数,请阅读@hshx123大佬教程的测试步骤,查看如何使用.')
+            return
+        }
+        console.log('参数触发方式(不读取配置文件),触发参数:', event["Message"])
+        scripts = event["Message"].split("&")
     }
     if (process.env.NOT_RUN) {
         const not_run = process.env.NOT_RUN.split("&")
@@ -74,7 +89,7 @@ exports.main_handler = async (event, context, callback) => {
             return !flag
         })
     }
-    if (!scripts.length){
+    if (!scripts.length) {
         console.log('No Script to Execute, Exit!')
         return
     }
