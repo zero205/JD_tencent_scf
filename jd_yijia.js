@@ -1,6 +1,6 @@
-if (groupType == 2 && !["card","car"].includes(process.env.FS_LEVEL)) {
-console.log("请设置通用加购/开卡变量FS_LEVEL=car(或card开卡+加购)来运行加购脚本")
-return
+if (!["card","car"].includes(process.env.FS_LEVEL)) {
+    console.log("请设置通用加购/开卡变量FS_LEVEL=car(或card开卡+加购)来运行加购脚本")
+    return
 }
 /*
 * 活动：一加手机京东自营官方旗舰店---->左侧浮窗
