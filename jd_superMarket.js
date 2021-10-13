@@ -89,6 +89,7 @@ async function jdSuperMarket() {
     try {
         // await receiveGoldCoin();//收金币
         // await businessCircleActivity();//商圈活动
+        await smtg_shopIndex()
         await receiveBlueCoin(); //收蓝币（小费）
         // await receiveLimitProductBlueCoin();//收限时商品的蓝币
         await daySign(); //每日签到
@@ -101,8 +102,7 @@ async function jdSuperMarket() {
         // await upgrade();//升级货架和商品
         // await manageProduct();
         // await limitTimeProduct();
-        await smtg_shopIndex();
-        await smtg_newHome_xh();
+        // await smtg_newHome_xh();
         await receiveUserUpgradeBlue()
         // await smtgHome();
         // await Home();
@@ -476,14 +476,16 @@ function receiveBlueCoin(timeout = 0) {
     return new Promise((resolve) => {
         setTimeout(() => {
             $.get(taskUrl('smtg_receiveCoin', {
-                "type": 2,
-                "channel": "18"
+                "type": 4,
+                "channel": "1",
+                "shopId":$.shopId
             }), async (err, resp, data) => {
                 try {
                     if (err) {
                         console.log('\n东东超市: API查询请求失败 ‼️‼️')
                         console.log(JSON.stringify(err));
                     } else {
+                        console.debug('receiveBlueCoin:',data)
                         data = JSON.parse(data);
                         $.data = data;
                         if ($.data.data.bizCode !== 0 && $.data.data.bizCode !== 809) {
@@ -495,7 +497,7 @@ function receiveBlueCoin(timeout = 0) {
                         if ($.data.data.bizCode === 0) {
                             $.coincount += $.data.data.result.receivedBlue;
                             $.blueCionTimes++;
-                            console.log(`【京东账号${$.index}】${$.nickName} 第${$.blueCionTimes}次领蓝币成功，获得${$.data.data.result.receivedBlue}个\n`)
+                            console.log(`【京东账号${$.index}】${$.nickName} 第${$.blueCionTimes}次领蓝币成功，获得${$.data.data.result.receivedTurnover}个\n`)
                             if (!$.data.data.result.isNextReceived) {
                                 message += `【收取小费】${$.coincount}个\n`;
                                 return
@@ -1044,6 +1046,7 @@ function smtg_newHome_xh() {
                     console.log('\n东东超市: API查询请求失败 ‼️‼️')
                     console.log(JSON.stringify(err));
                 } else {
+                    console.debug('smtg_newHome_xh:',data)
                     data = JSON.parse(data);
                     if (data && data.data['bizCode'] === 0) {
                         $.userUpgradeBlueVos = data.data.result.userUpgradeBlueVos;
@@ -1114,6 +1117,7 @@ function smtg_shopIndex() {
                             merchandiseList,
                             level
                         } = data.data['result'];
+                        $.shopId = shopId
                         message += `【店铺等级】${level}\n`;
                         if (shelfList && shelfList.length > 0) {
                             for (let item of shelfList) {
