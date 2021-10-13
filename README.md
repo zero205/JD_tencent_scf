@@ -13,6 +13,7 @@
 3. TENCENT_TIMEOUT(Secret): 云函数超时时间,单位秒.不建议修改.简单解决超时问题就是加这个了.不是很推荐,但是也可以.所以多号最简单就是拉长超时.
 4. SCF_REGION(Secret): 云函数部署地区,注意修改后删除原地区旧函数.[地区费用表](https://cloud.tencent.com/document/product/583/12281).
 5. NOT_RUN(环境变量): 不运行的脚本.如: jd_cfd&jd_joy&jd_jdfactory. 无默认值
+6. FS_LEVEL(环境变量):无默认值. car仅加购;card:开卡+加购.
 ## 云函数常用功能:
 ### 云函数如何调试/手动运行脚本
 @hshx123大佬教程测试那步怎么写的你就怎么用.
