@@ -1,5 +1,5 @@
 if (!["card","car"].includes(process.env.FS_LEVEL)) {
-    console.log("请设置通用加购/开卡环境变量FS_LEVEL为"car"(或"card"开卡+加购)来运行加购脚本")
+    console.log("请设置通用加购/开卡环境变量FS_LEVEL为\"car\"(或\"card\"开卡+加购)来运行加购脚本")
     return
 }
 /*
