@@ -1,5 +1,4 @@
 /*
-Last Modified time: 2020-11-20 14:11:01
 活动入口：京东金融-天天提鹅
 定时收鹅蛋,兑换金币
 已支持IOS双京东账号,Node.js支持N个京东账号
@@ -7,17 +6,14 @@ Last Modified time: 2020-11-20 14:11:01
 ============Quantumultx===============
 [task_local]
 #天天提鹅
-10 * * * * jd_daily_egg.js, tag=天天提鹅, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdte.png, enabled=true
-
+10 * * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_daily_egg.js, tag=天天提鹅, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdte.png, enabled=true
 ================Loon==============
 [Script]
-cron "10 * * * *" script-path=jd_daily_egg.js,tag=天天提鹅
-
+cron "10 * * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_daily_egg.js,tag=天天提鹅
 ===============Surge=================
-天天提鹅 = type=cron,cronexp="10 * * * *",wake-system=1,timeout=3600,script-path=jd_daily_egg.js
-
+天天提鹅 = type=cron,cronexp="10 * * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_daily_egg.js
 ============小火箭=========
-天天提鹅 = type=cron,script-path=jd_daily_egg.js, cronexpr="10 * * * *", timeout=3600, enable=true
+天天提鹅 = type=cron,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_daily_egg.js, cronexpr="10 * * * *", timeout=3600, enable=true
  */
 const $ = new Env('天天提鹅');
 let cookiesArr = [], cookie = '';
