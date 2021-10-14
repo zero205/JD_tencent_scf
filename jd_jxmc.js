@@ -588,8 +588,12 @@ function dealReturn(type, data) {
         } else if(data.ret === 2704){
             console.log('红包今天领完了,跳过红包相关')
             flag_hb = false
+        } else if(data.ret === 2706){
+            console.log('此帐号红包助力已满')
+        } else if(data.ret === 1016){
+            console.log('此帐号红包火爆')
         } else{
-            console.log(`异常：${JSON.stringify(data)}\n`);
+            console.log(`未知异常：${JSON.stringify(data)}\n`);
         }
         break;
     case 'help_hb':
