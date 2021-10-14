@@ -19,8 +19,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [], cookie = '', message;
 let InviterPin = '';
 
-if ($.isNode() && process.env.INVITERPIN) {
-  InviterPin = process.env.INVITERPIN;
+if ($.isNode() && process.env.InviterPin) {
+  InviterPin = process.env.InviterPin;
 }
 if (InviterPin.length == 0) {
   console.log(`\n您未填写邀请码变量，默认帮【zero205】助力\n`);
