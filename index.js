@@ -18,8 +18,15 @@ exports.main_handler = async (event, context, callback) => {
         eval(response.body)
         return
     } else if (event["TriggerName"] == 'config') {
-        const now_hour = (new Date().getUTCHours() + 8) % 24
-        console.log('hourly config触发:', now_hour)
+        let now_hour = (new Date().getUTCHours() + 8) % 24
+        console.log('hourly config触发,当前:', now_hour)
+        if (event["Message"]){
+            const hour = Number(event["Message"])
+            if (!isNaN(hour) && hour >= 0 && hour <= 23) {
+                now_hour = hour
+                console.log('hourly config触发,自定义触发小时:', now_hour)
+            }
+        }
         const { readFileSync, accessSync, constants } = require('fs')
         const config_file = 'config.json'
         try {
