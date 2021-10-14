@@ -5,6 +5,10 @@
 若发现脚本里没有的粉丝互动活动。欢迎反馈给我
 cron 34 5,18 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_fan.js
 * */
+if (!process.env.SCF_NAMESPACE && process.env.JD_FAN != 'true'){
+    console.log('可能导致黑IP(云函数用户应该没事),所以青龙默认不运行,需要设置环境变量JD_FAN为true')
+    return
+}
 const $ = new Env('粉丝互动');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
