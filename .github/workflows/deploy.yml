@@ -43,13 +43,13 @@ jobs:
         env:
           TENCENT_REGION: ${{ secrets.SCF_REGION }}
           TENCENT_FUNCTION_NAME: ${{ secrets.TENCENT_FUNCTION_NAME }}
-          TENCENTSCF_MEMORYSIZE: ${{ secrets.TENCENTSCF_MEMORYSIZE }}
+          TENCENTSCF_MEMORYSIZE: ${{ secrets.TENCENT_MEMORYSIZE }}
           TENCENT_TIMEOUT: ${{ secrets.TENCENT_TIMEOUT }}
         run: |
           if [[ ! -z $TENCENT_REGION ]]; then sed -i -E 's/region:[^\n]+/region: '"$TENCENT_REGION"'/' serverless.yml; fi;
           if [[ ! -z $TENCENT_FUNCTION_NAME ]]; then sed -i -E 's/^  name:[^\n]+/  name: '"$TENCENT_FUNCTION_NAME"'/' serverless.yml; fi;
           if [[ ! -z $TENCENT_FUNCTION_NAME ]]; then sed -i -E 's/^name:[^\n]+/name: '"$TENCENT_FUNCTION_NAME"'/' serverless.yml; fi;
-          if [[ ! -z $TENCENTSCF_MEMORYSIZE ]]; then sed -i -E 's/memorySize:[^\n]+/memorySize: '"$TENCENTSCF_MEMORYSIZE"'/' serverless.yml; fi;
+          if [[ ! -z $TENCENT_MEMORYSIZE ]]; then sed -i -E 's/memorySize:[^\n]+/memorySize: '"$TENCENT_MEMORYSIZE"'/' serverless.yml; fi;
           if [[ ! -z $TENCENT_TIMEOUT ]]; then sed -i -E 's/timeout:[^\n]+/timeout: '"$TENCENT_TIMEOUT"'/' serverless.yml; fi;
           while read line;do
             echo "      $line" >> serverless.yml
