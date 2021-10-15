@@ -106,12 +106,15 @@ async function joyReward() {
       time = new Date().getHours();
     }
     if (time >= 0 && time < 8) {
+      joyRewardName = 500
       giftSaleInfos = 'beanConfigs0';
     }
     if (time >= 8 && time < 16) {
+      joyRewardName = 500
       giftSaleInfos = 'beanConfigs8';
     }
     if (time >= 16 && time < 24) {
+      joyRewardName = 20
       giftSaleInfos = 'beanConfigs16';
     }
     do {
