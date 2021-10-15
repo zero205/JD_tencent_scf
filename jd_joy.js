@@ -566,7 +566,7 @@ function dofollowShop(shopId) {
 function enterRoom() {
   return new Promise(resolve => {
     const url = `https://draw.jdfcloud.com//common/pet/enterRoom/h5?invitePin=&openId=&invokeKey=JL1VTNRadM68cIMQ`
-    $.post(taskPostUrl(url), (err, resp, data) => {
+    $.post(taskPostUrl(url, {}), (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -933,18 +933,25 @@ function taskUrl(url) {
     }
   }
 }
-function taskPostUrl(url, body = {}) {
+function taskPostUrl(url, body) {
   let lkt = new Date().getTime()
   let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
   let Host = url.split('/')[2]
+  let CT
+  if (url.indexOf('followShop') > -1 || url.indexOf('followGood') > -1) {
+    CT = `application/x-www-form-urlencoded`
+  } else {
+    CT = `application/json`
+    body = JSON.stringify(body)
+  }
   if (Host === "jdjoy.jd.com") {
     url += "&reqSource=h5"
     return {
       url: url + $.validate,
-      body: JSON.stringify(body),
+      body,
       headers: {
         "Host": "jdjoy.jd.com",
-        "Content-Type": "application/json",
+        "Content-Type": CT,
         "Accept": "*/*",
         "Accept-Language": "zh-CN,zh-Hans;q=0.9",
         "Accept-Encoding": "gzip, deflate, br",
@@ -960,11 +967,11 @@ function taskPostUrl(url, body = {}) {
     url += "&reqSource=weapp"
     return {
       url: url + $.validate,
-      body: JSON.stringify(body),
+      body,
       headers: {
         "Host": "draw.jdfcloud.com",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
+        "Content-Type": CT,
         "Accept-Encoding": "gzip,compress,br,deflate",
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.15(0x18000f25) NetType/WIFI Language/zh_CN",
         "Referer": "https://servicewechat.com/wxccb5c536b0ecd1bf/760/page-frame.html",
