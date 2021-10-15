@@ -1,9 +1,7 @@
 name: Random Cron
 on:
-  workflow_run:
-    workflows: ["Sync(同步/升级部署脚本)","Deploy(部署到云)"]
-    types:
-      - completed
+  schedule:
+    - cron: '0 2,9,17 * * *'
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
