@@ -43,7 +43,7 @@ jobs:
         env:
           TENCENT_REGION: ${{ secrets.SCF_REGION }}
           TENCENT_FUNCTION_NAME: ${{ secrets.TENCENT_FUNCTION_NAME }}
-          TENCENTSCF_MEMORYSIZE: ${{ secrets.TENCENT_MEMORYSIZE }}
+          TENCENT_MEMORYSIZE: ${{ secrets.TENCENT_MEMORYSIZE }}
           TENCENT_TIMEOUT: ${{ secrets.TENCENT_TIMEOUT }}
         run: |
           if [[ ! -z $TENCENT_REGION ]]; then sed -i -E 's/region:[^\n]+/region: '"$TENCENT_REGION"'/' serverless.yml; fi;
