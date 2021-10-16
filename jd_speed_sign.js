@@ -54,6 +54,8 @@ const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
     if (process.env.HELP_YQYL && process.env.HELP_YQYL === 'false')
       $.canhelp = false
   }
+  const date = new Date()
+  $.last_day = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate() == date.getDate()
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -100,7 +102,12 @@ async function jdGlobal() {
     await taskList()
     await queryJoy()
     await cash()
-    await orderReward()
+    if ($.last_day) {
+      console.log('月底了,自动领下单红包奖励')
+      await orderReward()
+    }else{
+      console.log('非月底,不自动领下单红包奖励')
+    }
     // await showMsg()
   } catch (e) {
     $.logErr(e)
