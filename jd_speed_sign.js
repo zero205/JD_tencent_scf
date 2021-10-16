@@ -87,15 +87,9 @@ const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
 async function jdGlobal() {
   try {
     await richManIndex()
-
     await wheelsHome()
     await apTaskList()
     await wheelsHome()
-    // await signInit()
-    // await sign()
-    // if (new Date().getDate() >= 6) {
-    //   await cashout()
-    // }
     if ($.canhelp) {
       console.log(`\n京东账号${$.index}开始助力【zero205】邀请有礼，感谢！\n`);
       await invite()
@@ -105,8 +99,8 @@ async function jdGlobal() {
     $.total = 0
     await taskList()
     await queryJoy()
-    // await signInit()
     await cash()
+    await orderReward()
     // await showMsg()
   } catch (e) {
     $.logErr(e)
@@ -218,6 +212,67 @@ async function cashout() {
           resolve(data);
         }
       })
+  })
+}
+
+async function orderReward(type) {
+  let t = +new Date()
+  var headers = {
+    'Host': 'api.m.jd.com',
+    'accept': 'application/json, text/plain, */*',
+    'content-type': 'application/x-www-form-urlencoded',
+    'origin': 'https://palace.m.jd.com',
+    'accept-language': 'zh-cn',
+    'user-agent': $.isNode() ? (process.env.JS_USER_AGENT ? process.env.JS_USER_AGENT : (require('./JS_USER_AGENTS').USER_AGENT)) : ($.getdata('JSUA') ? $.getdata('JSUA') : "'jdltapp;iPad;3.1.0;14.4;network/wifi;Mozilla/5.0 (iPad; CPU OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+    'referer': 'https://palace.m.jd.com/?lng=110.917107&lat=22.2706&sid=abefac3cfbcb550b542e4c064dbcabfw&un_area=19_1684_1687_6233',
+    'Cookie': cookie
+  };
+  if (type) {
+    var dataString = `functionId=OrderRewardService&body={"method":"receiveReward","data":{"orderQty":${type}}}&_t=${t}&appid=market-task-h5&eid=`;
+  } else {
+    var dataString = `functionId=OrderRewardService&body={"method":"queryRewards","data":{}}&_t=${t}&appid=market-task-h5&eid=`;
+  }
+  var options = {
+    url: `https://api.m.jd.com/`,
+    headers: headers,
+    body: dataString
+  };
+  $.post(options, async (err, resp, data) => {
+    try {
+      if (err) {
+        console.log(`${JSON.stringify(err)}`)
+        console.log(`${$.name} orderReward API请求失败，请检查网路重试`)
+      } else {
+        if (safeGet(data)) {
+          data = JSON.parse(data);
+          if (data.code === 0 && data.isSuccess) {
+            if (data.data.details) {
+              $.details = data.data.details
+              for (let item of $.details) {
+                if (item.status === 2) {
+                  console.log(`\n检测到【下单领红包】有奖励可领取，开始领取奖励`)
+                  await orderReward(item.orderQty);
+                  await $.wait(2000)
+                } else if (item.status === 1) {
+                  console.log(`\n【下单领红包】暂无奖励可领取，再下${data.data.needOrderQty}单可领取${data.data.rewardAmount}元`)
+                  break
+                }
+              }
+            } else {
+              if (data.code === 0) {
+                console.log(`奖励领取结果，获得${data.data.rewardAmount}元`)
+              } else {
+                console.log(`奖励领取结果：获得${JSON.stringify(data)}`)
+              }
+            }
+          } else {
+            console.log(`\n其他情况：${JSON.stringify(data)}`)
+          }
+        }
+      }
+    } catch (e) {
+      $.logErr(e, resp)
+    }
   })
 }
 
