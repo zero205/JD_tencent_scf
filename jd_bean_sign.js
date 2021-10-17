@@ -75,7 +75,7 @@ async function processLineByLine(jrbodys) {
 })()
 .then(() => {
 console.log('Nobyda签到部分开始')
-/*************************
+/*
 
 京东多合一签到脚本
 
@@ -86,36 +86,6 @@ console.log('Nobyda签到部分开始')
 问题反馈: @NobyDa_bot 
 如果转载: 请注明出处
 
-*************************
-【 QX, Surge, Loon 说明 】 :
-*************************
-
-初次使用时, app配置文件添加脚本配置, 并启用Mitm后:
-
-Safari浏览器打开登录 https://home.m.jd.com/myJd/newhome.action 点击"我的"页面
-或者使用旧版网址 https://bean.m.jd.com/bean/signIndex.action 点击签到并且出现签到日历
-如果通知获取Cookie成功, 则可以使用此签到脚本. 注: 请勿在京东APP内获取!!!
-
-获取京东金融签到Body说明: 正确添加脚本配置后, 进入"京东金融"APP, 在"首页"点击"签到"并签到一次, 待通知提示成功即可.
-
-由于cookie的有效性(经测试网页Cookie有效周期最长31天)，如果脚本后续弹出cookie无效的通知，则需要重复上述步骤。 
-签到脚本将在每天的凌晨0:05执行, 您可以修改执行时间。 因部分接口京豆限量领取, 建议调整为凌晨签到。
-
-BoxJs或QX Gallery订阅地址: https://raw.githubusercontent.com/NobyDa/Script/master/NobyDa_BoxJs.json
-
-*************************
-【 配置多京东账号签到说明 】 : 
-*************************
-
-正确配置QX、Surge、Loon后, 并使用此脚本获取"账号1"Cookie成功后, 请勿点击退出账号(可能会导致Cookie失效), 需清除浏览器资料或更换浏览器登录"账号2"获取即可; 账号3或以上同理.
-注: 如需清除所有Cookie, 您可开启脚本内"DeleteCookie"选项 (第114行)
-
-*************************
-【 JSbox, Node.js 说明 】 :
-*************************
-
-开启抓包app后, Safari浏览器登录 https://home.m.jd.com/myJd/newhome.action 点击个人中心页面后, 返回抓包app搜索关键字 info/GetJDUserInfoUnion 复制请求头Cookie字段填入json串数据内即可
-
 如需获取京东金融签到Body, 可进入"京东金融"APP (iOS), 在"首页"点击"签到"并签到一次, 返回抓包app搜索关键字 h5/m/appSign 复制请求体填入json串数据内即可
 */
 
@@ -125,64 +95,6 @@ var DualKey = ''; //该参数已废弃; 仅用于下游脚本的兼容, 请使�
 
 var OtherKey = JSON.stringify(cookiesArr); //无限账号Cookie json串数据, 请严格按照json格式填写, 具体格式请看以下样例:
 
-/*以下样例为双账号("cookie"为必须,其他可选), 第一个账号仅包含Cookie, 第二个账号包含Cookie和金融签到Body: 
-
-var OtherKey = `[{
-  "cookie": "pt_key=xxx;pt_pin=yyy;"
-}, {
-  "cookie": "pt_key=yyy;pt_pin=xxx;",
-  "jrBody": "reqData=xxx"
-}]`
-
-   注1: 以上选项仅针对于JsBox或Node.js, 如果使用QX,Surge,Loon, 请使用脚本获取Cookie.
-   注2: 多账号用户抓取"账号1"Cookie后, 请勿点击退出账号(可能会导致Cookie失效), 需清除浏览器资料或更换浏览器登录"账号2"抓取.
-   注3: 如果使用Node.js, 需自行安装'request'模块. 例: npm install request -g
-   注4: Node.js或JSbox环境下已配置数据持久化, 填写Cookie运行一次后, 后续更新脚本无需再次填写, 待Cookie失效后重新抓取填写即可.
-   注5: 脚本将自动处理"持久化数据"和"手动填写cookie"之间的重复关系, 例如填写多个账号Cookie后, 后续其中一个失效, 仅需填写该失效账号的新Cookie即可, 其他账号不会被清除.
-
-*************************
-【Surge 4.2+ 脚本配置】:
-*************************
-
-[Script]
-京东多合一签到 = type=cron,cronexp=5 0 * * *,wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-
-获取京东Cookie = type=http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-
-[MITM]
-hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com
-
-*************************
-【Loon 2.1+ 脚本配置】:
-*************************
-
-[Script]
-cron "5 0 * * *" tag=京东多合一签到, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-
-http-request ^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?) tag=获取京东Cookie, requires-body=true, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-
-[MITM]
-hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com
-
-*************************
-【 QX 1.0.10+ 脚本配置 】 :
-*************************
-
-[task_local]
-# 京东多合一签到
-5 0 * * * https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js, tag=京东多合一签到, img-url=https://raw.githubusercontent.com/NobyDa/mini/master/Color/jd.png,enabled=true
-
-[rewrite_local]
-# 获取京东Cookie. 
-^https:\/\/(api\.m|me-api)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?) url script-request-header https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-
-# 获取钢镚签到body. 
-^https:\/\/ms\.jr\.jd\.com\/gw\/generic\/hy\/h5\/m\/appSign\? url script-request-body https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-
-[mitm]
-hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com
-
-*************************/
 
 var LogDetails = false; //是否开启响应日志, true则开启
 
@@ -201,6 +113,13 @@ var $nobyda = nobyda();
 var merge = {};
 
 var KEY = '';
+
+const Faker = require('./JDSignValidator')
+const zooFaker = require('./JDJRValidator_Aaron')
+let fp = '', eid = '', md5
+
+$nobyda.get = zooFaker.injectToRequest2($nobyda.get.bind($nobyda), 'channelSign')
+$nobyda.post = zooFaker.injectToRequest2($nobyda.post.bind($nobyda), 'channelSign')
 
 async function all(cookie, jrBody) {
   KEY = cookie;
@@ -256,6 +175,8 @@ async function all(cookie, jrBody) {
         // JDUserSignPre(stop, 'JDMakeup', '京东商城-美妆', '2smCxzLNuam5L14zNJHYu43ovbAP'), //京东美妆馆
         JDUserSignPre(stop, 'JDVege', '京东商城-菜场', 'Wcu2LVCFMkBP3HraRvb7pgSpt64'), //京东菜场
         // JDUserSignPre(stop, 'JDLive', '京东智能-生活', 'KcfFqWvhb5hHtaQkS4SD1UU6RcQ') //京东智能生活
+        JDUserSignPre(stop, 'JDPlus', '京东商城-PLUS', '3bhgbFe5HZcFCjEZf2jzp3umx4ZR'), //京东PLUS
+        JDUserSignPre(stop, 'JDStore', '京东超市', 'QPwDgLSops2bcsYqQ57hENGrjgj') //京东超市
       ]);
       await JingRongDoll(stop, 'JDDouble', '金融京豆-双签', 'F68B2C3E71', '', '', '', 'jingdou'); //京东金融 京豆双签
       break;
@@ -296,6 +217,8 @@ async function all(cookie, jrBody) {
       await JDUserSignPre(Wait(stop), 'JDShand', '京东拍拍-二手', '3S28janPLYmtFxypu37AYAGgivfp'); //京东拍拍二手
       // await JDUserSignPre(Wait(stop), 'JDMakeup', '京东商城-美妆', '2smCxzLNuam5L14zNJHYu43ovbAP'); //京东美妆馆
       await JDUserSignPre(Wait(stop), 'JDVege', '京东商城-菜场', 'Wcu2LVCFMkBP3HraRvb7pgSpt64'); //京东菜场
+      await JDUserSignPre(Wait(stop), 'JDPlus', '京东商城-PLUS', '3bhgbFe5HZcFCjEZf2jzp3umx4ZR'); //京东PLUS
+      await JDUserSignPre(Wait(stop), 'JDStore', '京东超市', 'QPwDgLSops2bcsYqQ57hENGrjgj'); //京东超市
       await JDUserSignPre(Wait(stop), 'JDaccompany', '京东商城-陪伴', 'kPM3Xedz1PBiGQjY4ZYGmeVvrts'); //京东陪伴
       // await JDUserSignPre(Wait(stop), 'JDLive', '京东智能-生活', 'KcfFqWvhb5hHtaQkS4SD1UU6RcQ'); //京东智能生活
       await JDUserSignPre(Wait(stop), 'JDClean', '京东商城-清洁', '2Tjm6ay1ZbZ3v7UbriTj6kHy9dn6'); //京东清洁馆
@@ -795,7 +718,7 @@ function JDUserSignPre1(s, key, title, acData, ask) {
   }).then(data => {
     disable(key, title, 2)
     if (typeof(data) == "object") return JDUserSign1(s, key, title, encodeURIComponent(JSON.stringify(data)));
-    if (typeof(data) == "number") return JDUserSign2(s, key, title, data);
+    if (typeof(data) == "number") return JDUserSign2(s, key, title, data, acData);
     if (typeof(data) == "string") return JDUserSignPre1(s, key, title, acData, data);
   }, () => disable(key, title, 2))
 }
@@ -852,7 +775,7 @@ function JDUserSignPre2(s, key, title, acData) {
   }).then(data => {
     disable(key, title, 2)
     if (typeof(data) == "object") return JDUserSign1(s, key, title, encodeURIComponent(`{${data}}`));
-    if (typeof(data) == "number") return JDUserSign2(s, key, title, data)
+    if (typeof(data) == "number") return JDUserSign2(s, key, title, data, acData)
     if (typeof(data) == "string") return JDUserSignPre1(s, key, title, acData, data)
   }, () => disable(key, title, 2))
 }
@@ -906,29 +829,50 @@ function JDUserSign1(s, key, title, body) {
   });
 }
 
-async function JDUserSign2(s, key, title, tid) {
-  return console.log(`\n${title} >> 可能需要拼图验证, 跳过签到 ⚠️`);
+async function JDUserSign2(s, key, title, tid, acData) {
   await new Promise(resolve => {
+    let lkt = new Date().getTime()
+    let lks = md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
     $nobyda.get({
-      url: `https://jdjoy.jd.com/api/turncard/channel/detail?turnTableId=${tid}&invokeKey=ztmFUCxcPMNyUq0P`,
+      url: `https://jdjoy.jd.com/api/turncard/channel/detail?turnTableId=${tid}&invokeKey=JL1VTNRadM68cIMQ`,
       headers: {
-        Cookie: KEY
+        Cookie: KEY,
+        'lkt': lkt,
+        'lks': lks
       }
-    }, function(error, response, data) {
-      resolve()
+    }, async function(error, response, data) {
+      try {
+        if(data) {
+          data = JSON.parse(data);
+          if (data.success && data.data) {
+            data = data.data
+            if (!data.hasSign) {
+              let ss = await Faker.getBody(`https://prodev.m.jd.com/mall/active/${acData}/index.html`)
+              fp = ss.fp
+              await getEid(ss, title)
+            }
+          }
+        }
+      } catch(eor) {
+        $nobyda.AnError(title, key, eor, response, data)
+      } finally {
+        resolve()
+      }
     })
     if (out) setTimeout(resolve, out + s)
   });
   return new Promise(resolve => {
     setTimeout(() => {
+      let lkt = new Date().getTime()
+      let lks = md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
       const JDUrl = {
-        url: 'https://jdjoy.jd.com/api/turncard/channel/sign?invokeKey=ztmFUCxcPMNyUq0P',
+        url: 'https://jdjoy.jd.com/api/turncard/channel/sign?invokeKey=JL1VTNRadM68cIMQ',
         headers: {
-          lkt: '1629984131120',
-          lks: 'd7db92cf40ad5a8d54b9da2b561c5f84',
-          Cookie: KEY
+          Cookie: KEY,
+          'lkt': lkt,
+          'lks': lks
         },
-        body: `turnTableId=${tid}`
+        body: `turnTableId=${tid}&fp=${fp}&eid=${eid}`
       };
       $nobyda.post(JDUrl, function(error, response, data) {
         try {
@@ -1531,6 +1475,38 @@ function TotalSteel() {
   });
 }
 
+function getEid(ss, title) {
+  return new Promise(resolve => {
+    const options = {
+      url: `https://gia.jd.com/fcf.html?a=${ss.a}`,
+      body: `d=${ss.d}`,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      }
+    }
+    $nobyda.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`\n${title} 登录: API查询请求失败 ‼️‼️`)
+          throw new Error(err);
+        } else {
+          if (data.indexOf("*_*") > 0) {
+            data = data.split("*_*", 2);
+            data = JSON.parse(data[1]);
+            eid = data.eid
+          } else {
+            console.log(`京豆api返回数据为空，请检查自身原因`)
+          }
+        }
+      } catch (eor) {
+        $nobyda.AnError(eor, resp);
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
+
 function TotalBean() {
   merge.TotalBean = {};
   return new Promise(resolve => {
@@ -2049,6 +2025,9 @@ function nobyda() {
     done
   }
 };
+// md5
+!function(n){function t(n,t){var r=(65535&n)+(65535&t);return(n>>16)+(t>>16)+(r>>16)<<16|65535&r}function r(n,t){return n<<t|n>>>32-t}function e(n,e,o,u,c,f){return t(r(t(t(e,n),t(u,f)),c),o)}function o(n,t,r,o,u,c,f){return e(t&r|~t&o,n,t,u,c,f)}function u(n,t,r,o,u,c,f){return e(t&o|r&~o,n,t,u,c,f)}function c(n,t,r,o,u,c,f){return e(t^r^o,n,t,u,c,f)}function f(n,t,r,o,u,c,f){return e(r^(t|~o),n,t,u,c,f)}function i(n,r){n[r>>5]|=128<<r%32,n[14+(r+64>>>9<<4)]=r;var e,i,a,d,h,l=1732584193,g=-271733879,v=-1732584194,m=271733878;for(e=0;e<n.length;e+=16){i=l,a=g,d=v,h=m,g=f(g=f(g=f(g=f(g=c(g=c(g=c(g=c(g=u(g=u(g=u(g=u(g=o(g=o(g=o(g=o(g,v=o(v,m=o(m,l=o(l,g,v,m,n[e],7,-680876936),g,v,n[e+1],12,-389564586),l,g,n[e+2],17,606105819),m,l,n[e+3],22,-1044525330),v=o(v,m=o(m,l=o(l,g,v,m,n[e+4],7,-176418897),g,v,n[e+5],12,1200080426),l,g,n[e+6],17,-1473231341),m,l,n[e+7],22,-45705983),v=o(v,m=o(m,l=o(l,g,v,m,n[e+8],7,1770035416),g,v,n[e+9],12,-1958414417),l,g,n[e+10],17,-42063),m,l,n[e+11],22,-1990404162),v=o(v,m=o(m,l=o(l,g,v,m,n[e+12],7,1804603682),g,v,n[e+13],12,-40341101),l,g,n[e+14],17,-1502002290),m,l,n[e+15],22,1236535329),v=u(v,m=u(m,l=u(l,g,v,m,n[e+1],5,-165796510),g,v,n[e+6],9,-1069501632),l,g,n[e+11],14,643717713),m,l,n[e],20,-373897302),v=u(v,m=u(m,l=u(l,g,v,m,n[e+5],5,-701558691),g,v,n[e+10],9,38016083),l,g,n[e+15],14,-660478335),m,l,n[e+4],20,-405537848),v=u(v,m=u(m,l=u(l,g,v,m,n[e+9],5,568446438),g,v,n[e+14],9,-1019803690),l,g,n[e+3],14,-187363961),m,l,n[e+8],20,1163531501),v=u(v,m=u(m,l=u(l,g,v,m,n[e+13],5,-1444681467),g,v,n[e+2],9,-51403784),l,g,n[e+7],14,1735328473),m,l,n[e+12],20,-1926607734),v=c(v,m=c(m,l=c(l,g,v,m,n[e+5],4,-378558),g,v,n[e+8],11,-2022574463),l,g,n[e+11],16,1839030562),m,l,n[e+14],23,-35309556),v=c(v,m=c(m,l=c(l,g,v,m,n[e+1],4,-1530992060),g,v,n[e+4],11,1272893353),l,g,n[e+7],16,-155497632),m,l,n[e+10],23,-1094730640),v=c(v,m=c(m,l=c(l,g,v,m,n[e+13],4,681279174),g,v,n[e],11,-358537222),l,g,n[e+3],16,-722521979),m,l,n[e+6],23,76029189),v=c(v,m=c(m,l=c(l,g,v,m,n[e+9],4,-640364487),g,v,n[e+12],11,-421815835),l,g,n[e+15],16,530742520),m,l,n[e+2],23,-995338651),v=f(v,m=f(m,l=f(l,g,v,m,n[e],6,-198630844),g,v,n[e+7],10,1126891415),l,g,n[e+14],15,-1416354905),m,l,n[e+5],21,-57434055),v=f(v,m=f(m,l=f(l,g,v,m,n[e+12],6,1700485571),g,v,n[e+3],10,-1894986606),l,g,n[e+10],15,-1051523),m,l,n[e+1],21,-2054922799),v=f(v,m=f(m,l=f(l,g,v,m,n[e+8],6,1873313359),g,v,n[e+15],10,-30611744),l,g,n[e+6],15,-1560198380),m,l,n[e+13],21,1309151649),v=f(v,m=f(m,l=f(l,g,v,m,n[e+4],6,-145523070),g,v,n[e+11],10,-1120210379),l,g,n[e+2],15,718787259),m,l,n[e+9],21,-343485551),l=t(l,i),g=t(g,a),v=t(v,d),m=t(m,h)}return[l,g,v,m]}function a(n){var t,r="",e=32*n.length;for(t=0;t<e;t+=8){r+=String.fromCharCode(n[t>>5]>>>t%32&255)}return r}function d(n){var t,r=[];for(r[(n.length>>2)-1]=void 0,t=0;t<r.length;t+=1){r[t]=0}var e=8*n.length;for(t=0;t<e;t+=8){r[t>>5]|=(255&n.charCodeAt(t/8))<<t%32}return r}function h(n){return a(i(d(n),8*n.length))}function l(n,t){var r,e,o=d(n),u=[],c=[];for(u[15]=c[15]=void 0,o.length>16&&(o=i(o,8*n.length)),r=0;r<16;r+=1){u[r]=909522486^o[r],c[r]=1549556828^o[r]}return e=i(u.concat(d(t)),512+8*t.length),a(i(c.concat(e),640))}function g(n){var t,r,e="";for(r=0;r<n.length;r+=1){t=n.charCodeAt(r),e+="0123456789abcdef".charAt(t>>>4&15)+"0123456789abcdef".charAt(15&t)}return e}function v(n){return unescape(encodeURIComponent(n))}function m(n){return h(v(n))}function p(n){return g(m(n))}function s(n,t){return l(v(n),v(t))}function C(n,t){return g(s(n,t))}function A(n,t,r){return t?r?s(t,n):C(t,n):r?m(n):p(n)}md5=A}(this);
+
 }).catch(e => {
 console.error("ERRROR:",e)
 })
