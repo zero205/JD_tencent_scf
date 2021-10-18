@@ -34,6 +34,8 @@
   + [浏览器获取京东cookie教程](./backUp/GetJdCookie.md)
     
   + [插件获取京东cookie教程](./backUp/GetJdCookie2.md)
+   
+  + [浏览器扩展程序获取京东cookie教程](./backUp/GetJdCookie3.md)
 
 ## 特别声明: 
 
