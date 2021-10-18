@@ -46,6 +46,8 @@ Message写某个小时(如13,则为13点),就可以现在触发一次那个小�
 如果有特殊需求的话,单独运行一次脚本看日志也行.
 ### TG推送请求错误
 好好思考下你怎么上的TG
+### 如何简单开关触发器?
+看下面diy.sh和experiment仓库中的例子
 ### Github部署日志:ETIMEOUT ERROR
 1. 请尝试手动删除/添加config分支.env文件中的GLOBAL_ACCELERATOR_NA=true,尝试关闭/或开启境外加速.(默认开启,且建议开启)
 2. 启用随机分钟部署(默认开启,在定时的小时随机抽取分钟进行执行).关闭请直接禁用Random Cron workflow
