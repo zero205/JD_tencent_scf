@@ -37,7 +37,7 @@ $.notifyTime = $.getdata("cfd_notifyTime");
 $.result = [];
 $.shareCodes = [];
 let cookiesArr = [], cookie = '', token = '';
-let UA, UAInfo = {}, num
+let UA, UAInfo = {};
 let nowTimes;
 const randomCount = $.isNode() ? 20 : 3;
 if ($.isNode()) {
@@ -102,7 +102,6 @@ $.appId = 10028;
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
     $.canHelp = true
     UA = UAInfo[$.UserName]
-    num = 0
     if ($.newShareCodes && $.newShareCodes.length) {
       console.log(`\n开始互助\n`);
       for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
@@ -411,9 +410,8 @@ function helpByStage(shareCodes) {
             console.log(`助力失败：${data.sErrMsg}`)
             $.canHelp = false
           } else if (data.iRet === 2229 || data.sErrMsg === '助力失败啦~') {
-            console.log(`助力失败：您的账号或被助力的账号可能已黑，请联系客服`)
-            num++
-            if (num === 5) $.canHelp = false
+            console.log(`助力失败：您的账号已黑`)
+            $.canHelp = false
           } else if (data.iRet === 2190 || data.sErrMsg === '达到助力上限') {
             console.log(`助力失败：${data.sErrMsg}`)
             $.delcode = true
