@@ -1276,7 +1276,7 @@ function getUserInfo(showInvite = true) {
             console.log(`财富岛好友互助码每次运行都变化,旧的当天有效`);
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}`);
             $.shareCodes.push(strMyShareId)
-            await uploadShareCode(strMyShareId)
+            await uploadShareCode(strMyShareId, $.UserName)
           }
           $.info = {
             ...$.info,
@@ -1658,9 +1658,9 @@ function readShareCode() {
     resolve()
   })
 }
-function uploadShareCode(code) {
+function uploadShareCode(code, pin) {
   return new Promise(async resolve => {
-    $.get({url: `http://transfer.nz.lu/upload/cfd?code=${code}`, timeout: 10000}, (err, resp, data) => {
+    $.post({url: `http://transfer.nz.lu/upload/cfd?code=${code}&ptpin=${encodeURIComponent(pin)}`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -1675,6 +1675,8 @@ function uploadShareCode(code) {
               console.log(`车位已满，请等待下一班次\n`)
             } else if (data === 'exist') {
               console.log(`助力码已经提交过了~\n`)
+            } else if (data === 'not in whitelist') {
+              console.log(`提交助力码失败，此用户不在白名单中\n`)
             } else {
               console.log(`未知错误：${data}\n`)
             }
