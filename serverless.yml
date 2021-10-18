@@ -48,5 +48,11 @@ inputs:
           cronExpression: "0 59 23 * * * *"
           enable: true
           argument: jd_blueCoin
+    - timer:
+        parameters:
+          name: cfd
+          cronExpression: "0 1 0 * * * *"
+          enable: true
+          argument: jd_cfd
   environment: #  环境变量
     variables: #  环境变量对象
