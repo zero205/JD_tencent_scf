@@ -111,6 +111,30 @@ $.activeid = '';
     .finally(() => {
         $.done();
     })
+function getShareCode(name) {
+  return new Promise(resolve => {
+    $.get({
+      url: "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/"+name,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    }, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`);
+          console.log(`${$.name} API请求失败，请检查网路重试`);
+        } else {
+          console.log(`优先账号内部互助，有剩余助力次数再帮【zero205】助力`);
+          $.shareCode = JSON.parse(data);
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
 async function pasture() {
     $.homeInfo = {};
     $.petidList = [];
