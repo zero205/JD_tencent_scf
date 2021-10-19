@@ -29,8 +29,9 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [], cookie = '', message;
-const linkId = "9wdf1YTT2L59Vr-meKskLA";
+const linkIds = ["9wdf1YTT2L59Vr-meKskLA", "7ya6o83WSbNhrbYJqsMfFA"];
 const signLinkId = '9WA12jYGulArzWS7vcrwhw';
+let linkId
 
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -66,7 +67,10 @@ if ($.isNode()) {
         }
         continue
       }
-      await jsRedPacket()
+      for (const id of linkIds) {
+        linkId = id
+        await jsRedPacket()
+      }
     }
   }
 })()
@@ -210,7 +214,7 @@ async function redPacket() {
 
 function getPacketList() {
   return new Promise(resolve => {
-    $.get(taskGetUrl("spring_reward_list",{"pageNum":1,"pageSize":100,linkId,"inviter":""}), async (err, resp, data) => {
+    $.get(taskGetUrl("spring_reward_list",{"pageNum":1,"pageSize":100,linkId,"inviter":"7057MkYN_M4C3K_QNqU2YQ"}), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
