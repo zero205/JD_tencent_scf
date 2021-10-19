@@ -84,10 +84,6 @@ let token ='';
   $.shareCode = undefined
   await getShareCode('jxmc.json')
   $.inviteCodeList = [...($.inviteCodeList || []), ...($.shareCode || [])]
-  let newCookiesArr = [];
-  for(let i = 0;i<$.helpCkList.length;i+=4){
-    newCookiesArr.push($.helpCkList.slice(i,i+4))
-  }
   for (let j = 0; j < cookiesArr.length; j++) {
     $.cookie = cookiesArr[j];
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1]);
