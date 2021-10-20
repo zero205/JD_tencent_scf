@@ -84,7 +84,6 @@ if ($.isNode()) {
                 activeid = $.oneCodeInfo.activeid;
                 if($.oneCodeInfo.use === $.UserName) continue;
                 if (!$.canHelp) break;
-                console.log(`\n${$.UserName}去助力${$.oneCodeInfo.use},助力码：${$.oneCodeInfo.code}\n`);
                 if($.oneCodeInfo.use === $.UserName){
                     continue
                 }
