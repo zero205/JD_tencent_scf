@@ -50,10 +50,6 @@ let pool = []
   } else {
     console.log(`脚本不会自动抽奖，建议活动快结束开启，默认关闭`)
   }
-  const readShareCodeRes = await readShareCode(3);
-  if (readShareCodeRes && readShareCodeRes.code === 200) {
-    pool = readShareCodeRes.data || [];
-  }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -281,6 +277,10 @@ function readShareCode(num=3) {
 function shareCodesFormat() {
   return new Promise(async resolve => {
     // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+    const readShareCodeRes = await readShareCode(3);
+    if (readShareCodeRes && readShareCodeRes.code === 200) {
+      pool = readShareCodeRes.data || [];
+    }
     if ($.index - 1 == 0) {
       console.log('首个帐号,助力作者和池子')
       $.newShareCodes = [...new Set([...author_codes, ...pool])];
