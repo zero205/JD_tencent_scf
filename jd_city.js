@@ -77,7 +77,7 @@ let pool = []
       for (let i = 0; i < $.newShareCodes.length; ++i) {
         console.log(`开始助力 【${$.newShareCodes[i]}】`)
         let res = await getInfo($.newShareCodes[i])
-        console.debug(res)
+//         console.debug(res)
         if (res.code == '-10001'){
           console.warn('请求参数错误,跳过')
           continue
