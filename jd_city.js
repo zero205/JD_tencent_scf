@@ -280,16 +280,30 @@ function readShareCode(num=3) {
 function shareCodesFormat() {
   return new Promise(async resolve => {
     // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+    $.newShareCodes = []
     const readShareCodeRes = await readShareCode(3);
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       pool = readShareCodeRes.data || [];
     }
+    if ($.isNode()) {
+      if (process.env.JD_CITY_EXCHANGE) {
+        exchangeFlag = process.env.JD_CITY_EXCHANGE || exchangeFlag;
+      }
+      if (process.env.CITY_SHARECODES) {
+        console.log('检测到助理码,优先.')
+        if (process.env.CITY_SHARECODES.indexOf('\n') > -1) {
+          $.newShareCodes = process.env.CITY_SHARECODES.split('\n');
+        } else {
+          $.newShareCodes = process.env.CITY_SHARECODES.split('&');
+        }
+      }
+    }
     if ($.index - 1 == 0) {
       console.log('首个帐号,助力作者和池子')
-      $.newShareCodes = [...new Set([...author_codes, ...pool])];
+      $.newShareCodes = [...new Set([...$.newShareCodes,...author_codes, ...pool])];
     } else {
       console.log('非首个个帐号,优先向前助力')
-      $.newShareCodes = [...new Set([...self_code,...author_codes, ...pool])]
+      $.newShareCodes = [...new Set([...$.newShareCodes,...self_code,...author_codes, ...pool])]
     }
     // const readShareCodeRes = await readShareCode();
     // if (readShareCodeRes && readShareCodeRes.code === 200) {
