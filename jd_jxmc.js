@@ -191,7 +191,6 @@ async function main() {
     if (flag_hb) {
       await get_rp()
     }
-    return
     if(homePageInfo.maintaskId !== 'pause'){
         let runTime = 0;
         let doMainTaskInfo = {};
