@@ -24,7 +24,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message, allMessage = '';
-let shareId = ["5e3c6d27110d43fca7b5b98834467334", "c5e75d57aa344017a605b562563d36ce"][Math.floor((Math.random() * 2))];
+let shareId = ["e506cfec2cff4704b63077066f224038", "58dec205098349d2a4c58f4de53c5266", "8071b0c771ea432fb8ec41d0e175b996"][Math.floor((Math.random() * 3))];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item]);
@@ -133,10 +133,10 @@ function channelSignInSubsidy_xh(shareId) {
             "channelLv": "",
             "apiVersion": "4.0.0",
             "riskDeviceParam": "{}",
-            "others": { "shareId": shareId }
+            "others": { "shareId": shareId, "token": "" }
         })
         const options = taskUrl_xh('channelSignInSubsidy', body, 'jrm');
-        $.get(options, async (err, resp, data) => {
+        $.post(options, async (err, resp, data) => {
             try {
                 if (err) {
                     console.log(`${JSON.stringify(err)}`)
@@ -484,7 +484,7 @@ function channelUserSubsidyInfo_xh(shareId) {
     })
 }
 
-function taskUrl_xh(function_id, body, type = 'mission') {
+function taskUrl_xh(function_id, body, type = 'mission', shareId) {
     return {
         url: `https://ms.jr.jd.com/gw/generic/${type}/h5/m/${function_id}?reqData=${encodeURIComponent(body)}`,
         headers: {
@@ -496,7 +496,7 @@ function taskUrl_xh(function_id, body, type = 'mission') {
             'Host': `ms.jr.jd.com`,
             'Connection': `keep-alive`,
             "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
-            'Referer': `https://u.jr.jd.com/`,
+            'Referer': `https://u.jr.jd.com/uc-fe-growing/jintiepindao?channel=&channelLv=&sourceID=636&actflag=EF2CC09524&isPay=N&shareId=${shareId}&jrcontainer=h5&jrlogin=true&jrcloseweb=false&jrwallet=false&jrxviewtype=false&jrgobackrefresh=false&rawJumpUrl=https%3A%2F%2Fu.jr.jd.com%2Fuc-fe-growing%2Fjintiepindao%3Fchannel%3D%26channelLv%3D%26sourceID%3D636%26actflag%3DEF2CC09524%26isPay%3DN%26shareId%3D${shareId}&sid=89a729b1af7b4b8b3108887e16faedcw`,
             'Accept-Language': `zh-cn`
         }
     }
