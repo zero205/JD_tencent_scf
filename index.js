@@ -7,7 +7,7 @@ exports.main_handler = async (event, context, callback) => {
         const got = require('got')
         let response
         try {
-            response = await got(`https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/${event["Message"]}.js`, {
+            response = await got(`https://raw.fastgit.org/zero205/JD_tencent_scf/main/${event["Message"]}.js`, {
                 timeout: 3000,
                 retry: 0
             })
