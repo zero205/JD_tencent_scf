@@ -79,8 +79,8 @@ if ($.isNode()) {
             $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1]);
             token = await getJxToken();
             $.canHelp = true;
-            for (let k = 0; k < $.inviteCodeList.length; k++) {
-                $.oneCodeInfo = $.inviteCodeList[k];
+            for (let k = 0; k < $.inviteCodeList_rp.length; k++) {
+                $.oneCodeInfo = $.inviteCodeList_rp[k];
                 activeid = $.oneCodeInfo.activeid;
                 if($.oneCodeInfo.use === $.UserName) continue;
                 if (!$.canHelp) break;
@@ -156,7 +156,7 @@ async function get_rp(){
     if (rpInfo.ret === 0) {
         if(rpInfo.data.sharekey){
             console.log(`红包邀请码:${rpInfo.data.sharekey}`);
-            $.inviteCodeList_hb.push({'use':$.UserName,'code':rpInfo.data.sharekey,'max':false,'activeid':activeid});
+            $.inviteCodeList_rp.push({'use':$.UserName,'code':rpInfo.data.sharekey,'max':false,'activeid':activeid});
         }
     } else if(rpInfo.ret === 2704){
         console.log('红包今天领完了,跳过红包相关')
