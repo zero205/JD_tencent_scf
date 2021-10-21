@@ -21,7 +21,7 @@ if ($.isNode()) {
 let ownCode = {};
 let mainPin = '';
 let codeList = [];
-let autoCode = '';
+let autoCode = '',projectId = '',helpId = '';
 !(async () => {
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
@@ -34,7 +34,7 @@ let autoCode = '';
     let res = [];
     try{res = await getAuthorShareCode('https://raw.githubusercontent.com/lsh26/share_code/main/shop.json');}catch (e) {}
     if(!res){
-        try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/shop.json');}catch (e) {}
+        try{res = await getAuthorShareCode('https://raw.fastgit.org/lsh26/share_code/main/shop.json');}catch (e) {}
         if(!res){res = [];}
     }
     let res2 = [];
@@ -78,7 +78,7 @@ async function help(ck){
             let getInfo = await takeRequest('smt_newFission_taskFlag',`&body=%7B%22taskType%22%3A%222%22%2C%22operateType%22%3A%221%22%2C%22assistId%22%3A%22${autoCode}%22%7D`,ck);
             await $.wait(1000)
             if(getInfo.assistFlag === '1'){
-                let doInfo = await takeRequest('smt_newFission_doAssignment',`&body=%7B%22projectId%22%3A%22jYRegTcZ8KBe7ZgK4xpgGjec9FX%22%2C%22assignmentId%22%3A%223RLQByzBcfWFeBXhpqGZWed2pvXT%22%2C%22itemId%22%3A%22Sv_VwQBwY91bUPRjxlfEMcg%22%2C%22type%22%3A%222%22%7D`,ck);
+                let doInfo = await takeRequest('smt_newFission_doAssignment',`&body=%7B%22projectId%22%3A%22${projectId}%22%2C%22assignmentId%22%3A%22${helpId}%22%2C%22itemId%22%3A%22${autoCode}%22%2C%22type%22%3A%222%22%7D`,ck);
                 console.log(JSON.stringify(doInfo));
             }else{
                 console.log(`已助力过或者无次数`);
@@ -105,7 +105,7 @@ async function main(ck){
     if(JSON.stringify(mainInfo) === '{}'){console.log(`${userName},初始化失败`);return;}
     console.log(`${userName},初始化成功`);
     let taskInfoList = mainInfo.taskInfoList;
-    let projectId = mainInfo.projectId;
+    projectId = mainInfo.projectId;
     let userBoxInfoVoList = mainInfo.userBoxInfoVoList;
     for (let i = 0; i < taskInfoList.length; i++) {
         let oneTask = taskInfoList[i];
@@ -123,6 +123,9 @@ async function main(ck){
             codeList.push(oneTask.assistId);
             if(JSON.stringify(ownCode) === '{}' && mainPin === userName){
                 ownCode = {'user':userName,'projectId':projectId,'assignmentId':oneTask.assignmentId,"itemId":oneTask.assistId,'type':2}
+            }
+            if(!helpId){
+                helpId = oneTask.assignmentId;
             }
         }
         if(oneTask.type === '3' || oneTask.type === '6'){
