@@ -53,6 +53,10 @@ let pool = []
   } else {
     console.log(`脚本不会自动抽奖，建议活动快结束开启，默认关闭`)
   }
+  if (process.env.CT_R != 'false') {
+    cookiesArr = cookiesArr.sort(() => 0.5 - Math.random())
+    console.log('CK顺序打乱!用来随机内部互助!,如需关闭CT_R为false')
+  }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
