@@ -100,7 +100,6 @@ function channelUserSignInfo_xh(shareId) {
                             $.keepSigned = 0;
                             let state = false;
                             console.log(`【京东账号${$.index}(${$.nickName || $.UserName})的邀请码】` + data.resultData.data.shareId)
-                            shareId = data.resultData.data.shareId
                             for (let i in data.resultData.data.signDetail) {
                                 if (data.resultData.data.signDetail[i].signed) $.keepSigned += 1
                                 if (data.resultData.data.dayId === data.resultData.data.signDetail[i].id) {
@@ -108,7 +107,8 @@ function channelUserSignInfo_xh(shareId) {
                                     console.log('获取签到状态成功', state ? '今日已签到' : '今日未签到', '连续签到', $.keepSigned, '天\n')
                                 }
                             }
-                            if (!state) await channelSignInSubsidy_xh()
+                            if (!state) await channelSignInSubsidy_xh(shareId)
+                            if ($.index === 1) shareId = data.resultData.data.shareId
                         } else {
                             console.log('获取签到状态失败', data.resultData.msg)
                         }
@@ -135,6 +135,7 @@ function channelSignInSubsidy_xh(shareId) {
             "riskDeviceParam": "{}",
             "others": { "shareId": shareId, "token": "" }
         })
+        console.log(body)
         const options = taskUrl_xh('channelSignInSubsidy', body, 'jrm');
         $.post(options, async (err, resp, data) => {
             try {
