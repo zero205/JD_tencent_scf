@@ -26,7 +26,7 @@ let autoCode = '';
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
         return;
     }
-    if(Date.now() > 1634745600000){
+    if(Date.now() > 1637424000000){
         console.log(`活动结束`);
         return;
     }
