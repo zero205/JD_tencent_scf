@@ -79,8 +79,8 @@ if ($.isNode()) {
             $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1]);
             token = await getJxToken();
             $.canHelp = true;
-            for (let k = 0; k < $.inviteCodeList.length; k++) {
-                $.oneCodeInfo = $.inviteCodeList[k];
+            for (let k = 0; k < $.inviteCodeList_rp.length; k++) {
+                $.oneCodeInfo = $.inviteCodeList_rp[k];
                 activeid = $.oneCodeInfo.activeid;
                 if($.oneCodeInfo.use === $.UserName) continue;
                 if (!$.canHelp) break;
