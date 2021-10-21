@@ -1,5 +1,6 @@
 /*
 cron 11 0,9 * * * jd_fission.js
+搬运自https://t.me/sheeplost
 */
 const $ = new Env("东东超市抢京豆");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
