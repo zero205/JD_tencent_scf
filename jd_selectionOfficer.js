@@ -172,6 +172,24 @@ async function doTask(){
                 await $.wait(1000);
             }
         }
+        if($.oneTask.type === 5){
+            let subList = $.oneTask.info;
+            for (let j = 0; j < subList.length; j++) {
+                $.subListInfo = subList[j];
+                console.log(`任务：${subList[j].title},去执行`);
+                await takePostRequest('view_shop');
+                await $.wait(1000);
+            }
+        }
+        if($.oneTask.type === 6){
+            let subList = $.oneTask.info;
+            for (let j = 0; j < subList.length; j++) {
+                $.subListInfo = subList[j];
+                console.log(`任务：${subList[j].title},去执行`);
+                await takePostRequest('view_product');
+                await $.wait(1000);
+            }
+        }
     }
 }
 
@@ -200,6 +218,8 @@ async function takePostRequest(type) {
         case 'view_meeting':
         case 'shop_follow':
         case 'add_product':
+        case 'view_shop':
+        case 'view_product':
             body = `{"id":${$.subListInfo.id}}`;
             break;
         case 'invite_friend':
@@ -327,6 +347,8 @@ function dealReturn(type, data) {
         case 'view_meeting':
         case 'shop_follow':
         case 'add_product':
+        case 'view_shop':
+        case 'view_product':
             console.log(`执行成功，获得抽奖次数：${data.add_coins || 0}，共有抽奖次数：${data.coins || 0}`);
             $.drawTime = data.coins || 0;
             break;
