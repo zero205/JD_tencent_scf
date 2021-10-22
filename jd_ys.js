@@ -1,5 +1,6 @@
 /*
 预售福利机
+助力逻辑：CK1 助力作者，其余账号助力CK1 CK1活动火爆按顺序顺延
 
 活动入口：https://prodev.m.jd.com/mall/active/3QvpPkepEuB5hRgtQvWJ2bjRTCA8/index.html
 已支持IOS双京东账号,Node.js支持N个京东账号
@@ -26,6 +27,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
+let joinIdInfo = {}, AuthorizationInfo = {};
+$.shareCodes = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -44,11 +47,14 @@ let allMessage = '';
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
       $.index = i + 1;
       $.isLogin = true;
       $.nickName = '';
       message = '';
+      $.joinId = '';
+      $.lkToken = '';
+      $.Authorization = '';
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       if (!$.isLogin) {
@@ -60,21 +66,83 @@ let allMessage = '';
         continue
       }
       await jdYs()
-      await $.wait(2000)
+      joinIdInfo[$.UserName] = $.joinId
+      AuthorizationInfo[$.UserName] = $.Authorization
+    }
+  }
+  let res = await getAuthorShareCode('https://raw.githubusercontent.com/Aaron-lv/updateTeam/master/shareCodes/ys.json')
+  if (!res) {
+    $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/ys.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
+    await $.wait(1000)
+    res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/ys.json')
+  }
+  let res2 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/ys.json')
+  if (!res2) {
+    await $.wait(1000)
+    res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/ys.json')
+  }
+  $.shareCodes = [...new Set([...$.shareCodes, ...(res || []), ...(res2 || [])])]
+  for (let i = 0; i < cookiesArr.length; i++) {
+    cookie = cookiesArr[i];
+    $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    $.canHelp = true
+    if (joinIdInfo[$.UserName]) {
+      $.joinId = joinIdInfo[$.UserName]
+      $.Authorization = AuthorizationInfo[$.UserName]
+    } else {
+      continue
+    }
+    if (i === 0) {
+      let shareCodes = (res[Math.floor((Math.random() * res.length))]) || [];
+      if (shareCodes && shareCodes.length) {
+        console.log(`\n开始互助\n`);
+        for (let j = 0; j < shareCodes.length && $.canHelp; j++) {
+          console.log(`CK1 账号${$.UserName} 去助力作者 ${shareCodes[j]}`)
+          $.delcode = false
+          await share(shareCodes[j])
+          await $.wait(2000)
+          if ($.delcode) {
+            shareCodes.splice(j, 1)
+            j--
+            continue
+          }
+        }
+      } else {
+        break
+      }
+    } else {
+      if ($.shareCodes && $.shareCodes.length) {
+        console.log(`\n开始互助\n`);
+        for (let j = 0; j < $.shareCodes.length && $.canHelp; j++) {
+          console.log(`账号${$.UserName} 去助力 ${$.shareCodes[j]}`)
+          $.delcode = false
+          await share($.shareCodes[j])
+          await $.wait(2000)
+          if ($.delcode) {
+            $.shareCodes.splice(j, 1)
+            j--
+            continue
+          }
+        }
+      } else {
+        break
+      }
     }
   }
 })()
-    .catch((e) => {
-      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-    })
-    .finally(() => {
-      $.done();
-    })
+  .catch((e) => {
+    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+  })
+  .finally(() => {
+    $.done();
+  })
 
 async function jdYs() {
   await getActiveInfo()
   if (!$.appId) return
   await getToken()
+  if (!$.lkToken) return
+  await verify()
   if (!$.Authorization) return
   await active()
   await active('', false)
@@ -133,7 +201,7 @@ async function getToken() {
         "Cookie": cookie
       }
     }
-    $.post(options, async (err, resp, data) => {
+    $.post(options, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -143,7 +211,6 @@ async function getToken() {
             data = JSON.parse(data)
             if (data.success) {
               $.lkToken = data.data.lkToken
-              await verify($.lkToken)
             }
           }
         }
@@ -155,9 +222,9 @@ async function getToken() {
     })
   })
 }
-function verify(lkToken) {
+function verify() {
   return new Promise(resolve => {
-    $.post(taskUrl(`user/verify`, {"parameters":{"userId":"","lkToken":lkToken,"username":"sdfas"}}), async (err, resp, data) => {
+    $.post(taskUrl(`user/verify`, {"parameters":{"userId":"","lkToken":$.lkToken,"username":"sdfas"}}), async (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -194,6 +261,8 @@ function active(shareId = null, type = true) {
               if (type) {
                 if (!shareId) {
                   $.joinId = data.data.userVO.joinId
+                  console.log(`【京东账号${$.index}（${$.UserName}）的预售福利机好友互助码】${$.joinId}`)
+                  $.shareCodes.push($.joinId)
                   for (let key of Object.keys(data.data.jobMap)) {
                     let vo = data.data.jobMap[key]
                     if (key === "sign" || key === "channel" || key === "viewLive" || key === "viewWare" || key === "followShop") {
@@ -290,6 +359,42 @@ function lottery() {
     })
   })
 }
+function share(shareId) {
+  return new Promise(resolve => {
+    $.post(taskUrl(`presaleGift/share`, {"attributes":{"activeId":"presaleGiftD9gBzawG","joinId":$.joinId,"shareId":shareId,"valueDay":new Date().Format("yyyyMMdd")}}), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(JSON.stringify(err))
+          console.log(`${$.name} share API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data)
+            if (data.code === 200) {
+              if (data.data.helpStatus === 1) {
+                console.log(`助力成功`)
+              } else if (data.data.helpStatus === 4) {
+                console.log(`助力失败：无助力次数`)
+                $.canHelp = false
+              } else if (data.data.helpStatus === 0) {
+                console.log(`助力失败：不能助力自己`)
+              } else if (data.data.helpStatus === 2) {
+                console.log(`助力失败：已助力过此好友`)
+              } else {
+                console.log(JSON.stringify(data))
+              }
+            } else {
+              console.log(`助力失败：${data.msg}`)
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
 
 function showMsg() {
   return new Promise(resolve => {
@@ -319,6 +424,39 @@ function taskUrl(functionId, body) {
       "Cookie": cookie
     }
   }
+}
+
+function getAuthorShareCode(url) {
+  return new Promise(async resolve => {
+    const options = {
+      url: `${url}?${new Date()}`, "timeout": 10000, headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    };
+    if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
+      const tunnel = require("tunnel");
+      const agent = {
+        https: tunnel.httpsOverHttp({
+          proxy: {
+            host: process.env.TG_PROXY_HOST,
+            port: process.env.TG_PROXY_PORT * 1
+          }
+        })
+      }
+      Object.assign(options, { agent })
+    }
+    $.get(options, async (err, resp, data) => {
+      try {
+        resolve(JSON.parse(data))
+      } catch (e) {
+        // $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+    await $.wait(10000)
+    resolve();
+  })
 }
 
 function TotalBean() {
