@@ -2,6 +2,7 @@
 城城领现金
 
 首个帐号助力作者,其余帐号优先向前内部互助,作者和池子在最后
+优先助力池子,请入群上车!
 
 活动时间：2021-05-25到2021-06-03
 更新时间：2021-05-24 09:55
@@ -39,10 +40,12 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const author_codes = ['RtGKz--tSFj2K4ObRtw6gwLW33Ti-7DkNkd3M46QWjFxpsyJIA','RtGKzrmkEl6mfoGZRdM61xwhaV6OdNBkb49NTSi32DrJNO17Uw'].sort(() => 0.5 - Math.random())
+const author_codes = ['RtGKtKXCCGPaFNnMXqtumpbk6HpAGAj3IRbH8x9D_7uCEN-Y','HYbgy-qjRw-qeoT1V5h_muLtOL3esg5EXpBM9BzzfRJgeg'].sort(() => 0.5 - Math.random())
 const self_code = []
 let pool = []
 !(async () => {
+  console.log('内部互助没奖励了吧应该. 城城现在改为优先助力池子!(作者只吃第一个CK,其余池子!) 请查看群内频道通知!,10s后开始!')
+  await $.wait(10000)
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -294,7 +297,7 @@ function shareCodesFormat() {
         exchangeFlag = process.env.JD_CITY_EXCHANGE || exchangeFlag;
       }
       if (process.env.CITY_SHARECODES) {
-        console.log('检测到助理码,优先.')
+        console.log('检测到助力码,优先. 内部互助0.01了吧,删了吧.')
         if (process.env.CITY_SHARECODES.indexOf('\n') > -1) {
           $.newShareCodes = process.env.CITY_SHARECODES.split('\n');
         } else {
@@ -302,17 +305,20 @@ function shareCodesFormat() {
         }
       }
     }
-    if ($.index - 1 == 0) {
-      console.log('首个帐号,助力作者和池子')
-      $.newShareCodes = [...new Set([...$.newShareCodes,...author_codes, ...pool])];
-    } else {
-      console.log('非首个个帐号,优先向前助力')
-      $.newShareCodes = [...new Set([...$.newShareCodes,...self_code,...author_codes, ...pool])]
-    }
-    // const readShareCodeRes = await readShareCode();
-    // if (readShareCodeRes && readShareCodeRes.code === 200) {
-    //   $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+    // if ($.index - 1 == 0) {
+    //   console.log('首个帐号,助力作者和池子')
+    //   $.newShareCodes = [...new Set([...$.newShareCodes,...author_codes, ...pool])];
+    // } else {
+    //   console.log('非首个个帐号,优先向前助力')
+    //   $.newShareCodes = [...new Set([...$.newShareCodes,...self_code,...author_codes, ...pool])]
     // }
+    if ($.index == 1) {
+      console.log('首个帐号,助力作者和池子')
+      $.newShareCodes = [...new Set([...author_codes,...pool,...$.newShareCodes])]
+    } else{
+      console.log('非首个帐号,助力池子')
+      $.newShareCodes = [...new Set([...$.newShareCodes,...pool])]
+    }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
