@@ -1,7 +1,3 @@
-if (!["card","car"].includes(process.env.FS_LEVEL)) {
-    console.log("请设置通用加购/开卡环境变量FS_LEVEL为\"car\"(或\"card\"开卡+加购)来运行加购脚本")
-    return
-}
 /*
 * 活动：APP-美妆馆-右侧浮窗
 cron 23 9,10 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_selectionOfficer.js
@@ -167,7 +163,7 @@ async function doTask(){
                 await $.wait(1000);
             }
         }
-        if($.oneTask.type === 8){
+        if($.oneTask.type === 8 && ["card","car"].includes(process.env.FS_LEVEL)){
             let subList = $.oneTask.info;
             for (let j = 0; j < subList.length; j++) {
                 $.subListInfo = subList[j];
