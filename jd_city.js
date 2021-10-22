@@ -316,7 +316,7 @@ function shareCodesFormat() {
       console.log('首个帐号,助力作者和池子')
       $.newShareCodes = [...new Set([...author_codes,...pool,...$.newShareCodes])]
     } else{
-      console.log('非首个个帐号,助力池子')
+      console.log('非首个帐号,助力池子')
       $.newShareCodes = [...new Set([...$.newShareCodes,...pool])]
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
