@@ -357,6 +357,7 @@ function BarkNotify(text, desp, params = {}) {
       const index = BARK_PUSH.lastIndexOf('/') + 1
       const url = BARK_PUSH.substr(0,index)+"push"
       const device_key = BARK_PUSH.substr(index)
+      params['Group'] = `${BARK_GROUP}`;
       const options = {
         url,
         json:{
@@ -365,6 +366,7 @@ function BarkNotify(text, desp, params = {}) {
         body:desp,
         sound:BARK_SOUND,
         group:BARK_GROUP,
+        ext_params:params
         },
          headers: {
           'Content-Type': 'application/json; charset=utf-8'
