@@ -1,4 +1,5 @@
 {
+    "jd_carnivalcity": 6,
     "jd_city":5,
     "jd_fruit":[6, 12 ,18],
     "jx_sign": [8, 13],
@@ -66,7 +67,6 @@
     "jd_jxdzz":[3],
     "jd_jump":[0, 21],
     "jd_selectionOfficer": [10],
-    "jd_carnivalcity": 6,
     "jd_carnivalcity_help": [2,10],
     "jd_bean_change": [17],
     "jd_bookshop": [8, 12, 18],
