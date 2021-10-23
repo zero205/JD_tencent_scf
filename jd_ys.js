@@ -291,7 +291,8 @@ function active(shareId = null, type = true) {
                 } else {
                   console.log(`\n抽奖次数：${num}，开始抽奖`)
                 }
-                for (let i = 0; i < num; i++) {
+                $.stop = false
+                for (let i = 0; i < num && !$.stop; i++) {
                   await lottery()
                   await $.wait(2000)
                 }
@@ -345,6 +346,7 @@ function lottery() {
             if (data.code === 200) {
               if (data.data) {
                 console.log(`抽奖成功：获得${data.data.awardVal}${data.data.awardName}`)
+                num = 0
               } else {
                 console.log(`抽奖成功：获得空气~`)
                 num++
