@@ -54,5 +54,11 @@ inputs:
           cronExpression: "59 0 0 * * * *"
           enable: true
           argument: jd_cfd
-  environment: #  环境变量
+    - timer:
+        parameters:
+          name: hx
+          cronExpression: "0 0 * * * * *"
+          enable: true
+          argument: gua_opencard39&gua_opencard43&gua_opencard44&gua_opencard45&gua_opencard46&gua_opencard47&gua_opencard48
+    environment: #  环境变量
     variables: #  环境变量对象
