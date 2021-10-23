@@ -26,12 +26,6 @@ inputs:
   events: #触发器
     - timer:
         parameters:
-          name: 1
-          cronExpression: "1 0 * * * * *"
-          enable: true
-          argument: `1
-    - timer:
-        parameters:
           name: config
           cronExpression: "0 0 * * * * *"
           enable: true
