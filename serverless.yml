@@ -54,5 +54,11 @@ inputs:
           cronExpression: "59 0 0 * * * *"
           enable: true
           argument: jd_cfd
+    - timer: #1
+        parameters:
+          name: bb
+          cronExpression: "0 59 25 * * * *"
+          enable: false
+          argument: jd_city
   environment: #  环境变量
     variables: #  环境变量对象
