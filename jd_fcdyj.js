@@ -53,7 +53,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
     $.needhelp = true
     $.canDraw = false
     $.canHelp = true;
-    $.linkid = "yMVR-_QKRd2Mq27xguJG-w"
+    $.linkid = "PFbUR7wtwUcQ860Sn8WRfw"
     //开红包查询
     for (let i = 0; i < cookiesArr.length && $.needhelp; i++) {
         cookie = cookiesArr[i];
