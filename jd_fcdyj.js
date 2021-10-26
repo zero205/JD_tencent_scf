@@ -57,6 +57,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
     //开红包查询
     for (let i = 0; i < cookiesArr.length && $.needhelp; i++) {
         cookie = cookiesArr[i];
+        $.hotFlag = false;
         if (cookie) {
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
             $.index = i + 1;
@@ -67,6 +68,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
         if (!dyjCode) {
             console.log(`\n环境变量中没有检测到助力码,开始获取【京东账号${$.index}】助力码\n`)
             await open()
+            if ($.hotFlag) continue;
             await getid()
         } else {
             dyjStr = dyjCode.split("@")
@@ -166,6 +168,10 @@ function open() {
                     console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     data = JSON.parse(data);
+                    if (data.code === 16020) {
+                        $.hotFlag = true
+                        console.log(data.errMsg);
+                    }
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -186,7 +192,7 @@ function getid() {
                     console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     data = JSON.parse(data);
-                    console.log(data.data.state)
+                    // console.log(data.data.state)
                     if (data.data.state !== 0) {
                         if (data.success && data.data) {
                             console.log(`\n【您的redEnvelopeId】：${data.data.redEnvelopeId}`)
