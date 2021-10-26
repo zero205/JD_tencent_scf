@@ -30,7 +30,7 @@ if (process.env.active) {
 }
 
 if (process.env.first) {
-    first = process.env.first;
+    first = true;
 }
 
 if ($.isNode()) {
