@@ -2,7 +2,7 @@
 #柠檬是兄弟就砍我2
 ##惊喜欢乐砍 自定义变量 入口惊喜APP我的 惊喜欢乐砍
 export launchid="ba3b268758521b2a48ce7ed61b82ff7a" ##你的邀请码
-export first="false" ##第一次参加变量设置为true查看商品ID 填写商品ID后自动获取邀请码邀请  如果只助力 变量设置为false
+export first="false"
 
 [task_local]
 #柠檬是兄弟就砍我2
@@ -18,7 +18,7 @@ let cookiesArr = [],
     cookie = '',
     message;
 // const active = '';
-let first = false; //第一次参加变量设置为true查看商品ID 填写商品ID后自动获取邀请码邀请  如果只助力 变量设置为false
+let first = false;
 let launchid
 
 // if (process.env.active) {
