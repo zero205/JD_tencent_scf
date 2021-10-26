@@ -21,8 +21,9 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [],
     cookie = '',
     message;
-const active = 'jxhlk_20211025_31d761397fff2ad';
+const active = '';
 let first = false; //第一次参加变量设置为true查看商品ID 填写商品ID后自动获取邀请码邀请  如果只助力 变量设置为false
+let launchid
 
 if (process.env.active) {
     active = process.env.active;
@@ -48,7 +49,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-    let launchid = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/kyd.json') || []
+    launchid = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/kyd.json') || []
     if (process.env.launchid) {
         launchid = process.env.launchid.split('@');
     }
@@ -71,11 +72,9 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
                 }
                 continue
             }
-
-
             if (first == true) {
                 await info()
-                await checkaddress()
+                // await checkaddress()
                 // await join()
                 await help_all()
 
@@ -93,6 +92,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     })
 async function help_all() {
     for (let i = 0; i < launchid.length; i++) {
+        $.signle_launchid = launchid[i]
         await help()
         await $.wait(3000)
     }
@@ -259,13 +259,14 @@ function join() {
 
 
 function help() {
+    // console.debug($.signle_launchid)
     return new Promise(async (resolve) => {
 
         let options = {
-            url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_queryhelp?launchid=${launchid}&clicktype=1&nomoving=0&_stk=clicktype,launchid,nomoving&_ste=1&h5st=20210611141713782;4277367680239161;10029;tk01wea971d94a8nWUlYSjgyLzZKSU1igyCeoCUlN/xTTrRT7O3uvmUqievWdR1PWX5HYelOXXDFofE6gtFirtyXBLjY;787c9125d6eaf59d5fb81bcdea2b58481e4e395402191379b47fbec7470c67b3&t=1623392233807&_=1623392233808&sceneval=2&g_login_type=1&g_ty=ls`,
+            url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_queryhelp?launchid=${$.signle_launchid}&clicktype=1&nomoving=0&_stk=clicktype,launchid,nomoving&_ste=1&h5st=20210611141713782;4277367680239161;10029;tk01wea971d94a8nWUlYSjgyLzZKSU1igyCeoCUlN/xTTrRT7O3uvmUqievWdR1PWX5HYelOXXDFofE6gtFirtyXBLjY;787c9125d6eaf59d5fb81bcdea2b58481e4e395402191379b47fbec7470c67b3&t=1623392233807&_=1623392233808&sceneval=2&g_login_type=1&g_ty=ls`,
 
             headers: {
-                "Referer": `https://st.jingxi.com/sns/202103/20/jxhlk/list.html?launchid=${launchid}&ptag=139022.1.2&srv=jx_cxyw_https://wq.jd.com/cube/front/activePublish/jxhlkv2/486449.html?ptag=139022.1.2_jing`,
+                "Referer": `https://st.jingxi.com/sns/202103/20/jxhlk/list.html?launchid=${$.signle_launchid}&ptag=139022.1.2&srv=jx_cxyw_https://wq.jd.com/cube/front/activePublish/jxhlkv2/486449.html?ptag=139022.1.2_jing`,
                 "Host": "m.jingxi.com",
                 "User-Agent": "jdpingou;iPhone;4.8.0;14.3;9714ccbf07209f246277896ef7c041f3bb571ca3;network/wifi;model/iPhone9,2;appBuild/100540;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/22;pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
                 "Cookie": cookie,
