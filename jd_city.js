@@ -45,7 +45,7 @@ const self_code = []
 let pool = []
 !(async () => {
   console.log('内部互助没奖励了吧应该. 城城现在改为优先助力池子!(作者只吃第一个CK,其余池子!) 请查看群内频道通知!,10s后开始!')
-  await $.wait(10000)
+  // await $.wait(5000)
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -83,24 +83,26 @@ let pool = []
       for (let i = 0; i < $.newShareCodes.length; ++i) {
         console.log(`开始助力 【${$.newShareCodes[i]}】`)
         let res = await getInfo($.newShareCodes[i])
-//         console.debug(res)
-        if (res.code == '-10001'){
-          console.warn('请求参数错误,跳过')
-          continue
-        }
-        if (res && res['data']['bizCode'] === 0) {
+        // console.debug(res)
+        if (res && res['data'] && res['data']['bizCode'] === 0) {
           if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0] && res['data']['result']['toasts'][0]['status'] === '3') {
             console.log(`助力次数已耗尽，跳出`)
             break
           }
-          if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0]) {
-            console.log(`助力 【${$.newShareCodes[i]}】:${res.data.result.toasts[0].msg}`)
+          if (res['data']['result']['toasts']) {
+            if (res['data']['result']['toasts'][0]) {
+              console.log(`助力 【${$.newShareCodes[i]}】:${res.data.result.toasts[0].msg}`)
+            } else {
+              console.log(`未知错误，跳出`)
+              break
+            }
           }
         }
         if ((res && res['status'] && res['status'] === '3') || (res && res.data && res.data.bizCode === -11)) {
           // 助力次数耗尽 || 黑号
           break
         }
+        await $.wait(1500)
       }
       await getInviteInfo();//雇佣
       if (exchangeFlag) {
