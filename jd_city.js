@@ -45,7 +45,7 @@ const self_code = []
 let pool = []
 !(async () => {
   console.log('内部互助没奖励了吧应该. 城城现在改为优先助力池子!(作者只吃第一个CK,其余池子!) 请查看群内频道通知!,10s后开始!')
-  // await $.wait(5000)
+  await $.wait(5000)
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
