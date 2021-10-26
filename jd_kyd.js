@@ -22,7 +22,6 @@ let cookiesArr = [],
     cookie = '',
     message;
 const active = 'jxhlk_20211025_31d761397fff2ad';
-let launchid = []
 let first = false; //第一次参加变量设置为true查看商品ID 填写商品ID后自动获取邀请码邀请  如果只助力 变量设置为false
 
 if (process.env.active) {
@@ -32,8 +31,6 @@ if (process.env.active) {
 if (process.env.first) {
     first = process.env.first;
 }
-
-
 
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -46,12 +43,12 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 
 !(async () => {
+    console.debug('还在研究是否有效,有需要的大佬可以自己研究一下')
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-    launchid = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/kyd.json') || []
-    console.debug('还在研究是否有效,有需要的大佬可以自己研究一下')
+    let launchid = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/kyd.json') || []
     if (process.env.launchid) {
         launchid = process.env.launchid.split('@');
     }
