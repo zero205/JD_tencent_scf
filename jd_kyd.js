@@ -10,7 +10,7 @@ export active="" ##商品ID
 
 [task_local]
 #柠檬是兄弟就砍我2
-0 5 * * * http://nm66.top/jd_kanjia2.js, tag=柠檬是兄弟就砍我2, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+0 17,21 * * * http://nm66.top/jd_kanjia2.js, tag=柠檬是兄弟就砍我2, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 const $ = new Env('柠檬是兄弟就砍我2');
 const notify = $.isNode() ? require('./sendNotify') : '';
