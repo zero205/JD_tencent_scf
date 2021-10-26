@@ -78,7 +78,7 @@ async function main() {
       await gambleOpenReward();//打开红包
       if ($.canOpenRed) {
         let time = 3
-        while (!$.canApCashWithDraw && $.changeReward && i--) {
+        while (!$.canApCashWithDraw && $.changeReward && time--) {
           await openRedReward();
           await $.wait(500);
         }
