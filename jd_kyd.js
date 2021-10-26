@@ -22,7 +22,7 @@ let cookiesArr = [],
     cookie = '',
     message;
 const active = '';
-let first = false; //第一次参加变量设置为true查看商品ID 填写商品ID后自动获取邀请码邀请  如果只助力 变量设置为false
+let first = true; //第一次参加变量设置为true查看商品ID 填写商品ID后自动获取邀请码邀请  如果只助力 变量设置为false
 let launchid
 
 if (process.env.active) {
@@ -53,7 +53,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     if (process.env.launchid) {
         launchid = process.env.launchid.split('@');
     }
-    if (launchid.length == 0) {
+    if (launchid.length == 0 && !first) {
         return
     }
     // console.debug(launchid)
@@ -79,8 +79,8 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
                 await info()
                 // await checkaddress()
                 // await join()
+                // await test()
                 await help_all()
-
             } else {
                 await help_all()
             }
@@ -176,13 +176,10 @@ function info() {
     });
 }
 
-function checkaddress() {
+function test() {
     return new Promise(async (resolve) => {
-
         let options = {
-            url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_checkaddress?active=${active}&addressid=&t=1623387225130&_=1623387225131&sceneval=2&g_login_type=1&g_ty=ls`,
-            //dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D
-            // body: `functionId=cutPriceByUser&body={"activityId":"852797097823596544","userName":"","followShop":1,"shopId":52021,"userPic":""}&client=wh5&clientVersion=1.0.0`,
+            url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_myonline?&t=1623387225130&_=1623387225131&sceneval=2&g_login_type=1&g_ty=ls`,
             headers: {
                 "Referer": "https://st.jingxi.com/sns/202103/20/jxhlk/list.html?ptag=7155.9.89",
                 "Host": "m.jingxi.com",
@@ -190,27 +187,9 @@ function checkaddress() {
                 "Cookie": cookie,
             }
         }
-
         $.get(options, async (err, resp, data) => {
             try {
-
-                data = data.match(/(\{[^()]+\}.+)/)[1]
-
-                // console.debug(data)
-                const reust = JSON.parse(data)
-                //console.log(reust)
-                if (reust.errcode == 0) {
-                    //list = reust.data.freezone
-                    //for (let i = 0; i < list.length; i++) {  
-                    $.provinceid = reust.data.provinceid
-                    $.cityid = reust.data.cityid
-                    $.countyid = reust.data.countyid
-                    $.log(`\n确认收货地址\n商品：${reust.data.skutitle}\n地址：${reust.data.address}`)
-
-                    // }
-                } else
-
-                    console.log(data.msg)
+                console.debug(data)
             } catch (e) {
                 $.logErr(e, resp);
             } finally {
@@ -220,45 +199,89 @@ function checkaddress() {
     });
 }
 
-function join() {
-    return new Promise(async (resolve) => {
+// function checkaddress() {
+//     return new Promise(async (resolve) => {
 
-        let options = {
-            url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_launch?active=${active}&provinceid=${$.provinceid}&cityid=${$.cityid}&countyid=${$.countyid}&_stk=active,cityid,countyid,provinceid&_ste=1&h5st=20210611134802301;9239928912872162;10029;tk01wbcaa1c9ba8nd2QzQ1ZoLzNtk5KzYYdDSHRhFzz7/RM9cwNQBA92KZHoHeloSktjcQEdy/EXtm5u1WsoLf/6pNyP;9a5fc97afa527c0cfa083a7d2d948c0308bdb2d78413eb8ea5d17e336af71dc2&t=1623390482324&_=1623390482325&sceneval=2&g_login_type=1&callback=jsonpCBKD&g_ty=ls`,
-            //dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D
-            // body: `functionId=cutPriceByUser&body={"activityId":"852797097823596544","userName":"","followShop":1,"shopId":52021,"userPic":""}&client=wh5&clientVersion=1.0.0`,
-            headers: {
-                "Referer": "https://st.jingxi.com/sns/202103/20/jxhlk/list.html?ptag=7155.9.89",
-                "Host": "m.jingxi.com",
-                "User-Agent": "jdpingou;iPhone;4.8.0;14.3;9714ccbf07209f246277896ef7c041f3bb571ca3;network/wifi;model/iPhone9,2;appBuild/100540;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/22;pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-                "Cookie": cookie,
-            }
-        }
+//         let options = {
+//             url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_checkaddress?active=${active}&addressid=&t=1623387225130&_=1623387225131&sceneval=2&g_login_type=1&g_ty=ls`,
+//             //dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D
+//             // body: `functionId=cutPriceByUser&body={"activityId":"852797097823596544","userName":"","followShop":1,"shopId":52021,"userPic":""}&client=wh5&clientVersion=1.0.0`,
+//             headers: {
+//                 "Referer": "https://st.jingxi.com/sns/202103/20/jxhlk/list.html?ptag=7155.9.89",
+//                 "Host": "m.jingxi.com",
+//                 "User-Agent": "jdpingou;iPhone;4.8.0;14.3;9714ccbf07209f246277896ef7c041f3bb571ca3;network/wifi;model/iPhone9,2;appBuild/100540;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/22;pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+//                 "Cookie": cookie,
+//             }
+//         }
 
-        $.get(options, async (err, resp, data) => {
-            try {
-                console.log(data)
-                data = data.match(/(\{[^()]+\}.+)/)[1]
+//         $.get(options, async (err, resp, data) => {
+//             try {
 
-                //console.log(data)
-                const reust = JSON.parse(data)
-                //console.log(reust)
-                if (reust.errcode == 0) {
-                    $.launchid = restlt.launchid
-                    $.log(`\n参加砍价成功 你当前商品邀请码：${restlt.launchid}`)
+//                 data = data.match(/(\{[^()]+\}.+)/)[1]
 
-                    // }
-                } else
+//                 // console.debug(data)
+//                 const reust = JSON.parse(data)
+//                 //console.log(reust)
+//                 if (reust.errcode == 0) {
+//                     //list = reust.data.freezone
+//                     //for (let i = 0; i < list.length; i++) {  
+//                     $.provinceid = reust.data.provinceid
+//                     $.cityid = reust.data.cityid
+//                     $.countyid = reust.data.countyid
+//                     $.log(`\n确认收货地址\n商品：${reust.data.skutitle}\n地址：${reust.data.address}`)
 
-                    console.log(data.msg)
-            } catch (e) {
-                $.logErr(e, resp);
-            } finally {
-                resolve();
-            }
-        });
-    });
-}
+//                     // }
+//                 } else
+
+//                     console.log(data.msg)
+//             } catch (e) {
+//                 $.logErr(e, resp);
+//             } finally {
+//                 resolve();
+//             }
+//         });
+//     });
+// }
+
+// function join() {
+//     return new Promise(async (resolve) => {
+
+//         let options = {
+//             url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_launch?active=${active}&provinceid=${$.provinceid}&cityid=${$.cityid}&countyid=${$.countyid}&_stk=active,cityid,countyid,provinceid&_ste=1&h5st=20210611134802301;9239928912872162;10029;tk01wbcaa1c9ba8nd2QzQ1ZoLzNtk5KzYYdDSHRhFzz7/RM9cwNQBA92KZHoHeloSktjcQEdy/EXtm5u1WsoLf/6pNyP;9a5fc97afa527c0cfa083a7d2d948c0308bdb2d78413eb8ea5d17e336af71dc2&t=1623390482324&_=1623390482325&sceneval=2&g_login_type=1&callback=jsonpCBKD&g_ty=ls`,
+//             //dS%2Bp85VyjydPuAOOnFP%2Faw%3D%3D
+//             // body: `functionId=cutPriceByUser&body={"activityId":"852797097823596544","userName":"","followShop":1,"shopId":52021,"userPic":""}&client=wh5&clientVersion=1.0.0`,
+//             headers: {
+//                 "Referer": "https://st.jingxi.com/sns/202103/20/jxhlk/list.html?ptag=7155.9.89",
+//                 "Host": "m.jingxi.com",
+//                 "User-Agent": "jdpingou;iPhone;4.8.0;14.3;9714ccbf07209f246277896ef7c041f3bb571ca3;network/wifi;model/iPhone9,2;appBuild/100540;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/22;pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+//                 "Cookie": cookie,
+//             }
+//         }
+
+//         $.get(options, async (err, resp, data) => {
+//             try {
+//                 console.log(data)
+//                 data = data.match(/(\{[^()]+\}.+)/)[1]
+
+//                 //console.log(data)
+//                 const reust = JSON.parse(data)
+//                 //console.log(reust)
+//                 if (reust.errcode == 0) {
+//                     $.launchid = restlt.launchid
+//                     $.log(`\n参加砍价成功 你当前商品邀请码：${restlt.launchid}`)
+
+//                     // }
+//                 } else
+
+//                     console.log(data.msg)
+//             } catch (e) {
+//                 $.logErr(e, resp);
+//             } finally {
+//                 resolve();
+//             }
+//         });
+//     });
+// }
 
 
 function help() {
