@@ -242,7 +242,7 @@ function help() {
 
                 data = data.match(/(\{[^()]+\}.+)/)[1]
 
-                console.debug(data)
+//                 console.debug(data)
                 const reust = JSON.parse(data)
                     //console.log(reust)
                 if (reust.errcode == 0) {
