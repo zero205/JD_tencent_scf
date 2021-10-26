@@ -10,7 +10,7 @@ export active="" ##商品ID
 
 [task_local]
 #柠檬是兄弟就砍我2
-0 5,17 * * * http://nm66.top/jd_kanjia2.js, tag=柠檬是兄弟就砍我2, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+0 5 * * * http://nm66.top/jd_kanjia2.js, tag=柠檬是兄弟就砍我2, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 const $ = new Env('柠檬是兄弟就砍我2');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -22,7 +22,7 @@ let cookiesArr = [],
     cookie = '',
     message;
 const active = 'jxhlk_20211025_31d761397fff2ad';
-const launchid = ['4e27c00621c6130a3e8359dac61df0f7'];
+let launchid = []
 let first = false; //第一次参加变量设置为true查看商品ID 填写商品ID后自动获取邀请码邀请  如果只助力 变量设置为false
 
 if (process.env.active) {
@@ -32,9 +32,7 @@ if (process.env.active) {
 if (process.env.first) {
     first = process.env.first;
 }
-if (process.env.launchid) {
-    launchid = process.env.launchid.split('@');
-}
+
 
 
 if ($.isNode()) {
@@ -47,12 +45,17 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 
-!(async() => {
+!(async () => {
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-
+    launchid = [...(await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/kyd.json') || [])]
+    console.debug('还在研究是否有效,有需要的大佬可以自己研究一下')
+    if (process.env.launchid) {
+        launchid = process.env.launchid.split('@');
+    }
+    // console.debug(launchid)
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -79,7 +82,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
                 // await join()
                 await help_all()
 
-            } else{
+            } else {
                 await help_all()
             }
         }
@@ -91,15 +94,50 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     .finally(() => {
         $.done();
     })
-async function help_all(){
+async function help_all() {
     for (let i = 0; i < launchid.length; i++) {
         await help()
         await $.wait(3000)
     }
 }
 
+function getAuthorShareCode(url) {
+    return new Promise(async resolve => {
+        const options = {
+            url: `${url}?${new Date()}`,
+            "timeout": 10000,
+            headers: {
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+            }
+        };
+        if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
+            const tunnel = require("tunnel");
+            const agent = {
+                https: tunnel.httpsOverHttp({
+                    proxy: {
+                        host: process.env.TG_PROXY_HOST,
+                        port: process.env.TG_PROXY_PORT * 1
+                    }
+                })
+            }
+            Object.assign(options, { agent })
+        }
+        $.get(options, async (err, resp, data) => {
+            try {
+                resolve(JSON.parse(data))
+            } catch (e) {
+                // $.logErr(e, resp)
+            } finally {
+                resolve();
+            }
+        })
+        await $.wait(10000)
+        resolve();
+    })
+}
+
 function info() {
-    return new Promise(async(resolve) => {
+    return new Promise(async (resolve) => {
 
         let options = {
             url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_showpage?pageindex=1&pagenum=10&launchid=&_stk=launchid%2Cpageindex%2Cpagenum&_ste=1&h5st=20210611124834764%3B9239928912872162%3B10029%3Btk01wbcaa1c9ba8nd2QzQ1ZoLzNtk5KzYYdDSHRhFzz7%2FRM9cwNQBA92KZHoHeloSktjcQEdy%2FEXtm5u1WsoLf%2F6pNyP%3B05df15c1c37911547393fc59f29a13f564d1f0fb7d7da9d6d0c2b0b6a7c9ffdc&t=1623386914770&_=1623386914770&sceneval=2&g_login_type=1&g_ty=ls`,
@@ -113,13 +151,13 @@ function info() {
             }
         }
 
-        $.get(options, async(err, resp, data) => {
+        $.get(options, async (err, resp, data) => {
             try {
                 // console.debug(data)
                 data = data.match(/(\{[^()]+\}.+)/)[1]
 
                 const reust = JSON.parse(data)
-                    //console.log(reust)
+                //console.log(reust)
                 if (reust.errcode == 0) {
                     list = reust.data.discountzone
                     for (let i = 0; i < list.length; i++) {
@@ -139,7 +177,7 @@ function info() {
 }
 
 function checkaddress() {
-    return new Promise(async(resolve) => {
+    return new Promise(async (resolve) => {
 
         let options = {
             url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_checkaddress?active=${active}&addressid=&t=1623387225130&_=1623387225131&sceneval=2&g_login_type=1&g_ty=ls`,
@@ -153,14 +191,14 @@ function checkaddress() {
             }
         }
 
-        $.get(options, async(err, resp, data) => {
+        $.get(options, async (err, resp, data) => {
             try {
 
                 data = data.match(/(\{[^()]+\}.+)/)[1]
 
                 // console.debug(data)
                 const reust = JSON.parse(data)
-                    //console.log(reust)
+                //console.log(reust)
                 if (reust.errcode == 0) {
                     //list = reust.data.freezone
                     //for (let i = 0; i < list.length; i++) {  
@@ -183,7 +221,7 @@ function checkaddress() {
 }
 
 function join() {
-    return new Promise(async(resolve) => {
+    return new Promise(async (resolve) => {
 
         let options = {
             url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_launch?active=${active}&provinceid=${$.provinceid}&cityid=${$.cityid}&countyid=${$.countyid}&_stk=active,cityid,countyid,provinceid&_ste=1&h5st=20210611134802301;9239928912872162;10029;tk01wbcaa1c9ba8nd2QzQ1ZoLzNtk5KzYYdDSHRhFzz7/RM9cwNQBA92KZHoHeloSktjcQEdy/EXtm5u1WsoLf/6pNyP;9a5fc97afa527c0cfa083a7d2d948c0308bdb2d78413eb8ea5d17e336af71dc2&t=1623390482324&_=1623390482325&sceneval=2&g_login_type=1&callback=jsonpCBKD&g_ty=ls`,
@@ -197,14 +235,14 @@ function join() {
             }
         }
 
-        $.get(options, async(err, resp, data) => {
+        $.get(options, async (err, resp, data) => {
             try {
                 console.log(data)
                 data = data.match(/(\{[^()]+\}.+)/)[1]
 
                 //console.log(data)
                 const reust = JSON.parse(data)
-                    //console.log(reust)
+                //console.log(reust)
                 if (reust.errcode == 0) {
                     $.launchid = restlt.launchid
                     $.log(`\n参加砍价成功 你当前商品邀请码：${restlt.launchid}`)
@@ -224,7 +262,7 @@ function join() {
 
 
 function help() {
-    return new Promise(async(resolve) => {
+    return new Promise(async (resolve) => {
 
         let options = {
             url: `https://m.jingxi.com/kjactive/jxhlk/jxhlk_queryhelp?launchid=${launchid}&clicktype=1&nomoving=0&_stk=clicktype,launchid,nomoving&_ste=1&h5st=20210611141713782;4277367680239161;10029;tk01wea971d94a8nWUlYSjgyLzZKSU1igyCeoCUlN/xTTrRT7O3uvmUqievWdR1PWX5HYelOXXDFofE6gtFirtyXBLjY;787c9125d6eaf59d5fb81bcdea2b58481e4e395402191379b47fbec7470c67b3&t=1623392233807&_=1623392233808&sceneval=2&g_login_type=1&g_ty=ls`,
@@ -237,14 +275,14 @@ function help() {
             }
         }
 
-        $.get(options, async(err, resp, data) => {
+        $.get(options, async (err, resp, data) => {
             try {
 
                 data = data.match(/(\{[^()]+\}.+)/)[1]
 
-//                 console.debug(data)
+                // console.debug(data)
                 const reust = JSON.parse(data)
-                    //console.log(reust)
+                //console.log(reust)
                 if (reust.errcode == 0) {
                     //$.launchid=restlt.launchid
                     $.log(`\n${reust.data.guestinfo.contenttips}`)
@@ -261,18 +299,6 @@ function help() {
         });
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 async function taskPostUrl(functionId, body) {
     return {
