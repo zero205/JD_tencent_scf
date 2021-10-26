@@ -53,6 +53,9 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     if (process.env.launchid) {
         launchid = process.env.launchid.split('@');
     }
+    if (launchid.length == 0) {
+        return
+    }
     // console.debug(launchid)
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
