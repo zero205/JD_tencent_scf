@@ -76,10 +76,10 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
                 continue
             }
             if (first == true) {
-                await info()
+                // await info()
                 // await checkaddress()
                 // await join()
-                // await test()
+                await test()
                 await help_all()
             } else {
                 await help_all()
@@ -96,6 +96,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 async function help_all() {
     for (let i = 0; i < launchid.length; i++) {
         $.signle_launchid = launchid[i]
+        // console.debug($.signle_launchid)
         await help()
         await $.wait(3000)
     }
@@ -189,7 +190,14 @@ function test() {
         }
         $.get(options, async (err, resp, data) => {
             try {
-                console.debug(data)
+                data = data.match(/(\{[^()]+\}.+)/)[1]
+                data = JSON.parse(data)
+                // console.debug(data)
+                const temp = data.data.onling
+                // console.debug(temp)
+                for (let i = 0; i < temp.length; i++) {
+                    console.debug(temp[i])
+                }
             } catch (e) {
                 $.logErr(e, resp);
             } finally {
