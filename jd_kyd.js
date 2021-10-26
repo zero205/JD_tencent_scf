@@ -4,7 +4,7 @@
 export launchid="ba3b268758521b2a48ce7ed61b82ff7a" ##你的邀请码
 export first="false" ##第一次参加变量设置为true查看商品ID 填写商品ID后自动获取邀请码邀请  如果只助力 变量设置为false
 export active="" ##商品ID
-
+群内抽奖机制
 [task_local]
 #柠檬是兄弟就砍我2
 0 17,21 * * * http://nm66.top/jd_kanjia2.js, tag=柠檬是兄弟就砍我2, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
@@ -41,7 +41,7 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 
 !(async () => {
-//     console.debug('群内抽奖机制')
+    console.debug('群内抽奖机制')
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
