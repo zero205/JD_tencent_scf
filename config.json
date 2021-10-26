@@ -80,7 +80,7 @@
     "jd_cfd_loop": [8, 16],
     "jd_price": [23],
     "jd_joy_steal": 3,
-    "jd_kyd": 17,
+    "jd_kyd": [17, 21],
     "params":
     {
         "global":
