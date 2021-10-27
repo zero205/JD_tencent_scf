@@ -193,13 +193,14 @@ function gobotNotify(text, desp, time = 2100) {
   return new Promise((resolve) => {
     if (GOBOT_URL) {
       const options = {
-        url: json: { 
-          message: `${text}\n${desp}` ,
-          user_id:`${GOBOT_QQ}`
-        },
+        url: `${GOBOT_URL}`,
+        json: { 
+			message: `${text}\n${desp}` ,
+			user_id:`${GOBOT_QQ}`
+		},
         headers: {
           'Content-Type': 'application/json',
-		      'Authorization': `Bearer ${GOBOT_TOKEN}`
+		  'Authorization': `Bearer ${GOBOT_TOKEN}`
         },
         timeout,
       };
