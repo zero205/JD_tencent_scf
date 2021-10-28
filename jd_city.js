@@ -105,7 +105,7 @@ let pool = []
         await $.wait(1500)
       }
       await getInviteInfo();//雇佣
-      if (exchangeFlag || new Date().getDate() >= 29) {
+      if (exchangeFlag || new Date().getDate() >= 30) {
         const res = await city_lotteryAward();//抽奖
         if (res && res > 0) {
           for (let i = 0; i < new Array(res).fill('').length; i++) {
