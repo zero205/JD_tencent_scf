@@ -52,6 +52,9 @@ const JD_API_HOST = 'https://api.m.jd.com/';
     })
 async function sign_all() {
     await query()
+    if (!$.signFreeOrderInfoList){
+        return
+    }
     await $.wait(3000)
     for (const order of $.signFreeOrderInfoList) {
         // console.debug('now:', order)
