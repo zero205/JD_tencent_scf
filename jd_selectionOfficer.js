@@ -101,7 +101,7 @@ async function main() {
         await takePostRequest('edit_info');
     }
     await $.wait(2000);
-    if($.userInfo?.is_new === 1){
+    if($.userInfo && $.userInfo.is_new === 1){
         let allProductList = [];
         for (let i = 0; i < $.productList.length; i++) {
             let oneList = $.productList[i].get_sub;
