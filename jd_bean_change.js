@@ -58,6 +58,7 @@ let DisableCash = "false";
 let llShowMonth = false;
 let Today = new Date();
 let strAllNotify="";
+let llPetError=false;
 let RemainMessage = '\n';
 RemainMessage += "⭕提醒:⭕" + '\n';
 RemainMessage += '【极速金币】京东极速版->我的->金币(极速版使用)\n';
@@ -657,9 +658,10 @@ async function showMsg() {
 
 	}
 	
+	llPetError=false;
 	const response = await PetRequest('energyCollect');
 	const initPetTownRes = await PetRequest('initPetTown');
-	if(initPetTownRes){
+	if(!llPetError && initPetTownRes){
 		if (initPetTownRes.code === '0' && initPetTownRes.resultCode === '0' && initPetTownRes.message === 'success') {
 			$.petInfo = initPetTownRes.result;
 			if ($.petInfo.userStatus === 0) {
@@ -1460,6 +1462,7 @@ async function PetRequest(function_id, body = {}) {
 		$.post(taskPetUrl(function_id, body), (err, resp, data) => {
 			try {
 				if (err) {
+					llPetError=true;
 					console.log('\n东东萌宠: API查询请求失败 ‼️‼️');
 					console.log(JSON.stringify(err));
 					$.logErr(err);
