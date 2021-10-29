@@ -172,6 +172,7 @@ function hitGroup() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.data.respCode === "SG150") {
+              let {shareCode, groupCode} = data.data.signGroupMain
               if (shareCode) {
                 console.log('开团成功')
               } else {
