@@ -5,7 +5,7 @@
  */
 
  import axios from 'axios';
- import {requireConfig, getBeanShareCode, getFarmShareCode, wait, requestAlgo, h5st, getJxToken} from './TS_USER_AGENTS';
+ import {requireConfig, getBeanShareCode, getFarmShareCode, wait, requestAlgo, h5st, getJxToken} from './TS_USER_AGENTS.ts';
  import {Md5} from "ts-md5";
 
 const notify = require('./sendNotify')
@@ -44,7 +44,7 @@ let cookie: string = '', res: any = '', shareCodes: string[] = [], homePageInfo:
       console.log('jxmc未开通？黑号？')
       continue
     }
-    let petid: number = homePageInfo.data.petinfo[0].petid;
+    //let petid: number = homePageInfo.data.petinfo[0].petid;
     let coins = homePageInfo.data.coins;
 
     console.log('助力码:', homePageInfo.data.sharekey);
@@ -94,7 +94,7 @@ let cookie: string = '', res: any = '', shareCodes: string[] = [], homePageInfo:
 interface Params {
   isgift?: number,
   isquerypicksite?: number,
-  petid?: number,
+  //petid?: number,
   type?: string,
   taskId?: number
   configExtra?: string,
@@ -182,7 +182,7 @@ function api1(fn: string, stk: string, params: Params = {}) {
   
   function api3(fn: string, stk: string, params: Params = {}) {
     return new Promise(async (resolve, reject) => {
-      let url = `https://m.jingxi.com/jxmc/${fn}?channel=7&sceneid=1001&activeid=${activeid}&activekey=null&step=C-1&jxmc_jstoken=${jxToken.strPgUUNum}&timestamp=${jxToken.strPgtimestamp}&phoneid=${jxToken.strPhoneID}&_stk=${encodeURIComponent(stk)}&_ste=1&_=${Date.now()}&sceneval=2&g_login_type=1&callback=jsonpCBKS&g_ty=ls`
+      let url = `https://m.jingxi.com/jxmc/${fn}?channel=7&sceneid=1001&activeid=${activeid}&activekey=null&step=B-1&jxmc_jstoken=${jxToken.strPgUUNum}&timestamp=${jxToken.strPgtimestamp}&phoneid=${jxToken.strPhoneID}&_stk=${encodeURIComponent(stk)}&_ste=1&_=${Date.now()}&sceneval=2&g_login_type=1&callback=jsonpCBKS&g_ty=ls`
       if (Object.keys(params).length !== 0) {
         let key: (keyof Params)
         for (key in params) {
@@ -208,7 +208,7 @@ function api1(fn: string, stk: string, params: Params = {}) {
   }
   
 
-function getTask() {
+/*function getTask() {
   return new Promise<number>(async resolve => {
     let tasks: any = await taskAPI('GetUserTaskStatusList', 'bizCode,dateType,source')
     let doTaskRes: any = {ret: 1};
@@ -239,9 +239,9 @@ function getTask() {
     }
     resolve(doTaskRes.ret)
   })
-}
+}*/
 
-function taskAPI(fn: string, stk: string, params: Params = {}) {
+/*function taskAPI(fn: string, stk: string, params: Params = {}) {
   return new Promise(async resolve => {
     let url = `https://m.jingxi.com/newtasksys/newtasksys_front/${fn}?_=${Date.now()}&source=jxmc&bizCode=jxmc&_ste=1&sceneval=2&_stk=${encodeURIComponent(stk)}&g_login_type=1&g_ty=ajax`
     if (Object.keys(params).length !== 0) {
@@ -266,6 +266,6 @@ function taskAPI(fn: string, stk: string, params: Params = {}) {
     })
     resolve(data)
   })
-}
+}*/
 
 
