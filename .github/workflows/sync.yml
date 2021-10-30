@@ -17,6 +17,6 @@ jobs:
         if: env.PAT
         with:
           source_repo: "https://github.com/zero205/JD_tencent_scf.git"
-          source_branch: "scf"
+          source_branch: "scf2"
           destination_branch: "main"
           github_token: ${{ secrets.PAT }}
