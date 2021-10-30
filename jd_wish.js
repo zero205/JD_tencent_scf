@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1E1NXxq0', '1FV1VwKc'];
-let appNameArr = ['众筹许愿池', '惊喜大作战'];
+let appIdArr = ['1E1NXxq0', '1FV1VwKc', '1FFRWxaY'];
+let appNameArr = ['众筹许愿池', '惊喜大作战', '荣耀钞能力'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
@@ -267,7 +267,7 @@ function interact_template_getLotteryResult() {
             let userAwardsCacheDto = data && data.data && data.data.result && data.data.result.userAwardsCacheDto
             if (userAwardsCacheDto) {
               if (userAwardsCacheDto.type === 2) {
-                console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.quantity}${userAwardsCacheDto.jBeanAwardVo.ext}`)
+                console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.quantity}${userAwardsCacheDto.jBeanAwardVo.ext || `京豆`}`)
               } else if (userAwardsCacheDto.type === 0) {
                 console.log(`很遗憾未中奖~`)
               } else {
