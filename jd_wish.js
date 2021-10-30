@@ -156,7 +156,7 @@ async function healthyDay_getHomeData(type = true) {
             if (type) {
               for (let key of Object.keys(data.data.result.taskVos).reverse()) {
                 let vo = data.data.result.taskVos[key]
-                if (vo.status !== 2) {
+                if (vo.status !== 2 && vo.status !== 0) {
                   if (vo.taskType === 13 || vo.taskType === 12) {
                     console.log(`签到`)
                     await harmony_collectScore({"appId":appId,"taskToken":vo.simpleRecordInfoVo.taskToken,"taskId":vo.taskId,"actionType":"0"}, vo.taskType)
