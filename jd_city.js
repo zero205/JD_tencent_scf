@@ -78,33 +78,33 @@ let pool = []
         }
         continue
       }
-      await shareCodesFormat()
-      await getInfo('',true);
-      for (let i = 0; i < $.newShareCodes.length; ++i) {
-        console.log(`开始助力 【${$.newShareCodes[i]}】`)
-        let res = await getInfo($.newShareCodes[i])
-        // console.debug(res)
-        if (res && res['data'] && res['data']['bizCode'] === 0) {
-          if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0] && res['data']['result']['toasts'][0]['status'] === '3') {
-            console.log(`助力次数已耗尽，跳出`)
-            break
-          }
-          if (res['data']['result']['toasts']) {
-            if (res['data']['result']['toasts'][0]) {
-              console.log(`助力 【${$.newShareCodes[i]}】:${res.data.result.toasts[0].msg}`)
-            } else {
-              console.log(`未知错误，跳出`)
-              break
-            }
-          }
-        }
-        if ((res && res['status'] && res['status'] === '3') || (res && res.data && res.data.bizCode === -11)) {
-          // 助力次数耗尽 || 黑号
-          break
-        }
-        await $.wait(1500)
-      }
-      await getInviteInfo();//雇佣
+//       await shareCodesFormat()
+//       await getInfo('',true);
+//       for (let i = 0; i < $.newShareCodes.length; ++i) {
+//         console.log(`开始助力 【${$.newShareCodes[i]}】`)
+//         let res = await getInfo($.newShareCodes[i])
+//         // console.debug(res)
+//         if (res && res['data'] && res['data']['bizCode'] === 0) {
+//           if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0] && res['data']['result']['toasts'][0]['status'] === '3') {
+//             console.log(`助力次数已耗尽，跳出`)
+//             break
+//           }
+//           if (res['data']['result']['toasts']) {
+//             if (res['data']['result']['toasts'][0]) {
+//               console.log(`助力 【${$.newShareCodes[i]}】:${res.data.result.toasts[0].msg}`)
+//             } else {
+//               console.log(`未知错误，跳出`)
+//               break
+//             }
+//           }
+//         }
+//         if ((res && res['status'] && res['status'] === '3') || (res && res.data && res.data.bizCode === -11)) {
+//           // 助力次数耗尽 || 黑号
+//           break
+//         }
+//         await $.wait(1500)
+//       }
+//       await getInviteInfo();//雇佣
       if (exchangeFlag || new Date().getDate() >= 30) {
         const res = await city_lotteryAward();//抽奖
         if (res && res > 0) {
