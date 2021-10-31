@@ -1,7 +1,7 @@
 /*
 0 0 * * * jd_sevenDay.js
 环境变量:
-DPQDTK: activityId1&activityId2
+SEVENDAY_LIST: activityId1&activityId2
 */
 let activityIdList = []
 if (process.env.SEVENDAY_LIST) {
