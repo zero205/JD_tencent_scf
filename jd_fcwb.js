@@ -139,12 +139,10 @@ if ($.isNode()) {
         }
         cookie = cookiesArr[i];
         $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-        console.log(`\n******开始${$.UserName}助力*********\n`);
+        console.log(`\n******${$.UserName}开始助力*********\n`);
         for (let k = 0; k < fcwbinviteCodeArr.length; k++) {
-            $.message = ""
             fcwbinviteCode = fcwbinviteCodeArr[k]
             fcwbinviter = fcwbinviterArr[k]
-            $.index = k + 1;
             await help(fcwbinviter, fcwbinviteCode)
             await $.wait(2000)
         }
