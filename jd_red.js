@@ -4,7 +4,7 @@ cron 0 0,20 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_r
 返利变量：FLCODE，默认给脚本作者返利，若需要返利给自己，请自己修改返利变量FLCODE；例：FLCODE="你的返利code"
 * */
 const $ = new Env('双11红包');
-console.log('自己使用返利软件请自己设置返利变量或者停用脚本!请阅读群内置顶!')
+console.log('使用返利软件/有特殊需求者,请自己设置返利变量或者停用脚本!请阅读群内置顶!')
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let author = ['3MXlMUn','3CXSSSW','yKC97vH']
 author = author[Math.floor((Math.random() * author.length))]
