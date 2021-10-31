@@ -1,10 +1,10 @@
 {
     "jd_red": [0,20],
-    "jd_carnivalcity": 6,
     "jd_fruit":[6, 12 ,18],
     "jx_sign": [8, 13],
     "jd_bean_sign": [0],
     "jd_super_redrain": 3,
+    "jd_carnivalcity": 6,
     "jd_cfd": [6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jd_dreamFactory": [4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jd_joy": 2,
