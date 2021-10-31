@@ -80,6 +80,14 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
             await $.wait(1000);
                 }
       }
+	  
+            //如果有多余机会给我助力
+            let authorCode = 'SeT5cz7JQIJNnv7xJ2IQKQ';
+            for (let y = 0; y < $.shareCoseList.length; y++){
+                console.log(`京东账号${$.index} ${$.UserName || $.UserName}去助力${authorCode}`)
+                await helpShare({"taskId":$.helpId,"linkId":"DQFdr1ttvWWzn0wsQ7JDZQ","encryptPin":$.authorCode});
+                await $.wait(1000);
+            }
 
       //开箱
       console.log(`京东账号${$.index}去开箱`)
