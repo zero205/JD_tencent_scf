@@ -5,7 +5,7 @@ cron 0 0,12 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_r
 * */
 const $ = new Env('双11红包');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let author = ['3MXlMUn','3CXSSSW','3CXSSSW']
+let author = ['3MXlMUn','3CXSSSW','yKC97vH']
 author = author[Math.floor((Math.random() * author.length))]
 const flCode = $.isNode() ? (process.env.FLCODE ? process.env.FLCODE : author):author;
 let cookiesArr = [];
