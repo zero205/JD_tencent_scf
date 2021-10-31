@@ -77,7 +77,7 @@ let shareList = [];
                 helpTime++;
             }else if(assistInfo.bizCode === -203){
                 console.log(`助力已满`);
-                neCodeInfo.need = 0;
+                oneCodeInfo.need = 0;
             }else if(assistInfo.bizCode === -202){
                 console.log(`助力次数已用完`);
                 canHelp = false;
@@ -117,11 +117,11 @@ async function main(cookie) {
     }while (time < 20 && matchInfo.bizCode !== -501);
     await $.wait(1000);
     let inviteInfo = await takeRequest(cookie,`party1031_invite`,'{"window":true}');
-    if(inviteInfo.result.assistorList.length < 5){
-        shareList.push({'user':userName,'code':initInfo.result.inviteCode,'need':5-inviteInfo.result.assistorList.length});
-    }else{
-        console.log(`${userName},今日助力已满`);
-    }
+    //if(inviteInfo.result.assistorList.length < 5){
+        shareList.push({'user':userName,'code':initInfo.result.inviteCode,'need':999});
+    //}else{
+    //    console.log(`${userName},今日助力已满`);
+    //}
     // console.log(`\n去助力`);
     // let assistInfo = await takeRequest(cookie,`party1031_assist`,`{"inviteCode":"-5oyW-RJoolUHuA0NrZ2-Q"}`);
     // console.log(`助力结果：`+JSON.stringify(assistInfo));
