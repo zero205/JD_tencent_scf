@@ -68,7 +68,7 @@ $.appId = 10028;
         if (UAInfo[$.UserName]) {
           UA = UAInfo[$.UserName]
         } else {
-          UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
+          UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
         }
         token = await getJxToken()
         await cfd();
@@ -84,18 +84,6 @@ $.appId = 10028;
 
 async function cfd() {
   try {
-    const beginInfo = await getUserInfo();
-    if (beginInfo.LeadInfo.dwLeadType === 2) {
-      console.log(`还未开通活动，请先开通\n`)
-      return
-    }
-//     if ($.info.buildInfo.dwTodaySpeedPeople !== 500) {
-//       await $.wait(3000)
-//       await speedUp()
-//     } else {
-//       console.log(`热气球接客已达上限，跳过执行\n`)
-//     }
-    await $.wait(3000)
     await queryshell()
   } catch (e) {
     $.logErr(e)
@@ -245,68 +233,6 @@ async function pickshell(body) {
       }
     })
   })
-}
-
-// 热气球接客
-async function speedUp() {
-  let strBuildIndexArr = ['food', 'sea', 'shop', 'fun']
-  let strBuildIndex = strBuildIndexArr[Math.floor((Math.random() * strBuildIndexArr.length))]
-  return new Promise(async (resolve) => {
-    $.get(taskUrl(`user/SpeedUp`, `strBuildIndex=${strBuildIndex}`), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} SpeedUp API请求失败，请检查网路重试`)
-        } else {
-          data = JSON.parse(data);
-          if (data.iRet === 0) {
-            console.log(`热气球接客成功：已接待 ${data.dwTodaySpeedPeople} 人\n`)
-          } else if (data.iRet === 2027 || data.sErrMsg === '今天接待人数已达上限啦~') {
-            console.log(`热气球接客失败：${data.sErrMsg}\n`)
-          } else {
-            console.log(`热气球接客失败：${data.sErrMsg}\n`)
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-
-// 获取用户信息
-function getUserInfo() {
-  return new Promise(async (resolve) => {
-    $.get(taskUrl(`user/QueryUserInfo`, `strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`), (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} QueryUserInfo API请求失败，请检查网路重试`)
-        } else {
-          data = JSON.parse(data);
-          const {
-            buildInfo = {},
-            LeadInfo = {}
-          } = data;
-          $.info = {
-            ...$.info,
-            buildInfo,
-            LeadInfo
-          };
-          resolve({
-            buildInfo,
-            LeadInfo
-          });
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
 }
 
 function taskUrl(function_path, body) {
