@@ -46,7 +46,7 @@ let fcwbinviteCode = "";
     }
     res = [...res,...res2]
     if(res.length > 0){
-    
+ 
         let actCodeInfo = getRandomArrayElements(res,1)[0];
         fcwbinviter = actCodeInfo.fcwbinviter;
         fcwbinviteCode = actCodeInfo.fcwbinviteCode;
