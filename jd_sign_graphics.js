@@ -1,5 +1,5 @@
 /* 
-cron 14 10 * * * https://raw.githubusercontent.com/smiek2221/scripts/master/jd_sign_graphics.js
+cron 14 10 * * * https://raw.githubusercontent.com/smiek2121/scripts/master/jd_sign_graphics.js
 只支持nodejs环境
 需要安装依赖 
 npm i png-js 或者 npm i png-js -S

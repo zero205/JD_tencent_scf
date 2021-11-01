@@ -12,9 +12,10 @@ if (!["card","car"].includes(process.env.FS_LEVEL)) {
  */
 const $ = new Env('电竞预言家');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
-// 环境变量：ANSWERCODE, 选择哪一个队伍,默认随机； 例：ANSWERCODE="A" 选择第一个队伍，ANSWERCODE="B" 选择第二个队伍
-let answerCode = $.isNode() ? (process.env.ANSWERCODE ? process.env.ANSWERCODE : `999`):`999`;
+// 环境变量：ANSWERCODE, 选择哪一个队伍,默认B； 例：ANSWERCODE="A" 选择第一个队伍，ANSWERCODE="B" 选择第二个队伍
+let answerCode = $.isNode() ? (process.env.ANSWERCODE ? process.env.ANSWERCODE : `B`):`B`;
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
