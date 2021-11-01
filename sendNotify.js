@@ -102,13 +102,13 @@ if (process.env.GOBOT_QQ) {
 }
 
 if (process.env.CQHTTP_URL) {
-  GOBOT_URL = process.env.CQHTTP_URL;
+  CQHTTP_URL = process.env.CQHTTP_URL;
 }
 if (process.env.CQHTTP_TOKEN) {
-  GOBOT_TOKEN = process.env.CQHTTP_TOKEN;
+  CQHTTP_TOKEN = process.env.CQHTTP_TOKEN;
 }
 if (process.env.CQHTTP_QQ) {
-  GOBOT_QQ = process.env.CQHTTP_QQ;
+  CQHTTP_QQ = process.env.CQHTTP_QQ;
 }
 
 if (process.env.PUSH_KEY) {
