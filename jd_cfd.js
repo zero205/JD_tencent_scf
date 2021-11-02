@@ -1184,11 +1184,11 @@ function getPropTask() {
           data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           for (let key of Object.keys(data.Data.TaskList)) {
             let vo = data.Data.TaskList[key]
-            if (vo.dwCompleteNum < vo.dwTargetNum) {
+            if ((vo.dwCompleteNum < vo.dwTargetNum) && ![9, 11].includes(vo.dwPointType)) {
               await doTask(vo.ddwTaskId, 3)
               await $.wait(2000)
             } else {
-              if (vo.dwAwardStatus !== 1) {
+              if ((vo.dwCompleteNum >= vo.dwTargetNum) && vo.dwAwardStatus !== 1) {
                 console.log(`【${vo.strTaskName}】已完成，去领取奖励`)
                 await $.wait(2000)
                 await awardTask(2, vo)
@@ -1310,7 +1310,7 @@ function doTask(taskId, type = 1) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} DoTask API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
+          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
         }
       } catch (e) {
         $.logErr(e, resp)
