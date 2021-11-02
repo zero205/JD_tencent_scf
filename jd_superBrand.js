@@ -1,7 +1,7 @@
 /*
 双11特务
 APP首页下滑,任务，互助
-cron 10 9,13,16,19 2-8 11 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_superBrand.js
+cron 10 9,13,16,19,20 2-8 11 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_superBrand.js
 * */
 const $ = new Env('双11特务');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -138,6 +138,18 @@ async function main(cookie) {
     let taskList = taskListInfo.result.taskList || [];
     console.log(`\n${userName},获取活动详情成功`);
     let encryptProjectId = activityBaseInfo.encryptProjectId;
+    let activityCardInfo = cardInfo.result.activityCardInfo;
+    if(activityCardInfo.divideTimeStatus === 1 && activityCardInfo.divideStatus === 0 && activityCardInfo.cardStatus === 1){
+        console.log(`${userName},去瓜分`);
+        let lotteryInfo = await takeRequest(cookie,'superBrandTaskLottery',`{"source":"card","activityId":${activityId},"encryptProjectId":"${encryptProjectId}","tag":"divide"}`);
+        console.log(`结果：${JSON.stringify(lotteryInfo)}`);
+        return ;
+    }else if(activityCardInfo.divideTimeStatus === 1 && activityCardInfo.divideStatus === 1 && activityCardInfo.cardStatus === 1){
+        console.log(`${userName},已瓜分`);
+        return ;
+    }else{
+        console.log(`${userName},未集齐或者未到瓜分时间`);
+    }
     await $.wait(2000);
     for (let i = 0; i < taskList.length; i++) {
         let oneTask = taskList[i];
