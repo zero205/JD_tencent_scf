@@ -229,7 +229,7 @@ async function takeRequest(cookie,functionId,bodyInfo){
                 }
             } catch (e) {
                 console.log(data);
-                $.logErr(e, resp)
+                //$.logErr(e, resp)
             } finally {
                 resolve(data.data || {});
             }
