@@ -59,7 +59,6 @@ let shareList = [];
             }
         }
     }
-    allShareList = [...new Set([...allShareList, 'c_HK4TBhdsqsRJPgFj7RpA'])];
     console.log(`\n-----------------------互助----------------------\n`)
     for (let i = 0; i < cookiesArr.length; i++) {
         let cookie = cookiesArr[i];
