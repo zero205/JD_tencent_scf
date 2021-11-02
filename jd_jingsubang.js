@@ -15,6 +15,7 @@ let shareCodes = [];
 let sharecode = "";
 let authorCodes = [];
 let predict = [];
+let supportedNum=0;
 let allmessage = "";
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -51,13 +52,10 @@ if ($.isNode()) {
         }
         try {
             //参与竞猜
-            if (i == 0) {
-                await getPredict();
-            }
+            await getInfo();
             await brandquizProd();
-            await getShareCode();
-            console.log(`\n开始领京东\n`);
-            for (let i = 0; i < 10; i++) {
+            // await getShareCode();
+            for (let i = 0; i < supportedNum; i++) {
                 let res = await getSupportReward(i);
                 if (res.code == 200) {
                     console.log(`第${i + 1}次领京豆`)
@@ -84,10 +82,6 @@ if ($.isNode()) {
         $.canHelp = true;
         $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
         console.log(`====开始账号${$.UserName}===助力`)
-        // if (!useInfo[$.UserName]) {
-        //     continue;
-        // }
-        // $.encryptProjectId = useInfo[$.UserName];
         for (let j = 0; j < shareCodes.length; j++) {
             if (!$.canHelp) {
                 continue;
@@ -108,10 +102,6 @@ async function lottery() {
         if (res.msg) {
             console.log("抽奖结果：" + res.msg)
         }
-        if(res.code==200){
-            console.log("您可能中奖了")
-        }
-
     }
 }
 
@@ -121,11 +111,15 @@ async function getSupportReward(i) {
     return res;
 }
 
-async function getPredict() {
+async function getInfo() {
     let body = `{"apiMapping":"/api/index/indexInfo"}`
     let res = await api("brandquiz_prod", body);
     if (res && res.data && res.data.predict) {
         predict = res.data.predict;
+        supportedNum=res.data.supportedNum;
+        sharecode = res.data.shareId;
+        console.log("助力码：" + res.data.shareId);
+        shareCodes.push(res.data.shareId);
     }
 }
 
