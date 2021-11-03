@@ -49,6 +49,7 @@ if ($.isNode()) {
         res = await UserSignNew();
         await drawUserTask();
     }
+    shareCodes = shareCodes.filter(code => code)
     const author = Math.random() > 0.5 ? 'zero205' : 'ZXX2021'
     await getShareCode('nnfls.json',author,3,true)
     shareCodes = [...new Set([...shareCodes, ...($.shareCode || [])])];
