@@ -232,9 +232,9 @@ async function joyReward() {
 function getExchangeRewards() {
   return new Promise(resolve => {
     let lkt = new Date().getTime()
-    let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
+    let lks = $.md5('' + 'q8DNJdpcfRQ69gIx' + lkt).toString()
     const option = {
-      url: `https://jdjoy.jd.com/common/gift/getBeanConfigs?reqSource=h5&invokeKey=JL1VTNRadM68cIMQ` + $.validate,
+      url: `https://jdjoy.jd.com/common/gift/getBeanConfigs?reqSource=h5&invokeKey=q8DNJdpcfRQ69gIx` + $.validate,
       headers: {
         "Host": "jdjoy.jd.com",
         "Accept": "*/*",
@@ -271,9 +271,9 @@ function exchange(saleInfoId, orderSource) {
   let body = {"buyParam":{"orderSource":orderSource,"saleInfoId":saleInfoId},"deviceInfo":{}}
   return new Promise(resolve => {
     let lkt = new Date().getTime()
-    let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
+    let lks = $.md5('' + 'q8DNJdpcfRQ69gIx' + lkt).toString()
     const option = {
-      url: `https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=JL1VTNRadM68cIMQ` + $.validate,
+      url: `https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=q8DNJdpcfRQ69gIx` + $.validate,
       body: JSON.stringify(body),
       headers: {
         "Host": "jdjoy.jd.com",
