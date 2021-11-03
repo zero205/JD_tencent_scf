@@ -49,8 +49,7 @@ if ($.isNode()) {
         res = await UserSignNew();
         await drawUserTask();
     }
-    // const author = Math.random() > 0.5 ? 'zero205' : 'zxx'
-    const author = 'zero205'
+    const author = Math.random() > 0.5 ? 'zero205' : 'ZXX2021'
     await getShareCode('nnfls.json',author,3,true)
     shareCodes = [...new Set([...shareCodes, ...($.shareCode || [])])];
     if (shareCodes.length > 0) {
