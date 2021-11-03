@@ -53,9 +53,10 @@ if ($.isNode()) {
     if (shareCodes.length > 0) {
         console.log(`\n开始互助\n`);
     }
-    const author = Math.random() > 0.5 ? 'zero205' : 'zxx'
-    const authors = await getShareCode('nnfls.json',author,3,true) || []
-    shareCodes = [...new Set([...shareCodes, ...(authors || [])])];
+//     const author = Math.random() > 0.5 ? 'zero205' : 'zxx'
+    const author = 'zero205'
+    await getShareCode('nnfls.json',author,3,true)
+    shareCodes = [...new Set([...shareCodes, ...($.shareCode || [])])];
     for (let i = 0; i < cookiesArr.length; i++) {
         $.cookie = cookiesArr[i];
         $.canHelp = true;
