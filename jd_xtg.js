@@ -131,7 +131,7 @@ async function main(cookie,index) {
                 continue;
             }
             console.log(`${userName},任务：${oneTask.taskName},去执行`);
-            if(oneTask.type === 'JOIN_SHOPPING_CART'){
+            if(oneTask.type === 'JOIN_SHOPPING_CART' && ["card","car"].includes(process.env.FS_LEVEL)){
                 let getReward = await takeRequest(cookie,`{"parentId":"${oneTask.parentId}","taskId":"${oneTask.taskId}","apiMapping":"/api/task/getReward"}`);
                 console.log(`${userName},执行结果：${JSON.stringify(getReward)}`);
                 await $.wait(2000);
