@@ -47,7 +47,7 @@ $.userScore = 0;
   $.inviteIdCodesArr = {}
   console.log(`开始获取活动信息`);
   var msg = '';
-  for (let i = 0; (cookiesArr.length < 3 ? i < cookiesArr.length : i < 3) && $.activityId === ''; i++) {
+  for (let i = 0;  i < cookiesArr.length; i++) {
     $.index = i + 1;
     $.cookie = cookiesArr[i];
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
