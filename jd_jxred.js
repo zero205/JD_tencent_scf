@@ -1,15 +1,12 @@
 /*
 双十一无门槛红包
-cron 0 0,12,20 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_red.js
+cron 0 10,12,20 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxred.js
 返利变量：FLCODE，默认给脚本作者返利，若需要返利给自己，请自己修改返利变量FLCODE；例：FLCODE="你的返利code"
 * */
 const $ = new Env('双11红包');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
-console.log('使用返利软件/有特殊需求者,请自己设置返利变量或者停用脚本!请阅读群内置顶!')
-let author = ['3MXlMUn', '3CXSSSW', 'yKC97vH']
-author = author[Math.floor((Math.random() * author.length))]
-const flCode = $.isNode() ? (process.env.FLCODE ? process.env.FLCODE : author) : author;
+const flCode = $.isNode() ? (process.env.FLCODE ? process.env.FLCODE : 'ydDZOD9'):'ydDZOD9';
 let cookiesArr = [];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {

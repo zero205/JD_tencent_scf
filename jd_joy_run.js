@@ -145,7 +145,8 @@ async function main() {
           Object.values(jdCookieNode).filter(item => item.match(/pt_pin=([^; ]+)(?=;?)/)).map(item => run_pins.push(decodeURIComponent(item.match(/pt_pin=([^; ]+)(?=;?)/)[1])))
           run_pins = [...new Set(run_pins)];
           let fixPins = run_pins.splice(run_pins.indexOf('zhaosen2580'), 1);
-          // fixPins.push(...run_pins.splice(run_pins.indexOf('jd_61f1269fd3236'), 1));
+          fixPins.push(...run_pins.splice(run_pins.indexOf('jd_gYZtkBfPpRVv'), 1));
+          fixPins.push(...run_pins.splice(run_pins.indexOf('jd_41df9b41af810'), 1));
           const randomPins = getRandomArrayElements(run_pins, run_pins.length);
           run_pins = [[...fixPins, ...randomPins].join(',')];
           invite_pins = run_pins;
