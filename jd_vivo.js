@@ -27,6 +27,13 @@ $.shareUuid = '';
         try{res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/lsh26/share_code@main/vivo.json');}catch (e) {}
         if(!res){res = [];}
     }
+    let res2 = [];
+    try{res2 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/vivo.json');}catch (e) {}
+    if(!res2){
+        try{res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/vivo.json');}catch (e) {}
+        if(!res2){res2 = [];}
+    }
+    res = [...res, ...res2]
     if(res.length > 0){
         $.shareUuid = getRandomArrayElements(res,1)[0];
     }
