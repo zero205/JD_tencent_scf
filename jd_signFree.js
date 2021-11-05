@@ -8,7 +8,7 @@ const UA = $.isNode() ? (process.env.JS_USER_AGENT ? process.env.JS_USER_AGENT :
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [],
     cookie,
-    msg = ['不玩就把脚本停了']
+    msg = ['没参加活动就把脚本停了']
 
 const activityId = 'PiuLvM8vamONsWzC0wqBGQ'
 
