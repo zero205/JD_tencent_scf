@@ -137,13 +137,13 @@ async function doTask(){
     }else{
         console.log(`已关注`);
     }
-    if(!$.activityData.addCartStatus){
+    if(!$.activityData.addCartStatus && ['car','card'].includes(process.env.FS_LEVEL)){
         console.log(`去执行加购`);
         $.taskType=21;
         await takePostRequest('saveTask');
         await $.wait(1000);
     }else{
-        console.log(`已执行加购`);
+        console.log(`已执行加购或未设置FS_LEVEL`);
     }
     let toMainData = $.activityData.toMainData;
     for (let i = 0; i < toMainData.length; i++) {
