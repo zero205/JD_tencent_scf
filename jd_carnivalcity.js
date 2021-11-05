@@ -142,7 +142,7 @@ function headInfo() {
                 if (data.data.taskType === "13" || data.data.taskType === "15") {
                   console.log(`开始 【顶部】浏览任务,需等待6秒`)
                   await doBrowseHead(data.data.taskIndex, data.data.taskId, data.data.taskType)
-                } else if (data.data.taskType === "14") {
+                } else if (data.data.taskType === "14" && ["car","card"].includes(process.env.FS_LEVEL)) {
                   console.log(`开始 【顶部】加购任务`)
                   await getHeadJoinPrize(data.data.taskId, data.data.taskIndex)
                 }
