@@ -212,7 +212,7 @@ async function main(cookie) {
                         await $.wait(3000);
                     }
                 }
-            }else if(oneTask.assignmentName === '去首页下拉参与小游戏'){
+            }else if(oneTask.assignmentName.indexOf('小游戏') !== -1){
                 for (let j = 0; j < signList.length; j++) {
                     if(signList[j].status === 1){
                         console.log(`任务：${oneTask.assignmentName},去执行,请稍稍`);
