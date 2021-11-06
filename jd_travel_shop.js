@@ -1,11 +1,10 @@
 /*
-双11特务
-APP首页下滑,任务，互助
-cron 10 9,13,15,16,19,20 2-8 11 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_superBrand.js
+双11环游记大富翁
+cron 0 2 1-11 11 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_travel_shop.js
+脚本跑起来时间比较久，没有卡开，忘记有没有加购了 0 0
 * */
-const $ = new Env('双11特务');
+const $ = new Env('双11环游记大富翁');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -19,73 +18,32 @@ if ($.isNode()) {
         $.getdata("CookieJD2"),
         ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
-let shareList = [];
 !(async () => {
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
         return;
     }
     for (let i = 0; i < cookiesArr.length; i++) {
-        if (cookiesArr[i]) {
-            $.cookie = cookiesArr[i];
-            $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-            $.index = i + 1;
-            $.isLogin = true;
-            $.nickName = '';
-            await TotalBean();
-            console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-            if (!$.isLogin) {
-                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-                if ($.isNode()) {
-                    await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-                }
-                continue
+        $.index = i + 1;
+        $.cookie = cookiesArr[i];
+        $.isLogin = true;
+        $.nickName = '';
+        $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+        await TotalBean();
+        console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
+        if (!$.isLogin) {
+            $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+            if ($.isNode()) {
+                await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
             }
-            try{
-                await main($.cookie)
-            }catch (e) {
-                console.log(JSON.stringify(e))
-            }
+            continue
         }
-    }
-    if(shareList.length === 0){return;}
-    let allShareList = [];
-    for (let i = 0; i < cookiesArr.length; i++) {
-        let cookie = cookiesArr[i];
-        let userName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1]);
-        for (let j = 0; j < shareList.length; j++) {
-            if(shareList[j].user === userName){
-                allShareList.push(shareList[j]);
-                break;
-            }
+        try {
+            await main($.cookie);
+        } catch (e) {
+            $.logErr(e)
         }
-    }
-    await getShareCode('tewu.json')
-    allShareList = [...new Set([...allShareList, ...($.shareCode || [])])]
-    console.log(`\n-----------------------互助----------------------\n`)
-    for (let i = 0; i < cookiesArr.length; i++) {
-        let cookie = cookiesArr[i];
-        let userName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1]);
-        let canHelp = true;
-        for (let j = 0; j < allShareList.length && canHelp; j++) {
-            let oneCodeInfo = allShareList[j];
-            if(oneCodeInfo.user === userName || oneCodeInfo.need === 0){
-                continue;
-            }
-            console.log(`\n${userName}去助力:${oneCodeInfo.user}`);
-            let doSupport = await takeRequest(cookie,'superBrandDoTask',`{"source":"card","activityId":${oneCodeInfo.activityId},"encryptProjectId":"${oneCodeInfo.encryptProjectId}","encryptAssignmentId":"${oneCodeInfo.encryptAssignmentId}","assignmentType":2,"itemId":"${oneCodeInfo.itemId}","actionType":0}`);
-            if(doSupport.bizCode === '0'){
-                console.log(`助力成功`);
-            }else if(doSupport.bizCode === '103'){
-                console.log(`助力已满`);
-                oneCodeInfo.max = true;
-            }else if(doSupport.bizCode === '108'){
-                console.log(`助力次数已用完`);
-                canHelp = false;
-            }
-            console.log(`助力结果：${JSON.stringify(doSupport)}`);
-            await $.wait(2000);
-        }
+        await $.wait(2000);
     }
 })().catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -93,158 +51,133 @@ let shareList = [];
     $.done();
 });
 
-function getShareCode(name) {
-  return new Promise(resolve => {
-    $.get({
-      url: "https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/"+name,
-      headers: {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }
-    }, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`);
-          console.log(`${$.name} API请求失败，请检查网路重试`);
-        } else {
-          console.log(`优先账号内部互助，有剩余助力次数再帮【zero205】助力`);
-          $.shareCode = JSON.parse(data);
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-
 async function main(cookie) {
+    let max = false;
     let userName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1]);
-    let cardInfo = await takeRequest(cookie,'showSecondFloorCardInfo',`{"source":"card"}`);
-    if( JSON.stringify(cardInfo) === '{}' || !cardInfo || !cardInfo.result || !cardInfo.result.activityBaseInfo){
-        console.log(`${userName},获取活动详情失败1`);
-        return ;
-    }
-    let activityBaseInfo = cardInfo.result.activityBaseInfo;
-    let activityId = activityBaseInfo.activityId;
-    let taskListInfo = await takeRequest(cookie,'superBrandTaskList',`{"source":"card","activityId":${activityId},"assistInfoFlag":1}`);
-    if(JSON.stringify(taskListInfo) === '{}' || JSON.stringify(cardInfo) === '{}'){
-        console.log(`${userName},获取活动详情失败2`);
-        return ;
-    }
-    if(!taskListInfo || !taskListInfo.result || !taskListInfo.result.taskList){
-        console.log(`${userName},黑号`);
+    let homeData =await takeRequest('?functionId=travel_getHomeData','functionId=travel_getHomeData&body={}&client=wh5&clientVersion=1.0.0',cookie);
+    if(JSON.stringify(homeData) === '{}' || homeData.bizCode !== 0 || homeData.bizMsg !== 'success'){
+        console.log(`${userName},初始化失败，可能是黑号`);
         return;
     }
-    let taskList = taskListInfo.result.taskList || [];
-    console.log(`\n${userName},获取活动详情成功`);
-    let encryptProjectId = activityBaseInfo.encryptProjectId;
-    let activityCardInfo = cardInfo.result.activityCardInfo;
-    if(activityCardInfo.divideTimeStatus === 1 && activityCardInfo.divideStatus === 0 && activityCardInfo.cardStatus === 1){
-        console.log(`${userName},去瓜分`);
-        let lotteryInfo = await takeRequest(cookie,'superBrandTaskLottery',`{"source":"card","activityId":${activityId},"encryptProjectId":"${encryptProjectId}","tag":"divide"}`);
-        console.log(`结果：${JSON.stringify(lotteryInfo)}`);
-        return ;
-    }else if(activityCardInfo.divideTimeStatus === 1 && activityCardInfo.divideStatus === 1 && activityCardInfo.cardStatus === 1){
-        console.log(`${userName},已瓜分`);
-        return ;
+    let body = `functionId=qryCompositeMaterials&body={"qryParam":"[{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"babelCountDownFromAdv\\",\\"id\\":\\"05884370\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"feedBannerT\\",\\"id\\":\\"05860672\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"feedBannerS\\",\\"id\\":\\"05861001\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"feedBannerA\\",\\"id\\":\\"05861003\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"feedBannerB\\",\\"id\\":\\"05861004\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"feedBottomHeadPic\\",\\"id\\":\\"05872092\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"feedBottomData0\\",\\"id\\":\\"05908556\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"fissionData\\",\\"id\\":\\"05863777\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"newProds\\",\\"id\\":\\"05864483\\"}]","activityId":"2vVU4E7JLH9gKYfLQ5EVW6eN2P7B","pageId":"","reqSrc":"","applyKey":"jd_star"}&client=wh5&clientVersion=1.0.0&uuid=8888`;
+    let qryCompositeMaterials =await takeRequest('?functionId=qryCompositeMaterials',body,cookie);
+    if(qryCompositeMaterials && qryCompositeMaterials.feedBottomData0 && qryCompositeMaterials.feedBottomData0.list){
+        await $.wait(2000);
+        let shopList = qryCompositeMaterials.feedBottomData0.list;
+        let thisBody = {};
+        for (let i = 0; i < shopList.length && !max; i++) {
+            let oneShop = shopList[i];
+            let shopId = oneShop.link;
+            let venderId = oneShop.extension.shopInfo.venderId;
+            if(!shopId || !venderId){return ;}
+            console.log(`\n${userName},第${i+1}个店铺，${oneShop.name},ID:${shopId}`);
+            let shopInfo = await takeRequest('?functionId=jm_promotion_queryPromotionInfoByShopId',`functionId=jm_promotion_queryPromotionInfoByShopId&body={"shopId":"${shopId}","channel":20}&client=wh5&clientVersion=1.0.0`,cookie);
+            if(shopInfo && shopInfo.innerLink && shopInfo.innerLink.match(/{\"appId\":\"(.*)\",\"category/) && shopInfo.innerLink.match(/{\"appId\":\"(.*)\",\"category/)[1]){
+                let appId = shopInfo.innerLink.match(/{\"appId\":\"(.*)\",\"category/)[1];
+                let shopody = `functionId=jm_marketing_maininfo&body=%7B%22shopId%22%3A%22${shopId}%22%2C%22venderId%22%3A%22${venderId}%22%2C%22miniAppId%22%3A%22${appId}%22%7D&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`
+                let mainShopInfo = await takeRequest('',shopody,cookie);
+                if(!mainShopInfo.userInfo.attention){
+                    console.log(`${userName},去关注`);
+                    body = `{"shopId":"${shopId}","follow":true,"type":0,"sourceRpc":"shop_app_myfollows_shop","refer":"https://wq.jd.com/pages/index/index"}`
+                    shopody = `functionId=followShop&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`;
+                    await takeRequest('',shopody,cookie);
+                    await $.wait(2000);
+                }else{
+                    console.log(`${userName},已关注`);
+                }
+                let fresh = false;
+                let taskList = mainShopInfo.project.viewTaskVOS;
+                for (let j = 0; j < taskList.length; j++) {
+                    let oneTask = taskList[j];
+                    if(oneTask.type === 1 || oneTask.type === 7 || oneTask.type === 2 || oneTask.type === 6){
+                        continue;
+                    }
+                    if(oneTask.finishCount !== 0){
+                        console.log(`${userName},任务:${oneTask.name},已完成`);
+                        continue;
+                    }
+                    if(oneTask.type === 5 || oneTask.type === 3){
+                        console.log(`${userName},任务:${oneTask.name},去执行`);
+                        let needTime = oneTask.totalCount - oneTask.finishCount;
+                        thisBody = `{"shopId":"${shopId}","venderId":"${venderId}","miniAppId":"${appId}","taskId":${oneTask.id}}`;
+                        let taskGoods = await takeRequest('',`functionId=jm_goods_taskGoods&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`,cookie);
+                        await $.wait(2000);
+                        let skuList = taskGoods.skuList;
+                        for (let k = 0; k < skuList.length && k<needTime; k++) {
+                            thisBody = `{"shopId":"${shopId}","venderId":"${venderId}","miniAppId":"${appId}","taskId":${oneTask.id},"token":"${oneTask.token}","opType":1,"referSource":${skuList[k].skuId}}`;
+                            await takeRequest('',`functionId=jm_task_process&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`,cookie);
+                            await $.wait(6000);
+                            thisBody = `{"shopId":"${shopId}","venderId":"${venderId}","miniAppId":"${appId}","taskId":${oneTask.id},"token":"${oneTask.token}","opType":2,"referSource":${skuList[k].skuId}}`;
+                            let finishInfo = await takeRequest('',`functionId=jm_task_process&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`,cookie);
+                            if(finishInfo && finishInfo.awardVO){
+                                console.log(`${userName},获得：${finishInfo.awardVO.name}`);
+                            }else{
+                                max = true;
+                            }
+                            //console.log(JSON.stringify(finishInfo)+'\n');
+                        }
+                        await $.wait(2000);
+                        fresh = true;
+                    }else if(oneTask.type === 8 || oneTask.type === 4){
+                        console.log(`${userName},任务:${oneTask.name},去执行`);
+                        thisBody = `{"shopId":"${shopId}","venderId":"${venderId}","miniAppId":"${appId}","taskId":${oneTask.id},"token":"${oneTask.token}","opType":1}`;
+                        await takeRequest('',`functionId=jm_task_process&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`,cookie);
+                        await $.wait(5000);
+                        thisBody = `{"shopId":"${shopId}","venderId":"${venderId}","miniAppId":"${appId}","taskId":${oneTask.id},"token":"${oneTask.token}","opType":2}`;
+                        let finishInfo = await takeRequest('',`functionId=jm_task_process&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`,cookie);
+                        if(finishInfo && finishInfo.awardVO){
+                            console.log(`${userName},获得：${finishInfo.awardVO.name}`);
+                        }else{
+                            max = true;
+                        }
+                        await $.wait(2000);
+                        fresh = true;
+                    }else{
+                        console.log(`${userName},任务:${oneTask.name},不执行`);
+                    }
+                }
+                if(fresh){
+                    shopody = `functionId=jm_marketing_maininfo&body=%7B%22shopId%22%3A%22${shopId}%22%2C%22venderId%22%3A%22${venderId}%22%2C%22miniAppId%22%3A%22${appId}%22%7D&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`
+                    mainShopInfo = await takeRequest('',shopody,cookie);
+                    taskList = mainShopInfo.project.viewTaskVOS;
+                }
+                let drawTime = mainShopInfo.userInfo.fansIcon;
+                let taskId = '';
+                let token = '';
+                for (let j = 0; j < taskList.length; j++) {
+                    if(taskList[j].type === 1){
+                        taskId  = taskList[j].id;
+                        token  = taskList[j].token;
+                    }
+                }
+                await $.wait(2000);
+                for (let j = 0; j < drawTime; j++) {
+                    console.log(`${userName},丢一次骰子`);
+                    thisBody = `{"shopId":"${shopId}","venderId":"${venderId}","miniAppId":"${appId}","taskId":${taskId},"token":"${token}","opType":2}`;
+                    let finishInfo = await takeRequest('',`functionId=jm_task_process&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`,cookie);
+                    if(finishInfo && finishInfo.awardVO){
+                        console.log(`${userName},获得：${finishInfo.awardVO.name}`);
+                    }
+                    if(JSON.stringify(finishInfo) === '{}'){
+                        max = true;
+                    }
+                    console.log(JSON.stringify(finishInfo)+'\n');
+                    await $.wait(2000);
+                }
+            }
+        }
     }else{
-        console.log(`${userName},未集齐或者未到瓜分时间`);
-    }
-    await $.wait(2000);
-    for (let i = 0; i < taskList.length; i++) {
-        let oneTask = taskList[i];
-        if(oneTask.completionFlag){
-            console.log(`任务：${oneTask.assignmentName},已完成`);
-            if(oneTask.assignmentType === 2){
-                let time = oneTask.ext.cardAssistBoxRest || '0';
-                for (let j = 0; j < time; j++) {
-                    console.log(`领取助力奖励`);
-                    let lottery = await takeRequest(cookie,'superBrandTaskLottery',`{"source":"card","activityId":${activityId},"encryptProjectId":"${encryptProjectId}"}`);
-                    console.log(`结果：${JSON.stringify(lottery)}`);
-                    await $.wait(3000);
-                }
-            }
-            continue;
-        }
-        if(oneTask.assignmentType === 1){
-            console.log(`任务：${oneTask.assignmentName},去执行,请稍稍`);
-            let itemId = oneTask.ext.shoppingActivity[0].itemId || '';
-            if(!itemId){
-                console.log(`任务：${oneTask.assignmentName},信息异常`);
-            }
-            let doInfo = await takeRequest(cookie,'superBrandDoTask',`{"source":"card","activityId":${activityId},"encryptProjectId":"${encryptProjectId}","encryptAssignmentId":"${oneTask.encryptAssignmentId}","assignmentType":${oneTask.assignmentType},"itemId":"${itemId}","actionType":0}`);
-            console.log(`执行结果：${JSON.stringify(doInfo)}`);
-            await $.wait(3000);
-        }
-        if(oneTask.assignmentType === 3){
-            console.log(`任务：${oneTask.assignmentName},去执行,请稍稍`);
-            let itemId = oneTask.ext.followShop[0].itemId || '';
-            if(!itemId){
-                console.log(`任务：${oneTask.assignmentName},信息异常`);
-            }
-            let doInfo = await takeRequest(cookie,'superBrandDoTask',`{"source":"card","activityId":${activityId},"encryptProjectId":"${encryptProjectId}","encryptAssignmentId":"${oneTask.encryptAssignmentId}","assignmentType":${oneTask.assignmentType},"itemId":"${itemId}","actionType":0}`);
-            console.log(`执行结果：${JSON.stringify(doInfo)}`);
-            await $.wait(3000);
-        }
-        if(oneTask.assignmentType === 7){
-            console.log(`任务：${oneTask.assignmentName},去执行,请稍稍`);
-            let itemId = oneTask.ext.brandMemberList[0].itemId || '';
-            if(!itemId){
-                console.log(`任务：${oneTask.assignmentName},信息异常`);
-            }
-            let doInfo = await takeRequest(cookie,'superBrandDoTask',`{"source":"card","activityId":${activityId},"encryptProjectId":"${encryptProjectId}","encryptAssignmentId":"${oneTask.encryptAssignmentId}","assignmentType":${oneTask.assignmentType},"itemId":"${itemId}","actionType":0}`);
-            console.log(`执行结果：${JSON.stringify(doInfo)}`);
-            await $.wait(3000);
-        }
-        if(oneTask.assignmentType === 5){
-            let signList = oneTask.ext.sign2 || [];
-            if(signList.length === 0){
-                console.log(`任务：${oneTask.assignmentName},信息异常`);
-            }
-            if(oneTask.assignmentName === '首页限时下拉'){
-                for (let j = 0; j < signList.length; j++) {
-                    if(signList[j].status === 1){
-                        console.log(`任务：${oneTask.assignmentName},去执行,请稍稍`);
-                        let itemId = signList[j].itemId;
-                        let doInfo = await takeRequest(cookie,'superBrandDoTask',`{"source":"card","activityId":${activityId},"encryptProjectId":"${encryptProjectId}","encryptAssignmentId":"${oneTask.encryptAssignmentId}","assignmentType":${oneTask.assignmentType},"itemId":"${itemId}","actionType":0,"dropDownChannel":1}`);
-                        console.log(`执行结果：${JSON.stringify(doInfo)}`);
-                        await $.wait(3000);
-                    }
-                }
-            }else if(oneTask.assignmentName.indexOf('小游戏') !== -1){
-                for (let j = 0; j < signList.length; j++) {
-                    if(signList[j].status === 1){
-                        console.log(`任务：${oneTask.assignmentName},去执行,请稍稍`);
-                        let gameInfo = await takeRequest(cookie,'showSecondFloorGameInfo',`{"source":"card"}`);
-                        let secCode = gameInfo.result.activityGameInfo.gameCurrentRewardInfo.secCode;
-                        let gameEncryptAssignmentId = gameInfo.result.activityGameInfo.gameCurrentRewardInfo.encryptAssignmentId;
-                        await $.wait(3000);
-                        let doInfo = await takeRequest(cookie,'superBrandTaskLottery',`{"source":"card","activityId":${activityId},"encryptProjectId":"${encryptProjectId}","encryptAssignmentId":"${gameEncryptAssignmentId}","secCode":"${secCode}"}`);
-                        console.log(`执行结果：${JSON.stringify(doInfo)}`);
-                        await $.wait(3000);
-                    }
-                }
-            }
-        }
-        if(oneTask.assignmentType === 2){
-            let itemId = oneTask.ext.assistTaskDetail.itemId || '';
-            if(!itemId){
-                console.log(`任务：${oneTask.assignmentName},信息异常`);
-            }
-            shareList.push({'user':userName,'activityId':activityId,'encryptProjectId':encryptProjectId,'encryptAssignmentId':oneTask.encryptAssignmentId,'itemId':itemId,'max':false});
-        }
+        console.log(`${userName},获取店铺列表失败`);
     }
 }
-async function takeRequest(cookie,functionId,bodyInfo){
-    let body = ``
-    let url = `https://api.m.jd.com/?uuid=8888&client=wh5&area=&appid=ProductZ4Brand&functionId=${functionId}&t=${Date.now()}&body=${encodeURIComponent(bodyInfo)}`;
+async function takeRequest(functionId,body,cookie){
+    let url = `https://api.m.jd.com/client.action${functionId}`;
     const headers = {
-        'Origin' : `https://prodev.m.jd.com`,
+        'Origin' : `https://wbbny.m.jd.com`,
         'Cookie' : cookie ,
         'Connection' : `keep-alive`,
         'Accept' : `application/json, text/plain, */*`,
-        'Referer' : `https://prodev.m.jd.com/mall/active/ZskuZGqQMZ2j6L99PM1L8jg2F2a/index.html`,
+        'Referer' : `https://wbbny.m.jd.com/babelDiy/Zeus/2vVU4E7JLH9gKYfLQ5EVW6eN2P7B/index.html`,
         'Host' : `api.m.jd.com`,
         'user-agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
         'Accept-Language' : `zh-cn`,
@@ -258,13 +191,10 @@ async function takeRequest(cookie,functionId,bodyInfo){
                     console.log(err);
                 }else{
                     data = JSON.parse(data);
-                    if(data && data.data && JSON.stringify(data.data) === '{}'){
-                        console.log(JSON.stringify(data))
-                    }
                 }
             } catch (e) {
                 console.log(data);
-                //$.logErr(e, resp)
+                $.logErr(e, resp)
             } finally {
                 resolve(data.data || {});
             }

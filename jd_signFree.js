@@ -8,7 +8,7 @@ const UA = $.isNode() ? (process.env.JS_USER_AGENT ? process.env.JS_USER_AGENT :
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [],
     cookie,
-    msg = ['不玩就把脚本停了']
+    msg = ['没参加活动就把脚本停了']
 
 const activityId = 'PiuLvM8vamONsWzC0wqBGQ'
 
@@ -88,9 +88,10 @@ function query() {
                     $.signFreeOrderInfoList = data.data.signFreeOrderInfoList
                     if (data.success == true) {
                         if (data.data.risk == true) {
-                            console.log("风控用户,跳过");
-                            msg.push("风控用户,跳过")
-                        }else if (!data.data.signFreeOrderInfoList) {
+                            console.log("风控用户,可能有异常");
+                            msg.push("风控用户,可能有异常")
+                        }
+                        if (!data.data.signFreeOrderInfoList) {
                             console.log("没有需要签到的商品,请到京东极速版[签到免单]购买商品");
                             msg.push("没有需要签到的商品,请到京东极速版[签到免单]购买商品")
                         } else {
