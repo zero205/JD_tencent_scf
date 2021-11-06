@@ -492,7 +492,7 @@ async function doMotion(petidList){
         console.log(`开始第${i + 1}次割草`);
         let mowingInfo = await takeRequest(`jxmc`,`operservice/Action`,`&type=2`,'activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype',true);
         console.log(`获得金币：${mowingInfo.addcoins || 0}`);
-        await $.wait(1000);
+        await $.wait(2500);
         if(Number(mowingInfo.addcoins) >0 ){
             runFlag = true;
         }else{
