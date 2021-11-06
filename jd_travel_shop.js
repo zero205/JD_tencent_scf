@@ -1,7 +1,6 @@
 /*
 双11环游记大富翁
 cron 0 2 1-11 11 * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_travel_shop.js
-大概一天10W汪币的样子
 脚本跑起来时间比较久，没有卡开，忘记有没有加购了 0 0
 * */
 const $ = new Env('双11环游记大富翁');
