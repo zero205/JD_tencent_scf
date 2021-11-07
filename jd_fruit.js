@@ -121,6 +121,15 @@ async function jdFruit() {
   subTitle = `【京东账号${$.index}】${$.nickName}`;
   try {
     await initForFarm();
+    try {
+      for (let index = 0; index < 5; index++) {
+        await $.get(taskUrl("receiveStageEnergy", '%7B%22version%22%3A14%2C%22channel%22%3A1%2C%22babelChannel%22%3A%22120%22%7D&appid=wh5'), function (err, resp, data) {
+          console.log('领助力奖励:' + resp.body);
+        })
+        await $.wait(2000);
+      }
+
+    } catch (error) { }
     if ($.farmInfo.farmUserPro) {
       // ***************************
       // 报告运行次数
