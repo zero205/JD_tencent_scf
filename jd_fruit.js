@@ -1376,7 +1376,7 @@ function timeFormat(time) {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-     $.get({ url: `http://106.13.233.51:8080/queryJdFruitCode`, timeout: 10000, }, (err, resp, data) => {
+    $.get({url: `https://api.jdsharecode.xyz/api/farm/${randomCount}`, timeout: 10000,}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -1431,18 +1431,18 @@ function shareCodesFormat() {
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
       newShareCodes = shareCodes[tempIndex].split('@');
     }
-//    if ($.isNode() && !process.env.FRUITSHARECODES) {
-//      console.log(`您未填写助力码变量，优先进行账号内互助，再帮【zero205】助力`);
-//     newShareCodes = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
-//    }
-//   if (!ZLC) {
-//      console.log(`您设置了不加入助力池，跳过\n`)
-//    } else {
+    if ($.isNode() && !process.env.FRUITSHARECODES) {
+      console.log(`您未填写助力码变量，优先进行账号内互助，再帮【zero205】助力`);
+      newShareCodes = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
+    }
+    if (!ZLC) {
+      console.log(`您设置了不加入助力池，跳过\n`)
+    } else {
       const readShareCodeRes = await readShareCode();
       if (readShareCodeRes && readShareCodeRes.code === 200) {
         newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
       }
- //   }
+    }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
     resolve();
   })
