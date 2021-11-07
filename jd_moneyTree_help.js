@@ -96,7 +96,7 @@ $.shareCodes = []
       console.log(`\n****开始【京东账号${$.index}】${$.nickName || $.UserName}****\n`);
       message = '';
       subTitle = '';
-      await shareCodesFormat();
+    //await shareCodesFormat();
       await $.wait(1000);
       await helpFriends();
     }
@@ -263,6 +263,10 @@ function shareCodesFormat() {
     let inviteCodes = [];
     if ($.shareCodesArr[$.index - 1]) {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
+    } else {
+      console.log(`由于您第${$.index}个京东账号未提供shareCode,将为本脚本作者助力\n`)
+      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
+      $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
