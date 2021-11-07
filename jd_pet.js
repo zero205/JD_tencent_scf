@@ -31,12 +31,7 @@ let cookiesArr = [], cookie = '', jdPetShareArr = [], isBox = false, notify, new
 //助力好友分享码(最多5个,否则后面的助力失败),原因:京东农场每人每天只有四次助力机会
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
-let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
-   //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'MTAxODc2NTEzNTAwMDAwMDAwMjg3MDg2MA==@MTAxODc2NTEzMzAwMDAwMDAyNzUwMDA4MQ==@MTAxODc2NTEzMjAwMDAwMDAzMDI3MTMyOQ==@MTAxODc2NTEzNDAwMDAwMDAzMDI2MDI4MQ==@MTAxODcxOTI2NTAwMDAwMDAxOTQ3MjkzMw==@MTAxODc2NTEzMDAwMDAwMDAxMzgwNTcyNw==@MTAxODc2NTEzMzAwMDAwMDAxMzgwNDg3OQ==@MTE1NDAxNzcwMDAwMDAwMzUxNDMwMDc=@MTE1NDQ5MzYwMDAwMDAwMzUxNDMwMTE=@MTE1NDUwMTI0MDAwMDAwMDM2OTQ2Mjk1@MTAxODc2NTEzMjAwMDAwMDAyMDUxMDY2OQ==',
-  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'MTAxODc2NTEzMjAwMDAwMDAzMDI3MTMyOQ==@MTAxODcxOTI2NTAwMDAwMDAyNjA4ODQyMQ==@MTAxODc2NTEzOTAwMDAwMDAyNzE2MDY2NQ==@MTE1NDUyMjEwMDAwMDAwNDI0MDM2MDc=@MTAxODc2NTEzMjAwMDAwMDAwNDA5MzAzMw==@MTAxODc2NTEzMDAwMDAwMDAxMzgwNTcyNw==@MTAxODc2NTEzMzAwMDAwMDAxMzgwNDg3OQ==@MTE1NDAxNzcwMDAwMDAwMzUxNDMwMDc=@MTE1NDQ5MzYwMDAwMDAwMzUxNDMwMTE=@MTE1NDUwMTI0MDAwMDAwMDM2OTQ2Mjk1@MTAxODc2NTEzMjAwMDAwMDAyMDUxMDY2OQ==',
-]
+let shareCodes = ['MTAxNzIxMDc1MTAwMDAwMDA1NjkyMzI3Nw==&MTE5MzEwNTEzODAwMDAwMDA1NzAwMzU5OQ==&MTEzMzI1MTE4NTAwMDAwMDA1ODIzMjY2Nw==&MTE1MzEzNjI2MDAwMDAwMDU4NjQxNDI5&MTE1NDY3NTMwMDAwMDAwNTg2NzcyMzM=']
 const ZLC = !(process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false')
 let message = '', subTitle = '', option = {};
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
