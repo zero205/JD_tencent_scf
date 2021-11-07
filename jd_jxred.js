@@ -6,7 +6,10 @@ cron 0 10,12,20 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/
 const $ = new Env('双11红包');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
-const flCode = $.isNode() ? (process.env.FLCODE ? process.env.FLCODE : 'ydDZOD9'):'ydDZOD9';
+console.log('使用返利软件/有特殊需求者,请自己设置返利变量或者停用脚本!请阅读群内置顶!')
+let author = ['ydDZOD9', 'yLHwkxj', 'yCfeHe2']
+author = author[Math.floor((Math.random() * author.length))]
+const flCode = $.isNode() ? (process.env.FLCODE ? process.env.FLCODE : author) : author;
 let cookiesArr = [];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
