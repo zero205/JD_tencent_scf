@@ -263,8 +263,6 @@ function shareCodesFormat() {
     let inviteCodes = [];
     if ($.shareCodesArr[$.index - 1]) {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    } else {
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
