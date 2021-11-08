@@ -235,7 +235,7 @@ function getAuthorShareCode() {
       try {
         if (err) {
         } else {
-          $.authorCode = JSON.parse(data);
+          $.authorCode = JSON.parse(data) || []
         }
       } catch (e) {
         $.logErr(e, resp)
