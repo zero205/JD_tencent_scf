@@ -12,17 +12,17 @@ export RAIN_NOTIFY_CONTROL="false"
 
 [task_local]
 #整点京豆雨
-3 0-23/3 * * * https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js, tag=整点京豆雨, enabled=true
+3 0-23/1 * * * https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js, tag=整点京豆雨, enabled=true
 
 ================Loon==============
 [Script]
-cron "3 0-23/3 * * *" script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js,tag=整点京豆雨
+cron "3 0-23/1 * * *" script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js,tag=整点京豆雨
 
 ===============Surge=================
-整点京豆雨 = type=cron,cronexp="3 0-23/3 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js
+整点京豆雨 = type=cron,cronexp="3 0-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js
 
 ============小火箭=========
-整点京豆雨= type=cron,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js, cronexpr="3 0-23/3 * * *",timeout=200, enable=true
+整点京豆雨= type=cron,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js, cronexpr="3 0-23/1 * * *",timeout=200, enable=true
  */
 const $ = new Env('整点京豆雨');
 
