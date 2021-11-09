@@ -164,9 +164,9 @@ async function main(cookie) {
                     console.log(JSON.stringify(finishInfo)+'\n');
                     await $.wait(2000);
                 }
-                // thisBody = `{"shopId":"${shopId}","venderId":"${venderId}","miniAppId":"${appId}"}`;
-                // let taskGoods = await takeRequest('',`functionId=jm_hidden_tryDoTask&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`,cookie);
-                // console.log(JSON.stringify(taskGoods));
+                thisBody = `{"shopId":"${shopId}","venderId":"${venderId}","miniAppId":"${appId}"}`;
+                let taskGoods = await takeRequest('',`functionId=jm_hidden_tryDoTask&body=${encodeURIComponent(thisBody)}&t=${Date.now()}&eid=&appid=shop_view&clientVersion=10.0.0&client=wh5&uuid=8888`,cookie);
+                console.log(JSON.stringify(taskGoods));
             }
         }
     }else{
