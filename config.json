@@ -1,5 +1,6 @@
 {
     "jd_jxred": [9,13,20],
+    "jd_super_redrain": 1,
     "jd_fruit":[6, 12 ,18],
     "jx_sign": [8, 13],
     "jd_bean_sign": [0],
@@ -25,7 +26,7 @@
     "jd_joy_park_task": [6, 12, 18],
     "jd_joy_run": [14, 19],
     "jd_jxlhb": [3, 21],
-    "jd_jxmc": [3, 6, 9, 12, 15, 18, 21],
+    "jd_jxmc": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jd_kd": [3],
     "jd_live": [12, 13, 14],
     "jd_lsj": [6, 8, 10, 12, 14, 16, 18, 20, 22],
@@ -42,7 +43,6 @@
     "jd_shop": [0],
     "jd_sign_graphics": [5],
     "jd_speed_redpocke": [0, 22],
-    "jd_superBrand": [9,13,16,19,20],
     "jd_superMarket": [6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jd_tyt": [6, 10, 14, 18, 22],
     "jd_wish": [1, 3],
