@@ -23,7 +23,9 @@ const $ = new Env("东东健康社区");
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 const notify = $.isNode() ? require('./sendNotify') : "";
 let cookiesArr = [], cookie = "", allMessage = "", message;
-const inviteCodes = ['T0225KkcRBcepFyFIBP9lPQCcwCjVfnoaW5kRrbA&T019-akHFmNejCKXSVin8qgCjVfnoaW5kRrbA&T0225KkcRRtPpwCBcRP2wqEIIQCjVfnoaW5kRrbA&T0225KkcRk0Zo1LQKEv3naYMdACjVfnoaW5kRrbA&T0225KkcRRoao1yGchj2wP4PdwCjVfnoaW5kRrbA']
+const inviteCodes = [
+  'T0225KkcRBcepFyFIBP9lPQCcwCjVfnoaW5kRrbA&T019-akHFmNejCKXSVin8qgCjVfnoaW5kRrbA&T0225KkcRRtPpwCBcRP2wqEIIQCjVfnoaW5kRrbA&T0225KkcRk0Zo1LQKEv3naYMdACjVfnoaW5kRrbA&T0225KkcRRoao1yGchj2wP4PdwCjVfnoaW5kRrbA&T0205KkcAHh8oC-Aaki8zYJ4CjVfnoaW5kRrbA&T0225KkcRh4d8FDWI0j2kKMLcACjVfnoaW5kRrbA&T0225KkcRh0Z81aGIxOiwqQMIgCjVfnoaW5kRrbA&T0225KkcRUge_FyGdB6lnaFcJgCjVfnoaW5kRrbA&T0164qQ2E0ZMqwPfJXWpCjVfnoaW5kRrbA&T014a3Hjl6Ky9FPVJwCjVfnoaW5kRrbA&T0205KkcGWxCgwCke1Cw7YhuCjVfnoaW5kRrbA&T0205KkcHmdNiCmQRX-d4aFWCjVfnoaW5kRrbA'
+]
 const ZLC = !(process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false')
 let reward = process.env.JD_HEALTH_REWARD_NAME ? process.env.JD_HEALTH_REWARD_NAME : ''
 const randomCount = $.isNode() ? 20 : 5;
