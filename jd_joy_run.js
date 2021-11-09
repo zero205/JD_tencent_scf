@@ -50,9 +50,9 @@ const JD_BASE_API = `https://draw.jdfcloud.com//pet`;
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : {};
 //下面给出好友邀请助力的示例填写规则
-let invite_pins = ['jd_497a8b0990387,wdDfMwIFpYrcVo,jd_7532090e85058,jd_55fbdfa92ff2e,jd_6c0f678a39a60];
+let invite_pins = ['jd_497a8b0990387,wdDfMwIFpYrcVo,jd_7532090e85058,jd_55fbdfa92ff2e,jd_6c0f678a39a60'];
 //下面给出好友赛跑助力的示例填写规则
-let run_pins = ['jd_497a8b0990387,wdDfMwIFpYrcVo,jd_7532090e85058,jd_55fbdfa92ff2e,jd_6c0f678a39a60];
+let run_pins = ['jd_497a8b0990387,wdDfMwIFpYrcVo,jd_7532090e85058,jd_55fbdfa92ff2e,jd_6c0f678a39a60'];
 //friendsArr内置太多会导致IOS端部分软件重启,可PR过来(此处目的:帮别人助力可得30g狗粮)
 let friendsArr = ["jd_497a8b0990387", "wdDfMwIFpYrcVo", "jd_7532090e85058", "jd_55fbdfa92ff2e", "jd_6c0f678a39a60"]
 
