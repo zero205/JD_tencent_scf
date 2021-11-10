@@ -25,7 +25,7 @@ cron "5 6-18/6 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/maste
 
 jd免费水果 搬的https://github.com/liuxiaoyucc/jd-helper/blob/a6f275d9785748014fc6cca821e58427162e9336/fruit/fruit.js
 */
-let sc = require("./cdle_carry_share_code.js")
+let sc = require("./jdCookie.js")
 const $ = new Env('东东农场');
 let cookiesArr = [],
     cookie = '',
