@@ -44,7 +44,7 @@ const randomCount = $.isNode() ? 20 : 5;
 let tuanActiveId = ``, hasSend = false;
 const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://wqsd.jd.com/pingou/dream_factory/index.html%22%20%7D`;
 let cookiesArr = [], cookie = '', message = '', allMessage = '', jdDreamFactoryShareArr = [], newShareCodes;
-const inviteCodes = ['y8K1RrIvnm3suWvuacVz3A==&J_hMOnOjjOW8tfyRSXbK0Q==&XeA54-Z0rmc3RFlQ98iNdw==&aOeytYY6cU57jdgH37AwQg==&Blnec1HtS_pTKQzxMd7GWg=='];
+const inviteCodes = [];
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const ZLC = !(process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false')
 $.tuanIds = [];
