@@ -27,10 +27,10 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
-let helpAuthor = true;
+let helpAuthor = false;
 const randomCount = $.isNode() ? 5 : 5;
 let cash_exchange = false;//是否消耗2元红包兑换200京豆，默认否
-const inviteCodes = [`eU9YaOW1N_R08Wfcy3Ab0Q&ZE9DOpH1H4pmmCyGrSw&eU9Ya-mxZPwv8TvdznMW3g&eU9YaenkNKhwoGfXnSURgw&eU9Yar-yMPoh-T_WwiIV1g`]
+const inviteCodes = []
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
