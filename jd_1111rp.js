@@ -1,6 +1,6 @@
 /*
 双十一无门槛红包
-cron 0 0,12,20 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxred.js
+cron 0 0,12,20 * * * https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_1111rp.js
 返利变量：FLCODE，默认给脚本作者返利，若需要返利给自己，请自己修改返利变量FLCODE；例：FLCODE="你的返利code"
 * */
 const $ = new Env('双11红包');
