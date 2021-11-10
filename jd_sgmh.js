@@ -28,7 +28,7 @@ const $ = new Env('闪购盲盒');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let appId = '1EFRXxg' , homeDataFunPrefix = 'interact_template', collectScoreFunPrefix = 'harmony', message = ''
 let lotteryResultFunPrefix = homeDataFunPrefix, browseTime = 6
-const inviteCodes = ['T0225KkcRBcepFyFIBP9lPQCcwCjVQmoaT5kRrbA&T019-akHFmNejCKXSVin8qgCjVQmoaT5kRrbA&T0225KkcRxsa91TeIE_8kfcPfACjVQmoaT5kRrbA&T0225KkcRRtPpwCBcRP2wqEIIQCjVQmoaT5kRrbA&T0225KkcRk0Zo1LQKEv3naYMdACjVQmoaT5kRrbA'];
+const inviteCodes = [];
 const ZLC = !(process.env.JD_JOIN_ZLC && process.env.JD_JOIN_ZLC === 'false')
 const randomCount = $.isNode() ? 20 : 5;
 const notify = $.isNode() ? require('./sendNotify') : '';
