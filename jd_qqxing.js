@@ -53,7 +53,7 @@ $.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6
         return;
     }
     console.log(`\n【原作者 @Wenmoux】\nBy:zero205\n添加：自动喂食\n修改：跳过加购物车任务，优化黑号处理\n`);
-    console.log(`\n活动入口口令：29.0复制整段话 Https:/JXBGWf46qWgzLa 星系牧场养牛牛，可获得DHA专属奶！￥23d9a0N4FTyGv2%祛→【猄〤崬】\n\n【注意】Response code 493 (undefined)报错是正常情况，活动抽风而已，请勿反馈！！！\n`)
+    console.log(`\n活动入口：QQ星儿童牛奶京东自营旗舰店->我的->星系牧场\n\n懒人直达口令：16:/￥PB4H36E5f6NaPa%，星系牧场养牛牛，可获得DHA专属奶！\n\n【注意】Response code 493 (undefined)报错是正常情况，活动抽风而已，请勿反馈！！！\n`)
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
         if (cookie) {
@@ -116,6 +116,7 @@ $.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6
                 }
                 await getinfo()
                 await $.wait(3000)
+                if ($.score < 50000) {
                 let th = $.isNode() ? (process.env.CowKeep ? process.env.CowKeep : 100) : ($.getdata("CowKeep") ? $.getdata("CowKeep") : 100)
                 th = Math.max(100,th)
                 console.log(`【准备喂食,当前设置食物>${th}则喂食物,可通过设置环境变量CowKeep进行更改,需要大于100】`)
@@ -126,6 +127,9 @@ $.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6
                     // await getinfo2()
                     // await $.wait(3000)
                 }
+            } else {
+                console.log(`\n【已升至最高等级，无需喂食，攒饲料兑换奖品吧】\n`)
+            }
                 for (k = 0; k < $.drawchance; k++) {
                     await draw()
                     await $.wait(2000)

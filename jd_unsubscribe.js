@@ -5,6 +5,7 @@
  * @LastEditors: X1a0He
  * @Description: 批量取关京东店铺和商品
  * @Fixed: 不再支持Qx，仅支持Node.js
+ cron 30 23 * * * https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_unsubscribe.js
  */
 const $ = new Env('批量取关店铺和商品');
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -149,6 +150,7 @@ let args_xh = {
                     }
                     if($.failTimes >= args_xh.failTimes){
                         console.log('失败次数到达设定值，触发防死循环机制，该帐号已跳过');
+                        break
                     }
                 } while(true)
                 await showMsg_xh();
