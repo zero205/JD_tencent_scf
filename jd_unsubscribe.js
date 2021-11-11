@@ -149,6 +149,7 @@ let args_xh = {
                     }
                     if($.failTimes >= args_xh.failTimes){
                         console.log('失败次数到达设定值，触发防死循环机制，该帐号已跳过');
+                        break
                     }
                 } while(true)
                 await showMsg_xh();
