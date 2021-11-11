@@ -26,6 +26,7 @@ let showMsg = '';
             if (i ===0) {
                 // 账号${$.index} - ${$.UserName}
                 await notify.sendNotify(`${$.name}`, `${showMsg}`);
+                break
             }
 
         }
