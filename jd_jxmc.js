@@ -218,6 +218,9 @@ async function main() {
         return;
     }
     console.log(`获取获得详情成功,总共有小鸡：${petidList.length}只,鸡蛋:${homePageInfo.eggcnt}个,金币:${homePageInfo.coins},互助码：${homePageInfo.sharekey}`);
+    //购买小鸡
+    await buyChick(configInfo,homePageInfo,cardInfo);
+ 
     if(!petidList || petidList.length === 0){
         console.log(`账号内没有小鸡，暂停执行`);
         return ;
@@ -286,8 +289,6 @@ async function main() {
             }
         }
     }
-    //购买小鸡
-    await buyChick(configInfo,homePageInfo,cardInfo);
 
     $.freshFlag = false;
     let runTime = 0;
