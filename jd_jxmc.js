@@ -218,6 +218,9 @@ async function main() {
         return;
     }
     console.log(`获取获得详情成功,总共有小鸡：${petidList.length}只,鸡蛋:${homePageInfo.eggcnt}个,金币:${homePageInfo.coins},互助码：${homePageInfo.sharekey}`);
+    //购买小鸡
+    await buyChick(configInfo,homePageInfo,cardInfo);
+ 
     if(!petidList || petidList.length === 0){
         console.log(`账号内没有小鸡，暂停执行`);
         return ;
@@ -286,8 +289,6 @@ async function main() {
             }
         }
     }
-    //购买小鸡
-    await buyChick(configInfo,homePageInfo,cardInfo);
 
     $.freshFlag = false;
     let runTime = 0;
@@ -496,7 +497,7 @@ async function doMotion(petidList){
         console.log(`开始第${i + 1}次割草`);
         let mowingInfo = await takeRequest(`jxmc`,`operservice/Action`,`&type=2`,'activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype',true);
         console.log(`获得金币：${mowingInfo.addcoins || 0}`);
-        await $.wait(2000);
+        await $.wait(3000);
         if(Number(mowingInfo.addcoins) >0 ){
             runFlag = true;
         }else{
@@ -526,7 +527,7 @@ async function doMotion(petidList){
             runFlag = false;
             console.log(`未获得金币暂停割鸡腿`);
         }
-        await $.wait(2000);
+        await $.wait(3000);
     }
 }
 async function doTask(){
