@@ -51,7 +51,7 @@ inputs:
     - timer:
         parameters:
           name: cfd
-          cronExpression: "0 0 0 * * * *"
+          cronExpression: "59 0 0 * * * *"
           enable: false
           argument: jd_cfd
   environment: #  环境变量
