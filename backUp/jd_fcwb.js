@@ -10,7 +10,7 @@ const $ = new Env('发财挖宝');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
-let link = `yCcpwTLIbY6pjaM42ACUVg`;
+let link = `pTTvJeSTrpthgk9ASBVGsw`;
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])

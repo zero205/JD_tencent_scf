@@ -27,7 +27,7 @@ let cookiesArr = [], cookie = '', message;
 let roundList =[]
 let insertCodes = []
 let inviteCodes = []
-let linkId = "yCcpwTLIbY6pjaM42ACUVg"
+let linkId = "pTTvJeSTrpthgk9ASBVGsw"
 
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {

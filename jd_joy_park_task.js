@@ -40,7 +40,10 @@ $.invitePin = [
   "7zG4VHS99AUEoX1mQTkC9Q",
   "BbsjCRrQudIL06kRvqmVln053h03GiApg7HN_Vhy_Og",
   "sAxL-dc5T6lS6wtKqP6SlA",
-  "bcVxt4PbZdbX7tiT1Q_ubg"
+  "bcVxt4PbZdbX7tiT1Q_ubg",
+  "GLdMkFrZHXG8-YUnhakmEA",
+  "hwQ_gsL-AJeC0gGTlU0Z8w",
+  "DsYL6f_31DFANxBPMc00MA"
 ]
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
 message = ""
@@ -151,8 +154,9 @@ message = ""
             }
           }
         } else if (task.taskType === 'SHARE_INVITE') {
+          $.yq_taskid = task.id
           for (let j = 0; j < 5; j++) {
-            let resp = await apTaskDrawAward(261, 'SHARE_INVITE');
+            let resp = await apTaskDrawAward($.yq_taskid, 'SHARE_INVITE');
 
             if (!resp.success) {
               break
@@ -166,9 +170,9 @@ message = ""
           $.log(`${task.taskTitle}|${task.taskShowTitle} 领取奖励`)
           await apTaskDrawAward(task.id, task.taskType);
         }
-        if (task.taskType === 'SHARE_INVITE') {
-          $.yq_taskid = task.id
-        }
+        // if (task.taskType === 'SHARE_INVITE') {
+        //   $.yq_taskid = task.id
+        // }
       }
     }
   }
