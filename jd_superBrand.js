@@ -140,25 +140,23 @@ async function doTask(){
                 'max':true,
                 'encryptAssignmentId':$.oneTask.encryptAssignmentId
             });
+        } else if($.oneTask.assignmentType === 5) {
+            let signList = $.oneTask.ext.sign2 || [];
+            if (signList.length === 0) {
+                console.log(`任务：${$.oneTask.assignmentName},信息异常`);
+            }
+            if ($.oneTask.assignmentName.indexOf('首页下拉') !== -1) {
+                for (let j = 0; j < signList.length; j++) {
+                    if (signList[j].status === 1) {
+                        console.log(`任务：${$.oneTask.assignmentName},去执行,请稍稍`);
+                        let itemId = signList[j].itemId;
+                        $.runInfo = {'itemId':itemId};
+                        await takeRequest('superBrandDoTask');
+                        await $.wait(3000);
+                    }
+                }
+            }
         }
-        // else if($.oneTask.assignmentType === 5) {
-        //     let signList = $.oneTask.ext.sign2 || [];
-        //     if (signList.length === 0) {
-        //         console.log(`任务：${$.oneTask.assignmentName},信息异常`);
-        //     }
-        //     if ($.oneTask.assignmentName.indexOf('首页下拉') !== -1) {
-        //         for (let j = 0; j < signList.length; j++) {
-        //             if (signList[j].status === 1) {
-        //                 console.log(`任务：${$.oneTask.assignmentName},去执行,请稍稍`);
-        //                 let itemId = signList[j].itemId;
-        //                 $.runInfo.itemId = itemId;
-        //                 await takeRequest('superBrandDoTask');
-        //                 console.log(`执行结果：${JSON.stringify(doInfo)}`);
-        //                 await $.wait(3000);
-        //             }
-        //         }
-        //     }
-        // }
     }
 }
 async function takeRequest(type) {
@@ -177,9 +175,9 @@ async function takeRequest(type) {
             }else{
                 url = `https://api.m.jd.com/api?functionId=superBrandDoTask&appid=ProductZ4Brand&client=wh5&t=${Date.now()}&body=%7B%22source%22:%22secondfloor%22,%22activityId%22:${$.activityId},%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%22${$.oneTask.encryptAssignmentId}%22,%22assignmentType%22:${$.oneTask.assignmentType},%22itemId%22:%22${$.runInfo.itemId}%22,%22actionType%22:0%7D`;
             }
-            // if($.oneTask.assignmentType === 5){
-            //     url = `https://api.m.jd.com/api?functionId=superBrandDoTask&appid=ProductZ4Brand&client=wh5&t=${Date.now()}&body=%7B%22source%22:%22secondfloor%22,%22activityId%22:${$.activityId},%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%22${$.oneTask.encryptAssignmentId}%22,%22assignmentType%22:${$.oneTask.assignmentType},%22itemId%22:%22${$.runInfo.itemId}%22,%22actionType%22:0,%22dropDownChannel%22:1%7D;`
-            // }
+            if($.oneTask.assignmentType === 5){
+                url = `https://api.m.jd.com/api?functionId=superBrandDoTask&appid=ProductZ4Brand&client=wh5&t=${Date.now()}&body=%7B%22source%22:%22secondfloor%22,%22activityId%22:${$.activityId},%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%22${$.oneTask.encryptAssignmentId}%22,%22assignmentType%22:${$.oneTask.assignmentType},%22itemId%22:%22${$.runInfo.itemId}%22,%22actionType%22:0,%22dropDownChannel%22:1%7D`;
+            }
             break;
         case 'superBrandTaskLottery':
             url = `https://api.m.jd.com/api?functionId=superBrandTaskLottery&appid=ProductZ4Brand&client=wh5&t=${Date.now()}&body=%7B%22source%22:%22secondfloor%22,%22activityId%22:${$.activityId}%7D`;
