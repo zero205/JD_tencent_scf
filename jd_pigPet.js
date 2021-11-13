@@ -43,6 +43,7 @@ if ($.isNode()) {
     return;
   }
   await getShareCode();
+  console.log(`\n【原作者：LXK大佬】\n\nBy：zero205\n添加：邀请新用户，大转盘助力，抢粮食\n修改：优化日志输出，自动喂食\n\n默认不抢粮食（成功机率小），需要的请添加变量JD_PIGPET_PK，值填true\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -410,7 +411,7 @@ function pigPetRank() {
                   if ($.friends[i].status === 1) {
                     $.friendId = $.friends[i].uid
                     $.name = $.friends[i].nickName
-                    if (!['zero205', 'xfa05'].includes($.name)) { //放过孩子吧TT
+                    if ($.name) {
                       console.log(`去抢夺【${$.friends[i].nickName}】的食物`)
                       await $.wait(2000)
                       await pigPetFriendIndex($.friendId)
@@ -864,7 +865,11 @@ function finishReadMission(missionId, readTime) {
 
 function getShareCode() {
   return new Promise(resolve => {
-    $.get(async (err, resp, data) => {
+    $.get({
+      headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    }, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`);
