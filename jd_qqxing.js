@@ -44,7 +44,7 @@ if ($.isNode()) {
 
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
 message = ""
-$.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6216f","2d4ce1b209d7442aaf1a114752277e85"][Math.floor((Math.random() * 3))];
+$.shareuuid = []
 !(async () => {
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
@@ -117,19 +117,19 @@ $.shareuuid = ["8cec00a4917e4af6ae49f8f4f9e7b58d", "f9e36b5518074c85a59abc6451d6
                 await getinfo()
                 await $.wait(3000)
                 if ($.score < 50000) {
-                let th = $.isNode() ? (process.env.CowKeep ? process.env.CowKeep : 100) : ($.getdata("CowKeep") ? $.getdata("CowKeep") : 100)
-                th = Math.max(100,th)
-                console.log(`【准备喂食,当前设置食物>${th}则喂食物,可通过设置环境变量CowKeep进行更改,需要大于100】`)
-                let boundry = 100
-                while($.foodNum >= th && boundry--) {
-                    await feed()
-                    await $.wait(3000)
-                    // await getinfo2()
-                    // await $.wait(3000)
+                    let th = $.isNode() ? (process.env.CowKeep ? process.env.CowKeep : 100) : ($.getdata("CowKeep") ? $.getdata("CowKeep") : 100)
+                    th = Math.max(100,th)
+                    console.log(`【准备喂食,当前设置食物>${th}则喂食物,可通过设置环境变量CowKeep进行更改,需要大于100】`)
+                    let boundry = 100
+                    while($.foodNum >= th && boundry--) {
+                        await feed()
+                        await $.wait(3000)
+                        // await getinfo2()
+                        // await $.wait(3000)
+                    }
+                } else {
+                    console.log(`\n【已升至最高等级，无需喂食，攒饲料兑换奖品吧】\n`)
                 }
-            } else {
-                console.log(`\n【已升至最高等级，无需喂食，攒饲料兑换奖品吧】\n`)
-            }
                 for (k = 0; k < $.drawchance; k++) {
                     await draw()
                     await $.wait(2000)
