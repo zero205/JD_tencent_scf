@@ -65,7 +65,7 @@ if ($.isNode()) {
     }
   }
   console.log(`\n======开始大转盘助力======\n`);
-  $.shareCodes = [...$.shareCodes, ...$.helpId]
+  $.shareCodes = [...$.shareCodes]
   for (let j = 0; j < cookiesArr.length; j++) {
     cookie = cookiesArr[j];
     if ($.shareCodes && $.shareCodes.length) {
