@@ -102,20 +102,6 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3';
                 continue
             }
         }
-        if ($.canHelp && ($.authorMyShareIds && $.authorMyShareIds.length)) {
-            console.log(`\n【${$.UserName}】有剩余助力机会，开始助力作者\n`)
-            for (let j = 0; j < $.authorMyShareIds.length && $.canHelp; j++) {
-                console.log(`【${$.UserName}】去助力作者的邀请码：${$.authorMyShareIds[j]}`);
-                $.max = false;
-                await enrollFriend($.authorMyShareIds[j]);
-                await $.wait(5000);
-                if ($.max) {
-                    $.authorMyShareIds.splice(j, 1)
-                    j--
-                    continue
-                }
-            }
-        }
     }
     //拆红包
     for (let i = 0; i < cookiesArr.length; i++) {
