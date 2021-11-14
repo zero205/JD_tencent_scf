@@ -4,7 +4,9 @@
     1、脚本只执行助力和做1个任务,需要手动进活动进行游戏
     2、第一个账号会助力作者，其他账号助力第一个CK
 cron 40 12,16 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_fcwb.js
-
+支持助力码
+fcwbinviteCode
+fcwbinviter
 * * */
 const $ = new Env('发财挖宝');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
