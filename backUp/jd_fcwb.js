@@ -4,7 +4,9 @@
     1、脚本只执行助力和做1个任务,需要手动进活动进行游戏
     2、第一个账号会助力作者，其他账号助力第一个CK
 cron 40 12,16 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_fcwb.js
-
+支持助力码(第一个ck依然助力作者)
+fcwbinviteCode
+fcwbinviter
 * * */
 const $ = new Env('发财挖宝');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -94,7 +96,10 @@ async function main() {
         //console.log(`助力结果：${JSON.stringify(HelpInfo)}`);
     }
     $.freshFlag = false;
-    if($.index === 1){
+    if(process.env.fcwbinviter && process.env.fcwbinviteCode){
+        fcwbinviter = process.env.fcwbinviter
+        fcwbinviteCode = process.env.fcwbinviteCode
+    }else if($.index == 1){
         fcwbinviter = homeInfo.markedPin;
         fcwbinviteCode = homeInfo.inviteCode;
     }
