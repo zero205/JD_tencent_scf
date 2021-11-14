@@ -94,7 +94,10 @@ async function main() {
         //console.log(`助力结果：${JSON.stringify(HelpInfo)}`);
     }
     $.freshFlag = false;
-    if($.index == 1){
+    if(process.env.fcwbinviter && process.env.fcwbinviteCode){
+        fcwbinviter = process.env.fcwbinviter
+        fcwbinviteCode = process.env.fcwbinviteCode
+    }else if($.index == 1){
         fcwbinviter = homeInfo.markedPin;
         fcwbinviteCode = homeInfo.inviteCode;
     }
