@@ -2,8 +2,11 @@
  京喜-首页-牛牛福利
  Author：zxx
  Date：2021-11-2
+ -----------------
+ Update: 2021-11-17  修复任务
+ -----------------
 先内部助力，有剩余助力作者
- cron 1 0,9,19,23 * * * https://raw.githubusercontent.com/ZXX2021/jd-scripts/main/jd_nnfls.js
+ cron 1 0,19,23 * * * https://raw.githubusercontent.com/ZXX2021/jd-scripts/main/jd_nnfls.js
  */
 const $ = new Env('牛牛福利');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -11,13 +14,13 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
 let cookiesArr = [];
 let shareCodes = [];
-let authorCodes = [];
+let rcsArr = [];
 let coin = 0;
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
     });
-    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => { };
 } else {
     cookiesArr = [
         $.getdata("CookieJD"),
@@ -25,7 +28,7 @@ if ($.isNode()) {
         ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)
     ].filter((item) => !!item);
 };
-!(async() => {
+!(async () => {
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
@@ -54,13 +57,17 @@ if ($.isNode()) {
     await getShareCode('nnfls.json', author, 3, true)
     shareCodes = [...new Set([...shareCodes, ...($.shareCode || [])])];
     if (shareCodes.length > 0) {
-        console.log(`\n开始互助\n`);
+        console.log(`\n*********开始互助**********\n`);
     }
     for (let i = 0; i < cookiesArr.length; i++) {
         $.cookie = cookiesArr[i];
         $.canHelp = true;
         $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
         console.log(`====开始账号${$.UserName}===助力`)
+        if (rcsArr.includes($.UserName) > 0) {
+            console.log("不让助力，休息会！");
+            break;
+        }
         for (let j = 0; j < shareCodes.length; j++) {
             if (!$.canHelp) {
                 break;
@@ -69,11 +76,15 @@ if ($.isNode()) {
             await $.wait(1000);
         }
     }
-    console.log(`\===执行任务抽奖===\n`);
+    console.log(`\n********执行任务抽奖**********\n`);
     for (let i = 0; i < cookiesArr.length; i++) {
         $.cookie = cookiesArr[i];
         $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
         console.log(`====开始账号${$.UserName}===`)
+        if (rcsArr.includes($.UserName) > 0) {
+            console.log("不让做任务，休息会！");
+            continue;
+        }
         await drawUserTask();
     }
 
@@ -86,7 +97,7 @@ function getShareCode(name, author = 'zero205', num = -1, shuffle = false) {
             headers: {
                 "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
             }
-        }, async(err, resp, data) => {
+        }, async (err, resp, data) => {
             try {
                 if (err) {
                     console.log(`${JSON.stringify(err)}`);
@@ -110,6 +121,7 @@ function getShareCode(name, author = 'zero205', num = -1, shuffle = false) {
     })
 }
 
+
 async function help(sharecode) {
     console.log(`${$.UserName} 去助力 ${sharecode}`)
     res = await api('sign/helpSign', 'flag,sceneval,token', { flag: 0, token: sharecode })
@@ -130,6 +142,11 @@ async function help(sharecode) {
             case 30009:
                 console.log('已助力过！');
                 break;
+            case 60009:
+                console.log('不让助力，先休息会！');
+                rcsArr.push($.UserName);
+                $.canHelp = false;
+                break;
             case 0:
                 console.log('助力成功');
                 break;
@@ -149,26 +166,30 @@ async function drawUserTask() {
     if (res.datas) {
         for (let t of res.datas) {
             if (t.state !== 2)
-                tasks.push(t.taskId)
+                tasks.push(t.taskid ? t.taskid : t.taskId)
         }
     } else {
         res = await api('task/QueryPgTaskCfg', 'sceneval', {})
         if (tasks.length === 0) {
             for (let t of res.data.tasks) {
-                tasks.push(t.taskId)
+                tasks.push(t.taskid ? t.taskid : t.taskId)
             }
         }
     }
-    console.log('tasks:', tasks && tasks.length)
+    console.log(`总任务数：${res.datas && res.datas.length}   本次执行任务数: ${tasks && tasks.length}`)
     await $.wait(2000)
 
     res = await api('task/QueryPgTaskCfg', 'sceneval', {})
+    // console.log('tasks:', res.data.tasks && res.data.tasks.length)
+    // await $.wait(2000)
     for (let t of res.data.tasks) {
-        if (tasks.includes(t.taskId)) {
-            console.log(t.taskName)
-            res = await api('task/drawUserTask', 'sceneval,taskid', { taskid: t.taskId })
-            await $.wait(1000)
-            res = await api('task/UserTaskFinish', 'sceneval,taskid', { taskid: t.taskId })
+        if (tasks.includes(t.taskid ? t.taskid : t.taskId)) {
+            let sleep = (t.param7 ? t.param7 : 2) * 1000 + (Math.random() * 5 + 1) * 1000;
+            console.log(`任务名：${t.taskName}    浏览时间：${sleep / 1000} s`)
+            res = await api('task/drawUserTask', 'sceneval,taskid', { taskid: t.taskid ? t.taskid : t.taskId })
+            await $.wait(sleep)
+            res = await api('task/UserTaskFinish', 'sceneval,taskid', { taskid: t.taskid ? t.taskid : t.taskId })
+            // console.log(`${JSON.stringify(res)}`)
             await $.wait(2000)
 
         }
@@ -201,6 +222,11 @@ async function UserSignNew() {
     let params = { source: '' };
     let res = await api(fn, stk, params);
     if (res) {
+        if (res.retCode == 60009) {
+            console.log('风控用户，不让玩')
+            rcsArr.push($.UserName);
+            return res;
+        }
         console.log('签到', res.retCode == 0 ? "success" : "fail")
         console.log('助力码', res.data.token)
         shareCodes.push(res.data.token);
@@ -364,7 +390,7 @@ function TotalBean() {
 }
 
 
-Date.prototype.Format = function(fmt) {
+Date.prototype.Format = function (fmt) {
     var e,
         n = this,
         d = fmt,
@@ -410,7 +436,7 @@ function Env(t, e) {
         getjson(t, e) {
             let s = e;
             const i = this.getdata(t);
-            if (i) try { s = JSON.parse(this.getdata(t)) } catch {}
+            if (i) try { s = JSON.parse(this.getdata(t)) } catch { }
             return s
         }
         setjson(t, e) { try { return this.setdata(JSON.stringify(t), e) } catch { return !1 } }
@@ -482,8 +508,8 @@ function Env(t, e) {
         getval(t) { return this.isSurge() || this.isLoon() ? $persistentStore.read(t) : this.isQuanX() ? $prefs.valueForKey(t) : this.isNode() ? (this.data = this.loaddata(), this.data[t]) : this.data && this.data[t] || null }
         setval(t, e) { return this.isSurge() || this.isLoon() ? $persistentStore.write(t, e) : this.isQuanX() ? $prefs.setValueForKey(t, e) : this.isNode() ? (this.data = this.loaddata(), this.data[e] = t, this.writedata(), !0) : this.data && this.data[e] || null }
         initGotEnv(t) { this.got = this.got ? this.got : require("got"), this.cktough = this.cktough ? this.cktough : require("tough-cookie"), this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar)) }
-        get(t, e = (() => {})) {
-            t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, { "X-Surge-Skip-Scripting": !1 })), $httpClient.get(t, (t, s, i) => {!t && s && (s.body = i, s.statusCode = s.status), e(t, s, i) })) : this.isQuanX() ? (this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, { hints: !1 })), $task.fetch(t).then(t => {
+        get(t, e = (() => { })) {
+            t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, { "X-Surge-Skip-Scripting": !1 })), $httpClient.get(t, (t, s, i) => { !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i) })) : this.isQuanX() ? (this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, { hints: !1 })), $task.fetch(t).then(t => {
                 const { statusCode: s, statusCode: i, headers: r, body: o } = t;
                 e(null, { status: s, statusCode: i, headers: r, body: o }, o)
             }, t => e(t))) : this.isNode() && (this.initGotEnv(t), this.got(t).on("redirect", (t, e) => {
@@ -501,8 +527,8 @@ function Env(t, e) {
                 e(s, i, i && i.body)
             }))
         }
-        post(t, e = (() => {})) {
-            if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, { "X-Surge-Skip-Scripting": !1 })), $httpClient.post(t, (t, s, i) => {!t && s && (s.body = i, s.statusCode = s.status), e(t, s, i) });
+        post(t, e = (() => { })) {
+            if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, { "X-Surge-Skip-Scripting": !1 })), $httpClient.post(t, (t, s, i) => { !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i) });
             else if (this.isQuanX()) t.method = "POST", this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, { hints: !1 })), $task.fetch(t).then(t => {
                 const { statusCode: s, statusCode: i, headers: r, body: o } = t;
                 e(null, { status: s, statusCode: i, headers: r, body: o }, o)
