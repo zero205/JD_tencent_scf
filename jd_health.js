@@ -150,22 +150,19 @@ function getTaskDetail(taskId = '') {
               if (oc(() => data.data.result.taskVos)) {
                 console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${oc(() => data.data.result.taskVos[0].assistTaskDetailVo.taskToken)}\n`);
                 // console.log('好友助力码：' + oc(() => data.data.result.taskVos[0].assistTaskDetailVo.taskToken))
-
                 // ***************************
                 // 报告运行次数
-                if(oc(() => data.data.result.taskVos[0].assistTaskDetailVo.taskToken)){
-                  if (ZLC) {
-                    $.get({
-                    url: `https://api.jdsharecode.xyz/api/runTimes?activityId=health&sharecode=${data.data.result.taskVos[0].assistTaskDetailVo.taskToken}`
-                    }, (err, resp, data) => {
-                      if (err) {
-                        console.log('上报失败', err)
-                      } else {
-                        if (data === '1' || data === '0') {
-                          console.log('上报成功')
-                        }
+                if (ZLC) {
+                  if (oc(() => data.data.result.taskVos[0].assistTaskDetailVo.taskToken)) {
+                    $.code = data.data.result.taskVos[0].assistTaskDetailVo.taskToken
+                    for (let k = 0; k < 5; k++) {
+                      try {
+                        await runTimes()
+                        break
+                      } catch (e) {
                       }
-                    })
+                      await $.wait(Math.floor(Math.random() * 10 + 3) * 1000)
+                    }
                   }
                 }
                 // ***************************
@@ -218,7 +215,21 @@ function getTaskDetail(taskId = '') {
       })
   })
 }
-
+function runTimes() {
+  return new Promise((resolve, reject) => {
+    $.get({
+      url: `https://api.jdsharecode.xyz/api/runTimes?activityId=health&sharecode=${$.code}`
+    }, (err, resp, data) => {
+      if (err) {
+        console.log('上报失败', err)
+        reject(err)
+      } else {
+        console.log(data)
+        resolve()
+      }
+    })
+  })
+}
 async function getCommodities() {
   return new Promise(async resolve => {
     const options = taskUrl('jdhealth_getCommodities')
