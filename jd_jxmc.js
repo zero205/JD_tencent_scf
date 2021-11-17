@@ -71,7 +71,7 @@ if ($.isNode()) {
         console.log('\n脚本早上9点到10点直接执行，才会执行账号内互助');
         return ;
     }
-    if (flag_hb) {
+    if (process.env.JXMC_RP != 'false' && flag_hb) {
         console.log('\n##################开始账号内互助(红包)#################\n');
         await getShareCode('jxmc_hb.json')
         $.inviteCodeList_rp = [...($.inviteCodeList_rp || []), ...($.shareCode || [])]
