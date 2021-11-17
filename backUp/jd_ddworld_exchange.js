@@ -61,6 +61,7 @@ async function main() {
             await task('get_exchange');
             if (!$.hotFlag) {
                 if ($.exchangeList) {
+                    $.exchangeList = $.exchangeList.filter((x) => !x.name.includes('红包'))
                     for (const vo of $.exchangeList.reverse()) {
                         $.log(`去兑换：${vo.name}`)
                         await taskPost('do_exchange', `id=${vo.id}`);
