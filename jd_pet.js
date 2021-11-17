@@ -141,17 +141,14 @@ async function jdPet() {
       // ***************************
       // 报告运行次数
       if (ZLC) {
-        $.get({
-          url: `https://api.jdsharecode.xyz/api/runTimes?activityId=pet&sharecode=${$.petInfo.shareCode}`
-        }, (err, resp, data) => {
-          if (err) {
-            console.log('上报失败', err)
-          } else {
-            if (data === '1' || data === '0') {
-              console.log('上报成功')
-            }
+        for (let k = 0; k < 5; k++) {
+          try {
+            await runTimes()
+            break
+          } catch (e) {
           }
-        })
+          await $.wait(Math.floor(Math.random() * 10 + 3) * 1000)
+        }
       }
       // ***************************
 
@@ -184,6 +181,21 @@ async function jdPet() {
     // if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
     // $.msg($.name, '', `${errMsg}`)
   }
+}
+function runTimes(){
+  return new Promise((resolve, reject) => {
+    $.get({
+        url: `https://api.jdsharecode.xyz/api/runTimes?activityId=pet&sharecode=${$.petInfo.shareCode}`
+      }, (err, resp, data) => {
+        if (err) {
+        console.log('上报失败', err)
+        reject(err)
+      } else {
+        console.log(data)
+        resolve()
+      }
+    })
+  })
 }
 // 收取所有好感度
 async function energyCollect() {

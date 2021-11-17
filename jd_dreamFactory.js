@@ -659,6 +659,19 @@ function userInfo() {
                 $.productionId = production.productionId;//商品ID
                 $.commodityDimId = production.commodityDimId;
                 $.encryptPin = data.user.encryptPin;
+                // ***************************
+                // 报告运行次数
+                if (ZLC) {
+                  for (let k = 0; k < 5; k++) {
+                    try {
+                      await runTimes()
+                      break
+                    } catch (e) {
+                    }
+                    await $.wait(Math.floor(Math.random() * 10 + 3) * 1000)
+                  }
+                }
+                // ***************************
                 // subTitle = data.user.pin;
                 await GetCommodityDetails();//获取已选购的商品信息
                 if (productionStage['productionStageAwardStatus'] === 1) {
@@ -678,24 +691,6 @@ function userInfo() {
                 message += `【生产商品】${$.productName}\n`;
                 message += `【当前等级】${data.user.userIdentity} ${data.user.currentLevel}\n`;
                 message += `【生产进度】${((production.investedElectric / production.needElectric) * 100).toFixed(2)}%\n`;
-
-                // ***************************
-                // 报告运行次数
-                if (ZLC) {
-                  $.get({
-                    url: `https://api.jdsharecode.xyz/api/runTimes?activityId=jxfactory&sharecode=${data.user.encryptPin}`
-                  }, (err, resp, data) => {
-                    if (err) {
-                      console.log('上报失败', err)
-                    } else {
-                      if (data === '1' || data === '0') {
-                        console.log('上报成功')
-                      }
-                    }
-                  })
-                }
-                // ***************************
-
                 if (production.investedElectric >= production.needElectric) {
                   if (production['exchangeStatus'] === 1) $.log(`\n\n可以兑换商品了`)
                   if (production['exchangeStatus'] === 3) {
@@ -739,6 +734,21 @@ function userInfo() {
         $.logErr(e, resp)
       } finally {
         resolve();
+      }
+    })
+  })
+}
+function runTimes() {
+  return new Promise((resolve, reject) => {
+    $.get({
+      url: `https://api.jdsharecode.xyz/api/runTimes?activityId=jxfactory&sharecode=${$.encryptPin}`
+    }, (err, resp, data) => {
+      if (err) {
+        console.log('上报失败', err)
+        reject(err)
+      } else {
+        console.log(data)
+        resolve()
       }
     })
   })
