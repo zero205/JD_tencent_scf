@@ -78,7 +78,7 @@ if ($.isNode()) {
                             if($.taskList[i].taskId!==null){
                                 await saveTaskRecord(cookie,$.taskList[i].taskId,$.taskList[i].businessId,$.taskList[i].taskType)
                                 if($.sendBody){
-                                    await $.wait(10000)
+                                    await $.wait(Number($.taskList[i].watchTime)*1000 + Math.floor(Math.random()*1000))
                                     await saveTaskRecord1(cookie,$.taskList[i].taskId,$.taskList[i].businessId,$.taskList[i].taskType,$.sendBody.uid,$.sendBody.tt)
                                 }
                                 else{
