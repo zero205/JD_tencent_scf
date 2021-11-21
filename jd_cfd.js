@@ -41,6 +41,13 @@ let UA, UAInfo = {};
 let nowTimes;
 const randomCount = $.isNode() ? 20 : 3;
 $.appId = 10032;
+function oc(fn, defaultVal) {//optioanl chaining
+  try {
+    return fn()
+  } catch (e) {
+    return undefined
+  }
+}
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -1129,7 +1136,7 @@ function getUserInfo(showInvite = true) {
           console.log(`${$.name} QueryUserInfo API请求失败，请检查网路重试`)
         } else {
           data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
-          $.showPp = data?.AreaAddr?.dwIsSHowPp ?? 0
+          $.showPp = oc(() => data.AreaAddr.dwIsSHowPp) || 0
           const {
             buildInfo = {},
             ddwRichBalance,
