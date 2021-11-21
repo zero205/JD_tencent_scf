@@ -1281,7 +1281,7 @@ function browserTask(taskType) {
     switch (taskType) {
       case 0://日常任务
         for (let i = 0; i < $.allTask.length; i++) {
-          const start = $.allTask[i].completedTimes, end = $.allTask[i].targetTimes, bizCode = $.allTask[i]?.bizCode ?? "jxbfd"
+          const start = $.allTask[i].completedTimes, end = $.allTask[i].targetTimes, bizCode = oc(() => $.allTask[i].bizCode) || "jxbfd"
           const taskinfo = $.allTask[i];
           console.log(`开始第${i + 1}个【📆日常任务】${taskinfo.taskName}\n`);
           for (let i = start; i < end; i++) {
