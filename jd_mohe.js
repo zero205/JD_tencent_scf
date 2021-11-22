@@ -457,7 +457,7 @@ function getShareCode() {
       try {
         if (err) {
         } else {
-          $.zero205Code = JSON.parse(data);
+          $.zero205Code = JSON.parse(data) || []
         }
       } catch (e) {
         $.logErr(e, resp)
