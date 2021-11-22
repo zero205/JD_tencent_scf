@@ -20,7 +20,7 @@ exports.main_handler = async (event, context, callback) => {
     } else if (event["TriggerName"] == 'config') {
         let now_hour = (new Date().getUTCHours() + 8) % 24
         console.log('hourly config触发,当前:', now_hour)
-        if (event["Message"]){
+        if (event["Message"]) {
             const hour = Number(event["Message"])
             if (!isNaN(hour) && hour >= 0 && hour <= 23) {
                 now_hour = hour
@@ -172,7 +172,11 @@ exports.main_handler = async (event, context, callback) => {
         for (const script of scripts) {
             console.log(`run script:${script}`)
             const name = './' + script + '.js'
-            require(name)
+            try {
+                require(name)
+            } catch (e) {
+                console.error(`异步${script}异常:`, e)
+            }
         }
     }
 }
