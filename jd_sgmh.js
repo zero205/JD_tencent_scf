@@ -131,8 +131,9 @@ function interact_template_getHomeData(timeout = 0) {
               myInviteCode = data.data.result.taskVos[i].assistTaskDetailVo.taskToken;
               for (let code of $.newShareCodes) {
                 if (!code) continue
-                await harmony_collectScore(code, data.data.result.taskVos[i].taskId);
+                const c =  await harmony_collectScore(code, data.data.result.taskVos[i].taskId);
                 await $.wait(2000)
+                if (c === 108) break
               }
             }
             else if (data.data.result.taskVos[i].status === 3) {
@@ -205,16 +206,18 @@ function harmony_collectScore(taskToken,taskId,itemId = "",actionType = 0,timeou
       //if (appId === "1EFRTxQ") url.body += "&appid=golden-egg"
       $.post(url, async (err, resp, data) => {
         try {
+        
           data = JSON.parse(data);
           if (data.data.bizMsg === "任务领取成功") {
             await harmony_collectScore(taskToken,taskId,itemId,0,parseInt(browseTime) * 1000);
           } else{
             console.log(data.data.bizMsg)
           }
+          data = data.data.bizCode
         } catch (e) {
           $.logErr(e, resp);
         } finally {
-          resolve()
+          resolve(data)
         }
       })
     },timeout)
