@@ -1,495 +1,282 @@
-/*
-愤怒的锦鲤
-更新时间：2021-7-11
-备注：高速并发请求，专治偷助力。在kois环境变量中填入需要助力的pt_pin，有多个请用@符号连接
-TG学习交流群：https://t.me/cdles
-5 0 * * * https://raw.githubusercontent.com/cdle/jd_study/main/jd_angryKoi.js
-*/
-const $ = new Env("愤怒的锦鲤")
-const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const ua = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random()*4+10)}.${Math.ceil(Math.random()*4)};${randomString(40)}`
-var kois = process.env.kois ?? ""
-let cookiesArr = []
-var helps = [];
-var tools= []
-!(async () => {
-    if(!kois){
-        console.log("请在环境变量中填写需要助力的账号")
-    }
-    requireConfig()
-    for (let i in cookiesArr) {
-        cookie = cookiesArr[i]
-        if(kois.indexOf(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])!=-1){
-                var num="";
-                for(var g=0;g<6;g++)
-                {
-                     num+=Math.floor(Math.random()*10);
-                }
-            var data = await requestApi('h5launch',cookie,{
-                 "followShop":0,
-                 "random": num,
-                 "log":"42588613~8,~0iuxyee",
-                 "sceneid":"JLHBhPageh5"
-            });
-            switch (data?.data?.result?.status) {
-                case 1://火爆
-                    continue;
-                case 2://已经发起过
-                    break;
-                default:
-                    if(data?.data?.result?.redPacketId){
-                        helps.push({redPacketId: data.data.result.redPacketId, success: false, id: i, cookie: cookie})
-                    }
-                    continue;
-            }   
-            data = await requestApi('h5activityIndex',cookie,{
-                "isjdapp":1
-            });
-            console.log("发起请求")
-            switch (data?.data?.code) {
-                case 20002://已达拆红包数量限制
-                    break;
-                case 10002://活动正在进行，火爆号
-                    break;
-                case 20001://红包活动正在进行，可拆
-                    helps.push({redPacketId: data.data.result.redpacketInfo.id, success: false, id: i, cookie: cookie})
-                    break;
-                default:
-                    break;
-            }
-        }
-        tools.push({id: i, cookie: cookie})   
-    }
-    for(let help of helps){
-        open(help)
-    }
-    await $.wait(60000)
-})()  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
+'''
+cron: 5 0 * * *
+new Env('安静的锦鲤');
+入口: 京东首页>领券>锦鲤红包
+变量: JD_COOKIE,kois
+export JD_COOKIE="第1个cookie&第2个cookie"
+export kois=" 第1个cookie的pin & 第2个cookie的pin "
+环境变量kois中填入需要助力的pt_pin，有多个请用 '@'或'&'或空格 符号连接,不填默认全部账号内部随机助力
+脚本内或环境变量填写，优先环境变量
+地址：https://raw.githubusercontent.com/wuye999/myScripts/main/jd/jd_angryKoi.py
+更新：
+17/24 22:00 使用随机log,增加开红包
+'''
 
-function open(help){
-    var num="";
-    for(var i=0;i<6;i++)
-    {
-        num+=Math.floor(Math.random()*10);
-        }
-    var tool = tools.pop()
-    if(!tool)return
-    if(help.success)return
-    requestApi('jinli_h5assist', tool.cookie, {
-        "redPacketId": help.redPacketId,
-        "followShop":0,
-        "random": num,
-        "log":"42588613~8,~0iuxyee",
-        "sceneid":"JLHBhPageh5"
-    }).then(function(data){
-        desc = data?.data?.result?.statusDesc
-        if (desc && desc.indexOf("助力已满") != -1) {
-            tools.unshift(tool)
-            help.success=true
-        } else if (!data) {
-            tools.unshift(tool)
-        }
-        console.log(`${tool.id}->${help.id}`, desc)   
-        open(help)         
-    })   
-}
-function requestApi(functionId, cookie, body = {}) {
-    return new Promise(resolve => {
-        $.post({
-            url: `${JD_API_HOST}/api?appid=jd_mp_h5&functionId=${functionId}&loginType=2&client=jd_mp_h5&clientVersion=10.0.5&osVersion=AndroidOS&d_brand=Xiaomi&d_model=Xiaomi`,
-            headers: {
-                "Cookie": cookie,
-                "origin": "https://h5.m.jd.com",
-                "referer": "https://h5.m.jd.com/babelDiy/Zeus/2NUvze9e1uWf4amBhe1AV6ynmSuH/index.html",
-                'Content-Type': 'application/x-www-form-urlencoded',
-                "X-Requested-With": "com.jingdong.app.mall",
-                "User-Agent": ua,
-            },
-            body: `body=${escape(JSON.stringify(body))}`,
-        }, (_, resp, data) => {
-            try {
-                data = JSON.parse(data)
-            } catch (e) {
-                $.logErr('Error: ', e, resp)
-            } finally {
-                resolve(data)
-            }
-        })
-    })
-}
+import os,json,random,time,re,string,functools
+import sys
+sys.path.append('../../tmp')
+sys.path.append(os.path.abspath('.')) 
+try:
+    import requests
+except Exception as e:
+    print(str(e) + "\n缺少requests模块, 请执行命令：pip3 install requests\n")
+requests.packages.urllib3.disable_warnings()
 
-function requireConfig() {
-    return new Promise(resolve => {
-        notify = $.isNode() ? require('./sendNotify') : '';
-        const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-        if ($.isNode()) {
-            Object.keys(jdCookieNode).forEach((item) => {
-                if (jdCookieNode[item]) {
-                    cookiesArr.push(jdCookieNode[item])
-                }
-            })
-            if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
-        } else {
-            cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
-        }
-        console.log(`共${cookiesArr.length}个京东账号\n`)
-        resolve()
-    })
-}
 
-function randomString(e) {
-    e = e || 32;
-    let t = "abcdefhijkmnprstwxyz2345678",
-        a = t.length,
-        n = "";
-    for (i = 0; i < e; i++)
-        n += t.charAt(Math.floor(Math.random() * a));
-    return n
-}
+run_send='no'              # yes或no, yes则启用通知推送服务
+sceneid='JLHBhPageh5'
 
-function Env(t, e) {
-    "undefined" != typeof process && JSON.stringify(process.env).indexOf("GIT_HUB") > -1 && process.exit(0);
-    class s {
-        constructor(t) {
-            this.env = t
-        }
-        send(t, e = "GET") {
-            t = "string" == typeof t ? {
-                url: t
-            } : t;
-            let s = this.get;
-            return "POST" === e && (s = this.post), new Promise((e, i) => {
-                s.call(this, t, (t, s, r) => {
-                    t ? i(t) : e(s)
-                })
-            })
-        }
-        get(t) {
-            return this.send.call(this.env, t)
-        }
-        post(t) {
-            return this.send.call(this.env, t, "POST")
-        }
+
+# 获取pin
+cookie_findall=re.compile(r'pt_pin=(.+?);')
+def get_pin(cookie):
+    try:
+        return cookie_findall.findall(cookie)[0]
+    except:
+        print('ck格式不正确，请检查')
+
+
+# 读取环境变量
+def get_env(env):
+    try:
+        if env in os.environ:
+            a=os.environ[env]
+        elif '/ql' in os.path.abspath(os.path.dirname(__file__)):
+            try:
+                a=v4_env(env,'/ql/config/config.sh')
+            except:
+                a=eval(env)
+        elif '/jd' in os.path.abspath(os.path.dirname(__file__)):
+            try:
+                a=v4_env(env,'/jd/config/config.sh')
+            except:
+                a=eval(env)
+        else:
+            a=eval(env)
+    except:
+        a=''
+    return a
+
+# v4
+def v4_env(env,paths):
+    b=re.compile(r'(?:export )?'+env+r' ?= ?[\"\'](.*?)[\"\']', re.I)
+    with open(paths, 'r') as f:
+        for line in f.readlines():
+            try:
+                c=b.match(line).group(1)
+                break
+            except:
+                pass
+    return c
+
+
+# 随机ua
+def ua():
+    sys.path.append(os.path.abspath('.'))
+    try:
+        from jdEnv import USER_AGENTS as a
+    except:
+        a='jdpingou;android;5.5.0;11;network/wifi;model/M2102K1C;appBuild/18299;partner/lcjx11;session/110;pap/JA2019_3111789;brand/Xiaomi;Mozilla/5.0 (Linux; Android 11; M2102K1C Build/RKQ1.201112.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/92.0.4515.159 Mobile Safari/537.36'
+    return a
+
+# 13位时间戳
+def gettimestamp():
+    return str(int(time.time() * 1000))
+
+## 获取cooie
+class Judge_env(object):
+    def main_run(self):
+        if '/jd' in os.path.abspath(os.path.dirname(__file__)):
+            cookie_list=self.v4_cookie()
+        else:
+            cookie_list=os.environ["JD_COOKIE"].split('&')       # 获取cookie_list的合集
+        if len(cookie_list)<1:
+            print('请填写环境变量JD_COOKIE\n')    
+        return cookie_list
+
+    def v4_cookie(self):
+        a=[]
+        b=re.compile(r'Cookie'+'.*?=\"(.*?)\"', re.I)
+        with open('/jd/config/config.sh', 'r') as f:
+            for line in f.readlines():
+                try:
+                    regular=b.match(line).group(1)
+                    a.append(regular)
+                except:
+                    pass
+        return a
+cookie_list=Judge_env().main_run()
+
+
+## 获取通知服务
+class Msg(object):
+    def getsendNotify(self, a=1):
+        try:
+            url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/wuye999/myScripts/main/sendNotify.py'
+            response = requests.get(url,timeout=3)
+            with open('sendNotify.py', "w+", encoding="utf-8") as f:
+                f.write(response.text)
+            return
+        except:
+            pass
+        if a < 5:
+            a += 1
+            return self.getsendNotify(a)
+
+    def main(self,f=1):
+        global send,msg,initialize
+        sys.path.append(os.path.abspath('.'))
+        for n in range(3):
+            try:
+                from sendNotify import send,msg,initialize
+                break
+            except:
+                self.getsendNotify()
+        l=['BARK','SCKEY','TG_BOT_TOKEN','TG_USER_ID','TG_API_HOST','TG_PROXY_HOST','TG_PROXY_PORT','DD_BOT_TOKEN','DD_BOT_SECRET','Q_SKEY','QQ_MODE','QYWX_AM','PUSH_PLUS_TOKEN','PUSH_PLUS_USER']
+        d={}
+        for a in l:
+            try:
+                d[a]=eval(a)
+            except:
+                d[a]=''
+        try:
+            initialize(d)
+        except:
+            self.getsendNotify()
+            if f < 5:
+                f += 1
+                return self.main(f)
+            else:
+                print('获取通知服务失败，请检查网络连接...')
+Msg().main()   # 初始化通知服务 
+
+def log():
+    log_str=string.ascii_lowercase+string.digits
+    return ''.join(random.sample(log_str,8))+'~8,~'+''.join(random.sample(log_str,7))   
+
+def taskPostUrl(functionId, body, cookie):
+    url=f'https://api.m.jd.com/api?appid=jinlihongbao&functionId={functionId}&loginType=2&client=jinlihongbao&t={gettimestamp()}&clientVersion=10.1.4&osVersion=-1'
+    headers={
+        'Cookie': cookie,
+        'Host': 'api.m.jd.com',
+        'Connection': 'keep-alive',
+        'origin': 'https://happy.m.jd.com',
+        'referer': 'https://happy.m.jd.com/babelDiy/zjyw/3ugedFa7yA6NhxLN5gw2L3PF9sQC/index.html?channel=9&un_area=4_134_19915_0',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "User-Agent": ua(),
+        'Accept-Language': 'zh-cn',
+        'Accept-Encoding': 'gzip, deflate, br',
     }
-    return new class {
-        constructor(t, e) {
-            this.name = t, this.http = new s(this), this.data = null, this.dataFile = "box.dat", this.logs = [], this.isMute = !1, this.isNeedRewrite = !1, this.logSeparator = "\n", this.startTime = (new Date).getTime(), Object.assign(this, e), this.log("", `🔔${this.name}, 开始!`)
-        }
-        isNode() {
-            return "undefined" != typeof module && !!module.exports
-        }
-        isQuanX() {
-            return "undefined" != typeof $task
-        }
-        isSurge() {
-            return "undefined" != typeof $httpClient && "undefined" == typeof $loon
-        }
-        isLoon() {
-            return "undefined" != typeof $loon
-        }
-        toObj(t, e = null) {
-            try {
-                return JSON.parse(t)
-            } catch (e) {
-                return e
-            }
-        }
-        toStr(t, e = null) {
-            try {
-                return JSON.stringify(t)
-            } catch (e) {
-                return e
-            }
-        }
-        getjson(t, e) {
-            let s = e;
-            const i = this.getdata(t);
-            if (i) try {
-                s = JSON.parse(this.getdata(t))
-            } catch {}
-            return s
-        }
-        setjson(t, e) {
-            try {
-                return this.setdata(JSON.stringify(t), e)
-            } catch {
-                return !1
-            }
-        }
-        getScript(t) {
-            return new Promise(e => {
-                this.get({
-                    url: t
-                }, (t, s, i) => e(i))
-            })
-        }
-        runScript(t, e) {
-            return new Promise(s => {
-                let i = this.getdata("@chavy_boxjs_userCfgs.httpapi");
-                i = i ? i.replace(/\n/g, "").trim() : i;
-                let r = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
-                r = r ? 1 * r : 20, r = e && e.timeout ? e.timeout : r;
-                const [o, h] = i.split("@"), n = {
-                    url: `http://${h}/v1/scripting/evaluate`,
-                    body: {
-                        script_text: t,
-                        mock_type: "cron",
-                        timeout: r
-                    },
-                    headers: {
-                        "X-Key": o,
-                        Accept: "*/*"
-                    }
-                };
-                this.post(n, (t, e, i) => s(i))
-            }).catch(t => this.logErr(t))
-        }
-        loaddata() {
-            if (!this.isNode()) return {}; {
-                this.fs = this.fs ? this.fs : require("fs"), this.path = this.path ? this.path : require("path");
-                const t = this.path.resolve(this.dataFile),
-                    e = this.path.resolve(process.cwd(), this.dataFile),
-                    s = this.fs.existsSync(t),
-                    i = !s && this.fs.existsSync(e);
-                if (!s && !i) return {}; {
-                    const i = s ? t : e;
-                    try {
-                        return JSON.parse(this.fs.readFileSync(i))
-                    } catch (t) {
-                        return {}
-                    }
-                }
-            }
-        }
-        writedata() {
-            if (this.isNode()) {
-                this.fs = this.fs ? this.fs : require("fs"), this.path = this.path ? this.path : require("path");
-                const t = this.path.resolve(this.dataFile),
-                    e = this.path.resolve(process.cwd(), this.dataFile),
-                    s = this.fs.existsSync(t),
-                    i = !s && this.fs.existsSync(e),
-                    r = JSON.stringify(this.data);
-                s ? this.fs.writeFileSync(t, r) : i ? this.fs.writeFileSync(e, r) : this.fs.writeFileSync(t, r)
-            }
-        }
-        lodash_get(t, e, s) {
-            const i = e.replace(/\[(\d+)\]/g, ".$1").split(".");
-            let r = t;
-            for (const t of i)
-                if (r = Object(r)[t], void 0 === r) return s;
-            return r
-        }
-        lodash_set(t, e, s) {
-            return Object(t) !== t ? t : (Array.isArray(e) || (e = e.toString().match(/[^.[\]]+/g) || []), e.slice(0, -1).reduce((t, s, i) => Object(t[s]) === t[s] ? t[s] : t[s] = Math.abs(e[i + 1]) >> 0 == +e[i + 1] ? [] : {}, t)[e[e.length - 1]] = s, t)
-        }
-        getdata(t) {
-            let e = this.getval(t);
-            if (/^@/.test(t)) {
-                const [, s, i] = /^@(.*?)\.(.*?)$/.exec(t), r = s ? this.getval(s) : "";
-                if (r) try {
-                    const t = JSON.parse(r);
-                    e = t ? this.lodash_get(t, i, "") : e
-                } catch (t) {
-                    e = ""
-                }
-            }
-            return e
-        }
-        setdata(t, e) {
-            let s = !1;
-            if (/^@/.test(e)) {
-                const [, i, r] = /^@(.*?)\.(.*?)$/.exec(e), o = this.getval(i), h = i ? "null" === o ? null : o || "{}" : "{}";
-                try {
-                    const e = JSON.parse(h);
-                    this.lodash_set(e, r, t), s = this.setval(JSON.stringify(e), i)
-                } catch (e) {
-                    const o = {};
-                    this.lodash_set(o, r, t), s = this.setval(JSON.stringify(o), i)
-                }
-            } else s = this.setval(t, e);
-            return s
-        }
-        getval(t) {
-            return this.isSurge() || this.isLoon() ? $persistentStore.read(t) : this.isQuanX() ? $prefs.valueForKey(t) : this.isNode() ? (this.data = this.loaddata(), this.data[t]) : this.data && this.data[t] || null
-        }
-        setval(t, e) {
-            return this.isSurge() || this.isLoon() ? $persistentStore.write(t, e) : this.isQuanX() ? $prefs.setValueForKey(t, e) : this.isNode() ? (this.data = this.loaddata(), this.data[e] = t, this.writedata(), !0) : this.data && this.data[e] || null
-        }
-        initGotEnv(t) {
-            this.got = this.got ? this.got : require("got"), this.cktough = this.cktough ? this.cktough : require("tough-cookie"), this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar))
-        }
-        get(t, e = (() => {})) {
-            t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
-                "X-Surge-Skip-Scripting": !1
-            })), $httpClient.get(t, (t, s, i) => {
-                !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i)
-            })) : this.isQuanX() ? (this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
-                hints: !1
-            })), $task.fetch(t).then(t => {
-                const {
-                    statusCode: s,
-                    statusCode: i,
-                    headers: r,
-                    body: o
-                } = t;
-                e(null, {
-                    status: s,
-                    statusCode: i,
-                    headers: r,
-                    body: o
-                }, o)
-            }, t => e(t))) : this.isNode() && (this.initGotEnv(t), this.got(t).on("redirect", (t, e) => {
-                try {
-                    if (t.headers["set-cookie"]) {
-                        const s = t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
-                        s && this.ckjar.setCookieSync(s, null), e.cookieJar = this.ckjar
-                    }
-                } catch (t) {
-                    this.logErr(t)
-                }
-            }).then(t => {
-                const {
-                    statusCode: s,
-                    statusCode: i,
-                    headers: r,
-                    body: o
-                } = t;
-                e(null, {
-                    status: s,
-                    statusCode: i,
-                    headers: r,
-                    body: o
-                }, o)
-            }, t => {
-                const {
-                    message: s,
-                    response: i
-                } = t;
-                e(s, i, i && i.body)
-            }))
-        }
-        post(t, e = (() => {})) {
-            if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
-                "X-Surge-Skip-Scripting": !1
-            })), $httpClient.post(t, (t, s, i) => {
-                !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i)
-            });
-            else if (this.isQuanX()) t.method = "POST", this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
-                hints: !1
-            })), $task.fetch(t).then(t => {
-                const {
-                    statusCode: s,
-                    statusCode: i,
-                    headers: r,
-                    body: o
-                } = t;
-                e(null, {
-                    status: s,
-                    statusCode: i,
-                    headers: r,
-                    body: o
-                }, o)
-            }, t => e(t));
-            else if (this.isNode()) {
-                this.initGotEnv(t);
-                const {
-                    url: s,
-                    ...i
-                } = t;
-                this.got.post(s, i).then(t => {
-                    const {
-                        statusCode: s,
-                        statusCode: i,
-                        headers: r,
-                        body: o
-                    } = t;
-                    e(null, {
-                        status: s,
-                        statusCode: i,
-                        headers: r,
-                        body: o
-                    }, o)
-                }, t => {
-                    const {
-                        message: s,
-                        response: i
-                    } = t;
-                    e(s, i, i && i.body)
-                })
-            }
-        }
-        time(t, e = null) {
-            const s = e ? new Date(e) : new Date;
-            let i = {
-                "M+": s.getMonth() + 1,
-                "d+": s.getDate(),
-                "H+": s.getHours(),
-                "m+": s.getMinutes(),
-                "s+": s.getSeconds(),
-                "q+": Math.floor((s.getMonth() + 3) / 3),
-                S: s.getMilliseconds()
-            };
-            /(y+)/.test(t) && (t = t.replace(RegExp.$1, (s.getFullYear() + "").substr(4 - RegExp.$1.length)));
-            for (let e in i) new RegExp("(" + e + ")").test(t) && (t = t.replace(RegExp.$1, 1 == RegExp.$1.length ? i[e] : ("00" + i[e]).substr(("" + i[e]).length)));
-            return t
-        }
-        msg(e = t, s = "", i = "", r) {
-            const o = t => {
-                if (!t) return t;
-                if ("string" == typeof t) return this.isLoon() ? t : this.isQuanX() ? {
-                    "open-url": t
-                } : this.isSurge() ? {
-                    url: t
-                } : void 0;
-                if ("object" == typeof t) {
-                    if (this.isLoon()) {
-                        let e = t.openUrl || t.url || t["open-url"],
-                            s = t.mediaUrl || t["media-url"];
-                        return {
-                            openUrl: e,
-                            mediaUrl: s
-                        }
-                    }
-                    if (this.isQuanX()) {
-                        let e = t["open-url"] || t.url || t.openUrl,
-                            s = t["media-url"] || t.mediaUrl;
-                        return {
-                            "open-url": e,
-                            "media-url": s
-                        }
-                    }
-                    if (this.isSurge()) {
-                        let e = t.url || t.openUrl || t["open-url"];
-                        return {
-                            url: e
-                        }
-                    }
-                }
-            };
-            if (this.isMute || (this.isSurge() || this.isLoon() ? $notification.post(e, s, i, o(r)) : this.isQuanX() && $notify(e, s, i, o(r))), !this.isMuteLog) {
-                let t = ["", "==============📣系统通知📣=============="];
-                t.push(e), s && t.push(s), i && t.push(i), console.log(t.join("\n")), this.logs = this.logs.concat(t)
-            }
-        }
-        log(...t) {
-            t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(t.join(this.logSeparator))
-        }
-        logErr(t, e) {
-            const s = !this.isSurge() && !this.isQuanX() && !this.isLoon();
-            s ? this.log("", `❗️${this.name}, 错误!`, t.stack) : this.log("", `❗️${this.name}, 错误!`, t)
-        }
-        wait(t) {
-            return new Promise(e => setTimeout(e, t))
-        }
-        done(t = {}) {
-            const e = (new Date).getTime(),
-                s = (e - this.startTime) / 1e3;
-            this.log("", `🔔${this.name}, 结束! 🕛 ${s} 秒`), this.log(), (this.isSurge() || this.isQuanX() || this.isLoon()) && $done(t)
-        }
-    }(t, e)
-}
+    data=f"body={json.dumps(body)}"
+    for n in range(3):
+        try:
+            res=requests.post(url,headers=headers,data=data).text
+            return res
+        except:
+            if n==2:
+                msg('API请求失败，请检查网路重试❗\n')  
+
+# 开启助力
+code_findall=re.compile(r'"code":(.*?),')
+def h5launch(cookie):
+    body={"followShop":1,"random":''.join(random.sample(string.digits, 6)),"log":log(),"sceneid":sceneid}
+    res=taskPostUrl("h5launch", body, cookie)
+    if not res:
+        return
+    if Code:=code_findall.findall(res):
+        if str(Code[0])=='0':
+            msg(f"账号 {get_pin(cookie)} 开启助力码成功\n")
+        else:
+            msg(f"账号 {get_pin(cookie)} 开启助力码失败")
+            msg(res)
+    else:
+        msg(f"账号 {get_pin(cookie)} 开启助力码失败")
+        msg(res)
+
+# 获取助力码
+id_findall=re.compile(r'","id":(.+?),"')
+def h5activityIndex(cookie):
+    global inviteCode_list
+    body={"isjdapp":1}
+    res=taskPostUrl("h5activityIndex", body, cookie)
+    if not res:
+        return
+    if inviteCode:=id_findall.findall(res):
+        inviteCode=inviteCode[0]
+        inviteCode_list.append(inviteCode)
+        msg(f"账号 {get_pin(cookie)} 的锦鲤红包助力码为 {inviteCode}\n")
+    else:
+        msg(f"账号 {get_pin(cookie)} 获取助力码失败\n")
+
+# 助力
+statusDesc_findall=re.compile(r',"statusDesc":"(.+?)"')
+def jinli_h5assist(cookie,redPacketId):
+    body={"redPacketId":redPacketId,"followShop":0,"random":''.join(random.sample(string.digits, 6)),"log":log(),"sceneid":sceneid}
+    res=taskPostUrl("jinli_h5assist", body, cookie)
+    msg(f'账号 {get_pin(cookie)} 去助力{redPacketId}')
+    if not res:
+        return
+    if statusDesc:=statusDesc_findall.findall(res):
+        statusDesc=statusDesc[0]
+        msg(f"{statusDesc}\n")
+    else:
+        msg(f"错误\n{res}\n")
+
+# 开红包
+biz_msg_findall=re.compile(r'"biz_msg":"(.*?)"')
+discount_findall=re.compile(r'"discount":"(.*?)"')
+def h5receiveRedpacketAll(cookie):
+    body={"random":''.join(random.sample(string.digits, 6)),"log":log(),"sceneid":sceneid}
+    res=taskPostUrl("h5receiveRedpacketAll", body, cookie)
+    msg(f'账号 {get_pin(cookie)} 开红包')
+    if not res:
+        return
+    try:
+        biz_msg=biz_msg_findall.findall(res)[0]
+    except:
+        print(res)
+        return
+    if discount:=discount_findall.findall(res):
+        discount=discount[0]
+        msg(f"恭喜您，获得红包 {discount}\n")
+        return h5receiveRedpacketAll(cookie)
+    else:
+        msg(f"{biz_msg}\n")
+
+
+def main():
+    msg('🔔安静的锦鲤，开始！\n')
+    msg(f'====================共{len(cookie_list)}京东个账号Cookie=========\n')
+
+    if debug_pin:=get_env('kois'):
+        cookie_list_pin=[cookie for cookie in cookie_list if get_pin(cookie) in debug_pin]
+    else:
+        cookie_list_pin=cookie_list
+    global inviteCode_list
+    inviteCode_list=list()
+
+    msg('***************************开启助力码***************\n')
+    [h5launch(cookie) for cookie in cookie_list_pin]
+
+    msg('***************************获取助力码***************\n')
+    [h5activityIndex(cookie) for cookie in cookie_list_pin]
+
+
+    msg('*******************助力**************************\n')
+    if inviteCode_list:
+        [jinli_h5assist(cookie,inviteCode) for inviteCode in inviteCode_list for cookie in cookie_list]
+    else:
+        msg('没有需要助力的锦鲤红包助力码\n')
+
+    msg('*******************开红包**************************\n')
+    [h5receiveRedpacketAll(cookie) for cookie in cookie_list_pin]
+    
+    if run_send=='yes':
+        send('安静的锦鲤')   # 通知服务
+
+
+if __name__ == '__main__':
+    main()
+
+
+
