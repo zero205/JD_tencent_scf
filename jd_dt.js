@@ -128,14 +128,14 @@ async function operation() {
                 await doCardTask(`{"taskType":27,"value":1,"activeId":"A_8943039_R_6_D_20211015","lkToken":"${$.lkToken}","token":"${$.taskToken}","returnurl":"https://prodev.m.jd.com/mall/active/2tqdREcm3YLC8pbNPdvofdAwd8te/index.html?tttparams=","sid":"","un_area":"","tttparams":"","id":"${$.id}","activeid":"A_8943039_R_6_D_20211015","authcode":"${$.authcode}"}`)
                 await $.wait(sleep * 1000)
             };
-            if ([10].includes($.allTaskList[i].res.eType) && $.allTaskList[i].state.value === 0){
-                $.taskName = $.allTaskList[i].res.sName;
-                let sleep = 1;
-                console.log(`去做${$.taskName}\t等待${sleep}秒`)
-                await $.wait(sleep * 1000);
-                await doLottery(`{"id":"${$.id}","activeid":"A_8943039_R_6_D_20211015","activeId":"A_8943039_R_6_D_20211015","authcode":"${$.authcode}","token":"${$.taskToken}"}`)
-                await $.wait(sleep * 1000);
-            };
+//             if ([10].includes($.allTaskList[i].res.eType) && $.allTaskList[i].state.value === 0){
+//                 $.taskName = $.allTaskList[i].res.sName;
+//                 let sleep = 1;
+//                 console.log(`去做${$.taskName}\t等待${sleep}秒`)
+//                 await $.wait(sleep * 1000);
+//                 await doLottery(`{"id":"${$.id}","activeid":"A_8943039_R_6_D_20211015","activeId":"A_8943039_R_6_D_20211015","authcode":"${$.authcode}","token":"${$.taskToken}"}`)
+//                 await $.wait(sleep * 1000);
+//             };
             if (["匹配挑战"].includes($.allTaskList[i].res.sName) && $.allTaskList[i].state.value === 0){
                 $.taskName = $.allTaskList[i].res.sName;
                 console.log(`去做${$.taskName}\t等待答题完成`)
