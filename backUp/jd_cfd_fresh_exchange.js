@@ -92,7 +92,7 @@ if ($.isNode()) {
                 continue
             }
             console.log(`获取变量对应参数 : `,ddwVirHb,"\n")
-            let condition = conditionAllList.filter(e => e.ddwVirHb == ddwVirHb)[0];
+            let condition = conditionAllList.filter(e => e.ddwVirHb === Number(ddwVirHb))[0];
             if (condition){
                 await exchangePinPinPearl(condition.ddwVirHb,condition.strPool);
             }else {
