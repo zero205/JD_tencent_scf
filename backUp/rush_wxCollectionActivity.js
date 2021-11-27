@@ -6,7 +6,9 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '', message = '';
 let activityIdList = [
-
+    'e19e4296e1404a62afd6e3da2f44adec',
+    'a898cd1be33d4945897d43667c58b7c0',
+    '3b071ff4c2d04dd4a9e56250049835d6',
 ]
 let lz_cookie = {}
 
@@ -37,10 +39,7 @@ $.keywordsNum = 0;
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-    activityIdList = await getActivityIdList('https://raw.githubusercontent.com/FKPYW/dongge/master/code/wxCollectionActivity.json')
-    if(!activityIdList.length){
-        activityIdList = await getActivityIdList('https://raw.fastgit.org/FKPYW/dongge/master/code/wxCollectionActivity.json')
-    }
+    // activityIdList = await getActivityIdList('https://raw.githubusercontent.com/FKPYW/dongge/master/code/wxCollectionActivity.json')
     for(let a in activityIdList){
         activityId = activityIdList[a];
         console.log("开起第 "+ a +" 个活动，活动id："+activityId)
@@ -186,7 +185,7 @@ function task(function_id, body, isCommon = 0) {
                                 case 'getPrize':
                                     console.log(data.data.name)
                                     $.getPrize = data.data.name;
-//                                     await notify.sendNotify($.name, data.data.name, '', `\n`);
+                                    await notify.sendNotify($.name, data.data.name, '', `\n`);
                                     break
                                 default:
                                     $.log(JSON.stringify(data))
