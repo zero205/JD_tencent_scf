@@ -27,7 +27,7 @@ const dailyEggUrl = "https://active.jd.com/forever/btgoose/?channelLv=yxjh&jrcon
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const { JSDOM } = $.isNode() ? require('jsdom') : '';
 const { window } = new JSDOM(``, { url: dailyEggUrl, runScripts: "outside-only", pretentToBeVisual: true, resources: "usable" })
-const Faker = require('./utils/JDSignValidator.js')
+const Faker = require('./JDSignValidator.js')
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
