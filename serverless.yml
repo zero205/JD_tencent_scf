@@ -34,7 +34,7 @@ inputs:
         parameters:
           name: joyreward
           cronExpression: "0 59 7,15,23 * * * *"
-          enable: false
+          enable: true
           argument: jd_joy_reward
     - timer: #汽车兑换
         parameters:
@@ -54,5 +54,11 @@ inputs:
           cronExpression: "0 59 0 * * * *"
           enable: true
           argument: jd_cfd
+    - timer:
+        parameters:
+          name: cfd_pearl
+          cronExpression: "50 59 * * * * *"
+          enable: true
+          argument: jd_cfd_pearl_ex
   environment: #  环境变量
     variables: #  环境变量对象
