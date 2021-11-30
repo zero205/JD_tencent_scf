@@ -205,7 +205,7 @@ async function sendNotify(
   if (no_notify) {
     no_notify = process.env.no_notify.split('&')
     if (module.parent.filename) {
-      const script_name = module.parent.filename.split('/').at(-1)
+      const script_name = module.parent.filename.split('/').slice(-1)[0]
       if (no_notify.some(key_word => {
         const flag = script_name.includes(key_word)
         if (flag) {
