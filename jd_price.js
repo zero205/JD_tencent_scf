@@ -171,14 +171,16 @@ async function jstoken() {
     pretendToBeVisual: true,
     virtualConsole
   };
-  const { window } = new JSDOM(``, options);
-  const jdPriceJs = await downloadUrl("https://js-nocaptcha.jd.com/statics/js/main.min.js")
+  // const { window } = new JSDOM(``, options);
+  // const jdPriceJs = await downloadUrl("https://js-nocaptcha.jd.com/statics/js/main.min.js")
+  const dom = new JSDOM(`<body><script src="https://js-nocaptcha.jd.com/statics/js/main.min.js"></script></body>`, options);
+  await $.wait(1000)
   try {
-    window.eval(jdPriceJs)
-    window.HTMLCanvasElement.prototype.getContext = () => {
-      return {};
-    };
-    $.jab = new window.JAB({
+    // window.eval(jdPriceJs)
+    // window.HTMLCanvasElement.prototype.getContext = () => {
+    //   return {};
+    // };
+    $.jab = new dom.window.JAB({
       bizId: 'jdjiabao',
       initCaptcha: false
     })
