@@ -1,5 +1,4 @@
 {
-    "jd_live_redrain": 1,
     "jd_fruit":[6, 12 ,18],
     "jx_sign": [8, 13],
     "jd_bean_sign": [0],
@@ -18,7 +17,6 @@
     "jd_fcdyj": [6, 15, 21],
     "jd_gold_creator": [1, 22],
     "jd_health": [6, 22],
-    "jd_jdzz": [1],
     "jd_jin_tie": [1],
     "jd_joy_park": [3, 6, 9, 12, 15, 18, 21],
     "jd_joy_park_task": [6, 12, 18],
@@ -66,6 +64,7 @@
     "jd_try": [4],
     "jd_unsubscribe": [23],
     "jd_cfd_loop": [8, 16],
+    "jd_price": [23],
     "jd_joy_steal": 3,
     "params":
     {
