@@ -19,7 +19,7 @@ inputs:
   runtime: Nodejs12.16 # 运行环境 默认 Nodejs12.16
   region: ap-guangzhou # 函数所在区域
   description: This is a function in ${app} application.
-  memorySize: 64 # 内存大小，单位MB
+  memorySize: 128 # 内存大小，单位MB
   timeout: 3600 # 超时时间，单位秒
   asyncRunEnable: true # 是否启用异步执行
   retryNum: 0
