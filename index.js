@@ -140,6 +140,7 @@ exports.main_handler = async (event, context, callback) => {
                         })
                         child.on('close', function(code) {
                             console.log(`${script} finished`)
+                            delete child
                             resolve()
                         })
                     })
