@@ -301,59 +301,59 @@ async function main() {
     await doMotion(petidList);
     await buyCabbage(homePageInfo);
     await feed();
-    await doUserLoveInfo();
+//     await doUserLoveInfo();
 }
 
-async function doUserLoveInfo() {
-    console.log(`助农活动`);
-    let taskLiskInfo = await takeRequest(`newtasksys`, `newtasksys_front/GetUserTaskStatusList`, `&source=jxmc_zanaixin&bizCode=jxmc_zanaixin&dateType=2&showAreaTaskFlag=0&jxpp_wxapp_type=7`, `bizCode%2CdateType%2Cjxpp_wxapp_type%2CshowAreaTaskFlag%2Csource`, false);
-    let taskLisk = taskLiskInfo.userTaskStatusList;
-    for (let i = 0; i < taskLisk.length; i++) {
-        let oneTask = taskLisk[i];
-        if(oneTask.awardStatus === 1){
-            console.log(`任务：${oneTask.taskName},已完成`)
-            continue;
-        }
-        if (oneTask.awardStatus === 2 && oneTask.completedTimes === oneTask.targetTimes) {
-            console.log(`完成任务：${oneTask.taskName}`);
-            awardInfo = await takeRequest(`newtasksys`, `newtasksys_front/Award`, `source=jxmc_zanaixin&taskId=${oneTask.taskId}&bizCode=jxmc_zanaixin`, `bizCode%2Csource%2CtaskId`, true);
-            console.log(`领取爱心成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo}`);
-            await $.wait(2000);
-            $.freshFlag = true;
-        }
-        if(oneTask.taskId === 2147 || oneTask.taskId === 2157 || oneTask.taskId === 2167 || oneTask.taskId === 2171){
-            console.log(`去做任务：${oneTask.description}，等待5S`);
-            awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/DoTask`,`source=jxmc_zanaixin&taskId=${oneTask.taskId}&bizCode=jxmc_zanaixin&configExtra=`,`bizCode%2CconfigExtra%2Csource%2CtaskId`,false);
-            await $.wait(5500);
-            console.log(`完成任务：${oneTask.description}`);
-            awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/Award`,`source=jxmc_zanaixin&taskId=${oneTask.taskId}&bizCode=jxmc_zanaixin`,`bizCode%2Csource%2CtaskId`,true);
-            console.log(`领取爱心成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo}`);
-        }
+// async function doUserLoveInfo() {
+//     console.log(`助农活动`);
+//     let taskLiskInfo = await takeRequest(`newtasksys`, `newtasksys_front/GetUserTaskStatusList`, `&source=jxmc_zanaixin&bizCode=jxmc_zanaixin&dateType=2&showAreaTaskFlag=0&jxpp_wxapp_type=7`, `bizCode%2CdateType%2Cjxpp_wxapp_type%2CshowAreaTaskFlag%2Csource`, false);
+//     let taskLisk = taskLiskInfo.userTaskStatusList;
+//     for (let i = 0; i < taskLisk.length; i++) {
+//         let oneTask = taskLisk[i];
+//         if(oneTask.awardStatus === 1){
+//             console.log(`任务：${oneTask.taskName},已完成`)
+//             continue;
+//         }
+//         if (oneTask.awardStatus === 2 && oneTask.completedTimes === oneTask.targetTimes) {
+//             console.log(`完成任务：${oneTask.taskName}`);
+//             awardInfo = await takeRequest(`newtasksys`, `newtasksys_front/Award`, `source=jxmc_zanaixin&taskId=${oneTask.taskId}&bizCode=jxmc_zanaixin`, `bizCode%2Csource%2CtaskId`, true);
+//             console.log(`领取爱心成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo}`);
+//             await $.wait(2000);
+//             $.freshFlag = true;
+//         }
+//         if(oneTask.taskId === 2147 || oneTask.taskId === 2157 || oneTask.taskId === 2167 || oneTask.taskId === 2171){
+//             console.log(`去做任务：${oneTask.description}，等待5S`);
+//             awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/DoTask`,`source=jxmc_zanaixin&taskId=${oneTask.taskId}&bizCode=jxmc_zanaixin&configExtra=`,`bizCode%2CconfigExtra%2Csource%2CtaskId`,false);
+//             await $.wait(5500);
+//             console.log(`完成任务：${oneTask.description}`);
+//             awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/Award`,`source=jxmc_zanaixin&taskId=${oneTask.taskId}&bizCode=jxmc_zanaixin`,`bizCode%2Csource%2CtaskId`,true);
+//             console.log(`领取爱心成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo}`);
+//         }
 
-        if(oneTask.taskId === 2154 && oneTask.completedTimes !== 1){
-            console.log(`去做任务：${oneTask.description}，等待5S`);
-            awardInfo = await takeRequest(`jxmc`,`operservice/GetInviteStatus`,``,undefined,true);
-            await $.wait(5500);
-            console.log(`完成任务：${oneTask.description}`);
-            awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/Award`,`source=jxmc_zanaixin&taskId=${oneTask.taskId}&bizCode=jxmc_zanaixin`,`bizCode%2Csource%2CtaskId`,true);
-            if(awardInfo && awardInfo.prizeInfo && JSON.parse(awardInfo.prizeInfo)){
-                console.log(`领取爱心成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo || ''}`);
-            }else{
-                console.log(`领取爱心：${JSON.stringify(awardInfo)}`);
-            }
-        }
-    }
-    let userLoveInfo = await takeRequest(`jxmc`, `queryservice/GetUserLoveInfo`, ``, undefined, true);
-    let lovelevel = userLoveInfo.lovelevel;
-    for (let i = 0; i < lovelevel.length; i++) {
-        if(lovelevel[i].drawstatus === 1){
-            console.log(`抽取红包`);
-            let drawLoveHongBao =await takeRequest(`jxmc`, `operservice/DrawLoveHongBao`, `&lovevalue=${lovelevel[i].lovevalue}`, `activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Clovevalue%2Cphoneid%2Csceneid%2Ctimestamp`, true);
-            console.log(`抽取结果：${JSON.stringify(drawLoveHongBao)}`);
-            await $.wait(3000);
-        }
-    }
-}
+//         if(oneTask.taskId === 2154 && oneTask.completedTimes !== 1){
+//             console.log(`去做任务：${oneTask.description}，等待5S`);
+//             awardInfo = await takeRequest(`jxmc`,`operservice/GetInviteStatus`,``,undefined,true);
+//             await $.wait(5500);
+//             console.log(`完成任务：${oneTask.description}`);
+//             awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/Award`,`source=jxmc_zanaixin&taskId=${oneTask.taskId}&bizCode=jxmc_zanaixin`,`bizCode%2Csource%2CtaskId`,true);
+//             if(awardInfo && awardInfo.prizeInfo && JSON.parse(awardInfo.prizeInfo)){
+//                 console.log(`领取爱心成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo || ''}`);
+//             }else{
+//                 console.log(`领取爱心：${JSON.stringify(awardInfo)}`);
+//             }
+//         }
+//     }
+//     let userLoveInfo = await takeRequest(`jxmc`, `queryservice/GetUserLoveInfo`, ``, undefined, true);
+//     let lovelevel = userLoveInfo.lovelevel;
+//     for (let i = 0; i < lovelevel.length; i++) {
+//         if(lovelevel[i].drawstatus === 1){
+//             console.log(`抽取红包`);
+//             let drawLoveHongBao =await takeRequest(`jxmc`, `operservice/DrawLoveHongBao`, `&lovevalue=${lovelevel[i].lovevalue}`, `activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Clovevalue%2Cphoneid%2Csceneid%2Ctimestamp`, true);
+//             console.log(`抽取结果：${JSON.stringify(drawLoveHongBao)}`);
+//             await $.wait(3000);
+//         }
+//     }
+// }
 
 async function buyChick(configInfo,homePageInfo,cardInfo){
     console.log(`现共有小鸡：${homePageInfo.petinfo.length}只,小鸡上限：6只`);
