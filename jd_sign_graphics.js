@@ -9,7 +9,7 @@ npm i png-js 或者 npm i png-js -S
 修改域名 https://jdjoy.jd.com 可以改成ip https://49.7.27.236
 */
 
-const validator = require('./JDJRValidator_Smiek.js');
+const validator = require('./JDJRValidator_Pure.js');
 const Faker=require('./sign_graphics_validate.js') 
 
 const $ = new Env('京东签到图形验证');
