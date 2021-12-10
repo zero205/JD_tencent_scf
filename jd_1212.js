@@ -1,5 +1,7 @@
 /*
 双十二红包
+自定义变量:FLCODE2
+对自己返利无影响,不用禁用
 cron 0 0,20 * * * https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_1212.js
 * */
 const $ = new Env('暖暖红包');
