@@ -144,7 +144,7 @@ function noahRedRainLottery() {
   })
 }
 
-function getRedRainIds(url = "http://adguard.ipq.co/redrain.json") {
+function getRedRainIds(url = "https://gitee.com/msewb/jdrain/raw/master/redrain.json") {
   return new Promise(async resolve => {
     const options = {
       url: `${url}?${new Date()}`, "timeout": 10000, headers: {
