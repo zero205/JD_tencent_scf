@@ -19,6 +19,13 @@ Exchange = true;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [],
     cookie = '';
+function oc(fn, defaultVal) {//optioanl chaining
+  try {
+    return fn()
+  } catch (e) {
+    return undefined
+  }
+}
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
@@ -123,7 +130,7 @@ $.shareuuid = "5e81094ee1d640b2996883b48d0c410a"
 // 更新cookie 
 
 function updateCookie (resp) {
-    if (!resp?.headers['set-cookie']){
+    if (!oc(() => resp.headers['set-cookie'])){
         return
     }
     let obj = {}
