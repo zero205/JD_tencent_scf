@@ -1,3 +1,7 @@
+if (!["card","car"].includes(process.env.FS_LEVEL)) {
+    console.log("请设置通用加购/开卡环境变量FS_LEVEL为\"car\"(或\"card\"开卡+加购)来运行加购脚本")
+    return
+}
 /*
 京东工业品，可抽奖获得京豆，
 活动入口：京东工业品 旁边的立即抽奖
