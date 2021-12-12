@@ -10,7 +10,7 @@
 ## 已经创建公开仓库的请点击仓库右上角`Setting`，拉到页面最下方，点击`Change visibility`，选择`Make private`，填入黑体仓库名称进行确认!
 
 ### 方式一(如果有一定github基础，十分建议直接方式二)
-**建议阅读@hshx123大佬的[教程](https://illl.design/teach/jd.html)**
+**建议阅读@hshx123大佬的[教程](https://杏铃.top/teach/jd.html)**
 ### 方式二
 * 有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为`main`),按需运行一次 https://github.com/Ca11back/doge-template 的action即可
 * 第二种:直接clone一个`scf2`分支(名字需要为`main`,clone哪个取决于你要用的部署方式)
