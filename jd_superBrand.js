@@ -145,7 +145,7 @@ async function doTask(){
             if (signList.length === 0) {
                 console.log(`任务：${$.oneTask.assignmentName},信息异常`);
             }
-            if ($.oneTask.assignmentName.indexOf('首页下拉') !== -1) {
+            if ($.oneTask.assignmentName.indexOf('首页下拉') !== -1 || $.oneTask.assignmentDesc.incliudes('首页下拉')) {
                 for (let j = 0; j < signList.length; j++) {
                     if (signList[j].status === 1) {
                         console.log(`任务：${$.oneTask.assignmentName},去执行,请稍稍`);
