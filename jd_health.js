@@ -39,7 +39,7 @@ function oc(fn, defaultVal) {//optioanl chaining
   }
 }
 function nc(val1, val2) {//nullish coalescing
-  return val1 ? val1 : val2
+  return val1 != undefined ? val1 : val2
 }
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
