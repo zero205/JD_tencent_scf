@@ -32,9 +32,9 @@ exports.main_handler = async (event, context, callback) => {
             }
         }
         const { readFileSync, accessSync, constants } = require('fs')
-        const config_file = 'config.json'
+        const config_file = process.cwd() + '/config.json'
         try {
-            await accessSync('./' + config_file, constants.F_OK)
+            await accessSync(config_file, constants.F_OK)
             console.log(`${config_file} 存在`)
         } catch (err) {
             console.error(`${config_file} 不存在,结束`)
@@ -51,9 +51,9 @@ exports.main_handler = async (event, context, callback) => {
         params = config['params']
         delete config['params']
 
-        const config_diy_file = 'config_diy.json'
+        const config_diy_file = process.cwd() + '/config_diy.json'
         try {
-            await accessSync('./' + config_diy_file, constants.F_OK)
+            await accessSync(config_diy_file, constants.F_OK)
             console.log(`${config_diy_file} 存在`)
             const config_diy = JSON.parse(await readFileSync(config_diy_file))
             if (config_diy['params']) {
