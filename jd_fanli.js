@@ -75,7 +75,7 @@ if ($.isNode()) {
                                 } else {
                                     continue;
                                 }
-                                if ($.count.finishCount = $.count.maxTaskCount) {
+                                if ($.count.finishCount == $.count.maxTaskCount) {
                                     console.log(`任务全部完成!`);
                                 }
                             }
