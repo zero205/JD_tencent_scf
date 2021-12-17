@@ -396,7 +396,7 @@ function lottery(body) {
             data = JSON.parse(data);
             if (data.prize.type === 1){
                 console.log(`获得${data.prize.setting.beans_num}京豆\n`)
-                receiveBean += data.prize.setting.beans_num
+                receiveBean += parseInt(data.prize.setting.beans_num)
             }else if (data.prize.type === 5){
                 console.log(`获得${data.prize.setting.entity_description}\n`)
             }else if (data.prize.type === 0){
