@@ -35,7 +35,7 @@ async def user(event):
         logger.error(f"错误--->{str(e)}")
 
 
-@client.on(events.NewMessage(chats=-1001728533280, from_users=chat_id, pattern=r'export\s(jd_redrain_half_url|jd_redrain_activityId|jd_redrain_url).*=(".*"|\'.*\')'))
+@client.on(events.NewMessage(chats=-1001728533280, pattern=r'export\s(jd_redrain_half_url|jd_redrain_activityId|jd_redrain_url).*=(".*"|\'.*\')'))
 async def activityID(event):
     try:
         text = event.message.text
