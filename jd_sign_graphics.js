@@ -103,7 +103,7 @@ async function signRun() {
     }else{
       errorNum++;
     }
-    let time = Math.random() * 5000 + 15000
+    let time = Math.random() * 4000 + 16000
     console.log(`等待${(time/1000).toFixed(3)}秒`)
     await $.wait(parseInt(time, 10))
   }
@@ -131,7 +131,7 @@ function Login(i) {
                 $.appId = 'b342e';
                 await requestAlgo();
                 await Sign(i,1)
-                let time = Math.random() * 5000 + 15000
+                let time = Math.random() * 4000 + 16000
                 console.log(`等待${(time/1000).toFixed(3)}秒`)
                 await $.wait(parseInt(time, 10))
               } else if (data.hasSign === true) {
