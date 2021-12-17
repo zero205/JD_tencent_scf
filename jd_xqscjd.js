@@ -184,13 +184,18 @@ async function main() {
             } 
         };
         $.canDo = true
-        for (let doit of $.prodcuts){
-            if ($.prodcutsNum < $.prodcuts.length && $.canDo === true){
-                console.log(`去加购${doit.name}`)
-                await getRewardList(`product_view?product_id=${doit.id}`)
-                await $.wait(500)
-            } 
-        };
+        if (["card","car"].includes(process.env.FS_LEVEL)) {
+            for (let doit of $.prodcuts){
+                if ($.prodcutsNum < $.prodcuts.length && $.canDo === true){
+                    console.log(`去加购${doit.name}`)
+                    await getRewardList(`product_view?product_id=${doit.id}`)
+                    await $.wait(500)
+                } 
+            };
+        }else{
+            console.log("不加购,请设置通用加购/开卡环境变量FS_LEVEL为\"car\"(或\"card\"开卡+加购)")
+        }
+        
         await getUserInfo()
         await $.wait(500)
         console.log(`可抽奖${$.lottery_number}次`)
