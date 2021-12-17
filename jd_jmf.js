@@ -256,7 +256,7 @@ function doInteractiveAssignment(extraType, encryptProjectId, sourceCode, encryp
             } else if (extraType === "sign1") {
               console.log(`签到成功：获得${data.rewardsInfo.successRewards[$.type][0] ? `${data.rewardsInfo.successRewards[$.type][0].quantity}${data.rewardsInfo.successRewards[$.type][0].rewardName}` : `${data.rewardsInfo.successRewards[$.type].quantityDetails[0].quantity}${data.rewardsInfo.successRewards[$.type].quantityDetails[0].rewardName}`}`)
             } else if (actionType === "0") {
-              if (data.assignmentInfo.completionCnt === data.assignmentInfo.maxTimes) {
+              if (data.code === 0) {
                 $.complete = true
                 console.log(`完成成功：获得${data.rewardsInfo.successRewards[$.type][0] ? `${data.rewardsInfo.successRewards[$.type][0].quantity}${data.rewardsInfo.successRewards[$.type][0].rewardName}` : `${data.rewardsInfo.successRewards[$.type].quantityDetails[0].quantity}${data.rewardsInfo.successRewards[$.type].quantityDetails[0].rewardName}`}`)
               }
