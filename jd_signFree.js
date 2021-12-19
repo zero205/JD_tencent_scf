@@ -87,15 +87,17 @@ function query() {
                     data = JSON.parse(data)
                     $.signFreeOrderInfoList = data.data.signFreeOrderInfoList
                     if (data.success == true) {
-                        if (data.data.risk == true) {
-                            console.log("风控用户,可能有异常");
-                            msg.push("风控用户,可能有异常")
-                        }
                         if (!data.data.signFreeOrderInfoList) {
                             console.log("没有需要签到的商品,请到京东极速版[签到免单]购买商品");
                             msg.push("没有需要签到的商品,请到京东极速版[签到免单]购买商品")
                         } else {
                             $.signFreeOrderInfoList = data.data.signFreeOrderInfoList
+                            console.log("脚本也许随时失效,请注意");
+                            msg.push("脚本也许随时失效,请注意")
+                            if (data.data.risk == true) {
+                                console.log("风控用户,可能有异常");
+                                msg.push("风控用户,可能有异常")
+                            }
                         }
                     }else{
                         console.error("失败");
