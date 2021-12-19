@@ -8,7 +8,7 @@ const UA = $.isNode() ? (process.env.JS_USER_AGENT ? process.env.JS_USER_AGENT :
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [],
     cookie,
-    msg = ['没参加活动就把脚本停了']
+    msg = []
 
 const activityId = 'PiuLvM8vamONsWzC0wqBGQ'
 
@@ -53,6 +53,7 @@ const JD_API_HOST = 'https://api.m.jd.com/';
 async function sign_all() {
     await query()
     if (!$.signFreeOrderInfoList){
+        console.log('啥也没买,结束')
         return
     }
     await $.wait(3000)
