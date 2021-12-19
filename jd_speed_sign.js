@@ -796,7 +796,6 @@ function taskGetUrl(function_id, body) {
 }
 
 function invite2() {
-  let t = +new Date()
   let inviterId = [
     "/eNHdfn6fP+TFwVda3ipjWwvTFqeKBZaRG38adWABKk=",
     "Sev6JWjut6GyaEHJIWpSQQ=="
@@ -812,7 +811,7 @@ function invite2() {
     'Cookie': cookie
   }
 
-  let dataString = `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${encodeURIComponent(inviterId)}","type":1}}&appid=market-task-h5&uuid=&_t=${t}`;
+  let dataString = `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${encodeURIComponent(inviterId)}","type":1}}&appid=market-task-h5&uuid=&_t=${Date.now()}`;
 
   var options = {
     url: 'https://api.m.jd.com/',

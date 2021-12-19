@@ -83,7 +83,7 @@ if ($.isNode()) {
 
 async function jsRedPacket() {
   try {
-    // await invite();
+    await invite2();
 //     await sign();//极速版签到提现
     await reward_query();
     for (let i = 0; i < 5; ++i) {
@@ -96,6 +96,34 @@ async function jsRedPacket() {
   } catch (e) {
     $.logErr(e)
   }
+}
+
+function invite2() {
+  let inviterId = [
+    "/eNHdfn6fP+TFwVda3ipjWwvTFqeKBZaRG38adWABKk=",
+    "Sev6JWjut6GyaEHJIWpSQQ=="
+  ][Math.floor((Math.random() * 2))]
+  let headers = {
+    'Host': 'api.m.jd.com',
+    'accept': 'application/json, text/plain, */*',
+    'content-type': 'application/x-www-form-urlencoded',
+    'origin': 'https://assignment.jd.com',
+    'accept-language': 'zh-cn',
+    'user-agent': $.isNode() ? (process.env.JS_USER_AGENT ? process.env.JS_USER_AGENT : (require('./JS_USER_AGENTS').USER_AGENT)) : ($.getdata('JSUA') ? $.getdata('JSUA') : "'jdltapp;iPad;3.1.0;14.4;network/wifi;Mozilla/5.0 (iPad; CPU OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+    'referer': `https://assignment.jd.com/?inviterId=${encodeURIComponent(inviterId)}`,
+    'Cookie': cookie
+  }
+
+  let dataString = `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${encodeURIComponent(inviterId)}","type":1}}&appid=market-task-h5&uuid=&_t=${Date.now()}`;
+
+  var options = {
+    url: 'https://api.m.jd.com/',
+    headers: headers,
+    body: dataString
+  }
+  $.post(options, (err, resp, data) => {
+    // console.log(data)
+  })
 }
 
 
