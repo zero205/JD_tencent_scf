@@ -26,6 +26,7 @@ let needleLevel = 1;
 let totalLevel = 400;
 let allMessage = '';
 $.cookie = '';
+let hot_flag = false
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
@@ -64,7 +65,7 @@ if ($.isNode()) {
             await getNeedleLevelInfo();
             console.log('当前关卡: ',needleLevel+"/"+totalLevel)
             await $.wait(500);
-            for (let i = needleLevel; i <= totalLevel; i++) {
+            for (let i = needleLevel; i <= totalLevel && !hot_flag; i++) {
                 await getNeedleLevelInfo();
                 console.log('当前关卡: ',needleLevel+"/"+totalLevel)
                 if (needleLevel ==undefined){
@@ -276,7 +277,10 @@ function saveNeedleLevelInfo(currentLevel) {
                         data = $.toObj(data);
                         if (data.code === 0) {
                             console.log(`关卡[${currentLevel}]通关成功\n`);
-                        } else {
+                        } else if (data.code === 1020) {
+                            console.warn('火爆,结束')
+                            hot_flag = true
+                        }else {
                             needleLevel = undefined
                             console.log(`通关异常:${JSON.stringify(data)}\n`);
                         }
