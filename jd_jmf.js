@@ -149,46 +149,47 @@ async function queryInteractiveInfo(encryptProjectId, sourceCode) {
                 } else {
                   console.log(`今日已签到`)
                 }
-              } else if (vo.ext.extraType === "assistTaskDetail") {
-                console.log(`【京东账号${$.index}（${$.UserName}）的京东小魔方好友互助码】${vo.ext[vo.ext.extraType].itemId}`)
-                $.encryptProjectId = encryptProjectId
-                $.encryptAssignmentId = vo.encryptAssignmentId
-                $.sourceCode = sourceCode
-                if (vo.completionCnt < vo.assignmentTimesLimit) {
-                  $.shareCodes.push({
-                    "code": vo.ext[vo.ext.extraType].itemId,
-                    "use": $.UserName
-                  })
-                } else {
-                  console.log(`助力已满`)
-                }
-              } else if (vo.ext.extraType !== "brandMemberList") {
-                if (Object.keys(vo.ext).length && Object.keys(vo.ext[vo.ext.extraType]).length) {
-                  console.log(`去做【${vo.assignmentName}】`)
-                  if (vo.completionCnt < vo.assignmentTimesLimit) {
-                    $.type = vo.rewards[0].rewardType
-                    for (let key of Object.keys(vo.ext[vo.ext.extraType])) {
-                      let task = vo.ext[vo.ext.extraType][key]
-                      if (task.status !== 2) {
-                        if (vo.ext.extraType !== "productsInfo" && vo.ext.extraType !== "addCart") {
-                          await doInteractiveAssignment(vo.ext.extraType, encryptProjectId, sourceCode, vo.encryptAssignmentId, task.itemId, "1")
-                          await $.wait((vo.ext.waitDuration * 1000) || 2000)
-                        }
-                        if (vo.ext.extraType === "browseShop") {
-                          $.rewardmsg = `完成成功：获得${vo.rewards[0].rewardValue}${vo.rewards[0].rewardName}`
-                          await qryViewkitCallbackResult(encryptProjectId, vo.encryptAssignmentId, task.itemId)
-                        } else {
-                          $.complete = false
-                          await doInteractiveAssignment(vo.ext.extraType, encryptProjectId, sourceCode, vo.encryptAssignmentId, task.itemId, "0")
-                          if ($.complete) break
-                        }
-                      }
-                    }
-                  } else {
-                    console.log(`任务已完成`)
-                  }
-                }
               }
+              //  else if (vo.ext.extraType === "assistTaskDetail") {
+              //   console.log(`【京东账号${$.index}（${$.UserName}）的京东小魔方好友互助码】${vo.ext[vo.ext.extraType].itemId}`)
+              //   $.encryptProjectId = encryptProjectId
+              //   $.encryptAssignmentId = vo.encryptAssignmentId
+              //   $.sourceCode = sourceCode
+              //   if (vo.completionCnt < vo.assignmentTimesLimit) {
+              //     $.shareCodes.push({
+              //       "code": vo.ext[vo.ext.extraType].itemId,
+              //       "use": $.UserName
+              //     })
+              //   } else {
+              //     console.log(`助力已满`)
+              //   }
+              // } else if (vo.ext.extraType !== "brandMemberList") {
+              //   if (Object.keys(vo.ext).length && Object.keys(vo.ext[vo.ext.extraType]).length) {
+              //     console.log(`去做【${vo.assignmentName}】`)
+              //     if (vo.completionCnt < vo.assignmentTimesLimit) {
+              //       $.type = vo.rewards[0].rewardType
+              //       for (let key of Object.keys(vo.ext[vo.ext.extraType])) {
+              //         let task = vo.ext[vo.ext.extraType][key]
+              //         if (task.status !== 2) {
+              //           if (vo.ext.extraType !== "productsInfo" && vo.ext.extraType !== "addCart") {
+              //             await doInteractiveAssignment(vo.ext.extraType, encryptProjectId, sourceCode, vo.encryptAssignmentId, task.itemId, "1")
+              //             await $.wait((vo.ext.waitDuration * 1000) || 2000)
+              //           }
+              //           if (vo.ext.extraType === "browseShop") {
+              //             $.rewardmsg = `完成成功：获得${vo.rewards[0].rewardValue}${vo.rewards[0].rewardName}`
+              //             await qryViewkitCallbackResult(encryptProjectId, vo.encryptAssignmentId, task.itemId)
+              //           } else {
+              //             $.complete = false
+              //             await doInteractiveAssignment(vo.ext.extraType, encryptProjectId, sourceCode, vo.encryptAssignmentId, task.itemId, "0")
+              //             if ($.complete) break
+              //           }
+              //         }
+              //       }
+              //     } else {
+              //       console.log(`任务已完成`)
+              //     }
+              //   }
+              // }
             }
           }
         }
