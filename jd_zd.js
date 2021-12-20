@@ -1,5 +1,6 @@
 /*
 战队投注
+cron 11 0,23 * * * jd_zd.js
 */
 const $ = new Env('战队投注');
 const notify = $.isNode() ? require('./sendNotify') : '';
