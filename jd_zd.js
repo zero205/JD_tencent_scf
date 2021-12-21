@@ -72,7 +72,7 @@ function tythelp() {
         data = JSON.parse(data);
         // console.log(data)
         if (data.code == 0) {
-          console.log(`获得:${data.data.prizeValue}豆`)
+          console.log(`返回:${JSON.stringify(data)}`)
         } else {
           console.log(data.errMsg)
         }
