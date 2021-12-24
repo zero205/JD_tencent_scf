@@ -76,7 +76,7 @@ if ($.isNode()) {
         await $.wait(time)
       }
     }
-  } while (count < (process.env.CFD_LOOP_LIMIT || 10)*1)
+  } while (count < (process.env.CFD_LOOP_LIMIT || 1)*1)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done());
