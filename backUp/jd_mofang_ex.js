@@ -1,9 +1,9 @@
+
 /*
 京东小魔方--收集兑换
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 by:小手冰凉 tg:@chianPLA
-MF_EX_1 为 true则兑换1魔方,否则只兑换5魔方
 ============Quantumultx===============
 [task_local]
 #京东小魔方--收集兑换
@@ -98,7 +98,6 @@ async function queryInteractiveInfo(encryptProjectId, sourceCode) {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`queryInteractiveInfo API请求失败，请检查网路重试`)
-        } else {
         }
       } catch (e) {
         $.logErr(e, resp)
@@ -130,21 +129,17 @@ async function queryInteractiveRewardInfo(encryptProjectId, sourceCode, type) {
               console.log(`当前魔方${sum}个`);
               let task = await queryInteractiveInfo($.config.giftConfig.projectId, "acexinpin0823");
               data2 = JSON.parse(task);
+              $.run = true;
               if (data2.subCode == '0') {
                 for (let key of Object.keys(data2.assignmentList)) {
                   let vo = data2.assignmentList[key];
-                  if (sum >= 5) {
-                    if (vo.exchangeRate == 5) {
-                      for (let i = 0; i < Math.floor(sum / 5); i++) {
-                        console.log(`开始5魔方第${i + 1}次兑换`);
-                        await doInteractiveAssignment($.config.giftConfig.projectId, vo.encryptAssignmentId, "acexinpin0823", 1);
-                        await $.wait(1500);
-                      }
-                    }
-                  } if (sum < 5 && process.env.MF_EX_1 == 'true') {
-                    if (vo.exchangeRate == 1) {
-                      for (let i = 0; i < sum; i++) {
-                        console.log(`开始1魔方第${i + 1}次兑换`);
+                  if (sum >= 3) {
+                    if (vo.exchangeRate == 3) {
+                      for (let i = 1; i <= 1; i++) {
+                        if ($.run == false) {
+                          continue;
+                        }
+                        console.log(`开始3魔方第${i}次兑换`);
                         await doInteractiveAssignment($.config.giftConfig.projectId, vo.encryptAssignmentId, "acexinpin0823", 1);
                         await $.wait(1500);
                       }
@@ -157,8 +152,11 @@ async function queryInteractiveRewardInfo(encryptProjectId, sourceCode, type) {
             } else {
               sum = data.exchangeRestScoreMap['368'];
               if (sum >= 6) {
-                for (let i = 0; i < Math.floor(sum / 6); i++) {
-                  console.log(`开始第${i + 1}次收集魔方`);
+                for (let k = 1; k <= Math.floor(sum / 6); k++) {
+                  if ($.run == false) {
+                    continue;
+                  }
+                  console.log(`开始第${k}次收集魔方`);
                   await doInteractiveAssignment($.config.giftConfig.projectId, "wE62TwscdA52Z4WkpTJq7NaMvfw", "acexinpin0823", 0);//兑换魔方
                   await $.wait(1500);
                 }
@@ -178,7 +176,7 @@ async function queryInteractiveRewardInfo(encryptProjectId, sourceCode, type) {
 // 兑换和收集魔方
 async function doInteractiveAssignment(encryptProjectId, AssignmentId, sourceCode, type) {
   return new Promise(async (resolve) => {
-    $.post(taskUrl("doInteractiveAssignment", { "encryptProjectId": encryptProjectId, "encryptAssignmentId": AssignmentId, "sourceCode": sourceCode, "itemId": "", "actionType": "", "completionFlag": "", "ext": { "exchangeNum": 1 } }), async (err, resp, data) => {
+    $.post(taskUrl("doInteractiveAssignment", { "encryptProjectId": encryptProjectId, "encryptAssignmentId": AssignmentId, "sourceCode": sourceCode, "itemId": "", "actionType": "", "completionFlag": "", "ext": { "exchangeNum": 1 }, "extParam": { "businessData": { "random": "85707533" }, "signStr": "1639914390947~1KANxv8F8hhMDF4ZUtXWDAxMQ==.SVN4bmFJUXhvaExceCkCTFx8HW09Ch1gJklJfXtrVFc1ZSZJGykbFkhSGQEVNicJfCs1EiYdE0EKeQ4vRVg1.0f82af10~3,2~171F7F51216CC9EEA80A5C3D4372ED8F17117802E6ABE50E9AA1945A32CF6071~0vzuy9d~C~TxdFWRMObmwYE0BbXBYLbxdVARwDfR12YxgEYAMdABsBBwEYQRMYE1ACHAN5GHdjGABnBR0AHwQGARhFFhkTUAAZAnkYc2YZAGdyGEAdQBNpGRNTQ1oXCwAdFkZCFgsWBAcHCA0EBQcJDQwEAQMHAAkWHRZCVFATDhdFQEVAQVdBVxYZE0NUVRcLFldSQUVARUFUExgTRFFfFgtvAh0DBxgNHQwdBRkEaR0WX1sWCwcZE1dCFg8TVVIADARRUA0CB1EJAgYFUlABAlVRCAEBVQACVwYFAgAWGRNaQRYPE3hYWkBJFFBVR1JcBwAXHRZFFg8AAgINDAAAAg0FCAAGGBdbXxMOFxwHAwJRB1IFBgxUAAIZAAQEVFdUB1YFAgJSVQVSBhMYE1JFUxYLFld9egEDZ2d5f3Z3EUd8Q1h7fwhbB2hDDAkXHRZfQhcLFnZbWlZYVBR8X1cfFhkTWlBCFwsWCAQMAgQTGBdCV0MWD2oMAQQZAgIBaRkTRl4WD2oWZnhvHHV/BAUTGBNVW1VGXl1RExgTBQUTGBMFBR8GHwQXHRYIBAwCBBMYFwQHBAcFAgEHBwMAAgcHBwcZBQcDAgMCBwMAAgUHAwcHAhYZEwUTaRkTXV5VFwsWV1JTV1JXQEETGBNVXxMOE0EXHRZSXRcLFkYHGwMaBRYZE1dXa0MTDhMEBBMYE1ZREw4TRlRfUF5ZCAkBBgQCBAcCFhkTWVsWD2oFHQQZAWkdFlddW1YWDxMFBwcMCAUFBwMBAgkMSwBQegV7ZwRfbW8BeXVye2hYVUVWW3VJeVIMCR9Sc2NfZARBCWFmfmFgbABmbElldFJja19wYVp4Ykl+bHVwRXt5ZG5obWN8RGl1TQl8dW1weFNkTGxiUGtzT3gCZk5saXpJAEF0Q2h1dHdDd3xMfE14Xl4efXJXDHhDfHNxRmVzUWdCcmkEVgB+ZQxTe3Bge3dWDGN2T0VdemYBdnNcflF4dlZsf1pxV1J2WnBpXWwCcnYAX3pcVgZzYFBwcF9SfHt3Vll1SV8NaWVWcnRIR3lRZlZ1dnZ4enZZAHR+B3BXGwkDBAFXVQJSSk8dBU9KS3NKZVxRd2ZWU2Nnclp4fQAEZGJNa2ByXABkbHd6d2dYSWZyYFxlZVldYnVYZ3llSURxZwR0f3NJdVNxY15sdUxgd3FzR2NnZXNBZAF5fGVCa2d0XF5gZUlxcXdDZHZtcFtnc01gZGBMUVNyd3FUZEx4bnB3RHVzQglscwVgcnZJYVRjcntXZEZMdWJjcFFzTEJ3cWRlCE8FSQBEQEZdFhkTWUJTFwsWE0k=~0zkqpsb", "sceneid": "XMFJGh5" } }), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -190,8 +188,11 @@ async function doInteractiveAssignment(encryptProjectId, AssignmentId, sourceCod
               if (type == 1) {
                 console.log(`当前兑换${data.rewardsInfo.successRewards['3'][0].rewardName}`);
               }
-            } else {
+            } else if (data.subCode == '1403' || data.subCode == '1703') {
               console.log(data.msg);
+              $.run = false;
+            } else {
+              console.log(data);
             }
           }
         }
