@@ -5,7 +5,6 @@
     "jd_bean_sign": [0],
     "jd_cfd": [6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jd_dreamFactory": [4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
-    "jd_joy": 2,
     "jd_big_winner": [6, 9, 12, 15, 18, 21],
     "jd_jdtj_winner": [6, 12, 15, 21],
     "jd_bean_home": [7],
@@ -23,7 +22,6 @@
     "jd_jin_tie": [1],
     "jd_joy_park": [3, 6, 9, 12, 15, 18, 21],
     "jd_joy_park_task": [6, 12, 18],
-    "jd_joy_run": [14, 19],
     "jd_jxmc": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jd_kd": [3],
     "jd_live": [12, 13, 14],
@@ -67,7 +65,6 @@
     "jd_try": [4],
     "jd_cfd_loop": [8, 16],
     "jd_price": [23],
-    "jd_joy_steal": 3,
     "jd_unsubscribe": [23],
     "params":
     {
