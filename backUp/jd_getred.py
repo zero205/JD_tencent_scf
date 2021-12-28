@@ -37,7 +37,6 @@ def getinfo(ck):
     count = 0
     redinfo = []
     while isNext:
-        time.sleep(500)
         url = "https://wq.jd.com/user/info/QueryUserRedEnvelopesV2?type=2&orgFlag=JD_PinGou_New&page=%s&cashRedType=1&redBalanceFlag=0&channel=3&_=%s&sceneval=2&g_login_type=1&g_ty=ls" % (
             page, gettimestamp())
         headers = {
