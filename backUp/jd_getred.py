@@ -94,6 +94,7 @@ def getinfo(ck):
                 if isExist == 0:
                     temp = [activityName, 1, float(i['discount']), float(i['discount']) - float(i['balance'])]
                     redinfo.append(temp)
+            time.sleep(0.2)
 
 
 if __name__ == '__main__':
