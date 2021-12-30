@@ -48,6 +48,7 @@
     "jd_z_health_energy": [6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jd_zjb": [7],
     "jd_car": [7],
+    "jd_m_sign":[10],
     "jd_zsign":[10],
     "jd_genz":[13],
     "jd_daily_egg": 1,
