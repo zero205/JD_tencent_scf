@@ -1,5 +1,6 @@
 {
     "jd_redrain": 1,
+    "jd_m_sign":[0].
     "jd_joyjd_open": 23,
     "jd_fruit":[6, 12 ,18],
     "jx_sign": [8, 13],
@@ -48,7 +49,6 @@
     "jd_z_health_energy": [6, 8, 10, 12, 14, 16, 18, 20, 22],
     "jd_zjb": [7],
     "jd_car": [7],
-    "jd_m_sign":[10],
     "jd_zsign":[10],
     "jd_genz":[13],
     "jd_daily_egg": 1,
