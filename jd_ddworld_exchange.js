@@ -61,6 +61,10 @@ async function main() {
             await task('get_exchange');
             if (!$.hotFlag) {
                 if ($.exchangeList) {
+                    if (process.env.ddex) {
+                        $.log(`检测到ddex:${process.env.ddex}`)
+                        $.exchangeList = $.exchangeList.filter( vo => vo.name.includes(process.env.ddex))
+                    }
                     for (const vo of $.exchangeList.sort((a,b)=> b.coins-a.coins)) {
                         if (!vo.name.match(/红包\d*/)) {
                             $.log(`去兑换：${vo.name}`)
