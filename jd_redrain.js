@@ -48,12 +48,26 @@ if ($.isNode()) {
     $.log(`\n甘露殿【https://t.me/jdredrain】提醒你:本地红包雨配置获取错误，尝试从远程读取配置\n`);
     await $.wait(1000);
     if (!jd_redrain_url) {
-      $.log(`\n甘露殿【https://t.me/jdredrain】提醒你:今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
-      return;
-    }    
-    let RedRainIds = await getRedRainIds(jd_redrain_url);
-    for (let i = 0; i < 1; i++) {
-      jd_redrain_activityId = RedRainIds[0];
+      // $.log(`\n甘露殿【https://t.me/jdredrain】提醒你:今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
+      $.log(`尝试使用默认远程url`);
+      jd_redrain_url = 'https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/redrain.json'
+      let RedRainIds = await getRedRainIds(jd_redrain_url)
+      if (!RedRainIds) {
+        $.log(`尝试使用cdn`);
+        jd_redrain_url = 'https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/redrain.json'
+        RedRainIds = await getRedRainIds(jd_redrain_url)
+      }
+      if (RedRainIds) {
+        jd_redrain_activityId = RedRainIds.join('@')
+      }else{
+        $.log(`默认远程url获取失败`);
+        return
+      }
+    } else{
+      let RedRainIds = await getRedRainIds(jd_redrain_url);
+      for (let i = 0; i < 1; i++) {
+        jd_redrain_activityId = RedRainIds[0];
+      }
     }
   }
   if (!jd_redrain_activityId) {
