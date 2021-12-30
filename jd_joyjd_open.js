@@ -43,9 +43,9 @@ if ($.isNode()) {
     }
     if (!activityIDList) {
         $.log(`没有通用ID任务，尝试获取远程`);
-        let data = await getData("https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/joyjd_open.json")
+        let data = await getData("https://raw.githubusercontent.com/Ca11back/scf-experiment/master/json/joyjd_open.json")
         if (!data) {
-            data = await getData("https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/joyjd_open.json")
+            data = await getData("https://raw.fastgit.org/Ca11back/scf-experiment/master/json/joyjd_open.json")
         }
         if (data.activityIDList && data.activityIDList.length) {
             $.log(`获取到远程且有数据`);

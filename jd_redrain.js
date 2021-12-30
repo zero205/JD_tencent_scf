@@ -50,11 +50,11 @@ if ($.isNode()) {
     if (!jd_redrain_url) {
       // $.log(`\n甘露殿【https://t.me/jdredrain】提醒你:今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
       $.log(`尝试使用默认远程url`);
-      jd_redrain_url = 'https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/redrain.json'
+      jd_redrain_url = 'https://raw.githubusercontent.com/Ca11back/scf-experiment/master/json/redrain.json'
       let RedRainIds = await getRedRainIds(jd_redrain_url)
       if (!RedRainIds) {
         $.log(`尝试使用cdn`);
-        jd_redrain_url = 'https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/redrain.json'
+        jd_redrain_url = 'https://raw.fastgit.org/Ca11back/scf-experiment/master/json/redrain.json'
         RedRainIds = await getRedRainIds(jd_redrain_url)
       }
       if (RedRainIds) {
