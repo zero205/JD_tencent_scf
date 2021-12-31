@@ -35,9 +35,9 @@ pin3@&@不清空👉该pin不清空
 防止没指定的账号购物车全清空
 
 */
-let jdSignUrl = '' // 算法url
+let jdSignUrl = 'https://jd.smiek.tk/jdcleancatr_21102717' // 算法url
 let cleancartRun = 'false'
-let cleancartProducts = ''
+let cleancartProducts = '*@&@'
 
 const $ = new Env('清空购物车');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
