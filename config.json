@@ -1,5 +1,8 @@
 {
+    "jd_ddworld_exchange": [0],
+    "jd_m_sign":[0],
     "jd_redrain": 1,
+    "jd_joyjd_open": 23,
     "jd_fruit":[6, 12 ,18],
     "jx_sign": [8, 13],
     "jd_bean_sign": [0],
@@ -38,7 +41,6 @@
     "jd_sddd": [1, 12],
     "jd_sgmh": [8],
     "jd_shop": [1],
-    "jd_sign_graphics": [5],
     "jd_speed_redpocke": [2, 22],
     "jd_superBrand": [14,20],
     "jd_tyt": [6, 10, 14, 18, 22],

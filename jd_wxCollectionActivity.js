@@ -1,14 +1,78 @@
+if (!["card","car"].includes(process.env.FS_LEVEL)) {
+    console.log("请设置通用加购/开卡环境变量FS_LEVEL为\"car\"(或\"card\"开卡+加购)来运行加购脚本")
+    return
+}
 /*
 https://lzkj-isv.isvjcloud.com/wxgame/activity/8530275?activityId=
+
+推送设置 DoPush 推送模式, 设置为 false 每次推送, true 跑完了推送
+
+JD_CART_REMOVESIZE || 20; // 运行一次取消多全部已关注的商品。数字0表示不取关任何商品
+JD_CART_REMOVEALL || true;    //是否清空，如果为false，则上面设置了多少就只删除多少条
+
+
 */
 const $ = new Env('加购物车抽奖');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
-let cookiesArr = [], cookie = '', message = '';
+let cookiesArr = [], cookie = '', message = '' ,isPush = false;
 let activityIdList = [
-    'e19e4296e1404a62afd6e3da2f44adec',
-    'a898cd1be33d4945897d43667c58b7c0',
-    '3b071ff4c2d04dd4a9e56250049835d6',
+    "2f28f4e636be4321adff032c831b5444",
+    "78814ba34a464dd88524aa5a0633850a",
+    "6561ed1e6b75487eb2e8b5a80f3bf7fa",
+    "a9c4c8b634174cb6b9dede2e34cb0cef",
+    "22871059042441a3afb5c29cbdd9287d",
+    "5a651102ca0d42c0a6a1057a23e46ef1",
+    "bd90831a6450432ba135d3c378eb6269",
+    "48fb2f10a1504347b11a51c9d547025f",
+    "733e9b288d4d46ab8e776367a587bdc5",
+    "45c48c8d2ed14a1a94c6b4172f25c17b",
+    "64e34c169bef43bcb26961c715ea5976",
+    "288adcef877245648234535652f64f5d",
+    "e2824c7278474bab98681f170204c73a",
+    "6f5e7df568694eed9d4a79063ca9ff00",
+    "3759216838a54078806baecae257683b",
+    "242483ae21c6431ab91fde2936eecaf2",
+    "3ab36f7d4e7d4b2aa798c7604b5b39ad",
+    "320efae4c3ff4c978594abe4bccc3a70",
+    "0eea4239e79d495aacf3ccc4c7f8eabd",
+    "971e9e27df7b4d4284f06ecc510187db",
+    "2344971a8957480fa2af6fe5c5b4115d",
+    "d77c4a24865b4617be5b1d38f3297241",
+    "656b0e4f1ae143cf995de56de39432a6",
+    "b6e6cf4adc274b66bf59e3d69c8ef707",
+    "a234fcfb325247baa5d4facb27cd3e60",
+    "a144eecf0c3b4885b821196d44bfce0b",
+    "13fd7e04083d444ca4845065fd1aa762",
+    "1b7ab0a8579e4af38aaf3672f26cacf3",
+    "447bfd3d348443c892bd523a1d76326c",
+    "66ce65a883a2465eb1a4659d4d9dfd8e",
+    "9a5e9ca9d6cf4848b17a2ec836e0b375",
+    "bd41ada84eb54a8ebfc3404bfb582df4",
+    "72ad7b11a3d54fb9ab7e068ec9bdfd9f", 
+    "7df4a950b8ce47c9a47975fea79fb554",
+    "997a44188b5a4ba095495a2f354a0a7d",
+    "a39eca744f604aeea030d4b3fc022f11",
+    "3da6a05fe6724d168e848239e7ba958c",
+    "a45ed6d16e7846e5b4bfa10597a5bd6b",
+    "b5219073dcea4d57932541e1d8561cb0",
+    "951663e6d7b747b7b002675b08d6e016",
+    "66f87d0f04f04138a6e64425852e70cd",
+    "51de2cce01754429a6a0bc10c369ad8a",
+    "82b2e9dd9e8f405c8c7b2cb4d6c412a9",
+    "84485c4e57d046d68ea5186077b43d1b",
+    "25dac0a5a7c244f487cf7c11ecd0adcd",
+    "20283005d39d4b0d8b9bddde623c848f",
+    "706e0c00f29a4621916b391958537dee",
+    "7fdbe9979785400f80575f89df58371b",
+    "51de2cce01754429a6a0bc10c369ad8a",
+    "e8bd56bbc71c4b92a5f945c467492a77",
+    "9eeb5c77be6b4432a15e37d1a9eb30cd",
+    "30f51dad041b457baebde0c84fdc0aaf",
+    "8a8fc6f027dd4e498068a808bd749294",
+    "8b5cff69a23f423cb704d3d71b2de4c8",
+    "d1c7fc3d2cd14317927bd0d2a6dc1a45",
+    "ba0a7dcabdab4ae2af6aa3912c8f3f12",
 ]
 let lz_cookie = {}
 
@@ -30,6 +94,7 @@ if ($.isNode()) {
     cookiesArr.reverse();
     cookiesArr = cookiesArr.filter(item => !!item);
 }
+let doPush = process.env.DoPush || true; // 设置为 false 每次推送, true 跑完了推送
 let removeSize = process.env.JD_CART_REMOVESIZE || 20; // 运行一次取消多全部已关注的商品。数字0表示不取关任何商品
 let isRemoveAll = process.env.JD_CART_REMOVEALL || true;    //是否清空，如果为false，则上面设置了多少就只删除多少条
 $.keywords = process.env.JD_CART_KEYWORDS || []
@@ -62,7 +127,7 @@ $.keywordsNum = 0;
                     continue
                 }
                 authorCodeList = [
-                    'b5d9535918264a4f92fff9d314d7db81',
+                    '',
                 ]
                 $.bean = 0;
                 $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
@@ -74,25 +139,25 @@ $.keywordsNum = 0;
                 $.drawInfoName = false
                 $.getPrize = null;
                 await addCart();
-                if($.drawInfoName === false || $.getPrize === null){
-                    break
-                } else if($.getPrize != null && !$.getPrize.includes("京豆")){
-                    break
-                }
+                // if($.drawInfoName === false || $.getPrize === null){
+                //     break
+                // } else if($.getPrize != null && !$.getPrize.includes("京豆")){
+                //     break
+                // }
                 await $.wait(3000)
-                await requireConfig();
-                do {
-                    await getCart_xh();
-                    $.keywordsNum = 0
-                    if($.beforeRemove !== "0"){
-                        await cartFilter_xh(venderCart);
-                        if(parseInt($.beforeRemove) !== $.keywordsNum) await removeCart();
-                        else {
-                            console.log('由于购物车内的商品均包含关键字，本次执行将不删除购物车数据')
-                            break;
-                        }
-                    } else break;
-                } while(isRemoveAll && $.keywordsNum !== $.beforeRemove)
+                // await requireConfig();
+                // do {
+                //     await getCart_xh();
+                //     $.keywordsNum = 0
+                //     if($.beforeRemove !== "0"){
+                //         await cartFilter_xh(venderCart);
+                //         if(parseInt($.beforeRemove) !== $.keywordsNum) await removeCart();
+                //         else {
+                //             console.log('由于购物车内的商品均包含关键字，本次执行将不删除购物车数据')
+                //             break;
+                //         }
+                //     } else break;
+                // } while(isRemoveAll && $.keywordsNum !== $.beforeRemove)
                 if ($.bean > 0) {
                     message += `\n【京东账号${$.index}】${$.nickName || $.UserName} \n       └ 获得 ${$.bean} 京豆。`
                 }
@@ -185,7 +250,13 @@ function task(function_id, body, isCommon = 0) {
                                 case 'getPrize':
                                     console.log(data.data.name)
                                     $.getPrize = data.data.name;
-                                    await notify.sendNotify($.name, data.data.name, '', `\n`);
+                                    if (doPush === true) {
+                                        if (data.data.name) {
+                                            message += data.data.name + " "
+                                        }
+                                    } else {
+                                        await notify.sendNotify($.name, data.data.name, '', `\n`);
+                                    }
                                     break
                                 default:
                                     $.log(JSON.stringify(data))
@@ -193,7 +264,7 @@ function task(function_id, body, isCommon = 0) {
                             }
                         }
                     } else {
-                        $.log("京东没有返回数据")
+                        // $.log("京东没有返回数据")
                     }
                 }
             } catch (error) {
