@@ -1,4 +1,4 @@
-if (process.env.rush_clean != true) {
+if (process.env.rush_clean != "true") {
     console.log("清空购物车默认不执行,需要请设置环境变量rush_clean为true")
     return
 }
