@@ -1,6 +1,6 @@
 /*
 女装盲盒
-活动地址：https://h5.m.jd.com/babelDiy/Zeus/4DYrdEbbkinoufRCg9LXnRxJKEZS/index.html
+活动地址：https://h5.m.jd.com/babelDiy/Zeus/293owQqRtKfS8cuUhk4YzGFYGw2W/index.html
 活动入口：京东app-女装馆-赢京豆
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -63,7 +63,7 @@ if ($.isNode()) {
         continue
       }
       try {
-        await jdMh('https://anmp.jd.com/babelDiy/Zeus/2x36jyruNVDWxUiAiGAgHRrkqVX2/index.html')
+        await jdMh('https://anmp.jd.com/babelDiy/Zeus/293owQqRtKfS8cuUhk4YzGFYGw2W/index.html')
       } catch (e) {
         $.logErr(e)
       }
