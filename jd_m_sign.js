@@ -65,7 +65,7 @@ async function jdsign() {
     console.log(`签到开始........`)
     await getInfo("https://pro.m.jd.com/mall/active/3S28janPLYmtFxypu37AYAGgivfp/index.html");//拍拍二手签到
     await $.wait(1000)
-    await getInfo("https://pro.m.jd.com/mall/active/3joSPpr7RgdHMbcuqoRQ8HbcPo9U/index.html");//生活特权签到
+    await getInfo("https://pro.m.jd.com/mall/active/4QjXVcRyTcRaLPaU6z2e3Sw1QzWE/index.html");//全城购签到
     await $.wait(1000)
     await getInfo("https://pro.m.jd.com/mall/active/kPM3Xedz1PBiGQjY4ZYGmeVvrts/index.html");//陪伴
 //     await getInfo("https://pro.m.jd.com/mall/active/ZrH7gGAcEkY2gH8wXqyAPoQgk6t/index.html");//箱包签到
