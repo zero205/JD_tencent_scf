@@ -1,13 +1,11 @@
 /*
-
-https://3.cn/102QN9l-6
 跑此脚本需要添加依赖文件[sign_graphics_validate.js]
 ————————————————
 如需开卡请设置环境变量[guaunknownTask_card5]为"true"
 
 如需加购请设置环境变量[guaunknownTask_addSku5]为"true"
 
-27 11 13-23 9 * https://raw.githubusercontent.com/smiek2221/scripts/master/gua_UnknownTask5.js
+27 23 * * * jd_UnknownTask5.js
 */
 const $ = new Env('酒水中秋礼盒');
 const Faker=require('./sign_graphics_validate.js') 
