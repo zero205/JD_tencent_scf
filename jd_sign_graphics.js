@@ -77,7 +77,7 @@ const turnTableId = [
       await signRun()
       const UTC8 = new Date().getTime() + new Date().getTimezoneOffset()*60000 + 28800000;
       $.beanSignTime = new Date(UTC8).toLocaleString('zh', {hour12: false}).replace(' 24:',' 00:');
-      let msg = `【京东账号${$.index}】${$.nickName || $.UserName}\n【签到时间】:  ${$.beanSignTime}\n【签到概览】:  成功${successNum}个, 失败${errorNum}个${invalidNum && "，失效"+invalidNum+"个" || ""}\n${beanNum > 0 && "【签到奖励】:  "+beanNum+"京豆" || ""}\n`
+      let msg = `【京东账号${$.index}】${$.nickName || $.UserName}\n【签到时间】:  ${$.beanSignTime}\n【签到概览】:  成功${successNum}个, 失败${errorNum}个${invalidNum && "，失效"+invalidNum+"个" || ""}\n${beanNum > 0 && "【签到奖励】:  "+beanNum+"京豆\n" || ""}`
       message += msg + '\n'
       if($.isNode()) $.msg($.name, msg);
     }
