@@ -15,8 +15,6 @@
 * 有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为`main`),按需运行一次 https://github.com/Ca11back/doge-template 的action即可
 * 第二种:直接clone一个`scf2`分支(名字需要为`main`,clone哪个取决于你要用的部署方式)
 
-## 自动同步本仓库脚本教程：[点此查看](https://github.com/zero205/JD_tencent_scf/blob/main/backUp/reposync.md)  
-
 # 使用教程
 
 * > 【青龙】拉取仓库命令：`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp|icon" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR|JDSign" "main"`
