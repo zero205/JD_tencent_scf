@@ -1091,7 +1091,7 @@ function getUrlData(url, name) {
     let data = urls.searchParams.get(name);
     return data ? data : '';
   } else {
-    const query = url.match(oc(() => /\.*/))[0].substring(1)
+    const query = url.match(/\?.*/)[0].substring(1)
     const vars = query.split('&')
     for (let i = 0; i < vars.length; i++) {
       const pair = vars[i].split('=')
