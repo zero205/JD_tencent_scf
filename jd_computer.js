@@ -1,3 +1,7 @@
+if (!["card","car"].includes(process.env.FS_LEVEL)) {
+    console.log("请设置通用加购/开卡环境变量FS_LEVEL为\"car\"(或\"card\"开卡+加购)来运行加购脚本")
+    return
+}
 /*
 #电脑配件ID任务jd_computer,自行加入以下环境变量，多个ID用@连接
 export computer_activityId="16"  
@@ -37,8 +41,17 @@ $.outFlag = 0
     return;
   }
   if (!activityIdList) {
-    $.log(`没有电脑配件ID，改日再来～`);
-    return;
+    let data = await getData("https://raw.githubusercontent.com/Ca11back/scf-experiment/master/json/computer.json")
+    if (!data) {
+        data = await getData("https://raw.fastgit.org/Ca11back/scf-experiment/master/json/computer.json")
+    }
+    if (data && data.length) {
+        $.log(`获取到远程且有数据`);
+        activityIdList = data.join('@')
+    }else{
+        $.log(`获取失败或当前无远程数据`);
+        return
+    }
   }
   MD5()
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -76,7 +89,29 @@ $.outFlag = 0
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
 
-
+function getData(url) {
+  return new Promise(async resolve => {
+    const options = {
+      url: `${url}?${new Date()}`, "timeout": 10000, headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    };
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+        } else {
+          if (data) data = JSON.parse(data)
+        }
+      } catch (e) {
+        // $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+    await $.wait(10000)
+    resolve();
+  })
+}
 async function run() {
   try {
     $.list = ''
