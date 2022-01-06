@@ -42,9 +42,9 @@ $.outFlag = 0
   }
   if (!activityIdList) {
     $.log(`没有电脑配件ID，尝试获取远程`);
-    let data = await getData("https://raw.githubusercontent.com/Ca11back/scf-experiment/master/json/computer.json")
+    let data = await getData("https://raw.githubusercontent.com/Ca11back/scf-experiment/master/json/computer2.json")
     if (!data) {
-        data = await getData("https://raw.fastgit.org/Ca11back/scf-experiment/master/json/computer.json")
+        data = await getData("https://raw.fastgit.org/Ca11back/scf-experiment/master/json/computer2.json")
     }
     if (data && data.length) {
         $.log(`获取到远程且有数据`);
