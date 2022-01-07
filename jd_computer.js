@@ -3,7 +3,7 @@ if (!["card","car"].includes(process.env.FS_LEVEL)) {
     return
 }
 /*
-#电脑配件ID任务jd_computer,自行加入以下环境变量，多个ID用@连接
+电脑配件ID任务jd_computer,自行加入以下环境变量，多个ID用@连接
 export computer_activityId="16"  
 
 即时任务，无需cron
