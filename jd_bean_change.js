@@ -19,7 +19,7 @@ let allWarnMessage = '';
 let ReturnMessage = '';
 let ReturnMessageMonth = '';
 let allMessageMonth = '';
-let Line = '===================================';
+let Line = '===================================\n';
 
 let MessageUserGp2 = '';
 let ReceiveMessageGp2 = '';
