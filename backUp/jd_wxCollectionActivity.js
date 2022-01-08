@@ -85,19 +85,19 @@ $.keywordsNum = 0;
                     break
                 }
                 await $.wait(2000)
-                // await requireConfig();
-                // do {
-                //     await getCart_xh();
-                //     $.keywordsNum = 0
-                //     if($.beforeRemove !== "0"){
-                //         await cartFilter_xh(venderCart);
-                //         if(parseInt($.beforeRemove) !== $.keywordsNum) await removeCart();
-                //         else {
-                //             console.log('由于购物车内的商品均包含关键字，本次执行将不删除购物车数据')
-                //             break;
-                //         }
-                //     } else break;
-                // } while(isRemoveAll && $.keywordsNum !== $.beforeRemove)
+                await requireConfig();
+                do {
+                    await getCart_xh();
+                    $.keywordsNum = 0
+                    if($.beforeRemove !== "0"){
+                        await cartFilter_xh(venderCart);
+                        if(parseInt($.beforeRemove) !== $.keywordsNum) await removeCart();
+                        else {
+                            console.log('由于购物车内的商品均包含关键字，本次执行将不删除购物车数据')
+                            break;
+                        }
+                    } else break;
+                } while(isRemoveAll && $.keywordsNum !== $.beforeRemove)
                 if ($.bean > 0) {
                     message += `\n【京东账号${$.index}】${$.nickName || $.UserName} \n       └ 获得 ${$.bean} 京豆。`
                 }
@@ -359,6 +359,10 @@ function random(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 
 }
+function strToJson(str){
+	var json = eval('(' + str + ')');
+	return json;
+}
 function requireConfig(){
     return new Promise(resolve => {
         if($.isNode() && process.env.JD_CART){
@@ -381,7 +385,7 @@ function getCart_xh(){
         }
         $.get(option, async(err, resp, data) => {
             try{
-                data = JSON.parse(getSubstr(data, "window.cartData = ", "window._PFM_TIMING"));
+                data = strToJson(getSubstr(data, "window.cartData = ", "window._PFM_TIMING"));
                 $.areaId = data.areaId;   // locationId的传值
                 $.traceId = data.traceId; // traceid的传值
                 venderCart = data.cart.venderCart;
