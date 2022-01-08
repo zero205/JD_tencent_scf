@@ -193,7 +193,7 @@ function getInfo(inviteId, flag = false) {
                 self_code.push(code)
               }
             }
-            if (process.env.CT_RE == 'true') {
+//             if (process.env.CT_RE == 'true') {
               if (data.data && data['data']['bizCode'] === 0) {
                 for(let vo of data.data.result && data.data.result.mainInfos || []){
                   if (vo && vo.remaingAssistNum === 0 && vo.status === "1") {
@@ -203,9 +203,9 @@ function getInfo(inviteId, flag = false) {
                   }
                 }
               }
-            }else{
-              console.log('请设置CT_RE为true自动开红包，建议手动，未知风险')
-            }
+//             }else{
+//               console.log('请设置CT_RE为true自动开红包，建议手动，未知风险')
+//             }
           }
         }
       } catch (e) {
