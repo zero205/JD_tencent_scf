@@ -8,7 +8,7 @@
 ============Quantumultx===============
 [task_local]
 #特物Z
-30 11 * * * https://raw.githubusercontent.com/Wenmoux/scripts/wen/jd/jd_superBrand.js, tag=特物Z, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+30 11,20 * * * https://raw.githubusercontent.com/Wenmoux/scripts/wen/jd/jd_superBrand.js, tag=特物Z, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
  */
 const $ = new Env('特物Z');
