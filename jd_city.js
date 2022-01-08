@@ -1,6 +1,7 @@
 /*
 城城领现金
 
+暂无池子，忽略池子信息
 首个帐号助力作者池子在最后
 其余帐号优先向前内部互助
 有助力码环境变量则助力码在最前
@@ -41,7 +42,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const author_codes = ['oe37W64MY2ZAYhCrCpeJ91Jy3zmL','-ryUXP5eZ2IXZRbCSN_E80R_EoHW0-zH'].sort(() => 0.5 - Math.random())
+const author_codes = ['oe37W64MY2ZAYhCrCpeJ91Jy3zmL','-ryUXP5eZ2IXZRbCSN_E80R_EoHW0-zH','-ryUXKUENGYSZhXFGNqT9KXNx6HEPRS5'].sort(() => 0.5 - Math.random())
 const self_code = []
 let pool = []
 !(async () => {
