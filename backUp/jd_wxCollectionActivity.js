@@ -13,7 +13,7 @@ const $ = new Env('加购物车抽奖');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '', message = '' ,isPush = false;
-let activityIdList = ['11b4d4d13fa24062bb0cb45c0abd3301', 'f0ffa62f09f6447b8fcfddaeafd15810', '421c0b9e90f2423d8ef980c2508bc7b2', 'c475a9c7b08545b9b359d1a97f14ec8c', '47d527740de74ed88f65e946b4d0500a', '4363aec53aac44309e8afa5cf58ce950']
+let activityIdList = ['bdacfcba95964d04b3e1cf0cb0e186dd', '6cb3e11671af40f9a8ab461d68995583', '892cb7fbfb844d0098e7f11d69bad6bd', 'cb052bef22334cd29089a39a52dfa1ed', '51de2cce01754429a6a0bc10c369ad8a', 'a1e3fb99b82345738aee4cc907224232', '6818e794a8d143328a819e0a22aced29']
 let lz_cookie = {}
 
 if (process.env.ACTIVITY_ID && process.env.ACTIVITY_ID != "") {
