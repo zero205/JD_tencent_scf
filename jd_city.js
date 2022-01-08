@@ -2,7 +2,7 @@
 城城领现金
 
 首个帐号助力作者池子在最后
-其余帐号优先助力池子,请入群上车!
+其余帐号优先向前内部互助
 
 活动时间：2021-05-25到2021-06-03
 更新时间：2021-05-24 09:55
@@ -285,19 +285,19 @@ function shareCodesFormat() {
     // if (readShareCodeRes && readShareCodeRes.code === 200) {
     //   pool = readShareCodeRes.data || [];
     // }
-    // if ($.isNode()) {
-    //   if (process.env.JD_CITY_EXCHANGE) {
-    //     exchangeFlag = process.env.JD_CITY_EXCHANGE || exchangeFlag;
-    //   }
-    //   if (process.env.CITY_SHARECODES) {
-    //     console.log('检测到助力码,优先. 内部互助0.01了吧,删了吧.')
-    //     if (process.env.CITY_SHARECODES.indexOf('\n') > -1) {
-    //       $.newShareCodes = process.env.CITY_SHARECODES.split('\n');
-    //     } else {
-    //       $.newShareCodes = process.env.CITY_SHARECODES.split('&');
-    //     }
-    //   }
-    // }
+    if ($.isNode()) {
+      if (process.env.JD_CITY_EXCHANGE) {
+        exchangeFlag = process.env.JD_CITY_EXCHANGE || exchangeFlag;
+      }
+      if (process.env.CITY_SHARECODES) {
+        console.log('检测到助力码,优先. 内部互助0.01了吧,删了吧.')
+        if (process.env.CITY_SHARECODES.indexOf('\n') > -1) {
+          $.newShareCodes = process.env.CITY_SHARECODES.split('\n');
+        } else {
+          $.newShareCodes = process.env.CITY_SHARECODES.split('&');
+        }
+      }
+    }
     // if ($.index - 1 == 0) {
     //   console.log('首个帐号,助力作者和池子')
     //   $.newShareCodes = [...new Set([...$.newShareCodes,...author_codes, ...pool])];
