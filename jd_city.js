@@ -193,14 +193,18 @@ function getInfo(inviteId, flag = false) {
                 self_code.push(code)
               }
             }
-            if (data.data && data['data']['bizCode'] === 0) {
-              for(let vo of data.data.result && data.data.result.mainInfos || []){
-                if (vo && vo.remaingAssistNum === 0 && vo.status === "1") {
-                  console.log(vo.roundNum)
-                  await receiveCash(vo.roundNum)
-                  await $.wait(2*1000)
+            if (process.env.CT_RE == 'true') {
+              if (data.data && data['data']['bizCode'] === 0) {
+                for(let vo of data.data.result && data.data.result.mainInfos || []){
+                  if (vo && vo.remaingAssistNum === 0 && vo.status === "1") {
+                    console.log(vo.roundNum)
+                    await receiveCash(vo.roundNum)
+                    await $.wait(2*1000)
+                  }
                 }
               }
+            }else{
+              console.log('请设置CT_RE为true自动开红包，建议手动，未知风险')
             }
           }
         }
