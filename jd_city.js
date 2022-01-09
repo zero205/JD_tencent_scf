@@ -42,7 +42,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let author_codes = ['oe37W64MY2ZAYhCrCpeJ91Jy3zmL','-ryUXP5eZ2IXZRbCSN_E80R_EoHW0-zH','-ryUXKUENGYSZhXFGNqT9KXNx6HEPRS5'].sort(() => 0.5 - Math.random())
+let author_codes = ['oe37W64MY2ZAYhCrCpeJ91Jy3zmL','-ryUXP5eZ2IXZRbCSN_E80R_EoHW0-zH'].sort(() => 0.5 - Math.random())
 const self_code = []
 let pool = []
 !(async () => {
