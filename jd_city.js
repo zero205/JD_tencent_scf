@@ -115,15 +115,16 @@ let pool = []
         await $.wait(1500)
       }
       await getInviteInfo();//雇佣
-      // if (exchangeFlag || new Date().getDate() >= 30) {
-      //   const res = await city_lotteryAward();//抽奖
-      //   if (res && res > 0) {
-      //     for (let i = 0; i < new Array(res).fill('').length; i++) {
-      //       await $.wait(1000)
-      //       await city_lotteryAward();//抽奖
-      //     }
-      //   }
-      // }
+      if (exchangeFlag || new Date().getDate() >= 18) {
+        console.log('抽奖最多连续抽10次')
+        const res = await city_lotteryAward();//抽奖
+        if (res && res > 0) {
+          for (let i = 0; i < Math.min(new Array(res).fill('').length,10); i++) {
+            await $.wait(1000)
+            await city_lotteryAward();//抽奖
+          }
+        }
+      }
       await $.wait(1000)
     }
   }
