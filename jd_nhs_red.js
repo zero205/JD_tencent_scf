@@ -11,7 +11,7 @@ if (process.env.NHS_F == 'false') {
 }
 const $ = new Env('会场红包');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let flCode = ['SKMjQrp','SIIDESU','SIi6kde']
+let flCode = ['Stu1CsC','SIIDESU','SIi6kde']
 flCode = flCode[Math.floor((Math.random() * flCode.length))]
 if ($.isNode() && process.env.FLCODE3) {
     flCode = process.env.FLCODE3
