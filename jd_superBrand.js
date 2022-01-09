@@ -68,7 +68,7 @@ if ($.isNode()) {
         for (let j = 0; j < $.allInvite.length && $.canHelp; j++) {
             $.codeInfo = $.allInvite[j];
             $.code = $.codeInfo.code;
-            if($.UserName ===  $.codeInfo.userName || $.codeInfo.time === 3){
+            if($.UserName ===  $.codeInfo.userName || $.codeInfo.time === 999){
                 continue;
             }
             $.encryptAssignmentId = $.codeInfo.encryptAssignmentId;
@@ -276,7 +276,7 @@ function dealReturn(type, data) {
                 console.log(`助力次数已用完`);
             }else if (data.code === '0' && data.data.bizCode === '103'){
                 console.log(`助力已满`);
-                $.codeInfo.time = 3;
+                $.codeInfo.time = 999;
             }else if (data.code === '0' && data.data.bizCode === '2001'){
                 $.canHelp = false;
                 console.log(`黑号`);
