@@ -29,7 +29,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //自动抽奖 ，环境变量  JD_CITY_EXCHANGE
-let exchangeFlag = $.getdata('jdJxdExchange') || !!0;//是否开启自动抽奖，建议活动快结束开启，默认关闭
+let exchangeFlag = false;//是否开启自动抽奖，建议活动快结束开启，默认关闭
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 
@@ -53,10 +53,13 @@ let pool = []
     return;
   }
   await requireConfig();
+  if (process.env.JD_CITY_EXCHANGE) {
+    exchangeFlag = process.env.JD_CITY_EXCHANGE == 'true';
+  }
   if (exchangeFlag) {
     console.log(`脚本自动抽奖`)
   } else {
-    console.log(`脚本不会自动抽奖，建议活动快结束开启，默认关闭`)
+    console.log(`脚本不会自动抽奖，设置JD_CITY_EXCHANGE为true，默认关闭`)
   }
   // if (process.env.CT_R != 'false') {
   //   cookiesArr = cookiesArr.sort(() => 0.5 - Math.random())
@@ -322,9 +325,6 @@ function shareCodesFormat() {
     //   pool = readShareCodeRes.data || [];
     // }
     if ($.isNode()) {
-      if (process.env.JD_CITY_EXCHANGE) {
-        exchangeFlag = process.env.JD_CITY_EXCHANGE || exchangeFlag;
-      }
       if (process.env.CITY_SHARECODES) {
         console.log('检测到助力码,优先. 内部互助0.01了吧,删了吧.')
         if (process.env.CITY_SHARECODES.indexOf('\n') > -1) {
@@ -360,9 +360,6 @@ function requireConfig() {
     //Node.js用户请在jdCookie.js处填写京东ck;
     let shareCodes = [];
     if ($.isNode()) {
-      if (process.env.JD_CITY_EXCHANGE) {
-        exchangeFlag = process.env.JD_CITY_EXCHANGE || exchangeFlag;
-      }
       if (process.env.CITY_SHARECODES) {
         if (process.env.CITY_SHARECODES.indexOf('\n') > -1) {
           shareCodes = process.env.CITY_SHARECODES.split('\n');
