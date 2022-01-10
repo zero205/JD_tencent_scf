@@ -84,7 +84,19 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
                     await $.wait(1000);
                 }
             }
-            
+        }
+    }
+    for (let i = 0; i < cookiesArr.length; i++) {
+        cookie = cookiesArr[i];
+        if (cookie) {
+            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+            $.index = i + 1;
+            $.isLogin = true;
+            $.nickName = '';
+            if (!$.isLogin) {
+                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+                continue
+            }            
             //开箱
             console.log(`京东账号${$.index}去开箱`)
             for (let y = 0; y < $.lotteryNumber; y++) {
