@@ -9,7 +9,7 @@
 
  */
 if (process.env.ZNS != 'true') {
-    console.log('脚本默认不运行,请设置环境变量ZNS为true运行,可能黑号')
+    console.log('脚本默认不运行,请设置环境变量ZNS为true运行,可能黑号,运行前最少手动进去过一次')
     return
 }
 const $ = new Env('炸年兽');
