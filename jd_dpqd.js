@@ -8,7 +8,11 @@ DPQDTK: token1&token2
 */
 let token = []
 if (process.env.DPQDTK) {
-  token = [...process.env.DPQDTK.split('&'),...token]
+  if (process.env.DPQDTK.includes('\n')) {
+    token = [...process.env.DPQDTK.split('\n'),...token]
+  } else {
+    token = [...process.env.DPQDTK.split('&'),...token]
+  }
 }
 if (!token.length) {
   console.log('无店铺签到token,不执行.需自备token:环境变DPQDTK: tk1&tk2. 详细说明请入群查看频道信息.')
