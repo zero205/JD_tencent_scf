@@ -1,3 +1,7 @@
+if (process.env.ZNS == 'false') {
+    console.log('设置不运行,结束')
+    return
+}
 /*
 TG https://t.me/aaron_scriptsG
 被内鬼偷给柠檬了,大家一起玩吧
