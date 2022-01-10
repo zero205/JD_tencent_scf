@@ -8,6 +8,10 @@
 
 
  */
+if (process.env.ZNS != 'true') {
+    console.log('脚本默认不运行,请设置环境变量ZNS为true运行,可能黑号')
+    return
+}
 const $ = new Env('炸年兽');
 
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
