@@ -131,7 +131,7 @@ const { getAppCookie } = (() => {
         }
         // $.joyytoken = ""
         // cookie = cookie.replace(/joyytoken=\S+?;/, "joyytoken=;") 
-        if (teamPlayerAutoTeam.hasOwnProperty($.UserName)) {
+        if (process.env.NS_JOIN != 'false' && teamPlayerAutoTeam.hasOwnProperty($.UserName)) {
             const { groupJoinInviteId, groupNum, groupName } = teamLeaderArr[teamPlayerAutoTeam[$.UserName]]
             console.log(`${groupName}人数：${groupNum}，正在去加入他的队伍...`)
             await joinTeam(groupJoinInviteId)
