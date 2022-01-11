@@ -122,7 +122,7 @@ const pkTeamNum = () => Math.ceil(cookiesArr.length / 30)
         console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
         if (!$.isLogin) continue
         $.UA = s.UA
-        $.ZooFaker = require('./ZooFaker_Necklace.js').utils()
+        $.ZooFaker = utils()
         $.joyytoken = s.joyytoken
         $.blog_joyytoken = s.blog_joyytoken
         $.shshshfpb = s.shshshfpb
