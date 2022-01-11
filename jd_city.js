@@ -45,8 +45,8 @@ let author_codes = [].sort(() => 0.5 - Math.random())
 const self_code = []
 let pool = []
 !(async () => {
-  // console.log('内部互助没奖励了吧应该. 城城现在改为优先助力池子!(作者只吃第一个CK,其余池子!) 请查看群内频道通知!,5s后开始!')
-  // await $.wait(5000)
+  console.log('内部互助没奖励了吧应该. 城城12号晚改为优先助力池子!(作者只有一个码,其余池子!) 还需要内部互助请设置值环境变量 CT_POOL 为 false,5s后开始!')
+  await $.wait(5000)
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -340,22 +340,19 @@ function shareCodesFormat() {
         }
       }
     }
-    // if ($.index - 1 == 0) {
-    //   console.log('首个帐号,助力作者和池子')
-    //   $.newShareCodes = [...new Set([...$.newShareCodes,...author_codes, ...pool])];
-    // } else {
-    //   console.log('非首个个帐号,优先向前助力')
-    //   $.newShareCodes = [...new Set([...$.newShareCodes,...self_code,...author_codes, ...pool])]
-    // }
     if ($.index == 1) {
       console.log('首个帐号,助力作者和池子')
       $.newShareCodes = [...new Set([...author_codes,...pool,...$.newShareCodes])]
     } else{
-      // console.log('非首个帐号,助力池子')
-      // $.newShareCodes = [...new Set([...$.newShareCodes,...pool])]
-      console.log('非首个个帐号,优先向前助力')
-      $.newShareCodes = [...new Set([...$.newShareCodes,...self_code,...author_codes,...pool])]
+      // if (process.env.CT_POOL != 'false') {
+      //   console.log('默认助力作者和池子,助力码依然优先')
+      //   $.newShareCodes = [...new Set([...$.newShareCodes,...author_codes,...pool,...self_code])]
+      // }else{
+        console.log('非首个个帐号,优先向前助力')
+        $.newShareCodes = [...new Set([...$.newShareCodes,...self_code,...author_codes,...pool])]
+      // }
     }
+
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
