@@ -106,29 +106,29 @@ const { getAppCookie } = (() => {
         $.joyytoken = s.joyytoken
         $.blog_joyytoken = s.blog_joyytoken
         $.secretp = s.secretp
-        if (helpFlag) {
-            $.newHelpCodeArr = [...helpCodeArr]
-            for (let i = 0, codeLen = helpCodeArr.length; i < codeLen; i++) {
-                const helpCode = helpCodeArr[i]
-                const { pin, code } = helpCode
-                if (pin === $.UserName) continue
-                console.log(`去帮助用户：${pin}`)
-                const helpRes = await doApi("collectScore", null, { inviteId: code }, true, true)
-                if (helpRes?.result?.score) {
-                    const { alreadyAssistTimes, maxAssistTimes, maxTimes, score, times } = helpRes.result
-                    const c = maxAssistTimes - alreadyAssistTimes
-                    console.log(`互助成功，获得${score}爆竹，他还需要${maxTimes - times}人完成助力，你还有${maxAssistTimes - alreadyAssistTimes}次助力机会`)
-                    if (!c) break
-                } else {
-                    if (helpRes?.bizCode === -201) {
-                        $.newHelpCodeArr = $.newHelpCodeArr.filter(x => x.pin !== pin)
-                    }
-                    console.log(`互助失败，原因：${helpRes?.bizMsg}（${helpRes?.bizCode}）`)
-                    if (![0, -201, -202].includes(helpRes?.bizCode)) break
-                }
-            }
-            helpCodeArr = [...$.newHelpCodeArr]
-        }
+//         if (helpFlag) {
+//             $.newHelpCodeArr = [...helpCodeArr]
+//             for (let i = 0, codeLen = helpCodeArr.length; i < codeLen; i++) {
+//                 const helpCode = helpCodeArr[i]
+//                 const { pin, code } = helpCode
+//                 if (pin === $.UserName) continue
+//                 console.log(`去帮助用户：${pin}`)
+//                 const helpRes = await doApi("collectScore", null, { inviteId: code }, true, true)
+//                 if (helpRes?.result?.score) {
+//                     const { alreadyAssistTimes, maxAssistTimes, maxTimes, score, times } = helpRes.result
+//                     const c = maxAssistTimes - alreadyAssistTimes
+//                     console.log(`互助成功，获得${score}爆竹，他还需要${maxTimes - times}人完成助力，你还有${maxAssistTimes - alreadyAssistTimes}次助力机会`)
+//                     if (!c) break
+//                 } else {
+//                     if (helpRes?.bizCode === -201) {
+//                         $.newHelpCodeArr = $.newHelpCodeArr.filter(x => x.pin !== pin)
+//                     }
+//                     console.log(`互助失败，原因：${helpRes?.bizMsg}（${helpRes?.bizCode}）`)
+//                     if (![0, -201, -202].includes(helpRes?.bizCode)) break
+//                 }
+//             }
+//             helpCodeArr = [...$.newHelpCodeArr]
+//         }
         // $.joyytoken = ""
         // cookie = cookie.replace(/joyytoken=\S+?;/, "joyytoken=;") 
         if (process.env.NS_JOIN != 'false' && teamPlayerAutoTeam.hasOwnProperty($.UserName)) {
