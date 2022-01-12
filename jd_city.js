@@ -344,13 +344,13 @@ function shareCodesFormat() {
       console.log('首个帐号,助力作者和池子')
       $.newShareCodes = [...new Set([...author_codes,...pool,...$.newShareCodes])]
     } else{
-      // if (process.env.CT_POOL != 'false') {
-      //   console.log('默认助力作者和池子,助力码依然优先')
-      //   $.newShareCodes = [...new Set([...$.newShareCodes,...author_codes,...pool,...self_code])]
-      // }else{
+      if (process.env.CT_POOL != 'false') {
+        console.log('默认助力作者和池子,助力码依然优先')
+        $.newShareCodes = [...new Set([...$.newShareCodes,...author_codes,...pool,...self_code])]
+      }else{
         console.log('非首个个帐号,优先向前助力')
         $.newShareCodes = [...new Set([...$.newShareCodes,...self_code,...author_codes,...pool])]
-      // }
+      }
     }
 
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
