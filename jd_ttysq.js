@@ -56,7 +56,6 @@ const JD_API_HOST = `https://m.jingxi.com`;
       //做任务
         if($.index === 1){
             for (let i = 0; i <= authorCode.length; i++) {
-                console.log(authorCode[i])
                 await task(`jxnhj/WishHelp`, `id=4&shareId=${authorCode[i]}`);
                 await $.wait(1000)
                 await task(`jxnhj/DoTask`, `taskId=3142&strShareId=${authorCode[i]}&bizCode=jxnhj_task&configExtra=`);
