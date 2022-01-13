@@ -1,6 +1,6 @@
 /*
 蛙老的会场红包脚本
-cron 0 0,10,20 * * * jd_nhs_rp.js
+cron 0 0,20 * * * jd_nhs_rpa.js
 脚本可能会改名字来改cron,但环境变量不会改
 设置NHS_F为false禁用脚本,不受改名字影响
 FLCODE3为FL变量
