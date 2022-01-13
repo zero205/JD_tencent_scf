@@ -53,7 +53,6 @@ if ($.isNode()) {
         }
         await $.wait(1000);
     }
-    return ;
     if($.allInvite.length > 0 ){
         console.log(`\n开始脚本内互助\n`);
     }
