@@ -178,11 +178,11 @@ function getAuthorShareCode(url) {
 async function main() {
     try {
         await task(`jxnhj/GetUserInfo`, `strInviteId=&nopopup=0`, show = true)
-        await $.wait(500)
+        await $.wait(1500)
         await task(`jxnhj/BestWishes`)
-        await $.wait(500)
+        await $.wait(1500)
         await task(`jxnhj/GetTaskList`)
-        await $.wait(500)
+        await $.wait(1500)
         if (!$.allTaskList) {
             console.log(`获取任务列表失败`)
         } else {
