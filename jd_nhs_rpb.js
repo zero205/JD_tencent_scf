@@ -3,6 +3,7 @@ cron 0 0,20 * * * jd_nhs_rpb.js
 脚本可能会改名字来改cron,但环境变量不会改
 设置NHS_F为false禁用脚本,不受改名字影响
 FLCODE3为FL变量
+CK请使用标准格式,分号结尾
 * */
 if (process.env.NHS_F == 'false') {
     console.debug('检测到NHS_F,不运行')
