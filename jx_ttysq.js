@@ -1,6 +1,6 @@
 /*
 #天天压岁钱
-33 0,13 * * * jd_ttysq.js
+33 0,13,20 * * * jd_ttysq.js
 
 #############
 PS:(不是玩代码的人，写代码有bug很正常！！)
@@ -53,20 +53,20 @@ const JD_API_HOST = `https://m.jingxi.com`;
             await main()
         }
     }
-    let res = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/ttysq.json')
+    let res = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/ttysq2.json')
     if (!res) {
-        res = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/ttysq.json')
+        res = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/ttysq2.json')
     }
     if (res) {
         authorCode = res.sort(() => 0.5 - Math.random())
         if (authorCode.length > 3) {
             authorCode = authorCode.splice(0, 3)
         }
-        authorCode = authorCode.map(code => {
+        authorCode = authorCode.map(entity => {
             return {
                 "user": "author",
-                "code": code,
-                "redId": Math.floor(1 + Math.random() * 10),
+                "code": entity.code,
+                "redId": entity.rpids[Math.floor((Math.random() * entity.rpids.length))],
                 "beHelp": 0,
                 "helpId": $.taskId
             }
