@@ -101,7 +101,7 @@ const JD_API_HOST = `https://m.jingxi.com`;
                         console.log(`\n京东账号${$.index} ${$.nickName || $.UserName}去助力${$.shareCoseList[y].user}助力码${$.shareCoseList[y].code}`)
                         console.log(`助力任务`)
                         await task(`jxnhj/DoTask`, `taskId=${$.taskId}&strShareId=${$.shareCoseList[y].code}&bizCode=jxnhj_task&configExtra=`);
-                        //if ($.max === true){}
+                        if ($.max === true){$.shareCoseList[y].beHelp = false}
                         await $.wait(3000);
                         if ($.canHelp === false) { break }
                     }
