@@ -50,13 +50,9 @@ const JD_API_HOST = `https://m.jingxi.com`;
             }
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
             //做任务
-            var authorCode = ['cd1c057a'];
-            var r = Math.floor(0 + Math.random() * (authorCode.length - 0));
-            var rid = Math.floor(1 + Math.random() * 10)
             await main()
         }
     }
-    console.debug($.shareCoseList)
     let res = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/ttysq.json')
     if (!res) {
         res = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/ttysq.json')
@@ -77,7 +73,6 @@ const JD_API_HOST = `https://m.jingxi.com`;
         })
         $.shareCoseList = [...$.shareCoseList, ...authorCode]
     }
-    console.debug($.shareCoseList)
     console.log(`要助力的助理码${JSON.stringify($.shareCoseList.length)}个\n`)
     //助力任务
     for (let i = 0; i < cookiesArr.length; i++) {
