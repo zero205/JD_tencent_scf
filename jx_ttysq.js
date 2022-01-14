@@ -52,6 +52,9 @@ const JD_API_HOST = `https://m.jingxi.com`;
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
             //做任务
             await main()
+            if (i != cookiesArr.length - 1) {
+                await $.wait(3000)
+            }
         }
     }
     let res = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/ttysq2.json')
