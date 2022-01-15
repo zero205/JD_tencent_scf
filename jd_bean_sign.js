@@ -47,7 +47,11 @@ async function processLineByLine(jrbodys) {
 (async () => {
   const jdCookieNode = require('./jdCookie.js')
   Object.keys(jdCookieNode).forEach((item) => {
-    cookiesArr.push(jdCookieNode[item])
+    let ck = jdCookieNode[item].trim()
+    if(ck.substring(ck.length-1) !== ';'){
+        ck = ck + ';'
+    }
+    cookiesArr.push(ck)
   })
   let jrbodys = []
   if(process.env.JRBODY) {
