@@ -6,7 +6,7 @@ https://yearfestival.jd.com
 转义自HW大佬
 */
 const name = '萌虎摇摇乐'
-let UA
+let UA = process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)
 const got = require('got')
 const notify = require('./sendNotify')
 const jdCookieNode = require('./jdCookie.js')
@@ -26,7 +26,6 @@ Object.keys(jdCookieNode).forEach((item) => {
         cookie = cookiesArr[i]
         const userName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
         console.log(`\n开始【京东账号${i + 1}】${userName}\n`)
-        UA = process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)
         let res = await api({ "apiMapping": "/api/task/support/getShareId" })
         console.log('助力码：', res.data)
         await wait(1000)
