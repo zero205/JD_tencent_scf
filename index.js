@@ -69,13 +69,13 @@ exports.main_handler = async (event, context, callback) => {
             if (typeof cron == 'number') {
                 // console.debug(`number param:${cron}`)
                 if (now_hour % cron == 0) {
-                    console.debug(`${script}:number cron triggered!`)
+                    console.debug(`${script}:number cron triggered`)
                     scripts.push(script)
                 }
             } else {
                 // console.debug(`dict param:${cron}`)
                 if (cron.includes(now_hour)) {
-                    console.debug(`${script}:array cron triggered!`)
+                    console.debug(`${script}:array cron triggered`)
                     scripts.push(script)
                 }
             }
