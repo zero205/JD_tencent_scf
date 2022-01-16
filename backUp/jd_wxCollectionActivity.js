@@ -12,8 +12,8 @@ JD_CART_REMOVEALL || true;    //是否清空，如果为false，则上面设置�
 const $ = new Env('加购物车抽奖');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
-let cookiesArr = [], cookie = '', message = '' ,isPush = false;
-let activityIdList = ['9064d289203f4faaa8fe89efa2d23f08', '43452257d2144b969a2d5e48104ed24f', '1489ba67a43d40f1b464dbdf4fdf371c', 'a5b8977bfd2145a39542231fe74c0ea1', 'f5e54db90df248be8c9ff360e906b030', '4e249815d2c34b77a919af2f0e2775ab', 'b17070f4ffeb487b8340f16b1bff347f', '755b82ade6a44447beb3fcc4a268d613', 'eb209962302442dfa31d2932eab0d014', '39c4ed8ddf5942a099dce628a26c026b', '61f615e382f64a17803691fec1b7857b']
+let cookiesArr = [], cookie = '', message = '' ;
+let activityIdList = ['fe646b9fda604d40932aab0ccecb0042', '713d25a249554ff1a3940fc1dcb56ac5']
 let lz_cookie = {}
 
 if (process.env.ACTIVITY_ID && process.env.ACTIVITY_ID != "") {
