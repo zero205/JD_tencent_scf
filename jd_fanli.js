@@ -1,3 +1,7 @@
+/*
+京东饭粒
+长期活动，结束时间未知！
+ */
 const $ = new Env('京东饭粒');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
