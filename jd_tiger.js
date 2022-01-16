@@ -110,7 +110,7 @@ Object.keys(jdCookieNode).forEach((item) => {
         const userName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
         console.log(`\n开始【京东账号${i + 1}】${userName}\n`)
 
-        const res = await api({ "apiMapping": "/api/index/indexInfo" })
+        let res = await api({ "apiMapping": "/api/index/indexInfo" })
         let lotteryNum = res.data.lotteryNum
         for (let i = 0; i < lotteryNum; i++) {
             res = await api({ "apiMapping": "/api/lottery/lottery" })
