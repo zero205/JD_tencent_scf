@@ -199,7 +199,7 @@ async function sendNotify(
   text,
   desp,
   params = {'TG交流群':'https://t.me/jd_zero_205'},
-  author = '\n\n秒秒币18日清零! TG群组：\nhttps://t.me/jd_zero_205',
+  author = '\n\n助力池提交方法请加入TG群组：\nhttps://t.me/jd_zero_205',
 ) {
   let no_notify = process.env.no_notify
   if (no_notify) {
