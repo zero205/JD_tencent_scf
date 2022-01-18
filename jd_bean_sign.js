@@ -2061,3 +2061,6 @@ function nobyda() {
     done
   }
 };
+}).catch(e => {
+console.error("ERRROR:",e)
+})
