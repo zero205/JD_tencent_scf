@@ -15,12 +15,15 @@
 * 有能力用户可以进行尝试,通过任何方法都可以,在空仓库内(保证分支名称为`main`),按需运行一次 https://github.com/Ca11back/doge-template 的action即可
 * 第二种:直接clone一个`scf2`分支(名字需要为`main`,clone哪个取决于你要用的部署方式)
 
-# 使用教程
+## 使用教程
 
-* 【青龙】拉取仓库命令：
-1. 可以直链github/国外机:`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp|icon" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR|JDSign" "main"`
+### 【青龙】拉取仓库命令：
+可以直链github/国外机:`ql repo https://github.com/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp|icon" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR|JDSign" "main"`
 
-如无法直连:
+国内镜像(部分人不可用,直连/镜像均不可用时,请参照下面设置代理):
+`ql repo https://github.com.cnpmjs.org/zero205/JD_tencent_scf.git "jd_|jx_|getJDCookie"  "backUp|icon" "^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR|JDSign" "main"`
+
+设置代理/国内加速:
 
 老版青龙(临时解决),需要设置config.sh(如果还有extra.sh的话,也改)中的GithubProxyUrl改为
 https://pd.zwc365.com/ 或 https://pd.zwc365.com/cfworker/
@@ -34,14 +37,14 @@ https://pd.zwc365.com/ 或 https://pd.zwc365.com/cfworker/
 
 [或者尝试修改host来尝试直连](https://www.cnblogs.com/jiannanchun/p/15397235.html)
 
-* 腾讯云函数部署建议阅读@hshx123大佬的[教程](https://杏铃.top/teach/jd.html)【推荐】.[旧教程](./backUp/tencentscf.md)【备用】
+### 腾讯云函数部署建议阅读@hshx123大佬的[教程](https://杏铃.top/teach/jd.html)【推荐】.[旧教程](./backUp/tencentscf.md)【备用】
 
-* [elecV2P](https://github.com/elecV2/elecV2P) 部署【随缘维护，建议转战➟[Docker](https://www.runoob.com/docker/windows-docker-install.html) [青龙](https://github.com/whyour/qinglong)】
+### [elecV2P](https://github.com/elecV2/elecV2P) 部署【随缘维护，建议转战➟[Docker](https://www.runoob.com/docker/windows-docker-install.html) [青龙](https://github.com/whyour/qinglong)】
     * 安装教程：[点此查看](https://github.com/elecV2/elecV2P-dei/blob/master/docs/01-overview.md)  
     * 订阅任务：`https://ghproxy.com/https://raw.githubusercontent.com/zero205/JD_tencent_scf/main/jd_task.json`
     * elecV2P京东CK、通知填写格式等相关补充说明：[点此查看](./backUp/elecV2P.md)  
 
-- 获取京东cookie教程可参考：
+### 获取京东cookie教程可参考：
   
   + [浏览器获取京东cookie教程](./backUp/GetJdCookie.md)
     
