@@ -2,7 +2,7 @@
 /*
 财富岛兑换红包
 作者：gaoyucindy
-cron "59 * * * *" jd_cfd.hb.js
+cron "59 * * * *" jd_cfd_hb.js
  */
 if (process.env.cfd_rp != 'true'){
   console.log('设置cfd_rp为true运行')
