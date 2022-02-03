@@ -91,7 +91,7 @@ async function main() {
             for (let i = 0; i < 3; i++) {
                 await $.wait(5000);
                 await taskPost('loadItemGroup', { "actId": actId, "buyerNick": $.buyerNick, "itemGroupType": "browseItem"})
-                if ($.shopId) {
+                if ($.shopId && ["card","car"].includes(process.env.FS_LEVEL)) {
                     await $.wait(10000);
                     $.log('加购车.. '+$.shopId)
                     await taskPost('addItemSingle', { "actId": actId, "buyerNick": $.buyerNick, "itemId": $.itemId, "shopId": $.shopId})
