@@ -101,11 +101,11 @@ $.shareuuid = "5e81094ee1d640b2996883b48d0c410a"
                     for (k = 0; k < $.drawchance; k++) {
                         await draw()
                     }
-                    let exchanges = Math.floor($.foodNum / 5000)
-                    console.log(`可兑换 ${exchanges} 次 50京🐶`)
+                    let exchanges = Math.floor($.foodNum / 1000)
+                    console.log(`可兑换 ${exchanges} 次 20京🐶`)
                     if (!Exchange) { console.log("你 默认 不兑换东西,请自行进去活动兑换") } else {
                         for (q = 0; q < exchanges && Exchange; q++) {
-                            await exchange(14)
+                            await exchange(13)
                         }
                     }
                     await getinfo()
