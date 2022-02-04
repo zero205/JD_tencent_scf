@@ -31,7 +31,7 @@ Object.keys(jdCookieNode).forEach((item) => {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i]
             const UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-            console.log(`\n******开始【京东账号${i}】${UserName}*********\n`);
+            console.log(`\n******开始【京东账号${i + 1}】${UserName}*********\n`);
             UA = process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)
             await main()
         }
