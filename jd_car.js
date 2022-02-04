@@ -34,6 +34,9 @@ Object.keys(jdCookieNode).forEach((item) => {
             UA = process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)
             await main()
         }
+        if (i != cookiesArr.length - 1) {
+            await wait(3000)
+        }
     }
 
 })()
