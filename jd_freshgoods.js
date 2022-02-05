@@ -145,7 +145,7 @@ function getTaskList() {
                                 await saveTask(list[i].taskType, list[i].taskId, list[i].taskItem.itemId ? list[i].taskItem.itemId : '')
                                 await $.wait(3000)
                             }
-                            console.log(finish_flag)
+//                             console.log(finish_flag)
                             $.stop = list.length == finish_flag
                             // if (list[0].finishCount !== list[0].itemCount) {
                             //     $.log(list[0].finishCount + "/" + list[0].itemCount)
