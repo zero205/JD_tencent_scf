@@ -62,7 +62,7 @@ if ($.isNode()) {
             await $.wait(3000)
         }
         $.stop = false
-        for (let i = 0; i < 10 && !$.stop; i++) {
+        for (let i = 0; i < 30 && !$.stop; i++) {
             await ddrea()
             await $.wait(3000)
         }
