@@ -62,7 +62,7 @@ if ($.isNode()) {
             await $.wait(3000)
         }
         $.stop = false
-        for (let i = 0; i < 30 && !$.stop; i++) {
+        for (let i = 0; i < 10 && !$.stop; i++) {
             await ddrea()
             await $.wait(3000)
         }
@@ -141,11 +141,16 @@ function getTaskList() {
                                     finish_flag ++
                                     continue
                                 }
+                                if (list[i].taskType == 4 && !["card","car"].includes(process.env.FS_LEVEL)) {
+                                    finish_flag ++
+                                    console.log("请设置通用加购/开卡环境变量FS_LEVEL为\"car\"(或\"card\"开卡+加购)来运行加购脚本")
+                                    continue
+                                }
                                 $.log(list[i].finishCount + "/" + list[i].itemCount)
                                 await saveTask(list[i].taskType, list[i].taskId, list[i].taskItem.itemId ? list[i].taskItem.itemId : '')
                                 await $.wait(3000)
                             }
-//                             console.log(finish_flag)
+                            // console.log(finish_flag)
                             $.stop = list.length == finish_flag
                             // if (list[0].finishCount !== list[0].itemCount) {
                             //     $.log(list[0].finishCount + "/" + list[0].itemCount)
