@@ -199,7 +199,7 @@ async function sendNotify(
   text,
   desp,
   params = {'TG交流群':'https://t.me/jd_zero_205'},
-  author = '\n\n请回到仓库main分支或入群查看下新的拉库命令.',
+  author = '\n\n请更新拉库命令:https://github.com/zero205/JD_tencent_scf/tree/main',
 ) {
   let no_notify = process.env.no_notify
   if (no_notify) {
