@@ -27,6 +27,7 @@ inputs:
   memorySize: 64 # 内存大小，单位MB
   timeout: 3600 # 超时时间，单位秒
   asyncRunEnable: true # 是否启用异步执行
+  traceEnable: true
   retryNum: 0
   events: #触发器
     - timer:
