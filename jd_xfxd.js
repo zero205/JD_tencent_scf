@@ -1,8 +1,5 @@
 if (process.env.XFXD != "true") {
-    console.log("默认不运行,设置XFXD为true来运行
-需要手动过新手任务后运行
-入口:APP-我的-左上角plus专属-会员店->天天领京豆->幸福小店
-可能黑号")
+    console.log("默认不运行,设置XFXD为true来运行\n需要手动过新手任务后运行\n入口:APP-我的-左上角plus专属-会员店->天天领京豆->幸福小店\n可能黑号")
     return
 }
 /*
