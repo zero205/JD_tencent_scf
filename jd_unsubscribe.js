@@ -212,12 +212,16 @@ function favCommQueryFilter(){
             url: `https://wq.jd.com/fav/comm/FavCommQueryFilter?cp=1&pageSize=${args_xh.goodPageSize}&category=0&promote=0&cutPrice=0&coupon=0&stock=0&sceneval=2`,
             headers: {
                 "Cookie": cookie,
-                "User-Agent": "jdapp;iPhone;10.3.4;;;M/5.0;appBuild/167945;jdSupportDarkMode/1;;;Mozilla/5.0 (iPhone; CPU iPhone OS 15_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;",
+                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
                 "Referer": "https://wqs.jd.com/"
             },
         }
         $.get(option, async(err, resp, data) => {
             try{
+                if(data.indexOf("Authorization") !== -1){
+                    console.log("获取数据失败，401 Authorization Required，可能是User-Agent的问题")
+                    return;
+                }
                 data = JSON.parse(getSubstr(data, "try{(", ");}catch(e){}"));
                 if(data.iRet === '0'){
                     $.goodsTotalNum = parseInt(data.totalNum);
@@ -253,12 +257,16 @@ function favCommBatchDel(){
             url: `https://wq.jd.com/fav/comm/FavCommBatchDel?commId=${$.commIdList}&sceneval=2&g_login_type=1`,
             headers: {
                 "Cookie": cookie,
-                "User-Agent": "jdapp;iPhone;10.3.4;;;M/5.0;appBuild/167945;jdSupportDarkMode/1;;;Mozilla/5.0 (iPhone; CPU iPhone OS 15_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;",
+                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
                 "Referer": "https://wqs.jd.com/"
             },
         }
         $.get(option, (err, resp, data) => {
             try{
+                if(data.indexOf("Authorization") !== -1){
+                    console.log("获取数据失败，401 Authorization Required，可能是User-Agent的问题")
+                    return;
+                }
                 data = JSON.parse(data);
                 if(data.iRet === "0" && data.errMsg === "success"){
                     console.log(`成功取消收藏商品：${$.unsubscribeGoodsNum}个\n`)
@@ -282,12 +290,16 @@ function queryShopFavList(){
             url: `https://wq.jd.com/fav/shop/QueryShopFavList?cp=1&pageSize=${args_xh.shopPageSize}&sceneval=2&g_login_type=1&callback=jsonpCBKA`,
             headers: {
                 "Cookie": cookie,
-                "User-Agent": "jdapp;iPhone;10.3.4;;;M/5.0;appBuild/167945;jdSupportDarkMode/1;;;Mozilla/5.0 (iPhone; CPU iPhone OS 15_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;",
+                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
                 "Referer": "https://wqs.jd.com/"
             },
         }
         $.get(option, (err, resp, data) => {
             try{
+                if(data.indexOf("Authorization") !== -1){
+                    console.log("获取数据失败，401 Authorization Required，可能是User-Agent的问题")
+                    return;
+                }
                 data = JSON.parse(getSubstr(data, "try{jsonpCBKA(", ");}catch(e){}"));
                 if(data.iRet === '0'){
                     $.shopsTotalNum = parseInt(data.totalNum);
@@ -325,12 +337,16 @@ function batchunfollow(){
             url: `https://wq.jd.com/fav/shop/batchunfollow?shopId=${$.shopIdList}&sceneval=2&g_login_type=1`,
             headers: {
                 "Cookie": cookie,
-                "User-Agent": "jdapp;iPhone;10.3.4;;;M/5.0;appBuild/167945;jdSupportDarkMode/1;;;Mozilla/5.0 (iPhone; CPU iPhone OS 15_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;",
+                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
                 "Referer": "https://wqs.jd.com/"
             },
         }
         $.get(option, (err, resp, data) => {
             try{
+                if(data.indexOf("Authorization") !== -1){
+                    console.log("获取数据失败，401 Authorization Required，可能是User-Agent的问题")
+                    return;
+                }
                 data = JSON.parse(data);
                 if(data.iRet === "0"){
                     console.log(`已成功取消关注店铺：${$.unsubscribeShopsNum}个\n`)

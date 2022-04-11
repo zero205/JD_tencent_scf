@@ -63,7 +63,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
       if (InviterPin.length != 0) {
         await help()
       } else {
-        await help2("zero205",Math.random() > 0.5 ? "%2FeNHdfn6fP%2BTFwVda3ipjWwvTFqeKBZaRG38adWABKk%3D" : "Sev6JWjut6GyaEHJIWpSQQ%3D%3D")        
+        await help2()
       }
     }
   }
@@ -135,8 +135,13 @@ function help() {
   });
 }
 
-function help2(name,code) {
+function help2() {
   return new Promise(async (resolve) => {
+    let code = [
+      "%2FeNHdfn6fP%2BTFwVda3ipjWwvTFqeKBZaRG38adWABKk%3D",
+      "Sev6JWjut6GyaEHJIWpSQQ%3D%3D",
+      "Cg7WMrLsk%2FPPSHaOd9q2ULzDByNly0QecJ4K7QiZhLk%3D"
+    ][Math.floor((Math.random() * 3))]
     let options = {
       url: `https://api.m.jd.com`,
       body: `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${code}","type":1}}&appid=market-task-h5&uuid=7303439343432346-7356431353233311&eu=7303439343432341&fv=7356431353233321&_t=1623475839367`,
@@ -152,7 +157,7 @@ function help2(name,code) {
       try {
         const reust = JSON.parse(data)
         if (reust.code === 0) {
-          $.log(`赚金币助力【${name}】成功，感谢！`)
+          $.log(`赚金币助力【zero205】成功，感谢！`)
         } else
           console.log(reust.message)
       } catch (e) {

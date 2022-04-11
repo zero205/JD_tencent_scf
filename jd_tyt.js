@@ -16,6 +16,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 let tytpacketId = '';
+let actId = "49f40d2f40b3470e8d6c39aa4866c7ff";
 // if (process.env.tytpacketId) {
 //   tytpacketId = process.env.tytpacketId;
 // }
@@ -41,7 +42,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
     return;
   }
-  console.log(`\n******北京时间15点后会助力【zero205】，介意请勿运行******\n`);
+  console.log(`\n******北京时间12点后会助力【zero205】，介意请勿运行******\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -77,7 +78,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     }
   }
   // nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
-  if (new Date().getHours() >= 15) {
+  if (new Date().getHours() >= 12) {
     await getAuthorShareCode()
     if ($.authorCode && $.authorCode.length) {
       for (let i = 0; i < cookiesArr.length; i++) {
@@ -106,7 +107,7 @@ function initateCoinDozer() {
   return new Promise(async (resolve) => {
     let options = {
       url: `https://api.m.jd.com/?t=1623066557140`,
-      body: `functionId=initiateCoinDozer&body={"actId":"d5a8c7198ee54de093d2adb04089d3ec","channel":"coin_dozer","antiToken":"ec14brrjlsu8u4lhmia162581607334284f3~NmZeSyVEbFNSd3V7dldUAH92AwhlRHpTBiUjb35DFm5vLUROOBEzLUF7G28iAAFBKBgVFA1EPwIVKDclGENXbm8iVlQiAwpTTx1lKSsTCG5vfmsaDUR6LUEnG29%2BPU8LLyAADWQFNUgHcnZ4dlhZC3khBAxhUDIVBnJzf3dZC0M7LENkc0oKUwoyKhFmWzEQOTZCXQ1Eei1BKTQ5GENXbm80Qks5ATkdB28tKWoCAl8RZhtkcxY4LUF7G29rPU8eEWZHTA1EbC1BKTM5NBJXbm9oaxohDwpTWR1lf3RNWR56aAcUYUpvRD9jOm9oQwhWKTdQGmtEZgQXcWVhZgIeEHdmRQsmBSESWyAsISMVAkcvN0BeIlNlFgouLiQzFFpRI3VWUD0KdF1BImV3ZlQHXnU1UEFoADUYFCcvLCgQW0h8cgUNaVdgQVRydHl1BxpadWYbGjUVOFNZYzQ0NRkcRy59FRRzDyVTWWN2b2hDB1suZg0aaF9vSEE8%7C~1626269234856~1~20201218~eyJ2aXdlIjoiMCIsImJhaW4iOnsiaWMiOiIwIiwibGUiOiI3NSIsImN0IjoiaSIsImR0IjoiMiJ9fQ%3D%3D~2~472~tix5%7Cgw57a%3B554ci-6n%2C81%2C%2C%3B751r-%2C%2C%2C%3B358-6o%2C81%2C3t%2Cj%3Bb53-6o%2C81%2C3t%2Cj%3B050-6o%2C81%2C3t%2Cj%3Bdoei%3A%2C1%2C186%2C186%2C0%2C0%2C9%2C22%2C3%2C15%3Bdmei%3A%2C1%2C302%2C0%2C-2%2C0%2C-2%2C0%2C-2%2C0%3Bemc%3A%2C5%3A1%3Bemmm%3A%3Bemcf%3A%2C5%3A1%3Bivli%3A%3Biivl%3A%3Bivcvj%3A%3Bscvje%3A%3Bewhi%3A%2C5%3A187-46%3B1626269222397%2C1626269234855%2C0%2C1%2C6%2C6%2C0%2C1%2C0%2C0%2C0%3Ba3bp","referer":"-1","frontendInitStatus":"s"}&appid=megatron&client=android&clientVersion=9&t=1626269234860&networkType=wifi&eid=eidAecfa8121c7s1QgSzJyiJRFuXovji/QEn20IEtJ8WEfBsxVlLBBlDx1NDeWXp7i+1qklWZQtVP/M+tndxJj/uR/SSHj2G7vN0F2lfP0e9ux8UHlNC&fp=-1&frontendInitStatus=s&uuid=8363532363230343238303836333-43D2468336563316936636265356&osVersion=9&d_brand=Xiaomi&d_model=MI 8&agent=-1&pageClickKey=-1&screen=393*818&platform=3&lang=zh_CN&eu=8363532363230343238303836333&fv=43D2468336563316936636265356`,
+      body: `functionId=initiateCoinDozer&body={"actId":"${actId}","channel":"coin_dozer","antiToken":"ec14brrjlsu8u4lhmia162581607334284f3~NmZeSyVEbFNSd3V7dldUAH92AwhlRHpTBiUjb35DFm5vLUROOBEzLUF7G28iAAFBKBgVFA1EPwIVKDclGENXbm8iVlQiAwpTTx1lKSsTCG5vfmsaDUR6LUEnG29%2BPU8LLyAADWQFNUgHcnZ4dlhZC3khBAxhUDIVBnJzf3dZC0M7LENkc0oKUwoyKhFmWzEQOTZCXQ1Eei1BKTQ5GENXbm80Qks5ATkdB28tKWoCAl8RZhtkcxY4LUF7G29rPU8eEWZHTA1EbC1BKTM5NBJXbm9oaxohDwpTWR1lf3RNWR56aAcUYUpvRD9jOm9oQwhWKTdQGmtEZgQXcWVhZgIeEHdmRQsmBSESWyAsISMVAkcvN0BeIlNlFgouLiQzFFpRI3VWUD0KdF1BImV3ZlQHXnU1UEFoADUYFCcvLCgQW0h8cgUNaVdgQVRydHl1BxpadWYbGjUVOFNZYzQ0NRkcRy59FRRzDyVTWWN2b2hDB1suZg0aaF9vSEE8%7C~1626269234856~1~20201218~eyJ2aXdlIjoiMCIsImJhaW4iOnsiaWMiOiIwIiwibGUiOiI3NSIsImN0IjoiaSIsImR0IjoiMiJ9fQ%3D%3D~2~472~tix5%7Cgw57a%3B554ci-6n%2C81%2C%2C%3B751r-%2C%2C%2C%3B358-6o%2C81%2C3t%2Cj%3Bb53-6o%2C81%2C3t%2Cj%3B050-6o%2C81%2C3t%2Cj%3Bdoei%3A%2C1%2C186%2C186%2C0%2C0%2C9%2C22%2C3%2C15%3Bdmei%3A%2C1%2C302%2C0%2C-2%2C0%2C-2%2C0%2C-2%2C0%3Bemc%3A%2C5%3A1%3Bemmm%3A%3Bemcf%3A%2C5%3A1%3Bivli%3A%3Biivl%3A%3Bivcvj%3A%3Bscvje%3A%3Bewhi%3A%2C5%3A187-46%3B1626269222397%2C1626269234855%2C0%2C1%2C6%2C6%2C0%2C1%2C0%2C0%2C0%3Ba3bp","referer":"-1","frontendInitStatus":"s"}&appid=megatron&client=android&clientVersion=9&t=1626269234860&networkType=wifi&eid=eidAecfa8121c7s1QgSzJyiJRFuXovji/QEn20IEtJ8WEfBsxVlLBBlDx1NDeWXp7i+1qklWZQtVP/M+tndxJj/uR/SSHj2G7vN0F2lfP0e9ux8UHlNC&fp=-1&frontendInitStatus=s&uuid=8363532363230343238303836333-43D2468336563316936636265356&osVersion=9&d_brand=Xiaomi&d_model=MI 8&agent=-1&pageClickKey=-1&screen=393*818&platform=3&lang=zh_CN&eu=8363532363230343238303836333&fv=43D2468336563316936636265356`,
       headers: {
         "Origin": "https://pushgold.jd.com",
         "Host": "api.m.jd.com",
@@ -141,7 +142,7 @@ function tythelp(tytpacketId) {
   return new Promise(async (resolve) => {
     let options = {
       url: `https://api.m.jd.com/?t=1623066557140`,
-      body: `functionId=helpCoinDozer&appid=station-soa-h5&client=H5&clientVersion=1.0.0&t=1623120183787&body={"actId":"d5a8c7198ee54de093d2adb04089d3ec","channel":"coin_dozer","antiToken":"mmkajtm9eqonssy6xoi1623119406463ic84~NmZeSyVEbFNSd3V+dVNdA3pxAABkRHpTBiUjb35DFm5vLUROOBEzLUF7G28iAAFBKBgVFA1EPwIVKDclGENXbm8iVlQiAwpTTx1lKSsTCG5vfmsaDUR6LUEnG29+PU9ReSdSWTNTNxICI3V0dlYOV3p0Bwg3UW9IVnd+KSdUC1E3KQFkc0oKUwoyKhFmWzEQOTZCXQ1Eei1BKTQ5GENXbm80Qks5ATkdB28tKWoCAl8RZhtkcxY4LUF7G29rPU8eEWZHTA1EbC1BKTM5NBJXbm9oaxohDwpTWR1lf3RNWR56aAcUYUpnQFcdZTBmTU9XKSBEX3NcdEEFMDdvaEMOQW9+FV82CDAUAXhzfTEDXV07I0VUZx49F1MucyosBwIHeTFSDycPIlNPYyRvfkMDQCwiBFo1VWFHBzsuPnVZB185dQEKYlZkRFR3cnVxUAFFf3QVFHMCJR9Be2U3MwkVQC8nWBp9RD8CQXtlfGZNT1gkJxUCc19vSFpjOg==|~1623120183785~1~20201218~eyJ2aXdlIjoiMCIsImJhaW4iOnt9fQ==~2~281~1pl4|5563f-70,aa,,;751e-,,,;359-70,aa,40,u;b512-70,aa,40,u;058-70,aa,40,u;doei:,1,0,0,0,0,1000,-1000,1000,-1000;dmei:,1,0,0,1000,-1000,1000,-1000,1000,-1000;emc:,5:1;emmm:;emcf:,5:1;ivli:;iivl:;ivcvj:;scvje:;ewhi:,5:197-49;1623120175774,1623120183784,0,1,5,5,0,1,0,0,0;u5ge","referer":"-1","frontendInitStatus":"s","packetId":"${tytpacketId}","helperStatus":"0"}&_ste=1&_stk=appid,body,client,clientVersion,functionId,t&h5st=20210608104303790;8489907903583162;10005;tk01w89681aa9a8nZDdIanIyWnVuWFLK4gnqY+05WKcPY3NWU2dcfa73B7PBM7ufJEN0U+4MyHW5N2mT/RNMq72ycJxH;7e6b956f1a8a71b269a0038bbb4abd24bcfb834a88910818cf1bdfc55b7b96e5`,
+      body: `functionId=helpCoinDozer&appid=station-soa-h5&client=H5&clientVersion=1.0.0&t=1623120183787&body={"actId":"${actId}","channel":"coin_dozer","antiToken":"mmkajtm9eqonssy6xoi1623119406463ic84~NmZeSyVEbFNSd3V+dVNdA3pxAABkRHpTBiUjb35DFm5vLUROOBEzLUF7G28iAAFBKBgVFA1EPwIVKDclGENXbm8iVlQiAwpTTx1lKSsTCG5vfmsaDUR6LUEnG29+PU9ReSdSWTNTNxICI3V0dlYOV3p0Bwg3UW9IVnd+KSdUC1E3KQFkc0oKUwoyKhFmWzEQOTZCXQ1Eei1BKTQ5GENXbm80Qks5ATkdB28tKWoCAl8RZhtkcxY4LUF7G29rPU8eEWZHTA1EbC1BKTM5NBJXbm9oaxohDwpTWR1lf3RNWR56aAcUYUpnQFcdZTBmTU9XKSBEX3NcdEEFMDdvaEMOQW9+FV82CDAUAXhzfTEDXV07I0VUZx49F1MucyosBwIHeTFSDycPIlNPYyRvfkMDQCwiBFo1VWFHBzsuPnVZB185dQEKYlZkRFR3cnVxUAFFf3QVFHMCJR9Be2U3MwkVQC8nWBp9RD8CQXtlfGZNT1gkJxUCc19vSFpjOg==|~1623120183785~1~20201218~eyJ2aXdlIjoiMCIsImJhaW4iOnt9fQ==~2~281~1pl4|5563f-70,aa,,;751e-,,,;359-70,aa,40,u;b512-70,aa,40,u;058-70,aa,40,u;doei:,1,0,0,0,0,1000,-1000,1000,-1000;dmei:,1,0,0,1000,-1000,1000,-1000,1000,-1000;emc:,5:1;emmm:;emcf:,5:1;ivli:;iivl:;ivcvj:;scvje:;ewhi:,5:197-49;1623120175774,1623120183784,0,1,5,5,0,1,0,0,0;u5ge","referer":"-1","frontendInitStatus":"s","packetId":"${tytpacketId}","helperStatus":"0"}&_ste=1&_stk=appid,body,client,clientVersion,functionId,t&h5st=20210608104303790;8489907903583162;10005;tk01w89681aa9a8nZDdIanIyWnVuWFLK4gnqY+05WKcPY3NWU2dcfa73B7PBM7ufJEN0U+4MyHW5N2mT/RNMq72ycJxH;7e6b956f1a8a71b269a0038bbb4abd24bcfb834a88910818cf1bdfc55b7b96e5`,
       headers: {
         "Origin": "https://pushgold.jd.com",
         "Host": "api.m.jd.com",
@@ -174,7 +175,7 @@ function coinDozerBackFlow() {
   return new Promise(async (resolve) => {
     let options = {
       url: `https://api.m.jd.com/?t=1623066557140`,
-      body: `functionId=coinDozerBackFlow&body={"actId":"d5a8c7198ee54de093d2adb04089d3ec","channel":"coin_dozer","antiToken":"","referer":"-1","frontendInitStatus":"s"}&appid=megatron&client=android&clientVersion=9&t=1627920132339&networkType=wifi&eid=eidAecfa8121c7s1QgSzJyiJRFuXovji/QEn20IEtJ8WEfBsxVlLBBlDx1NDeWXp7i+1qklWZQtVP/M+tndxJj/uR/SSHj2G7vN0F2lfP0e9ux8UHlNC&fp=-1&frontendInitStatus=s&uuid=8363532363230343238303836333-43D2468336563316936636265356&osVersion=9&d_brand=Xiaomi&d_model=MI 8&agent=-1&pageClickKey=-1&screen=393*818&platform=3&lang=zh_CN&eu=8363532363230343238303836333&fv=43D2468336563316936636265356`,
+      body: `functionId=coinDozerBackFlow&body={"actId":"${actId}","channel":"coin_dozer","antiToken":"","referer":"-1","frontendInitStatus":"s"}&appid=megatron&client=android&clientVersion=9&t=1627920132339&networkType=wifi&eid=eidAecfa8121c7s1QgSzJyiJRFuXovji/QEn20IEtJ8WEfBsxVlLBBlDx1NDeWXp7i+1qklWZQtVP/M+tndxJj/uR/SSHj2G7vN0F2lfP0e9ux8UHlNC&fp=-1&frontendInitStatus=s&uuid=8363532363230343238303836333-43D2468336563316936636265356&osVersion=9&d_brand=Xiaomi&d_model=MI 8&agent=-1&pageClickKey=-1&screen=393*818&platform=3&lang=zh_CN&eu=8363532363230343238303836333&fv=43D2468336563316936636265356`,
       headers: {
         "Origin": "https://pushgold.jd.com",
         "Host": "api.m.jd.com",
@@ -206,7 +207,7 @@ function helpCoinDozer(tytpacketId) {
   return new Promise(async (resolve) => {
     let options = {
       url: `https://api.m.jd.com/?t=1623066557140`,
-      body: `functionId=helpCoinDozer&appid=station-soa-h5&client=H5&clientVersion=1.0.0&t=1627922761739&body={"actId":"d5a8c7198ee54de093d2adb04089d3ec","channel":"coin_dozer","antiToken":"d75b37qfowsfn740mp41627921383808x5a4~NmZeSyVEbFNSd3V6fVNfBX9wDwliRHpTBiUjb35DFm5vLUROOBEzLUF7G28iAAFBKBgVFA1EPwIVKDclGENXbm8iVlQiAwpTTx1lKSsTCG5vfmsaDUR6LUEnG29%2BPU8HeCVVCDQHNElTeHB7fVFVUyhyDlllU2cXUSJ3LCdWWlR7fU1kc0oKUwoyKhFmWzEQOTZCXQ1Eei1BKTQ5GENXbm80Qks5ATkdB28tKWoCAl8RZhtkcxY4LUF7G29rPU8eEWZHTA1EbC1BKTM5NBJXbm9oaxohDwpTWR1lf3RNWR56aAcUYUpvQD9jOm9oQwhWKTdQGmtEZkcKNWVhZgIeEHdmQU0kUGYfVjclKTUFFF17KVsLJRYwGVU1InUrCBUCfXFPC2MTdF1BImV3ZlMKQSk%2BDg8wAT5DBDdzPj0KXlB8cgUPaFRnQltyf31zGQBcdGYbGjUVOFNZYy4vNhlUUS43FRRzDyVTWWN2b2hDB1suZg0aaF9vSEE8%7C~1627922761730~1~20201218~eyJ2aXdlIjoiMCIsImJhaW4iOnsiaWMiOiIxIiwibGUiOiI5NSIsImN0IjoiaSIsImR0IjoiaSJ9fQ%3D%3D~4~475~siip%7C554yw-7f%2C85%2C%2C%3B753j-%2C%2C%2C%3B356-7f%2C85%2C4k%2Cn%3Bb58-7f%2C85%2C4k%2Cn%3B050-7f%2C85%2C4k%2Cn%3Bgw13b%3Bgwji5%3B552py-6q%2C83%2C%2C%3B752r-%2C%2C%2C%3Bb5a-6r%2C83%2Cm%2C-1%3Bbd1-6r%2C83%2Cm%2C-1%3B051-6r%2C83%2Cm%2C-1%3Bdoei%3A%2C1%2C647%2C647%2C0%2C0%2C-11%2C19%2C-12%2C33%3Bdmei%3A%2C1%2C898%2C0%2C-7%2C1%2C-7%2C1%2C-7%2C1%3Bemc%3A%2C5%3A2%2Cd%3A1%3Bemmm%3A%3Bemcf%3A%2C5%3A2%2Cd%3A1%2C5%3A0%3Bivli%3A%3Biivl%3A%3Bivcvj%3A%3Bscvje%3A%3Bewhi%3A%2C5%3A187-46%3B1627922724803%2C1627922761727%2C0%2C1%2C12%2C12%2C0%2C3%2C0%2C0%2C0%3Bw1rv","referer":"-1","frontendInitStatus":"s","packetId":"${tytpacketId}"}&_ste=1&_stk=appid,body,client,clientVersion,functionId,t&h5st=20210803004601741%3B9832466289341162%3B10005%3Btk01wb2581ba2a8ndXcyN0dBc2lmOdBKB2j6AmZhqiMBL1xbV3unOkVbDl2xKYdsB%2ByLyUDNYeOBhsA4b316%2B1cdS2VW%3Bc7520ffaa8ad8d7cdb6b593d33aa37079c3d6a678a12ad5fb40aa1cde0787363`,
+      body: `functionId=helpCoinDozer&appid=station-soa-h5&client=H5&clientVersion=1.0.0&t=1627922761739&body={"actId":"${actId}","channel":"coin_dozer","antiToken":"d75b37qfowsfn740mp41627921383808x5a4~NmZeSyVEbFNSd3V6fVNfBX9wDwliRHpTBiUjb35DFm5vLUROOBEzLUF7G28iAAFBKBgVFA1EPwIVKDclGENXbm8iVlQiAwpTTx1lKSsTCG5vfmsaDUR6LUEnG29%2BPU8HeCVVCDQHNElTeHB7fVFVUyhyDlllU2cXUSJ3LCdWWlR7fU1kc0oKUwoyKhFmWzEQOTZCXQ1Eei1BKTQ5GENXbm80Qks5ATkdB28tKWoCAl8RZhtkcxY4LUF7G29rPU8eEWZHTA1EbC1BKTM5NBJXbm9oaxohDwpTWR1lf3RNWR56aAcUYUpvQD9jOm9oQwhWKTdQGmtEZkcKNWVhZgIeEHdmQU0kUGYfVjclKTUFFF17KVsLJRYwGVU1InUrCBUCfXFPC2MTdF1BImV3ZlMKQSk%2BDg8wAT5DBDdzPj0KXlB8cgUPaFRnQltyf31zGQBcdGYbGjUVOFNZYy4vNhlUUS43FRRzDyVTWWN2b2hDB1suZg0aaF9vSEE8%7C~1627922761730~1~20201218~eyJ2aXdlIjoiMCIsImJhaW4iOnsiaWMiOiIxIiwibGUiOiI5NSIsImN0IjoiaSIsImR0IjoiaSJ9fQ%3D%3D~4~475~siip%7C554yw-7f%2C85%2C%2C%3B753j-%2C%2C%2C%3B356-7f%2C85%2C4k%2Cn%3Bb58-7f%2C85%2C4k%2Cn%3B050-7f%2C85%2C4k%2Cn%3Bgw13b%3Bgwji5%3B552py-6q%2C83%2C%2C%3B752r-%2C%2C%2C%3Bb5a-6r%2C83%2Cm%2C-1%3Bbd1-6r%2C83%2Cm%2C-1%3B051-6r%2C83%2Cm%2C-1%3Bdoei%3A%2C1%2C647%2C647%2C0%2C0%2C-11%2C19%2C-12%2C33%3Bdmei%3A%2C1%2C898%2C0%2C-7%2C1%2C-7%2C1%2C-7%2C1%3Bemc%3A%2C5%3A2%2Cd%3A1%3Bemmm%3A%3Bemcf%3A%2C5%3A2%2Cd%3A1%2C5%3A0%3Bivli%3A%3Biivl%3A%3Bivcvj%3A%3Bscvje%3A%3Bewhi%3A%2C5%3A187-46%3B1627922724803%2C1627922761727%2C0%2C1%2C12%2C12%2C0%2C3%2C0%2C0%2C0%3Bw1rv","referer":"-1","frontendInitStatus":"s","packetId":"${tytpacketId}"}&_ste=1&_stk=appid,body,client,clientVersion,functionId,t&h5st=20210803004601741%3B9832466289341162%3B10005%3Btk01wb2581ba2a8ndXcyN0dBc2lmOdBKB2j6AmZhqiMBL1xbV3unOkVbDl2xKYdsB%2ByLyUDNYeOBhsA4b316%2B1cdS2VW%3Bc7520ffaa8ad8d7cdb6b593d33aa37079c3d6a678a12ad5fb40aa1cde0787363`,
       headers: {
         "Origin": "https://pushgold.jd.com",
         "Host": "api.m.jd.com",
@@ -238,7 +239,7 @@ function getCoinDozerInfo() {
   return new Promise(async (resolve) => {
     let options = {
       url: `https://api.m.jd.com/?t=1623066557140`,
-      body: `functionId=getCoinDozerInfo&body={"actId":"d5a8c7198ee54de093d2adb04089d3ec","channel":"coin_dozer","antiToken":"","referer":"-1","frontendInitStatus":""}&appid=megatron&client=android&clientVersion=9&t=1626269713293&networkType=4g&eid=&fp=&frontendInitStatus=&uuid=8363532363230343238303836333-43D2468336563316936636265356&osVersion=9&d_brand=&d_model=&agent=-1&pageClickKey=-1&screen=393*818&platform=3&lang=zh_CN&eu=8363532363230343238303836333&fv=43D2468336563316936636265356`,
+      body: `functionId=getCoinDozerInfo&body={"actId":"${actId}","channel":"coin_dozer","antiToken":"","referer":"-1","frontendInitStatus":""}&appid=megatron&client=android&clientVersion=9&t=1626269713293&networkType=4g&eid=&fp=&frontendInitStatus=&uuid=8363532363230343238303836333-43D2468336563316936636265356&osVersion=9&d_brand=&d_model=&agent=-1&pageClickKey=-1&screen=393*818&platform=3&lang=zh_CN&eu=8363532363230343238303836333&fv=43D2468336563316936636265356`,
       headers: {
         "Origin": "https://pushgold.jd.com",
         "Host": "api.m.jd.com",
@@ -255,6 +256,7 @@ function getCoinDozerInfo() {
           data = JSON.parse(data);
           if (data.code == 0 && data.data.sponsorActivityInfo.packetId) {
             console.log(`【京东账号${$.index}的推一推邀请码】${data.data.sponsorActivityInfo.packetId}\n`)
+            console.log(`已推【${data.data.sponsorActivityInfo.dismantledAmount}】元\n`)
             packetId = data.data.sponsorActivityInfo.packetId
           } else {
             console.log(`【京东账号${$.index}】获取助力码失败\n`)
