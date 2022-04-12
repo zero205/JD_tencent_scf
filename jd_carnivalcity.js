@@ -41,9 +41,10 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
-const activeEndTime = '2021/11/14 00:00:00+08:00';//活动结束时间
+const activeEndTime = '2022/04/22 00:00:00+08:00';//活动结束时间
 let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000;
 !(async () => {
+console.log(`\n入口：https://welfare.m.jd.com/#/home\n`);
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -119,7 +120,7 @@ async function JD818() {
     await getListRank();
     await getListIntegral();
     await getListJbean();
-    await check();//查询抽奖记录(未兑换的，发送提醒通知);
+    //await check();//查询抽奖记录(未兑换的，发送提醒通知);
     await showMsg()
   } catch (e) {
     $.logErr(e)
@@ -142,7 +143,7 @@ function headInfo() {
                 if (data.data.taskType === "13" || data.data.taskType === "15") {
                   console.log(`开始 【顶部】浏览任务,需等待6秒`)
                   await doBrowseHead(data.data.taskIndex, data.data.taskId, data.data.taskType)
-                } else if (data.data.taskType === "14" && ["car","card"].includes(process.env.FS_LEVEL)) {
+                } else if (data.data.taskType === "14") {
                   console.log(`开始 【顶部】加购任务`)
                   await getHeadJoinPrize(data.data.taskId, data.data.taskIndex)
                 }
@@ -691,10 +692,10 @@ function getListIntegral() {
           if (data.code === 200) {
             $.integralCount = data.data.integralNum || 0;//累计活动积分
             message += `累计获得积分：${$.integralCount}\n`;
-            console.log(`开始抽奖，当前积分可抽奖${parseInt($.integralCount / 50)}次\n`);
+            //console.log(`开始抽奖，当前积分可抽奖${parseInt($.integralCount / 50)}次\n`);
             for (let i = 0; i < parseInt($.integralCount / 50); i ++) {
-              await lottery();
-              await $.wait(500);
+              //await lottery();
+              //await $.wait(500);
             }
           } else {
             console.log(`integralRecord失败：${JSON.stringify(data)}`);

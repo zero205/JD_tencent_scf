@@ -68,6 +68,7 @@ message = ""
             $.isLogin = true;
             $.nickName = '';
             $.maxJoyCount = 10
+            $.retry = 0;
             await TotalBean();
             if (!$.isLogin) {
                 $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
@@ -110,7 +111,10 @@ message = ""
             await doJoyMoveDownAll($.workJoyInfoList)
             //从低合到高
             await doJoyMergeAll($.activityJoyList)
+            //提现
             await getGameMyPrize()
+            await $.wait(2000)
+            await signPrizeDetailList()
         }
     }
 })()
@@ -132,7 +136,7 @@ async function getJoyBaseInfo(taskId = '', inviteType = '', inviterPin = '', pri
                     if (printLog) {
                         $.log(`等级: ${data.data.level}|金币: ${data.data.joyCoin}`);
                         if (data.data.level >= 30 && $.isNode()) {
-                            await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】${$.nickName || $.UserName}\n当前等级: ${data.data.level}\n已达到单次最高等级奖励\n请前往京东极速版APP查看使用优惠券\n活动入口：京东极速版APP->我的->汪汪乐园`);
+                            // await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】${$.nickName || $.UserName}\n当前等级: ${data.data.level}\n已达到单次最高等级奖励\n请前往京东极速版APP查看使用优惠券\n活动入口：京东极速版APP->我的->汪汪乐园`);
                             $.log(`\n开始解锁新场景...\n`);
                             await doJoyRestart()
                         }
@@ -347,9 +351,13 @@ function doJoyMerge(joyId1, joyId2) {
                 } else {
                     data = JSON.parse(data);
                     $.log(`合成 ${joyId1} <=> ${joyId2} ${data.success ? `成功！` : `失败！【${data.errMsg}】 code=${data.code}`}`)
-                    // if (data.code == '1006') {
-                    //   hot_flag = true
-                    // }
+                    if (data.code == '1006') {
+                        $.retry++
+                        if ($.retry >= 5) {
+                            console.log(`\n合成失败次数过多，跳过合成`);
+                            hot_flag = true
+                        }
+                    }
                 }
             } catch (e) {
                 $.logErr(e, resp)
@@ -453,7 +461,7 @@ function getGameMyPrize() {
                         $.Vos = data.data.gamePrizeItemVos
                         for (let i = 0; i < $.Vos.length; i++) {
                             if ($.Vos[i].prizeType == 4 && $.Vos[i].status == 1 && $.Vos[i].prizeTypeVO.prizeUsed == 0) {
-                                $.log(`\n当前账号有【${$.Vos[i].prizeName}】可提现`)
+                                $.log(`\n当前账号有【${$.Vos[i].prizeName}】元可提现`)
                                 $.id = $.Vos[i].prizeTypeVO.id
                                 $.poolBaseId = $.Vos[i].prizeTypeVO.poolBaseId
                                 $.prizeGroupId = $.Vos[i].prizeTypeVO.prizeGroupId
@@ -461,6 +469,39 @@ function getGameMyPrize() {
                                 await apCashWithDraw($.id, $.poolBaseId, $.prizeGroupId, $.prizeBaseId)
                             }
                         }
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            } finally {
+                resolve(data);
+            }
+        })
+    })
+}
+
+/**
+ * 获取奖励列表
+ * @returns {Promise<unknown>}
+ */
+function signPrizeDetailList() {
+    return new Promise(async resolve => {
+        $.post(taskPostClientActionUrl(`body={"linkId":"LsQNxL7iWDlXUs6cFl-AAg","pageNum":1,"pageSize":10}&appid=activities_platform`, `gameMyCashPrize`), async (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`)
+                    console.log(`${$.name} API请求失败，请检查网路重试`)
+                } else {
+                    data = JSON.parse(data);
+                    if (data.code === 0) {
+                        for (let item of data.data.items.filter(vo => vo.prizeType === 4)) {
+                            if (item.prizeStatus === 0 && item.state === 0) {
+                                console.log(`当前账号有【${item.prizeValue}】元可提现`)
+                                await apCashWithDraw(item.id, item.poolBaseId, item.prizeGroupId, item.prizeBaseId)
+                            }
+                        }
+                    } else {
+                        console.log(`提现异常:${JSON.stringify(data)}\n`);
                     }
                 }
             } catch (e) {
