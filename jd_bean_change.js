@@ -1685,22 +1685,27 @@ function getCoupon() {
 					    }
 
 					}
-                    /* if (useable[i].couponTitle.indexOf('极速版APP活动') > -1) {						
-                        $.couponEndTime = useable[i].endTime;
-                        $.startIndex = useable[i].couponTitle.indexOf('-') - 3;
-                        $.endIndex = useable[i].couponTitle.indexOf('元') + 1;
-                        $.couponName = useable[i].couponTitle.substring($.startIndex, $.endIndex);
-
-                        if ($.couponEndTime < $.todayEndTime) {
-                            $.message += `【极速版券】${$.couponName}(今日过期)\n`;
-                        } else if ($.couponEndTime < $.tomorrowEndTime) {
-                            $.message += `【极速版券】${$.couponName}(明日将过期)\n`;
-                        } else {
-                            $.couponEndTime = timeFormat(parseInt($.couponEndTime));
-                            $.message += `【极速版券】${$.couponName}(有效期至${$.couponEndTime})\n`;
+                    if (useable[i].couponTitle.indexOf('极速版APP活动') > -1 && useable[i].limitStr=='仅可购买活动商品') {						
+                        $.beginTime = useable[i].beginTime;
+                        if ($.beginTime < new Date().getTime() && useable[i].coupontype === 1) {                            
+							if (useable[i].platFormInfo) 
+								$.platFormInfo = useable[i].platFormInfo;
+							var decquota=parseFloat(useable[i].quota).toFixed(2);
+							var decdisc= parseFloat(useable[i].discount).toFixed(2);
+							
+							$.message += `【极速版券】满${decquota}减${decdisc}元`;
+							
+							if (useable[i].endTime < $.todayEndTime) {
+								$.message += `(今日过期,${$.platFormInfo})\n`;
+							} else if (useable[i].endTime < $.tomorrowEndTime) {
+								$.message += `(明日将过期,${$.platFormInfo})\n`;
+							} else {
+								$.message += `(${$.platFormInfo})\n`;
+							}
+							
                         }
 
-                    } */
+                    }
                     //8是支付券， 7是白条券
                     if (useable[i].couponStyle == 7 || useable[i].couponStyle == 8) {
                         $.beginTime = useable[i].beginTime;
