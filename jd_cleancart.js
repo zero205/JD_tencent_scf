@@ -115,11 +115,7 @@ function getCart_xh() {
         }
         $.get(option, async (err, resp, data) => {
             try {
-                data = getSubstr(data, "window.cartData = ", "window._PFM_TIMING");
-                data = data.replace(' ;', '');
-                data = data.replace(/\s+/g,'');
-                data = JSON.parse(data);
-
+                data = JSON.parse(data.match(/window\.cartData = ([^;]*)/)[1])
                 $.areaId = data.areaId;   // locationId的传值
                 $.traceId = data.traceId; // traceid的传值
                 venderCart = data.cart.venderCart;
@@ -206,13 +202,6 @@ function removeCart() {
             }
         });
     })
-}
-
-function getSubstr(str, leftStr, rightStr) {
-    let left = str.indexOf(leftStr);
-    let right = str.indexOf(rightStr, left);
-    if (left < 0 || right < left) return '';
-    return str.substring(left + leftStr.length, right);
 }
 
 function TotalBean() {
