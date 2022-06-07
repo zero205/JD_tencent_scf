@@ -828,12 +828,10 @@ function invite() {
   let t = +new Date()
   let inviterId = [
     "/eNHdfn6fP+TFwVda3ipjWwvTFqeKBZaRG38adWABKk=",
-    "R+eeS9UrTadw7yIF7ubkxBOARQK0BNXiQLVF0TyAf4Q=",
     "Cg7WMrLsk/PPSHaOd9q2ULzDByNly0QecJ4K7QiZhLk=",
     "N0xw0OCPJTUt8xzWZPWs3w==",
-    "z///voP4pDo+KI13j5As9g==",
     "Sev6JWjut6GyaEHJIWpSQQ=="
-  ][Math.floor((Math.random() * 6))]
+  ][Math.floor((Math.random() * 3))]
   var headers = {
     'Host': 'api.m.jd.com',
     'accept': 'application/json, text/plain, */*',

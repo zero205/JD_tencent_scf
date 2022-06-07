@@ -139,9 +139,10 @@ function help2() {
   return new Promise(async (resolve) => {
     let code = [
       "%2FeNHdfn6fP%2BTFwVda3ipjWwvTFqeKBZaRG38adWABKk%3D",
+      "R%2BeeS9UrTadw7yIF7ubkxBOARQK0BNXiQLVF0TyAf4Q%3D",
       "Sev6JWjut6GyaEHJIWpSQQ%3D%3D",
       "Cg7WMrLsk%2FPPSHaOd9q2ULzDByNly0QecJ4K7QiZhLk%3D"
-    ][Math.floor((Math.random() * 3))]
+    ][Math.floor((Math.random() * 4))]
     let options = {
       url: `https://api.m.jd.com`,
       body: `functionId=TaskInviteService&body={"method":"participateInviteTask","data":{"channel":"1","encryptionInviterPin":"${code}","type":1}}&appid=market-task-h5&uuid=7303439343432346-7356431353233311&eu=7303439343432341&fv=7356431353233321&_t=1623475839367`,
