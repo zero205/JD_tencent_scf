@@ -20,6 +20,7 @@ if ($.isNode() && process.env.BEANCHANGE_BEANDETAILMODE){
 }
 
 const fs = require('fs');
+let matchtitle="昨日";
 let yesterday="";
 let TodayDate="";
 let startDate="";
@@ -48,6 +49,7 @@ if(!Fileexists){
 	yesterday=TodayDate;
 	strBeanCache=strNewBeanCache;
 	Fileexists = fs.existsSync(strBeanCache);
+	matchtitle="今日";
 }
 if (Fileexists) {
     console.log("检测到资产变动缓存文件"+yesterday+".json，载入...");
@@ -397,7 +399,8 @@ if(DisableIndex!=-1){
 			$.jxFactoryInfo = '';
 			$.jxFactoryReceive = '';
 			$.jdCash = 0;
-			$.isPlusVip = 0;
+			$.isPlusVip = false;
+			$.isRealNameAuth = false;
 			$.JingXiang = "";
 			$.allincomeBean = 0; //月收入
 			$.allexpenseBean = 0; //月支出
@@ -420,12 +423,20 @@ if(DisableIndex!=-1){
 			$.PlustotalScore=0;
 			$.CheckTime="";
 			$.beanCache=0;
+			
 			TempBaipiao = "";
 			strGuoqi="";
 			console.log(`******开始查询【京东账号${$.index}】${$.nickName || $.UserName}*********`);
 		
 			await TotalBean();			
-		    await TotalBean2();
+		    //await TotalBean2();
+			
+			if ($.beanCount == 0) {
+			    var userdata = await getuserinfo();
+			    if (userdata.code == 1) {
+			        $.beanCount = userdata.content.jdBean;
+			    }
+			}
 			
 			
 			if (!$.isLogin) {
@@ -469,7 +480,7 @@ if(DisableIndex!=-1){
 			if (TodayCache) {
 			    for (let j = 0; j < TodayCache.length; j++) {
 			        if (TodayCache[j].pt_pin == $.UserName) {
-			            TodayCache[j].CheckTime = TodayDate + " " + timeString;
+			            TodayCache[j].CheckTime = timeString;
 			            TodayCache[j].BeanNum = $.beanCount;
 			            llfound = true;
 			            break;
@@ -480,7 +491,7 @@ if(DisableIndex!=-1){
 
 			    var tempAddCache = {
 			        "pt_pin": $.UserName,
-			        "CheckTime": TodayDate + " " + timeString,
+			        "CheckTime": timeString,
 			        "BeanNum": $.beanCount
 			    };
 			    TodayCache.push(tempAddCache);
@@ -724,58 +735,38 @@ async function showMsg() {
 	
 	if (userIndex2 != -1) {
 		IndexGp2 += 1;
-		ReturnMessageTitle = `【账号${IndexGp2}🆔】${$.nickName || $.UserName}\n`;
+		ReturnMessageTitle = `【账号${IndexGp2}🆔】${$.nickName || $.UserName}`;
 	}
 	if (userIndex3 != -1) {
 		IndexGp3 += 1;
-		ReturnMessageTitle = `【账号${IndexGp3}🆔】${$.nickName || $.UserName}\n`;
+		ReturnMessageTitle = `【账号${IndexGp3}🆔】${$.nickName || $.UserName}`;
 	}
 	if (userIndex4 != -1) {
 		IndexGp4 += 1;
-		ReturnMessageTitle = `【账号${IndexGp4}🆔】${$.nickName || $.UserName}\n`;
+		ReturnMessageTitle = `【账号${IndexGp4}🆔】${$.nickName || $.UserName}`;
 	}
 	if (userIndex2 == -1 && userIndex3 == -1 && userIndex4 == -1) {
 		IndexAll += 1;
-		ReturnMessageTitle = `【账号${IndexAll}🆔】${$.nickName || $.UserName}\n`;
+		ReturnMessageTitle = `【账号${IndexAll}🆔】${$.nickName || $.UserName}`;
 	}
-
-	if ($.levelName || $.JingXiang){
-		ReturnMessage += `【账号信息】`;
-		if ($.levelName) {
-			if ($.levelName.length > 2)
-				$.levelName = $.levelName.substring(0, 2);
-
-			if ($.levelName == "注册")
-				$.levelName = `😊普通`;
-
-			if ($.levelName == "钻石")
-				$.levelName = `💎钻石`;
-
-			if ($.levelName == "金牌")
-				$.levelName = `🥇金牌`;
-
-			if ($.levelName == "银牌")
-				$.levelName = `🥈银牌`;
-
-			if ($.levelName == "铜牌")
-				$.levelName = `🥉铜牌`;
-
-			if ($.isPlusVip == 1){
-				ReturnMessage += `${$.levelName}Plus`;
-				if($.PlustotalScore)
-					ReturnMessage+=`(${$.PlustotalScore}分)`
-			}
-			else
-				ReturnMessage += `${$.levelName}会员`;
-		}
-
-		if ($.JingXiang){
-			if ($.levelName) {
-				ReturnMessage +=",";
-			}
-			ReturnMessage += `${$.JingXiang}`;
-		}
-		ReturnMessage +=`\n`;
+	
+		
+	if ($.JingXiang) {
+		if ($.isRealNameAuth)
+			ReturnMessageTitle += `(已实名)\n`;
+		else
+			ReturnMessageTitle += `(未实名)\n`;
+	    ReturnMessage += `【账号信息】`;
+	    if ($.isPlusVip) {
+	        ReturnMessage += `Plus会员`;
+	        if ($.PlustotalScore)
+	            ReturnMessage += `(${$.PlustotalScore}分)`
+	    } else {
+	        ReturnMessage += `普通会员`;
+	    }  
+	    ReturnMessage += `,京享值${$.JingXiang}\n`;	    
+	}else{
+		ReturnMessageTitle+= `\n`;
 	}
 	if (llShowMonth) {
 		ReturnMessageMonth = ReturnMessage;
@@ -819,8 +810,8 @@ async function showMsg() {
 	        ReturnMessage += `\n`;
 	    } else {	
 			if (TempBeanCache){
-				ReturnMessage += `【京豆变动】 ${$.beanCount-$.beanCache}豆(与${$.CheckTime}比较)`;			
-				strsummary += `【京豆变动】 ${$.beanCount-$.beanCache}豆(与${$.CheckTime}比较)`;
+				ReturnMessage += `【京豆变动】${$.beanCount-$.beanCache}豆(与${matchtitle}${$.CheckTime}比较)`;			
+				strsummary += `【京豆变动】${$.beanCount-$.beanCache}豆(与${matchtitle}${$.CheckTime}比较)`;
 				ReturnMessage += `\n`;
 				strsummary += `\n`;
 			}	
@@ -1134,8 +1125,14 @@ async function showMsg() {
 
 	if ($.isNode() && WP_APP_TOKEN_ONE) {
 		var strTitle="京东资产变动";
-		ReturnMessage=`【账号名称】${$.nickName || $.UserName}\n`+ReturnMessage;
-		
+		if($.JingXiang){
+			if ($.isRealNameAuth)
+				ReturnMessage=`【账号名称】${$.nickName || $.UserName}(已实名)\n`+ReturnMessage;				
+			else
+				ReturnMessage=`【账号名称】${$.nickName || $.UserName}(未实名)\n`+ReturnMessage;				
+		}else{
+			ReturnMessage=`【账号名称】${$.nickName || $.UserName}\n`+ReturnMessage;
+		}
 		if (TempBaipiao) {
 			strsummary=strSubNotify+TempBaipiao +strsummary;			
 			TempBaipiao = `【⏰商品白嫖活动提醒⏰】\n` + TempBaipiao;
@@ -1405,7 +1402,7 @@ function getSign(functionId, body) {
     })
   })
 }
-function TotalBean() {
+/* function TotalBean() {
 	return new Promise(async resolve => {
 		const options = {
 			url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
@@ -1420,6 +1417,7 @@ function TotalBean() {
 				if (err) {
 					$.logErr(err)
 				} else {
+					console.log(data);
 					if (data) {
 						data = JSON.parse(data);
 						if (data['retcode'] === "1001") {
@@ -1450,7 +1448,60 @@ function TotalBean() {
 			}
 		})
 	})
+} */
+
+function TotalBean() {
+    return new Promise(async resolve => {
+        const options = {
+            "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
+            "headers": {
+                "Accept": "application/json,text/plain, */*",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Cookie": cookie,
+                "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
+                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+            }
+        }
+        $.post(options, (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`)
+                    console.log(`${$.name} API请求失败，请检查网路重试`)
+                } else {
+                    if (data) {
+                        data = JSON.parse(data);
+                        if (data['retcode'] === 13) {
+                            $.isLogin = false; //cookie过期
+                            return
+                        }
+                        if (data['retcode'] === 0) {
+                            $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
+							$.isPlusVip=data['isPlusVip'];
+							$.isRealNameAuth=data['isRealNameAuth'];
+							$.beanCount=(data['base'] && data['base'].jdNum) || 0 ;		
+							$.JingXiang = (data['base'] && data['base'].jvalue) || 0 ;						
+                        } else {
+                            $.nickName = $.UserName
+                        }
+						
+							
+							
+                    } else {
+                        console.log(`京东服务器返回空数据`)
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            } finally {
+                resolve();
+            }
+        })
+    })
 }
+
 function TotalBean2() {
 	return new Promise(async(resolve) => {
 		const options = {
@@ -2976,7 +3027,7 @@ function GetDateTime(date) {
 }
 
 async function queryScores() {
-	if ($.isPlusVip != 1)
+	if (!$.isPlusVip)
 		return
     let res = ''
     let url = {
@@ -3001,6 +3052,110 @@ async function queryScores() {
   
 }
 
+async function getuserinfo() {
+	var body={"pin": "$cooMrdGatewayUid$"};
+	var ua = `jdapp;iPhone;${random(["11.1.0", "10.5.0", "10.3.6"])};${random(["13.5", "14.0", "15.0"])};${uuidRandom()};network/wifi;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone11,6;addressid/7565095847;supportBestPay/0;appBuild/167541;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`;
+
+    let config = {
+        url: 'https://lop-proxy.jd.com/JingIntegralApi/userAccount',
+        body: JSON.stringify(body),
+        headers: {
+            "host": "lop-proxy.jd.com",
+            "jexpress-report-time": Date.now().toString(),
+            "access": "H5",
+            "source-client": "2",
+            "accept": "application/json, text/plain, */*",
+            "d_model": "iPhone11,6",
+            "accept-encoding": "gzip",
+            "lop-dn": "jingcai.jd.com",
+            "user-agent": ua,
+            "partner": "",
+            "screen": "375*812",
+            "cookie": cookie,
+            "x-requested-with": "XMLHttpRequest",
+            "version": "1.0.0",
+            "uuid": randomNumber(10),
+            "clientinfo": "{\"appName\":\"jingcai\",\"client\":\"m\"}",
+            "d_brand": "iPhone",
+            "appparams": "{\"appid\":158,\"ticket_type\":\"m\"}",
+            "sdkversion": "1.0.7",
+            "area": area(),
+            "client": "iOS",
+            "referer": "https://jingcai-h5.jd.com/",
+            "eid": "",
+            "osversion": random(["13.5", "14.0", "15.0"]),
+            "networktype": "wifi",
+            "jexpress-trace-id": uuid(),
+            "origin": "https://jingcai-h5.jd.com",
+            "app-key": "jexpress",
+            "event-id": uuid(),
+            "clientversion": random(["11.1.0", "10.5.0", "10.3.6"]),
+            "content-type": "application/json;charset=utf-8",
+            "build": "167541",
+            "biz-type": "service-monitor",
+            "forcebot": "0"
+        }
+    }
+    return new Promise(resolve => {
+        $.post(config, async(err, resp, data) => {
+            try {
+                //console.log(data)
+                if (err) {
+                    console.log(err)
+                } else {					
+                    data = JSON.parse(data);
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            }
+            finally {
+                resolve(data || '');
+            }
+        })
+    })
+}
+function area() {
+    let i = getRand(1, 30)
+        let o = getRand(70, 3000)
+        let x = getRand(900, 60000)
+        let g = getRand(600, 30000)
+        let a = i + '_' + o + '_' + x + '_' + g;
+    return a
+};
+function getRand(min, max) {
+    return parseInt(Math.random() * (max - min)) + min;
+};
+function uuid() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4";
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
+    s[8] = s[13] = s[18] = s[23] = "-";
+    var uuid = s.join("");
+    return uuid;
+};
+function uuidRandom() {
+    return Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10);
+}
+function random(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+function randomNumber(len) {
+    let chars = '0123456789';
+    let maxPos = chars.length;
+    let str = '';
+    for (let i = 0; i < len; i++) {
+        str += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return Date.now() + str;
+}
 // prettier-ignore
 function Env(t, e) {
 	"undefined" != typeof process && JSON.stringify(process.env).indexOf("GITHUB") > -1 && process.exit(0);
