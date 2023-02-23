@@ -1748,37 +1748,39 @@ function redPacket() {
 						t = parseInt((t - 1) / 1000);
 						//console.log(JSON.stringify(data.useRedInfo.redList))
 						for (let vo of data.useRedInfo.redList || []) {
-							if (vo.limitStr && vo.limitStr.includes("京喜")) {
-								$.jxRed += parseFloat(vo.balance)
-								if (vo['endTime'] === t) {
-									$.jxRedExpire += parseFloat(vo.balance)
-								}
-							} else if (vo.limitStr.includes("购物小程序")) {
-								$.jdwxRed += parseFloat(vo.balance)
-								if (vo['endTime'] === t) {
-									$.jdwxRedExpire += parseFloat(vo.balance)
-								}
-							} else if (vo.limitStr.includes("京东商城")) {
-								$.jdRed += parseFloat(vo.balance)
-								if (vo['endTime'] === t) {
-									$.jdRedExpire += parseFloat(vo.balance)
-								}
-							} else if (vo.limitStr.includes("极速版") || vo.limitStr.includes("京东特价")) {
-								$.jsRed += parseFloat(vo.balance)
-								if (vo['endTime'] === t) {
-									$.jsRedExpire += parseFloat(vo.balance)
-								}
-							} else if (vo.limitStr && vo.limitStr.includes("京东健康")) {
-								$.jdhRed += parseFloat(vo.balance)
-								if (vo['endTime'] === t) {
-									$.jdhRedExpire += parseFloat(vo.balance)
-								}
-							} else {
-								$.jdGeneralRed += parseFloat(vo.balance)
-								if (vo['endTime'] === t) {
-									$.jdGeneralRedExpire += parseFloat(vo.balance)
-								}
-							}
+						    if (vo.limitStr) {
+						        if (vo.limitStr.includes("京喜") && !vo.limitStr.includes("特价")) {
+						            $.jxRed += parseFloat(vo.balance)
+						            if (vo['endTime'] === t) {
+						                $.jxRedExpire += parseFloat(vo.balance)
+						            }
+						        } else if (vo.limitStr.includes("购物小程序")) {
+						            $.jdwxRed += parseFloat(vo.balance)
+						            if (vo['endTime'] === t) {
+						                $.jdwxRedExpire += parseFloat(vo.balance)
+						            }
+						        } else if (vo.limitStr.includes("京东商城")) {
+						            $.jdRed += parseFloat(vo.balance)
+						            if (vo['endTime'] === t) {
+						                $.jdRedExpire += parseFloat(vo.balance)
+						            }
+						        } else if (vo.limitStr.includes("极速") || vo.limitStr.includes("京东特价") || vo.limitStr.includes("京喜特价")) {
+						            $.jsRed += parseFloat(vo.balance)
+						            if (vo['endTime'] === t) {
+						                $.jsRedExpire += parseFloat(vo.balance)
+						            }
+						        } else if (vo.limitStr && vo.limitStr.includes("京东健康")) {
+						            $.jdhRed += parseFloat(vo.balance)
+						            if (vo['endTime'] === t) {
+						                $.jdhRedExpire += parseFloat(vo.balance)
+						            }
+						        } else {
+						            $.jdGeneralRed += parseFloat(vo.balance)
+						            if (vo['endTime'] === t) {
+						                $.jdGeneralRedExpire += parseFloat(vo.balance)
+						            }
+						        }
+						    }
 						}
 				
 						$.jxRed = $.jxRed.toFixed(2);
@@ -1793,7 +1795,7 @@ function redPacket() {
 						if ($.jxRed > 0)
 							$.message += `【京喜红包】${$.jxRed}(将过期${$.jxRedExpire.toFixed(2)})元 \n`;
 						if ($.jsRed > 0)
-							$.message += `【特价红包】${$.jsRed}(将过期${$.jsRedExpire.toFixed(2)})元 \n`;
+							$.message += `【京喜特价】${$.jsRed}(将过期${$.jsRedExpire.toFixed(2)})元(原极速版) \n`;
 						if ($.jdRed > 0)
 							$.message += `【京东红包】${$.jdRed}(将过期${$.jdRedExpire.toFixed(2)})元 \n`;
 						if ($.jdhRed > 0)
