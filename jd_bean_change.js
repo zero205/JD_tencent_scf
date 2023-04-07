@@ -1725,38 +1725,42 @@ function redPacket() {
 						t = parseInt((t - 1) / 1000);
 						//console.log(JSON.stringify(data.useRedInfo.redList))
 						for (let vo of data.useRedInfo.redList || []) {
-						    if (vo.limitStr) {
+						    if (vo.limitStr) {								
 						        if (vo.limitStr.includes("京喜") && !vo.limitStr.includes("特价")) {
 						            $.jxRed += parseFloat(vo.balance)
 						            if (vo['endTime'] === t) {
-						                $.jxRedExpire += parseFloat(vo.balance)
+						                $.jxRedExpire += parseFloat(vo.balance)									
 						            }
+									continue;	
 						        } else if (vo.limitStr.includes("购物小程序")) {
 						            $.jdwxRed += parseFloat(vo.balance)
 						            if (vo['endTime'] === t) {
 						                $.jdwxRedExpire += parseFloat(vo.balance)
 						            }
+									continue;	
 						        } else if (vo.limitStr.includes("京东商城")) {
 						            $.jdRed += parseFloat(vo.balance)
 						            if (vo['endTime'] === t) {
 						                $.jdRedExpire += parseFloat(vo.balance)
 						            }
+									continue;	
 						        } else if (vo.limitStr.includes("极速") || vo.limitStr.includes("京东特价") || vo.limitStr.includes("京喜特价")) {
 						            $.jsRed += parseFloat(vo.balance)
 						            if (vo['endTime'] === t) {
 						                $.jsRedExpire += parseFloat(vo.balance)
 						            }
+									continue;	
 						        } else if (vo.limitStr && vo.limitStr.includes("京东健康")) {
 						            $.jdhRed += parseFloat(vo.balance)
 						            if (vo['endTime'] === t) {
 						                $.jdhRedExpire += parseFloat(vo.balance)
 						            }
-						        } else {
-						            $.jdGeneralRed += parseFloat(vo.balance)
-						            if (vo['endTime'] === t) {
-						                $.jdGeneralRedExpire += parseFloat(vo.balance)
-						            }
+									continue;	
 						        }
+						    }
+						    $.jdGeneralRed += parseFloat(vo.balance)
+						    if (vo['endTime'] === t) {
+						        $.jdGeneralRedExpire += parseFloat(vo.balance)
 						    }
 						}
 				
