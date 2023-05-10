@@ -1367,7 +1367,7 @@ function redPacket() {
 						let t = new Date();
 						t.setDate(t.getDate() + 1);
 						t.setHours(0, 0, 0, 0);
-						t = parseInt((t - 1) / 1000);
+						t = parseInt((t - 1) / 1000)*1000;
 						
 						for (let vo of data.hongBaoList || []) {
 						    if (vo.orgLimitStr) {								
