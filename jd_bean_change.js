@@ -144,6 +144,10 @@ let jdSignUrl = 'https://api.nolanstore.top/sign'
 if (process.env.SIGNURL)
 	jdSignUrl = process.env.SIGNURL;
 
+let epsignurl=""
+if (process.env.epsignurl)
+    epsignurl = process.env.epsignurl;
+
 if ($.isNode() && process.env.BEANCHANGE_PERSENT) {
 	intPerSent = parseInt(process.env.BEANCHANGE_PERSENT);
 	console.log(`检测到设定了分段通知:` + intPerSent);
@@ -1268,8 +1272,8 @@ function getJingBeanBalanceDetail(page) {
     $.post(options, (err, resp, data) => {
       try {
         if (err) {
-          // console.log(`${JSON.stringify(err)}`)
-          // console.log(`${$.name} API请求失败，请检查网路重试`)
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`getJingBeanBalanceDetail API请求失败，请检查网路重试`)
         } else {
           if (data) {
             data = JSON.parse(data);
@@ -1290,7 +1294,14 @@ function getJingBeanBalanceDetail(page) {
 function jingBeanDetail() {
 	return new Promise(async resolve => {
 	  setTimeout(async () => {
-		const strsign = await getSignfromNolan('jingBeanDetail', {"pageSize": "20", "page": "1"});		
+		var strsign ="";
+		if (epsignurl){
+			strsign = await getepsign('jingBeanDetail', { "pageSize": "20", "page": "1" });
+			strsign=strsign.body;
+		}
+		else
+			strsign = await getSignfromNolan('jingBeanDetail', { "pageSize": "20", "page": "1" });
+		
 		const options = {
 		  "url": `https://api.m.jd.com/client.action?functionId=jingBeanDetail`,
 		  "body": strsign,
@@ -1305,7 +1316,7 @@ function jingBeanDetail() {
 		  try {
 			if (err) {
 			  console.log(`${JSON.stringify(err)}`)
-			  console.log(`${$.name} getJingBeanBalanceDetail API请求失败，请检查网路重试`)
+			  console.log(`${$.name} jingBeanDetail API请求失败，请检查网路重试`)
 			} else {
 			  if (data) {				
 				data = JSON.parse(data);				
@@ -1328,6 +1339,31 @@ function jingBeanDetail() {
 	  }, 0 * 1000);
 	})
   } 
+  
+function getepsign(n, o, t = "sign") {
+  let e = {
+    url: "http://192.168.1.23:8888/jd/sign", 
+    form: {
+      functionId: n, body: $.toStr(o),
+    }, headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    }
+  };
+  return new Promise(n => {
+    $.post(e, async (o, t, e) => {
+      try {
+        o ? console.log(o) : e = JSON.parse(e)
+        if (e.code === 200 && e.data) {
+          n({body: e.data.convertUrlNew})
+        }
+      } catch (n) {
+        $.logErr(n, t)
+      } finally {
+        n({body: e.convertUrlNew})
+      }
+    })
+  })
+}
 
 function getSignfromNolan(functionId, body) {	
     var strsign = '';
