@@ -140,7 +140,7 @@ if(WP_APP_TOKEN_ONE)
 else
 	console.log(`检测到未配置Wxpusher的Token，禁用一对一推送...`);
 
-let jdSignUrl = 'https://api.nolanstore.top/sign'
+let jdSignUrl = 'https://api.nolanstore.cc/sign'
 if (process.env.SIGNURL)
 	jdSignUrl = process.env.SIGNURL;
 
@@ -1261,52 +1261,55 @@ function getJingBeanBalanceDetail(page) {
 
 function jingBeanDetail() {
 	return new Promise(async resolve => {
-	  setTimeout(async () => {
-		var strsign ="";
-		if (epsignurl){
-			strsign = await getepsign('jingBeanDetail', { "pageSize": "20", "page": "1" });
-			strsign=strsign.body;
-		}
-		else
-			strsign = await getSignfromNolan('jingBeanDetail', { "pageSize": "20", "page": "1" });
-		
-		const options = {
-		  "url": `https://api.m.jd.com/client.action?functionId=jingBeanDetail`,
-		  "body": strsign,
-		  "headers": {
-			'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
-			'Host': 'api.m.jd.com',
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Cookie': cookie,
-		  }
-		}
-		$.post(options, (err, resp, data) => {
-		  try {
-			if (err) {
-			  console.log(`${JSON.stringify(err)}`)
-			  console.log(`${$.name} jingBeanDetail API请求失败，请检查网路重试`)
-			} else {
-			  if (data) {				
-				data = JSON.parse(data);				
-				if (data?.others?.jingBeanExpiringInfo?.detailList) {				  
-				  const { detailList = [] } = data?.others?.jingBeanExpiringInfo;
-				  detailList.map(item => {
-					strGuoqi+=`【${(item['eventMassage']).replace("即将过期京豆","").replace("年","-").replace("月","-").replace("日","")}】过期${item['amount']}豆\n`;
-				  })
-				} 
-			  } else {
-				console.log(`jingBeanDetail 京东服务器返回空数据`)
-			  }
+		setTimeout(async () => {
+			var strsign = "";
+			if (epsignurl) {
+				strsign = await getepsign('jingBeanDetail', { "pageSize": "20", "page": "1" });
+				strsign = strsign.body;
 			}
-		  } catch (e) {
-			$.logErr(e, resp)
-		  } finally {
-			resolve(data);
-		  }
-		})
-	  }, 0 * 1000);
+			else
+				strsign = await getSignfromNolan('jingBeanDetail', { "pageSize": "20", "page": "1" });
+
+			const options = {
+				"url": `https://api.m.jd.com/client.action?functionId=jingBeanDetail`,
+				"body": strsign,
+				"headers": {
+					'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+					'Host': 'api.m.jd.com',
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Cookie': cookie,
+				}
+			}
+			$.post(options, (err, resp, data) => {
+				try {
+					if (err) {
+						console.log(`${JSON.stringify(err)}`)
+						console.log(`${$.name} jingBeanDetail API请求失败，请检查网路重试`)
+					} else {
+						if (data) {
+							data = JSON.parse(data);
+							if (data?.others?.jingBeanExpiringInfo?.detailList) {
+								const { detailList = [] } = data?.others?.jingBeanExpiringInfo;
+								detailList.map(item => {
+									strGuoqi += `【${(item['eventMassage']).replace("即将过期京豆", "").replace("年", "-").replace("月", "-").replace("日", "")}】过期${item['amount']}豆\n`;
+								})
+							}
+						} else {
+							console.log(`jingBeanDetail 京东服务器返回空数据`)
+						}
+					}
+				} catch (e) {
+					if (epsignurl)
+						$.logErr(e, resp)
+					else
+						console.log("因为没有指定带ep的Sign,获取过期豆子信息次数多了就会失败.")
+				} finally {
+					resolve(data);
+				}
+			})
+		}, 0 * 1000);
 	})
-  } 
+} 
   
 function getepsign(n, o, t = "sign") {
   let e = {
