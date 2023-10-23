@@ -1,7 +1,7 @@
 /*
 京东双11领红包
 环境变量 export FLCODE='xxx'
-0 0,20-22 * * * jd_Redpacket.js
+0 0,20-22 * * * jd_hongbao.js
 */
 const $ = new Env('双十一红包');
 //Node.js用户请在jdCookie.js处填写京东ck;
